@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#5BCEFA; --blue-soft:#E6F7FE; --pink:#F5A9B8; --pink-soft:#FDEEF1;
+  --navy:#14254F; --navy-2:#1E3A8A; --ink:#14254F; --muted:#5B6785;
+  --bg:#F3F6FB; --card:#FFFFFF; --line:#E3E8F2;
+  --ok:#1F8A5B; --ok-soft:#E3F5EC; --warn:#B4541A; --warn-soft:#FFF1E4; --bad:#B42318; --bad-soft:#FDECEA;
+  --radius:16px; --shadow:0 1px 2px rgba(20,37,79,.06),0 6px 18px rgba(20,37,79,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:15px}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;line-height:1.15}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.flag{display:flex;height:5px}.flag span{flex:1}.b{background:var(--blue)}.p{background:var(--pink)}.w{background:#fff}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header{background:var(--navy);color:#fff}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;height:64px}
+header h1{font-size:20px}
+header h1 small{display:block;font-family:'Nunito Sans';font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.who{display:flex;align-items:center;gap:10px;font-size:13px;color:#C9D3EA}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:800;padding:9px 16px;border-radius:999px;font-size:14px;white-space:nowrap;transition:transform .12s}
+.btn:hover{transform:translateY(-1px)}
+.btn[disabled]{opacity:.55;transform:none;cursor:default}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-pink{background:var(--pink);color:var(--navy)}
+.btn-line{box-shadow:inset 0 0 0 1.5px var(--line);background:#fff}
+.btn-ghost{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35);color:#fff}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-bad{background:var(--bad-soft);color:var(--bad)}
+.btn-sm{padding:6px 12px;font-size:13px}
+
+/* Login */
+.login{max-width:400px;margin:60px auto;background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:30px}
+.login h2{font-size:26px;margin-bottom:6px}
+.login p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.input{width:100%;font:inherit;font-weight:600;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;outline:none}
+.input:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.err{background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:12px 14px;font-size:14px;font-weight:700}
+.info{background:var(--blue-soft);border-radius:12px;padding:12px 14px;font-size:14px}
+
+/* Painel */
+main{padding:24px 0 60px}
+.top{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.top h2{font-size:30px}
+.top .actions{display:flex;gap:8px;flex-wrap:wrap}
+.counters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.counter{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;text-align:left;border:2px solid transparent}
+.counter b{display:block;font-family:'Bricolage Grotesque';font-size:28px;line-height:1}
+.counter span{font-size:13px;font-weight:700;color:var(--muted)}
+.counter[aria-pressed=true]{border-color:var(--navy)}
+.counter.pend b{color:var(--warn)}
+@media(max-width:700px){.counters{grid-template-columns:1fr 1fr}}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:700px){.filters{grid-template-columns:1fr}}
+.meta{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px}
+.list{display:flex;flex-direction:column;gap:10px}
+.row{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border-left:5px solid var(--line)}
+.row.st-pendente{border-left-color:var(--warn);background:#FFFCF8}
+.row.st-aprovado{border-left-color:var(--ok)}
+.row.st-rejeitado,.row.st-removido{border-left-color:var(--bad);opacity:.75}
+.row h3{font-size:17px}
+.row .sub{font-size:13px;color:var(--muted);font-weight:600;display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}
+.row .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:700px){.row{grid-template-columns:1fr}.row .acts{justify-content:flex-start}}
+.badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:6px}
+.badge.pendente{background:var(--warn-soft);color:var(--warn)}
+.badge.aprovado{background:var(--ok-soft);color:var(--ok)}
+.badge.rejeitado,.badge.removido{background:var(--bad-soft);color:var(--bad)}
+.badge.dup{background:var(--pink-soft);color:#9A3B52}
+.badge.cat{background:var(--blue-soft);color:var(--navy-2)}
+.linkbtn{color:var(--navy-2);font-weight:700;font-size:14px;text-decoration:underline;padding:0;align-self:center}
+.seg{display:inline-flex;background:#fff;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--line);padding:3px;margin-bottom:16px}
+.seg button{padding:7px 16px;border-radius:999px;font-weight:800;font-size:14px;color:var(--muted)}
+.seg button[aria-pressed=true]{background:var(--navy);color:#fff}
+.admins{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;align-items:start}
+@media(max-width:800px){.admins{grid-template-columns:1fr}}
+.box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+.box h3{font-size:19px;margin-bottom:12px}
+.arow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.arow:first-of-type{border-top:0}
+.arow b{display:block;font-size:15px}
+.ok-msg{background:var(--ok-soft);color:var(--ok);border-radius:12px;padding:12px 14px;font-size:14px;font-weight:700}
+.empty{border:2px dashed var(--line);border-radius:var(--radius);padding:36px;text-align:center;color:var(--muted);font-weight:700;background:#fff}
+
+/* Modal */
+.overlay{position:fixed;inset:0;background:rgba(10,20,45,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:16px;overflow-y:auto}
+.overlay.open{display:flex}
+.modal{background:#fff;width:100%;max-width:560px;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.3);margin:auto}
+.mhead{display:flex;justify-content:space-between;align-items:center;padding:20px 22px 4px}
+.mhead h3{font-size:22px}
+.x{font-size:26px;line-height:1;color:var(--muted);padding:2px 8px;border-radius:8px}
+.modal form{padding:14px 22px 22px;display:flex;flex-direction:column;gap:12px}
+.grid2{display:grid;grid-template-columns:90px 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mfoot{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:6px}
+.small{font-size:12px;color:var(--muted)}
+#toasts{position:fixed;bottom:18px;right:18px;left:18px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:60;pointer-events:none}
+.toast{background:var(--navy);color:#fff;padding:12px 16px;border-radius:12px;font-weight:700;font-size:14px;border-left:5px solid var(--pink);max-width:380px}
+code{background:var(--bg);padding:1px 6px;border-radius:6px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="flag"><span class="b"></span><span class="p"></span><span class="w"></span><span class="p"></span><span class="b"></span></div>
+<header>
+  <div class="wrap">
+    <h1><small>Portal Transmasc Brasil</small>Painel de indicações</h1>
+    <div class="who" id="who" hidden>
+      <span id="who-email"></span>
+      <button class="btn btn-ghost btn-sm" onclick="sair()">Sair</button>
+    </div>
+  </div>
+</header>
+
+<!-- LOGIN -->
+<section id="login-view" class="wrap">
+  <div class="login">
+    <h2>Entrar</h2>
+    <p>Use a conta de administrador criada no Firebase (Authentication → Usuários).</p>
+    <form class="stack" onsubmit="entrar(event)">
+      <div class="field"><label for="l-email">E-mail</label><input id="l-email" class="input" type="email" required autocomplete="username"></div>
+      <div class="field"><label for="l-senha">Senha</label><input id="l-senha" class="input" type="password" required autocomplete="current-password"></div>
+      <div id="login-err" class="err" hidden></div>
+      <div id="login-ok" class="ok-msg" hidden></div>
+      <button id="btn-entrar" class="btn btn-navy" type="submit">Entrar</button>
+      <button type="button" class="linkbtn" onclick="esqueciSenha()">Esqueci minha senha</button>
+    </form>
+  </div>
+</section>
+
+<!-- PAINEL -->
+<main id="panel-view" hidden>
+  <div class="wrap">
+    <div id="perm-err" class="err" hidden style="margin-bottom:14px"></div>
+    <div class="seg" role="tablist">
+      <button id="tab-ind" aria-pressed="true" onclick="mostrarAba('ind')">Indicações</button>
+      <button id="tab-adm" aria-pressed="false" onclick="mostrarAba('adm')">Administradores</button>
+    </div>
+
+    <!-- ABA ADMINISTRADORES -->
+    <section id="aba-adm" hidden>
+      <div class="admins">
+        <div class="box">
+          <h3>Quem tem acesso ao painel</h3>
+          <div id="admins-list"><p class="small">Carregando…</p></div>
+          <p class="small" style="margin-top:12px">Remover tira o acesso ao painel na hora. A conta continua existindo no Firebase (Authentication → Usuários), mas não consegue mexer em nada.</p>
+        </div>
+        <div class="box">
+          <h3>Adicionar administrador</h3>
+          <form class="stack" onsubmit="adicionarAdmin(event)">
+            <div class="field"><label for="n-email">E-mail</label><input id="n-email" class="input" type="email" required autocomplete="off"></div>
+            <div class="field"><label for="n-senha">Senha provisória (mín. 8 caracteres)</label><input id="n-senha" class="input" type="text" required minlength="8" autocomplete="new-password"></div>
+            <div id="n-err" class="err" hidden></div>
+            <div id="n-ok" class="ok-msg" hidden></div>
+            <button id="btn-add-adm" class="btn btn-navy" type="submit">Criar acesso</button>
+            <p class="small">Passe a senha provisória para a pessoa por um canal privado. Ela pode trocar depois em "Esqueci minha senha" na tela de login.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA INDICAÇÕES -->
+    <section id="aba-ind">
+    <div class="top">
+      <div><h2>Indicações</h2><p class="small" id="uid-line"></p></div>
+      <div class="actions">
+        <button class="btn btn-line" id="btn-import" onclick="importarLista()">Sincronizar lista do portal</button>
+        <button class="btn btn-navy" onclick="abrirEdicao(null)">+ Nova indicação</button>
+      </div>
+    </div>
+
+    <div class="counters" id="counters"></div>
+
+    <div class="filters">
+      <input id="f-busca" class="input" type="search" placeholder="Buscar por nome, cidade ou contato…" oninput="render()">
+      <select id="f-cat" class="input" onchange="render()">
+        <option value="todas">Todas as categorias</option>
+        <option value="cirurgioes">Cirurgiões (mastectomia)</option>
+        <option value="endocrinologistas">Endocrinologistas</option>
+        <option value="ambulatorios">Ambulatórios trans</option>
+        <option value="advogados">Advogados</option>
+        <option value="outros">Outros</option>
+      </select>
+      <select id="f-uf" class="input" onchange="render()"><option value="todos">Todos os estados</option></select>
+    </div>
+
+    <div class="meta" id="meta"></div>
+    <div class="list" id="list"><div class="empty">Carregando…</div></div>
+    </section>
+  </div>
+</main>
+
+<!-- MODAL DE EDIÇÃO -->
+<div class="overlay" id="edit-modal" onclick="if(event.target===this)fecharEdicao()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="e-title">
+    <div class="mhead"><h3 id="e-title">Editar indicação</h3><button class="x" onclick="fecharEdicao()" aria-label="Fechar">&times;</button></div>
+    <form id="edit-form" onsubmit="salvar(event)">
+      <div class="grid3">
+        <div class="field"><label for="e-cat">Categoria</label>
+          <select id="e-cat" class="input" required>
+            <option value="cirurgioes">Cirurgiões (mastectomia)</option>
+            <option value="endocrinologistas">Endocrinologistas</option>
+            <option value="ambulatorios">Ambulatórios trans</option>
+            <option value="advogados">Advogados</option>
+            <option value="outros">Outros</option>
+          </select></div>
+        <div class="field"><label for="e-status">Status</label>
+          <select id="e-status" class="input" required>
+            <option value="aprovado">Aprovado (aparece no site)</option>
+            <option value="pendente">Pendente</option>
+            <option value="rejeitado">Rejeitado</option>
+            <option value="removido">Removido</option>
+          </select></div>
+      </div>
+      <div class="field"><label for="e-nome">Nome do profissional ou local</label><input id="e-nome" class="input" required maxlength="160"></div>
+      <div class="grid2">
+        <div class="field"><label for="e-uf">UF</label><input id="e-uf" class="input" required maxlength="2" style="text-transform:uppercase"></div>
+        <div class="field"><label for="e-cidade">Cidade</label><input id="e-cidade" class="input" required maxlength="80"></div>
+      </div>
+      <div class="field"><label for="e-conv">Convênios (separe com /)</label><input id="e-conv" class="input" maxlength="160" placeholder="Unimed / SUS / Particular"></div>
+      <div class="field"><label for="e-contato">Contato (separe com /)</label><input id="e-contato" class="input" maxlength="160" placeholder="(11) 99999-9999 / @perfil"></div>
+      <div class="field"><label for="e-obs">Observação (aparece no card)</label><textarea id="e-obs" class="input" rows="2" maxlength="300"></textarea></div>
+      <p class="small" id="e-info"></p>
+      <div class="mfoot">
+        <button type="button" class="btn btn-bad" id="e-remover" onclick="removerAtual()">Remover do site</button>
+        <div style="display:flex;gap:8px">
+          <button type="button" class="btn btn-line" onclick="fecharEdicao()">Cancelar</button>
+          <button type="submit" class="btn btn-navy" id="e-salvar">Salvar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script type="module">
+const firebaseConfig = {
+  apiKey: "AIzaSyCqz9jXdJy4z3GN0IQ30qeJOErQxAOkx7o",
+  authDomain: "portal-d40f5.firebaseapp.com",
+  projectId: "portal-d40f5",
+  storageBucket: "portal-d40f5.firebasestorage.app",
+  messagingSenderId: "138269570866",
+  appId: "1:138269570866:web:64b9698327654988d8c92b"
+};
+const appIdStr = typeof __app_id !== 'undefined' ? __app_id : 'portal-transmasc-app';
+const COLLECTION_PATH = ['artifacts', appIdStr, 'public', 'data', 'profissionais'].join('/');
+
+/* Lista fixa do portal (cópia da que está no site) — usada só pelo botão "Importar lista do portal" */
+const seedData = [
+  { categoria: "cirurgioes", nome: "Dra. Gisele Botega", estado: "MG", cidade: "Juiz de Fora", convenio: "Particular / Unimed", contato: "(32) 3215-4648 / @dragiselebotega" },
+  { categoria: "cirurgioes", nome: "Dr. Flavio Stilitano", estado: "SP", cidade: "Sorocaba", convenio: "Unimed", contato: "(15) 3211-1372" },
+  { categoria: "cirurgioes", nome: "Dr. Gilberto Mello", estado: "SP", cidade: "Santos", convenio: "Unimed / Particular", contato: "(13) 3222-1081" },
+  { categoria: "cirurgioes", nome: "Dra. Lúcia Mascarenhas", estado: "SP", cidade: "São Paulo", convenio: "SulAmérica / Particular", contato: "(11) 5088-8099" },
+  { categoria: "cirurgioes", nome: "Dr. Duílio Paranhos", estado: "RS", cidade: "Porto Alegre", convenio: "Particular", contato: "(51) 3222-6800" },
+  { categoria: "cirurgioes", nome: "Dr. Denis Calazans", estado: "SP", cidade: "Presidente Prudente", convenio: "Unimed", contato: "(18) 3222-2252" },
+  { categoria: "cirurgioes", nome: "Dr. Guilherme Guardia Mattar", estado: "SP", cidade: "São Paulo", convenio: "SUS / Particular", contato: "(11) 91322-2022" },
+  { categoria: "cirurgioes", nome: "Dr. Erick Carpaneda", estado: "DF", cidade: "Brasília", convenio: "Particular", contato: "(61) 3244-9343" },
+  { categoria: "cirurgioes", nome: "Dra. Ariane Garcia", estado: "SP", cidade: "São Paulo", convenio: "Seguros Unimed / Particular", contato: "(11) 94119-9051" },
+  { categoria: "cirurgioes", nome: "Dr. Endrigo Piva Pontelli", estado: "SP", cidade: "Ribeirão Preto", convenio: "Particular", contato: "(16) 3623-1444" },
+  { categoria: "cirurgioes", nome: "Dra. Patrícia Aguiar Bellini", estado: "MG", cidade: "Belo Horizonte", convenio: "Unimed / Particular", contato: "(31) 3223-1590" },
+  { categoria: "cirurgioes", nome: "Dra. Daniela Cornélio", estado: "RS", cidade: "Porto Alegre", convenio: "Particular", contato: "@dradanielacornelio" },
+  { categoria: "cirurgioes", nome: "Dr. Vitor Penteado", estado: "SP", cidade: "São Paulo", convenio: "Notre Dame Intermédica", contato: "" },
+  { categoria: "cirurgioes", nome: "Dra. Marialda Goulart", estado: "MS", cidade: "Campo Grande", convenio: "Unimed", contato: "(67) 3324-4113" },
+  { categoria: "cirurgioes", nome: "Dr. Gilberto Gonzales", estado: "SP", cidade: "Santos", convenio: "Blue Med", contato: "" },
+  { categoria: "cirurgioes", nome: "Dra. Flávia Madureira", estado: "RJ", cidade: "Rio de Janeiro", convenio: "Particular", contato: "(21) 99874-9549" },
+  { categoria: "cirurgioes", nome: "Dr. Félix Ponce", estado: "RJ", cidade: "Rio de Janeiro", convenio: "Particular", contato: "" },
+  { categoria: "cirurgioes", nome: "Dr. Eduardo Paquareli", estado: "SP", cidade: "São Paulo", convenio: "São Cristóvão", contato: "" },
+  { categoria: "cirurgioes", nome: "Dr. Douglas Luan", estado: "SP", cidade: "São Paulo", convenio: "Notre Dame", contato: "@dr.douglasluan" },
+  { categoria: "cirurgioes", nome: "Dr. Belmiro Siqueira", estado: "SP", cidade: "São José dos Campos", convenio: "Unimed", contato: "(12) 3922-2611" },
+  { categoria: "cirurgioes", nome: "Dr. Luiz Alessandro de Moraes", estado: "MG", cidade: "Uberlândia", convenio: "Unimed / Particular", contato: "(34) 3235-9000" },
+  { categoria: "cirurgioes", nome: "Dr. Adriano Brasolin", estado: "SP", cidade: "São Paulo", convenio: "Particular", contato: "(11) 3051-5121" },
+  { categoria: "cirurgioes", nome: "Dr. Luiz Fernando Soares", estado: "RJ", cidade: "Niterói", convenio: "SulAmérica / Particular", contato: "(21) 2717-3801" },
+  { categoria: "cirurgioes", nome: "Dr. Alexandre Senra", estado: "SP", cidade: "São Paulo", convenio: "Particular", contato: "(11) 3168-3055" },
+  { categoria: "cirurgioes", nome: "Dr. Rafael Sakai", estado: "SP", cidade: "São Paulo", convenio: "Particular", contato: "(11) 98327-0202" },
+  { categoria: "cirurgioes", nome: "Dr. Joel Araujo", estado: "MG", cidade: "Belo Horizonte", convenio: "Particular", contato: "(31) 3223-2882" },
+  { categoria: "ambulatorios", nome: "CRESP - Centro de Referência", estado: "MG", cidade: "Uberaba", convenio: "SUS", contato: "(34) 3321-7642" },
+  { categoria: "ambulatorios", nome: "CRAIST - Saúde Trans", estado: "MG", cidade: "Uberlândia", convenio: "SUS", contato: "(34) 3218-2157" },
+  { categoria: "ambulatorios", nome: "Ambulatório TRANS DF", estado: "DF", cidade: "Brasília", convenio: "SUS", contato: "(61) 2017-1145" },
+  { categoria: "ambulatorios", nome: "CRT DST/Aids - Núcleo Trans", estado: "SP", cidade: "São Paulo", convenio: "SUS", contato: "(11) 5087-9911" },
+  { categoria: "ambulatorios", nome: "Ambulatório João W. Nery", estado: "RJ", cidade: "Niterói", convenio: "SUS", contato: "Rua Marquês de Caxias, s/n" },
+  { categoria: "ambulatorios", nome: "CEDAP - Centro de Atenção", estado: "BA", cidade: "Salvador", convenio: "SUS", contato: "(71) 3116-8888" },
+  { categoria: "ambulatorios", nome: "Espaço Trans HC-UFPE", estado: "PE", cidade: "Recife", convenio: "SUS", contato: "Hospital das Clínicas da UFPE" },
+  { categoria: "ambulatorios", nome: "Hospital de Clínicas Unicamp", estado: "SP", cidade: "Campinas", convenio: "SUS", contato: "Rua Vital Brasil, 251" },
+
+  /* ===== NOVOS (pesquisa out/2026) — Cirurgia pelo SUS ===== */
+  { categoria: "cirurgioes", nome: "HUPE-UERJ – Hospital Universitário Pedro Ernesto", estado: "RJ", cidade: "Rio de Janeiro", convenio: "SUS", contato: "Boulevard 28 de Setembro, 77 - Vila Isabel", obs: "Mastectomia pelo SUS. Acesso pelo Ambulatório Identidade / regulação." },
+  { categoria: "cirurgioes", nome: "Hupes-UFBA – Hospital Universitário Prof. Edgard Santos", estado: "BA", cidade: "Salvador", convenio: "SUS", contato: "Rua Dr. Augusto Viana, s/n - Canela", obs: "Referência para mamoplastia masculinizadora na Bahia. Acesso pelo ambulatório transexualizador do hospital." },
+  { categoria: "cirurgioes", nome: "PROTIG – Hospital de Clínicas de Porto Alegre", estado: "RS", cidade: "Porto Alegre", convenio: "SUS", contato: "", obs: "Programa de identidade de gênero com cirurgias. Encaminhamento pela UBS." },
+  { categoria: "cirurgioes", nome: "Hospital das Clínicas UFG", estado: "GO", cidade: "Goiânia", convenio: "SUS", contato: "1ª Avenida, s/n - Setor Leste Universitário", obs: "Serviço do processo transexualizador. Encaminhamento pela UBS." },
+  { categoria: "cirurgioes", nome: "Hospital das Clínicas UFPE – Espaço Trans", estado: "PE", cidade: "Recife", convenio: "SUS", contato: "", obs: "Realiza mamoplastia masculinizadora pelo SUS. Acesso pelo Espaço Trans." },
+  { categoria: "cirurgioes", nome: "Hospital Metropolitano de Alagoas", estado: "AL", cidade: "Maceió", convenio: "SUS", contato: "", obs: "Realiza mastectomia masculinizadora pelo SUS (2026). Acesso via regulação." },
+
+  /* ===== NOVOS — Ambulatórios SP (lista da Secretaria Estadual de Saúde) ===== */
+  { categoria: "ambulatorios", nome: "Ambulatório de Transexualidade – Endocrinologia HC-FMUSP", estado: "SP", cidade: "São Paulo", convenio: "SUS", contato: "(11) 3069-6086", obs: "Rua Enéas de Carvalho Aguiar, 155 (prédio dos ambulatórios)" },
+  { categoria: "ambulatorios", nome: "Instituto de Infectologia Emílio Ribas", estado: "SP", cidade: "São Paulo", convenio: "SUS", contato: "(11) 3896-1200", obs: "Av. Dr. Arnaldo, 165 - Pacaembu" },
+  { categoria: "ambulatorios", nome: "Núcleo TransUNIFESP", estado: "SP", cidade: "São Paulo", convenio: "SUS", contato: "Rua Napoleão de Barros, 859 - Vila Clementino", obs: "Acesso somente pelo CRT via CROSS." },
+  { categoria: "ambulatorios", nome: "CR POP TT Janaina Lima – Centro de Referência", estado: "SP", cidade: "São Paulo", convenio: "SUS", contato: "(11) 5196-2405", obs: "Rua Jaraguá, 866 - Bom Retiro. Faz parte da Rede Sampa Trans (dezenas de UBS na capital)." },
+  { categoria: "ambulatorios", nome: "AME Pro Trans", estado: "SP", cidade: "Guarulhos", convenio: "SUS", contato: "(11) 2421-0649", obs: "Av. Tiradentes, 2529 - Paraventi" },
+  { categoria: "ambulatorios", nome: "Ambulatório Travessias – CME Xavier de Toledo", estado: "SP", cidade: "Santo André", convenio: "SUS", contato: "(11) 4435-1279", obs: "Rua Giovanni Battista Pirelli, 155 - Vila Homero Thon" },
+  { categoria: "ambulatorios", nome: "DIATRANS", estado: "SP", cidade: "Diadema", convenio: "SUS", contato: "(11) 4043-8093", obs: "Av. Antonio Piranga, 700 - Centro" },
+  { categoria: "ambulatorios", nome: "Policlínica Centro", estado: "SP", cidade: "São Bernardo do Campo", convenio: "SUS", contato: "(11) 2630-6370", obs: "Av. Armando Ítalo Setti, 402 - Baeta Neves" },
+  { categoria: "ambulatorios", nome: "Ambulatório SER TRANS", estado: "SP", cidade: "São Caetano do Sul", convenio: "SUS", contato: "(11) 4233-7639", obs: "Rua Heloísa Pamplona, 269. Telefone também é WhatsApp." },
+  { categoria: "ambulatorios", nome: "Núcleo de Cuidado para Pessoas Trans e Travestis", estado: "SP", cidade: "Taboão da Serra", convenio: "SUS", contato: "(11) 4788-5600", obs: "Ramal 5626. Rua Juazeiro, 47 - Jardim Record" },
+  { categoria: "ambulatorios", nome: "Núcleo de Atendimento às Pessoas Trans e Travestis", estado: "SP", cidade: "Cotia", convenio: "SUS", contato: "(11) 4616-5921", obs: "Av. Prof. Manoel José Pedroso, 843 - Piso 1" },
+  { categoria: "ambulatorios", nome: "Hospital Guilherme Álvaro", estado: "SP", cidade: "Santos", convenio: "SUS", contato: "(13) 3202-1300", obs: "Rua Oswaldo Cruz, 197 - Boqueirão" },
+  { categoria: "ambulatorios", nome: "Ambulatório Transexualizador TRANSforma", estado: "SP", cidade: "Guarujá", convenio: "SUS", contato: "(13) 3384-3324", obs: "Rua Guilherme Guinle, 42 - Vicente de Carvalho" },
+  { categoria: "ambulatorios", nome: "Espaço Saúde Profª Drª Cecília Magaldi", estado: "SP", cidade: "Botucatu", convenio: "SUS", contato: "(14) 3811-1602", obs: "Av. Santana, 323" },
+  { categoria: "ambulatorios", nome: "CTA Bauru", estado: "SP", cidade: "Bauru", convenio: "SUS", contato: "(14) 3234-2576", obs: "R. Quinze de Novembro, 3-36 - Centro" },
+  { categoria: "ambulatorios", nome: "Ambulatório Transcender", estado: "SP", cidade: "Campinas", convenio: "SUS", contato: "(19) 3735-9220", obs: "Rua José Pinto da Silva, 81 - Jardim Itatinga" },
+  { categoria: "ambulatorios", nome: "CTA Jundiaí", estado: "SP", cidade: "Jundiaí", convenio: "SUS", contato: "(11) 4527-3770", obs: "Hormonização agendada a partir do acolhimento na UBS." },
+  { categoria: "ambulatorios", nome: "Cresser – Centro de Referência em Saúde Sexual", estado: "SP", cidade: "Sumaré", convenio: "SUS", contato: "(19) 3873-5463", obs: "Ambulatório trans às quintas; acolhimento de segunda a sexta, 10h–16h." },
+  { categoria: "ambulatorios", nome: "Ambulatório de Especialidades Médicas", estado: "SP", cidade: "Piracicaba", convenio: "SUS", contato: "(19) 3437-7613", obs: "Travessa Newton de Almeida Mello, s/n - Centro" },
+  { categoria: "ambulatorios", nome: "Ambulatório de Incongruência de Gênero – HC-FMRP", estado: "SP", cidade: "Ribeirão Preto", convenio: "SUS", contato: "(16) 3602-1000", obs: "Rua Ten. Catão Roxo, 2701 - Vila Monte Alegre" },
+  { categoria: "ambulatorios", nome: "Ambulatório Municipal de Saúde a Travestis e Transexuais", estado: "SP", cidade: "São José do Rio Preto", convenio: "SUS", contato: "(17) 3211-1410", obs: "Rua do Rosário, 1903 - Vila Esplanada" },
+  { categoria: "ambulatorios", nome: "Ambulatório Regional de Saúde Mental", estado: "SP", cidade: "Presidente Prudente", convenio: "SUS", contato: "(18) 3221-4633", obs: "Av. Manoel Goulart, 2319 - Vila Santa Helena" },
+  { categoria: "ambulatorios", nome: "Casa do Abraço SAE/CTA", estado: "SP", cidade: "Jacareí", convenio: "SUS", contato: "(12) 3955-9678", obs: "Rua Púrus, 79 - Jardim Paraíba" },
+  { categoria: "ambulatorios", nome: "Ambulatório Trans de Itapetininga", estado: "SP", cidade: "Itapetininga", convenio: "SUS", contato: "(15) 3373-5426", obs: "Rua Plácido Cardoso, 140 - Jardim Mesquita" },
+  { categoria: "ambulatorios", nome: "NAIP Trans – SAE Lorena", estado: "SP", cidade: "Lorena", convenio: "SUS", contato: "(12) 3159-3300", obs: "Rua Benedito Marcondes de Moura Sobrinho, 38 - V. São Roque" },
+
+  /* ===== NOVOS — Ambulatórios em outros estados ===== */
+  { categoria: "ambulatorios", nome: "Ambulatório Trans Anyky Lima – Hospital Eduardo de Menezes", estado: "MG", cidade: "Belo Horizonte", convenio: "SUS", contato: "(31) 3328-5055", obs: "Rua Dr. Cristiano Resende, 2213 - Bom Sucesso. Consultas agendadas por telefone." },
+  { categoria: "ambulatorios", nome: "Ambulatório Identidade – UERJ", estado: "RJ", cidade: "Rio de Janeiro", convenio: "SUS", contato: "Policlínica Piquet Carneiro (Maracanã)", obs: "Também atende no HUPE, em Vila Isabel." },
+  { categoria: "ambulatorios", nome: "CPATT – Centro de Pesquisa e Atendimento para Travestis e Transexuais", estado: "PR", cidade: "Curitiba", convenio: "SUS", contato: "(41) 3213-2449", obs: "Funciona no Hospital Oswaldo Cruz. Entrada por encaminhamento da UBS; interior do PR tem TFD." },
+  { categoria: "ambulatorios", nome: "PROTIG – Hospital de Clínicas de Porto Alegre", estado: "RS", cidade: "Porto Alegre", convenio: "SUS", contato: "", obs: "Encaminhamento pela UBS." },
+  { categoria: "ambulatorios", nome: "Ambulatório Trans – Centro de Saúde Modelo", estado: "RS", cidade: "Porto Alegre", convenio: "SUS", contato: "Rua Jerônimo de Ornellas, 55 (2º andar)", obs: "Para moradores de Porto Alegre." },
+  { categoria: "ambulatorios", nome: "Ambulatório Transviver – UPA Novo Mundo", estado: "GO", cidade: "Goiânia", convenio: "SUS", contato: "", obs: "Segunda a sexta, 7h–19h. Para maiores de 18 anos." },
+  { categoria: "ambulatorios", nome: "Ambulatório Trans – HUCAM-UFES", estado: "ES", cidade: "Vitória", convenio: "SUS", contato: "(27) 3335-7100", obs: "Av. Marechal Campos, 1355 - Santa Cecília" },
+  { categoria: "ambulatorios", nome: "Ambulatório Trans – Policlínica do Centro", estado: "SC", cidade: "Florianópolis", convenio: "SUS", contato: "", obs: "Para moradores de Florianópolis. Encaminhamento pela UBS." },
+  { categoria: "ambulatorios", nome: "Sertrans – Hospital Universitário do Ceará", estado: "CE", cidade: "Fortaleza", convenio: "SUS", contato: "", obs: "No Itaperi. Encaminhamento pelo posto de saúde." },
+  { categoria: "ambulatorios", nome: "Ambulatório TT – Complexo Hospitalar Clementino Fraga", estado: "PB", cidade: "João Pessoa", convenio: "SUS", contato: "", obs: "Referência no estado." },
+  { categoria: "ambulatorios", nome: "Ambulatório Transexualizador Hupes – Ambulatório Magalhães Neto", estado: "BA", cidade: "Salvador", convenio: "SUS", contato: "", obs: "Leve RG, CPF, Cartão SUS e comprovante de residência." },
+  { categoria: "ambulatorios", nome: "Ambulatório TT – URE DIPE", estado: "PA", cidade: "Belém", convenio: "SUS", contato: "", obs: "Bairro do Telégrafo. Atendimento agendado." },
+  { categoria: "ambulatorios", nome: "Ambulatório Estadual de Atenção à Transexualidade", estado: "MT", cidade: "Cuiabá", convenio: "SUS", contato: "", obs: "Inaugurado em 2024. Acesso regulado." }
+];
+
+const CATS = { cirurgioes:"Cirurgiões", endocrinologistas:"Endocrinologistas", ambulatorios:"Ambulatórios", advogados:"Advogados", outros:"Outros" };
+const STATUS_LABEL = { pendente:"Pendentes", aprovado:"No site", rejeitado:"Rejeitadas", removido:"Removidas" };
+const norm = s => (s||'').toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+const keyOf = i => norm(i.categoria) + '|' + norm(i.nome);
+const esc = s => (s||'').toString().replace(/[&<>'"]/g, t => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[t]));
+/* Registros antigos sem status estavam visíveis no site: contam como aprovados */
+const statusOf = i => i.status || 'aprovado';
+
+let fb = null;            // funções do Firebase
+let db, auth, fbApp, appSecundario = null;
+let admins = [], unsubAdm = null;
+const ADMINS_PATH = 'admins';
+let dados = [];           // documentos do banco
+let filtroStatus = 'pendente';
+let editando = null;      // id em edição (null = novo)
+let unsub = null;
+
+function toast(msg){
+  const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>{t.style.transition='opacity .3s';t.style.opacity='0';setTimeout(()=>t.remove(),300)},4000);
+}
+function mostrarErro(id, msg){ const el=document.getElementById(id); el.textContent=msg; el.hidden=!msg; }
+
+function traduzErro(err){
+  const c = (err && err.code) || '';
+  if (c.includes('invalid-credential') || c.includes('wrong-password') || c.includes('user-not-found')) return 'E-mail ou senha incorretos.';
+  if (c.includes('too-many-requests')) return 'Muitas tentativas. Espere alguns minutos e tente de novo.';
+  if (c.includes('operation-not-allowed')) return 'O login por e-mail e senha não está ativado no Firebase (Authentication → Método de login → E-mail/senha).';
+  if (c.includes('network')) return 'Sem conexão com o Firebase. Verifique a internet.';
+  if (c.includes('permission-denied')) return 'Esta conta não tem acesso de administrador. Peça para um administrador te adicionar pelo painel (ou confira o UID nas regras do Firestore).';
+  if (c.includes('email-already-in-use')) return 'Já existe uma conta com esse e-mail. Se for de alguém de confiança, peça o UID dessa conta e adicione o documento em "admins" pelo console.';
+  if (c.includes('weak-password')) return 'Senha fraca. Use pelo menos 8 caracteres.';
+  if (c.includes('invalid-email')) return 'E-mail inválido.';
+  if (c.includes('missing-email')) return 'Digite o seu e-mail no campo acima primeiro.';
+  return 'Erro: ' + ((err && err.message) || err);
+}
+
+/* ---------- Firebase ---------- */
+async function initFirebase(){
+  const base = "https://www.gstatic.com/firebasejs/11.6.1/";
+  try {
+    const [a, au, fs] = await Promise.all([import(base+"firebase-app.js"), import(base+"firebase-auth.js"), import(base+"firebase-firestore.js")]);
+    fb = { ...au, ...fs };
+    fbApp = a;
+    const app = a.initializeApp(firebaseConfig);
+    auth = au.getAuth(app); db = fs.getFirestore(app);
+    au.onAuthStateChanged(auth, user => user ? abrirPainel(user) : abrirLogin());
+  } catch (err) {
+    console.error(err);
+    mostrarErro('login-err', 'Não foi possível carregar o Firebase. Verifique a internet ou se algum bloqueador está impedindo o acesso a gstatic.com.');
+  }
+}
+
+window.entrar = async (e) => {
+  e.preventDefault();
+  if (!fb) return;
+  const btn=document.getElementById('btn-entrar'); btn.disabled=true; btn.textContent='Entrando…';
+  mostrarErro('login-err','');
+  try { await fb.signInWithEmailAndPassword(auth, document.getElementById('l-email').value.trim(), document.getElementById('l-senha').value); }
+  catch (err) { mostrarErro('login-err', traduzErro(err)); }
+  finally { btn.disabled=false; btn.textContent='Entrar'; }
+};
+window.sair = () => fb && fb.signOut(auth);
+
+window.esqueciSenha = async () => {
+  if (!fb) return;
+  mostrarErro('login-err',''); const ok=document.getElementById('login-ok'); ok.hidden=true;
+  const email = document.getElementById('l-email').value.trim();
+  if (!email) { mostrarErro('login-err', 'Digite o seu e-mail no campo acima primeiro.'); return; }
+  try { await fb.sendPasswordResetEmail(auth, email); }
+  catch (err) { if (!String(err.code).includes('user-not-found')) { mostrarErro('login-err', traduzErro(err)); return; } }
+  /* mesma mensagem existindo ou não a conta, para não revelar quem é admin */
+  ok.textContent = 'Se esse e-mail tiver acesso, você vai receber um link para criar uma nova senha. Confira também o spam.';
+  ok.hidden = false;
+};
+
+window.mostrarAba = (a) => {
+  document.getElementById('aba-ind').hidden = a!=='ind';
+  document.getElementById('aba-adm').hidden = a!=='adm';
+  document.getElementById('tab-ind').setAttribute('aria-pressed', a==='ind');
+  document.getElementById('tab-adm').setAttribute('aria-pressed', a==='adm');
+};
+
+function abrirLogin(){
+  if (unsub) { unsub(); unsub=null; }
+  if (unsubAdm) { unsubAdm(); unsubAdm=null; }
+  document.getElementById('login-view').hidden=false;
+  document.getElementById('panel-view').hidden=true;
+  document.getElementById('who').hidden=true;
+}
+function abrirPainel(user){
+  document.getElementById('login-view').hidden=true;
+  document.getElementById('panel-view').hidden=false;
+  document.getElementById('who').hidden=false;
+  document.getElementById('who-email').textContent = user.email || 'conta anônima';
+  document.getElementById('uid-line').innerHTML = `Seu UID: <code>${esc(user.uid)}</code> (é ele que vai nas regras do Firestore)`;
+  if (user.isAnonymous) { fb.signOut(auth); return; }
+  unsubAdm = fb.onSnapshot(fb.collection(db, ADMINS_PATH), snap => {
+    admins = snap.docs.map(d => ({ uid:d.id, ...d.data() }));
+    /* coloca você mesma(o) na lista na primeira vez que entrar */
+    if (!admins.some(a => a.uid === user.uid)) {
+      fb.setDoc(fb.doc(db, ADMINS_PATH, user.uid), { email: user.email || '', criadoPor: user.uid, criadoEm: new Date().toISOString() }).catch(()=>{});
+    }
+    renderAdmins();
+  }, err => { document.getElementById('admins-list').innerHTML = `<p class="err">${esc(traduzErro(err))}</p>`; });
+  unsub = fb.onSnapshot(fb.collection(db, COLLECTION_PATH), snap => {
+    dados = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    mostrarErro('perm-err','');
+    atualizarUF(); render();
+  }, err => mostrarErro('perm-err', traduzErro(err)));
+}
+
+/* ---------- Lista ---------- */
+function atualizarUF(){
+  const sel=document.getElementById('f-uf'), atual=sel.value;
+  const ufs=[...new Set(dados.map(i=>(i.estado||'').toUpperCase()).filter(Boolean))].sort();
+  sel.innerHTML='<option value="todos">Todos os estados</option>'+ufs.map(u=>`<option>${esc(u)}</option>`).join('');
+  if (ufs.includes(atual)) sel.value=atual;
+}
+
+window.setFiltro = (s) => { filtroStatus = s; render(); };
+
+window.render = () => {
+  const cont = { pendente:0, aprovado:0, rejeitado:0, removido:0 };
+  dados.forEach(i => { const s=statusOf(i); if (s in cont) cont[s]++; });
+  const total = dados.length;
+  document.getElementById('counters').innerHTML = ['pendente','aprovado','todas','fora'].map(k => {
+    const n = k==='todas' ? total : k==='fora' ? cont.rejeitado+cont.removido : cont[k];
+    const lbl = k==='todas' ? 'Todas' : k==='fora' ? 'Rejeitadas / removidas' : STATUS_LABEL[k];
+    return `<button class="counter ${k==='pendente'?'pend':''}" aria-pressed="${filtroStatus===k}" onclick="setFiltro('${k}')"><b>${n}</b><span>${lbl}</span></button>`;
+  }).join('');
+
+  const q=norm(document.getElementById('f-busca').value), cat=document.getElementById('f-cat').value, uf=document.getElementById('f-uf').value;
+  const contagem = {}; dados.forEach(i => { const k=keyOf(i); contagem[k]=(contagem[k]||0)+1; });
+
+  let lista = dados.filter(i => {
+    const s=statusOf(i);
+    if (filtroStatus==='fora') { if (s!=='rejeitado' && s!=='removido') return false; }
+    else if (filtroStatus!=='todas' && s!==filtroStatus) return false;
+    if (cat!=='todas' && i.categoria!==cat) return false;
+    if (uf!=='todos' && (i.estado||'').toUpperCase()!==uf) return false;
+    if (q && ![i.nome,i.cidade,i.contato,i.convenio].some(v=>norm(v).includes(q))) return false;
+    return true;
+  });
+  /* pendentes mais recentes primeiro; o resto por estado/cidade/nome */
+  lista.sort((a,b)=> filtroStatus==='pendente'
+    ? (b.timestamp||'').localeCompare(a.timestamp||'')
+    : (a.estado||'').localeCompare(b.estado||'') || (a.cidade||'').localeCompare(b.cidade||'') || (a.nome||'').localeCompare(b.nome||''));
+
+  document.getElementById('meta').textContent = `${lista.length} ${lista.length===1?'indicação':'indicações'}`;
+  const el=document.getElementById('list');
+  if (!total) { el.innerHTML = `<div class="empty">O banco ainda está vazio. Clique em <b>Sincronizar lista do portal</b> para trazer as indicações do site para cá e poder editá-las.</div>`; return; }
+  if (!lista.length) { el.innerHTML = `<div class="empty">${filtroStatus==='pendente' ? 'Nenhuma indicação esperando aprovação. 🎉' : 'Nada encontrado com esses filtros.'}</div>`; return; }
+
+  el.innerHTML = lista.map(i => {
+    const s=statusOf(i), dup = contagem[keyOf(i)]>1;
+    const quando = i.timestamp ? new Date(i.timestamp).toLocaleDateString('pt-BR') : '';
+    let acts = `<button class="btn btn-line btn-sm" onclick="abrirEdicao('${i.id}')">Editar</button>`;
+    if (s==='pendente') acts = `<button class="btn btn-ok btn-sm" onclick="mudarStatus('${i.id}','aprovado')">Aprovar</button><button class="btn btn-bad btn-sm" onclick="mudarStatus('${i.id}','rejeitado')">Rejeitar</button>` + acts;
+    else if (s==='rejeitado'||s==='removido') acts = `<button class="btn btn-line btn-sm" onclick="mudarStatus('${i.id}','aprovado')">Restaurar</button>` + acts;
+    return `<div class="row st-${s}">
+      <div>
+        <h3>${esc(i.nome)||'<i>(sem nome)</i>'}<span class="badge cat">${CATS[i.categoria]||esc(i.categoria)}</span><span class="badge ${s}">${s}</span>${dup?'<span class="badge dup" title="Existe mais de um registro com este nome nesta categoria">duplicado</span>':''}</h3>
+        <div class="sub"><span>📍 ${esc(i.cidade)} · ${esc(i.estado)}</span>${i.convenio?`<span>💳 ${esc(i.convenio)}</span>`:''}${i.contato?`<span>📞 ${esc(i.contato)}</span>`:''}${quando?`<span>🗓 ${quando}</span>`:''}</div>
+        ${i.obs?`<div class="sub">${esc(i.obs)}</div>`:''}
+      </div>
+      <div class="acts">${acts}</div>
+    </div>`;
+  }).join('');
+};
+
+/* ---------- Ações ---------- */
+window.mudarStatus = async (id, status) => {
+  try { await fb.updateDoc(fb.doc(db, COLLECTION_PATH, id), { status, atualizadoEm: new Date().toISOString() });
+        toast(status==='aprovado' ? 'Aprovada! Já aparece no site.' : status==='rejeitado' ? 'Rejeitada.' : 'Status atualizado.'); }
+  catch (err) { console.error(err); toast(traduzErro(err)); }
+};
+
+const campos = { cat:'categoria', nome:'nome', uf:'estado', cidade:'cidade', conv:'convenio', contato:'contato', obs:'obs', status:'status' };
+
+window.abrirEdicao = (id) => {
+  editando = id;
+  const i = id ? dados.find(d=>d.id===id) : { categoria:'cirurgioes', status:'aprovado' };
+  for (const [k,c] of Object.entries(campos)) document.getElementById('e-'+k).value = k==='status' ? statusOf(i) : (i[c]||'');
+  document.getElementById('e-title').textContent = id ? 'Editar indicação' : 'Nova indicação';
+  document.getElementById('e-remover').hidden = !id;
+  document.getElementById('e-info').textContent = id && i.timestamp ? `Enviada em ${new Date(i.timestamp).toLocaleString('pt-BR')}` : '';
+  document.getElementById('edit-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('e-nome').focus(),50);
+};
+window.fecharEdicao = () => { document.getElementById('edit-modal').classList.remove('open'); editando=null; };
+document.addEventListener('keydown', e => { if (e.key==='Escape') fecharEdicao(); });
+
+window.salvar = async (e) => {
+  e.preventDefault();
+  const v = {};
+  for (const [k,c] of Object.entries(campos)) v[c] = document.getElementById('e-'+k).value.trim();
+  v.estado = v.estado.toUpperCase();
+  v.atualizadoEm = new Date().toISOString();
+  const btn=document.getElementById('e-salvar'); btn.disabled=true; btn.textContent='Salvando…';
+  try {
+    if (editando) {
+      const atual = dados.find(d=>d.id===editando);
+      /* guarda a "identidade original" para o site não mostrar de novo a versão antiga da lista fixa */
+      if (!atual.seedKey) v.seedKey = keyOf(atual);
+      await fb.updateDoc(fb.doc(db, COLLECTION_PATH, editando), v);
+    } else {
+      await fb.addDoc(fb.collection(db, COLLECTION_PATH), { ...v, timestamp: v.atualizadoEm });
+    }
+    fecharEdicao(); toast('Salvo!');
+  } catch (err) { console.error(err); toast(traduzErro(err)); }
+  finally { btn.disabled=false; btn.textContent='Salvar'; }
+};
+
+window.removerAtual = async () => {
+  if (!editando || !confirm('Tirar esta indicação do site? Ela fica guardada em "Rejeitadas / removidas" e pode ser restaurada.')) return;
+  const id = editando; fecharEdicao();
+  const atual = dados.find(d=>d.id===id);
+  try { await fb.updateDoc(fb.doc(db, COLLECTION_PATH, id), { status:'removido', seedKey: atual.seedKey || keyOf(atual), atualizadoEm:new Date().toISOString() }); toast('Removida do site.'); }
+  catch (err) { console.error(err); toast(traduzErro(err)); }
+};
+
+/* Traz para o banco os itens da lista fixa que ainda não estão lá, para poder editá-los */
+window.importarLista = async () => {
+  const noBanco = new Set();
+  dados.forEach(i => { noBanco.add(keyOf(i)); if (i.seedKey) noBanco.add(i.seedKey); });
+  const novos = seedData.filter(i => !noBanco.has(keyOf(i)));
+  /* Registros antigos sem status não aparecem no site com as regras novas: marca como aprovados */
+  const semStatus = dados.filter(i => !i.status);
+  if (!novos.length && !semStatus.length) { toast('Tudo certo: o banco já tem toda a lista do portal.'); return; }
+  const partes = [];
+  if (novos.length) partes.push(`importar ${novos.length} indicações da lista do portal`);
+  if (semStatus.length) partes.push(`marcar ${semStatus.length} registros antigos (sem status) como aprovados`);
+  if (!confirm(`Vou ${partes.join(' e ')}. Continuar?`)) return;
+  const btn=document.getElementById('btn-import'); btn.disabled=true; btn.textContent='Importando…';
+  try {
+    const agora = new Date().toISOString();
+    for (let k=0; k<novos.length; k+=400) {               // lotes (limite do Firestore: 500)
+      const batch = fb.writeBatch(db);
+      novos.slice(k,k+400).forEach(i => batch.set(fb.doc(fb.collection(db, COLLECTION_PATH)), { ...i, status:'aprovado', seedKey:keyOf(i), timestamp:agora }));
+      await batch.commit();
+    }
+    for (let k=0; k<semStatus.length; k+=400) {
+      const batch = fb.writeBatch(db);
+      semStatus.slice(k,k+400).forEach(i => batch.update(fb.doc(db, COLLECTION_PATH, i.id), { status:'aprovado', seedKey: keyOf(i), atualizadoEm: agora }));
+      await batch.commit();
+    }
+    const feito = [];
+    if (novos.length) feito.push(`${novos.length} indicações importadas`);
+    if (semStatus.length) feito.push(`${semStatus.length} registros antigos marcados como aprovados`);
+    toast('Sincronizado! ' + feito.join(' e ') + '.');
+    setFiltro('aprovado');
+  } catch (err) { console.error(err); toast(traduzErro(err)); }
+  finally { btn.disabled=false; btn.textContent='Sincronizar lista do portal'; }
+};
+
+/* ---------- Administradores ---------- */
+function renderAdmins(){
+  const eu = auth.currentUser && auth.currentUser.uid;
+  const el = document.getElementById('admins-list');
+  if (!admins.length) { el.innerHTML = '<p class="small">Nenhum administrador cadastrado ainda.</p>'; return; }
+  el.innerHTML = admins.sort((a,b)=>(a.email||'').localeCompare(b.email||'')).map(a => `
+    <div class="arow">
+      <div><b>${esc(a.email || '(sem e-mail)')}${a.uid===eu?' <span class="badge aprovado">você</span>':''}</b>
+        <span class="small">${a.criadoEm ? 'desde ' + new Date(a.criadoEm).toLocaleDateString('pt-BR') : ''}</span></div>
+      ${a.uid===eu ? '' : `<button class="btn btn-bad btn-sm" onclick="removerAdmin('${esc(a.uid)}','${esc(a.email||'')}')">Remover</button>`}
+    </div>`).join('');
+}
+
+window.adicionarAdmin = async (e) => {
+  e.preventDefault();
+  mostrarErro('n-err',''); const ok=document.getElementById('n-ok'); ok.hidden=true;
+  const email = document.getElementById('n-email').value.trim().toLowerCase();
+  const senha = document.getElementById('n-senha').value;
+  if (senha.length < 8) { mostrarErro('n-err','Use uma senha provisória com pelo menos 8 caracteres.'); return; }
+  const btn=document.getElementById('btn-add-adm'); btn.disabled=true; btn.textContent='Criando…';
+  try {
+    /* Cria a conta numa "segunda conexão" para você não ser deslogada(o) do painel */
+    if (!appSecundario) appSecundario = fbApp.initializeApp(firebaseConfig, 'criar-admin');
+    const authSec = fb.getAuth(appSecundario);
+    const cred = await fb.createUserWithEmailAndPassword(authSec, email, senha);
+    await fb.signOut(authSec);
+    await fb.setDoc(fb.doc(db, ADMINS_PATH, cred.user.uid), { email, criadoPor: auth.currentUser.uid, criadoEm: new Date().toISOString() });
+    e.target.reset();
+    ok.textContent = `Pronto! ${email} já pode entrar no painel com a senha provisória.`; ok.hidden=false;
+  } catch (err) { console.error(err); mostrarErro('n-err', traduzErro(err)); }
+  finally { btn.disabled=false; btn.textContent='Criar acesso'; }
+};
+
+window.removerAdmin = async (uid, email) => {
+  if (!confirm(`Tirar o acesso de ${email || 'esta conta'} ao painel?`)) return;
+  try { await fb.deleteDoc(fb.doc(db, ADMINS_PATH, uid)); toast('Acesso removido.'); }
+  catch (err) { console.error(err); toast(traduzErro(err)); }
+};
+
+initFirebase();
+</script>
+</body>
+</html>
