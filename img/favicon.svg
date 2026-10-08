@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<clipPath id="cp00"><rect x="0" y="0" width="512" height="512" rx="110"/></clipPath><g clip-path="url(#cp00)"><rect x="0" y="0.0" width="512" height="102.9" fill="#5BCEFA"/><rect x="0" y="102.4" width="512" height="102.9" fill="#F5A9B8"/><rect x="0" y="204.8" width="512" height="102.9" fill="#FFFFFF"/><rect x="0" y="307.20000000000005" width="512" height="102.9" fill="#F5A9B8"/><rect x="0" y="409.6" width="512" height="102.9" fill="#5BCEFA"/></g>
+<circle cx="256" cy="256" r="150" fill="#14254F"/>
+<text x="256" y="322" text-anchor="middle" font-family="Inter Display" font-weight="900" font-size="190" fill="#FFFFFF">T</text>
+</svg>
