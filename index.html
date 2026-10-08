@@ -4,6 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal Transmasc Brasil</title>
+<meta name="theme-color" content="#14254F">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<!-- Compartilhamento (WhatsApp, Instagram, Facebook). endereço do site publicado -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Portal Transmasc Brasil">
+<meta property="og:title" content="Portal Transmasc Brasil">
+<meta property="og:description" content="Indicações de cirurgiões, endocrinologistas, ambulatórios e advogados, além de guias de retificação de nome e barba. Feito pela comunidade.">
+<meta property="og:url" content="https://transmascbrasil.github.io/portal/">
+<meta property="og:image" content="https://transmascbrasil.github.io/portal/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Portal Transmasc Brasil: bandeira trans e bandeira do Brasil">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Indicações de profissionais, guia de retificação de nome e dicas de barba feitos pela e para a comunidade transmasculina.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +46,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Bricolage Grotesque';font-weight:800;font-size:20px}
-.mark{width:34px;height:34px;border-radius:10px;overflow:hidden;display:grid;grid-template-rows:1fr 1fr 1fr 1fr 1fr;box-shadow:inset 0 0 0 1px var(--line)}
+.mark{width:34px;height:34px;display:block}
 .mark i:nth-child(1),.mark i:nth-child(5){background:var(--blue)}
 .mark i:nth-child(2),.mark i:nth-child(4){background:var(--pink)}
 .mark i:nth-child(3){background:#fff}
@@ -232,7 +248,7 @@ svg{flex:none}
 <header>
   <div class="wrap bar">
     <a href="#topo" class="brand">
-      <span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <img class="mark" src="img/favicon.svg" alt="" width="34" height="34">
       <span>Transmasc Brasil<small>Portal da comunidade</small></span>
     </a>
     <nav class="menu">
@@ -429,13 +445,7 @@ svg{flex:none}
     </div>
     <form id="contrib-form" onsubmit="submitForm(event)">
       <div class="field"><label for="f-category">Categoria *</label>
-        <select id="f-category" class="input" required>
-          <option value="cirurgioes">Cirurgiões (mastectomia)</option>
-          <option value="endocrinologistas">Endocrinologistas</option>
-          <option value="ambulatorios">Ambulatórios trans</option>
-          <option value="advogados">Advogados</option>
-          <option value="outros">Outros</option>
-        </select></div>
+        <select id="f-category" class="input" required></select></div>
       <div class="field"><label for="f-name">Nome do profissional ou local *</label><input id="f-name" class="input" required maxlength="120" placeholder="Ex: Dr. Fulano / Ambulatório X"></div>
       <div class="row">
         <div class="field"><label for="f-state">UF *</label><input id="f-state" class="input" required maxlength="2" pattern="[A-Za-z]{2}" placeholder="SP" style="text-transform:uppercase"></div>
@@ -520,12 +530,27 @@ window.verMais = () => { limite += PAGE; renderList(); };
 let allData = [];
 let dbData = [];
 
-const titles = {
+/* Categorias padrão. Quando o banco responde, valem as categorias cadastradas no painel. */
+let titles = {
   cirurgioes: "Cirurgiões (mastectomia)",
   endocrinologistas: "Endocrinologistas",
   ambulatorios: "Ambulatórios trans",
   advogados: "Advogados"
 };
+function preencherCategoriasForm(){
+  const sel = document.getElementById('f-category');
+  sel.innerHTML = Object.entries(titles).map(([k,t]) => `<option value="${esc(k)}">${esc(t)}</option>`).join('')
+    + '<option value="outros">Outros</option>';
+}
+function aplicarCategorias(lista){
+  if (!lista.length) return;
+  titles = {};
+  lista.sort((a,b) => (a.ordem ?? 999) - (b.ordem ?? 999) || (a.nome||'').localeCompare(b.nome||''))
+       .forEach(c => { titles[c.id] = c.nome; });
+  if (!titles[currentCategory]) currentCategory = Object.keys(titles)[0];
+  preencherCategoriasForm();
+  renderTabs(); updateFilters(); renderList();
+}
 
 const seedData = [
   { categoria: "cirurgioes", nome: "Dra. Gisele Botega", estado: "MG", cidade: "Juiz de Fora", convenio: "Particular / Unimed", contato: "(32) 3215-4648 / @dragiselebotega" },
@@ -629,7 +654,7 @@ function renderTabs(){
   const data = visible();
   document.getElementById('tabs').innerHTML = Object.entries(titles).map(([k,t])=>{
     const n = data.filter(i=>i.categoria===k).length;
-    return `<button class="tab" role="tab" aria-selected="${k===currentCategory}" onclick="changeCategory('${k}')">${t}<span class="n">${n}</span></button>`;
+    return `<button class="tab" role="tab" aria-selected="${k===currentCategory}" onclick="changeCategory('${esc(k)}')">${t}<span class="n">${n}</span></button>`;
   }).join('');
 }
 
@@ -780,6 +805,9 @@ function mergeData(){
 }
 
 function listen(){
+  onSnapshot(collection(db, 'categorias'), snap => {
+    aplicarCategorias(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+  }, err => console.error("Categorias indisponíveis; usando as padrão.", err));
   /* As regras só deixam o público ler indicações aprovadas, então a consulta precisa filtrar por isso */
   const q = query(collection(db, COLLECTION_PATH), where('status', '==', 'aprovado'));
   onSnapshot(q, snap => {
@@ -790,6 +818,7 @@ function listen(){
   });
 }
 
+preencherCategoriasForm();
 /* Mostra as indicações na hora, mesmo antes (ou sem) o Firebase responder */
 mergeData();
 async function initFirebase(){
