@@ -3,249 +3,500 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<title>Painel Admin</title>
+<title>Portal Transmasc Brasil</title>
+<meta name="description" content="Indicações de profissionais, guia de retificação de nome e dicas de barba feitos pela e para a comunidade transmasculina.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue:#5BCEFA; --blue-soft:#E6F7FE; --pink:#F5A9B8; --pink-soft:#FDEEF1;
   --navy:#14254F; --navy-2:#1E3A8A; --ink:#14254F; --muted:#5B6785;
-  --bg:#F3F6FB; --card:#FFFFFF; --line:#E3E8F2;
-  --ok:#1F8A5B; --ok-soft:#E3F5EC; --warn:#B4541A; --warn-soft:#FFF1E4; --bad:#B42318; --bad-soft:#FDECEA;
-  --radius:16px; --shadow:0 1px 2px rgba(20,37,79,.06),0 6px 18px rgba(20,37,79,.06);
+  --bg:#F7F9FC; --card:#FFFFFF; --line:#E3E8F2; --ok:#1F8A5B; --warn:#B4541A;
+  --radius:18px; --shadow:0 1px 2px rgba(20,37,79,.06),0 8px 24px rgba(20,37,79,.07);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Nunito Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:15px}
-h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;line-height:1.15}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;font-size:16px}
+h1,h2,h3,.display{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;line-height:1.1}
+a{color:inherit}
 button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
-.flag{display:flex;height:5px}.flag span{flex:1}.b{background:var(--blue)}.p{background:var(--pink)}.w{background:#fff}
-.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
-header{background:var(--navy);color:#fff}
-header .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;height:64px}
-header h1{font-size:20px}
-header h1 small{display:block;font-family:'Nunito Sans';font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
-.who{display:flex;align-items:center;gap:10px;font-size:13px;color:#C9D3EA}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:800;padding:9px 16px;border-radius:999px;font-size:14px;white-space:nowrap;transition:transform .12s}
-.btn:hover{transform:translateY(-1px)}
-.btn[disabled]{opacity:.55;transform:none;cursor:default}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.flag{display:flex;height:6px}
+.flag span{flex:1}
+.flag .b{background:var(--blue)}.flag .p{background:var(--pink)}.flag .w{background:#fff}
+
+/* Header */
+header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Bricolage Grotesque';font-weight:800;font-size:20px}
+.mark{width:34px;height:34px;border-radius:10px;overflow:hidden;display:grid;grid-template-rows:1fr 1fr 1fr 1fr 1fr;box-shadow:inset 0 0 0 1px var(--line)}
+.mark i:nth-child(1),.mark i:nth-child(5){background:var(--blue)}
+.mark i:nth-child(2),.mark i:nth-child(4){background:var(--pink)}
+.mark i:nth-child(3){background:#fff}
+.brand small{display:block;font-family:'Nunito Sans';font-weight:700;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:-2px}
+.menu{display:flex;gap:4px;align-items:center}
+.menu a{text-decoration:none;font-weight:700;font-size:15px;padding:8px 14px;border-radius:999px;color:var(--muted)}
+.menu a:hover{color:var(--navy);background:var(--blue-soft)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:800;padding:12px 20px;border-radius:999px;transition:transform .15s ease;text-decoration:none;font-size:15px}
+.btn:hover{transform:translateY(-2px)}
 .btn-navy{background:var(--navy);color:#fff}
 .btn-pink{background:var(--pink);color:var(--navy)}
-.btn-line{box-shadow:inset 0 0 0 1.5px var(--line);background:#fff}
-.btn-ghost{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35);color:#fff}
-.btn-ok{background:var(--ok);color:#fff}
-.btn-bad{background:var(--bad-soft);color:var(--bad)}
-.btn-sm{padding:6px 12px;font-size:13px}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.4)}
+@media(max-width:820px){
+  .bar{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:0;gap:8px}
+  .brand{font-size:16px;gap:8px}.brand small{font-size:9px}.mark{width:28px;height:28px;border-radius:8px}
+  .btn-contrib{padding:7px 12px;font-size:13px}
+  .menu{order:3;width:100%;justify-content:space-around;border-top:1px solid var(--line);padding:4px 0;gap:0}
+  .menu a{font-size:14px;padding:8px 10px}
+}
+.more{display:flex;justify-content:center;margin-top:16px}
+@media(max-width:720px){
+  .hero .wrap{padding-top:28px;padding-bottom:28px;gap:22px}
+  .hero h1{font-size:25px}.eyebrow{font-size:10px;margin-bottom:12px}.hero p.lead{font-size:15px;margin-top:12px}
+  .hero .ctas{flex-direction:column}.hero .ctas .btn{justify-content:center}
+  .stat{padding:12px}.stat b{font-size:26px}
+  .shead h2{font-size:28px}
+  .tabs{flex-direction:column;overflow:visible}
+  .tab{justify-content:space-between;width:100%;padding:12px 16px}
+  .filters{grid-template-columns:1fr}
+  .filters .field:first-child{grid-column:auto}
+  .contrib-strip{flex-direction:column;align-items:stretch;text-align:center}
+  .contrib-strip .btn{justify-content:center}
+  .pcard{padding:16px}
+}
 
-/* Login */
-.login{max-width:400px;margin:60px auto;background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:30px}
-.login h2{font-size:26px;margin-bottom:6px}
-.login p{color:var(--muted);font-size:14px;margin-bottom:18px}
-.field{display:flex;flex-direction:column;gap:6px}
-.field label{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.input{width:100%;font:inherit;font-weight:600;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;outline:none}
+/* Hero */
+.hero{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;right:-120px;top:-60px;width:520px;height:520px;border-radius:50%;
+  background:conic-gradient(from 200deg,var(--blue),var(--pink),#fff,var(--pink),var(--blue));opacity:.18;filter:blur(2px)}
+.hero .wrap{position:relative;padding-top:40px;padding-bottom:40px;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end}
+.eyebrow{display:inline-block;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
+.hero h1{font-size:clamp(32px,4.6vw,52px);font-weight:800}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{margin-top:20px;font-size:18px;color:#C9D3EA;max-width:560px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:18px}
+.stat b{display:block;font-family:'Bricolage Grotesque';font-size:36px;line-height:1}
+.stat span{font-size:13px;color:#C9D3EA;font-weight:600}
+@media(max-width:820px){.hero .wrap{grid-template-columns:1fr;padding-top:48px;padding-bottom:48px}}
+
+/* Quick cards */
+.quick{margin-top:-36px;position:relative;z-index:2}
+.quick .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.qcard{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);text-decoration:none;display:flex;gap:14px;align-items:flex-start;transition:transform .15s}
+.qcard:hover{transform:translateY(-3px)}
+.qicon{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center}
+.qcard h3{font-size:18px;margin-bottom:4px}
+.qcard p{font-size:14px;color:var(--muted)}
+@media(max-width:820px){.quick .grid{grid-template-columns:1fr}}
+
+/* Sections */
+section.block{padding:84px 0 20px}
+.shead{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.shead h2{font-size:clamp(30px,4vw,44px)}
+.shead p{color:var(--muted);max-width:560px;margin-top:8px}
+.kicker{font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--navy-2);display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.kicker::before{content:"";width:22px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--pink))}
+
+/* Directory */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none}
+.tab{white-space:nowrap;padding:10px 16px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line);font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px}
+.tab .n{font-size:12px;background:var(--bg);border-radius:999px;padding:1px 8px;color:var(--muted)}
+.tab[aria-selected=true]{background:var(--navy);color:#fff;box-shadow:none}
+.tab[aria-selected=true] .n{background:rgba(255,255,255,.18);color:#fff}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:20px}
+.field label{display:block;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.input,select.input{width:100%;font:inherit;font-weight:600;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;outline:none}
 .input:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
-.stack{display:flex;flex-direction:column;gap:14px}
-.err{background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:12px 14px;font-size:14px;font-weight:700}
-.info{background:var(--blue-soft);border-radius:12px;padding:12px 14px;font-size:14px}
+@media(max-width:720px){.filters{grid-template-columns:1fr}}
+.results-meta{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:12px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:720px){.cards{grid-template-columns:1fr}}
+.pcard{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border-left:5px solid var(--blue);display:flex;flex-direction:column;gap:10px}
+.pcard:nth-child(even){border-left-color:var(--pink)}
+.pcard h3{font-size:20px}
+.loc{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--blue-soft);color:var(--navy-2)}
+.chip.sus{background:#E3F5EC;color:var(--ok)}
+.chip.part{background:var(--pink-soft);color:#9A3B52}
+.contacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+.clink{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:800;text-decoration:none;padding:8px 12px;border-radius:10px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line)}
+.clink:hover{background:var(--blue-soft)}
+.ctext{font-size:14px;color:var(--muted)}
+.empty,.loading{border:2px dashed var(--line);border-radius:var(--radius);padding:40px;text-align:center;color:var(--muted);font-weight:700;background:#fff}
+.contrib-strip{margin-top:22px;background:linear-gradient(100deg,var(--blue-soft),var(--pink-soft));border-radius:var(--radius);padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.contrib-strip p{font-weight:700}
 
-/* Painel */
-main{padding:24px 0 60px}
-.top{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap;margin-bottom:18px}
-.top h2{font-size:30px}
-.top .actions{display:flex;gap:8px;flex-wrap:wrap}
-.counters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.counter{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;text-align:left;border:2px solid transparent}
-.counter b{display:block;font-family:'Bricolage Grotesque';font-size:28px;line-height:1}
-.counter span{font-size:13px;font-weight:700;color:var(--muted)}
-.counter[aria-pressed=true]{border-color:var(--navy)}
-.counter.pend b{color:var(--warn)}
-@media(max-width:700px){.counters{grid-template-columns:1fr 1fr}}
-.filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:14px}
-@media(max-width:700px){.filters{grid-template-columns:1fr}}
-.meta{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px}
-.list{display:flex;flex-direction:column;gap:10px}
-.row{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border-left:5px solid var(--line)}
-.row.st-pendente{border-left-color:var(--warn);background:#FFFCF8}
-.row.st-aprovado{border-left-color:var(--ok)}
-.row.st-rejeitado,.row.st-removido{border-left-color:var(--bad);opacity:.75}
-.row h3{font-size:17px}
-.row .sub{font-size:13px;color:var(--muted);font-weight:600;display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}
-.row .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-@media(max-width:700px){.row{grid-template-columns:1fr}.row .acts{justify-content:flex-start}}
-.badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:6px}
-.badge.pendente{background:var(--warn-soft);color:var(--warn)}
-.badge.aprovado{background:var(--ok-soft);color:var(--ok)}
-.badge.rejeitado,.badge.removido{background:var(--bad-soft);color:var(--bad)}
-.badge.dup{background:var(--pink-soft);color:#9A3B52}
-.badge.cat{background:var(--blue-soft);color:var(--navy-2)}
-.linkbtn{color:var(--navy-2);font-weight:700;font-size:14px;text-decoration:underline;padding:0;align-self:center}
-.seg{display:inline-flex;background:#fff;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--line);padding:3px;margin-bottom:16px}
-.seg button{padding:7px 16px;border-radius:999px;font-weight:800;font-size:14px;color:var(--muted)}
-.seg button[aria-pressed=true]{background:var(--navy);color:#fff}
-.admins{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;align-items:start}
-@media(max-width:800px){.admins{grid-template-columns:1fr}}
-.box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
-.box h3{font-size:19px;margin-bottom:12px}
-.arow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
-.arow:first-of-type{border-top:0}
-.arow b{display:block;font-size:15px}
-.ok-msg{background:var(--ok-soft);color:var(--ok);border-radius:12px;padding:12px 14px;font-size:14px;font-weight:700}
-.empty{border:2px dashed var(--line);border-radius:var(--radius);padding:36px;text-align:center;color:var(--muted);font-weight:700;background:#fff}
+/* Guides */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+.fact{background:#fff;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.fact b{font-family:'Bricolage Grotesque';font-size:20px;display:block;margin-bottom:4px}
+.fact p{font-size:14px;color:var(--muted)}
+@media(max-width:820px){.facts{grid-template-columns:1fr 1fr}}
+.two{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:start}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+.panel{background:#fff;border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+.panel h3{font-size:22px;margin-bottom:14px}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:0 0 22px 52px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-family:'Bricolage Grotesque'}
+.steps li::after{content:"";position:absolute;left:17px;top:38px;bottom:4px;width:2px;background:var(--line)}
+.steps li:last-child::after{display:none}
+.steps li:last-child{padding-bottom:0}
+.steps strong{display:block;font-size:16px}
+.steps span{color:var(--muted);font-size:15px}
+.checklist{list-style:none;display:flex;flex-direction:column;gap:6px}
+.checklist label{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;cursor:pointer;font-size:15px}
+.checklist label:hover{background:var(--bg)}
+.checklist input{margin-top:5px;width:18px;height:18px;accent-color:var(--navy);flex:none}
+.checklist input:checked+span{text-decoration:line-through;color:var(--muted)}
+.progress{height:8px;background:var(--bg);border-radius:8px;overflow:hidden;margin:4px 0 14px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--pink));transition:width .3s}
+.ptext{font-size:13px;font-weight:800;color:var(--muted)}
+.note{border-radius:14px;padding:16px 18px;font-size:15px;margin-top:16px}
+.note.info{background:var(--blue-soft)}
+.note.warn{background:#FFF3E8;color:#5B2B0B}
+.note strong{display:block;margin-bottom:2px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.compare div{border-radius:14px;padding:18px;background:var(--bg)}
+.compare h4{font-family:'Bricolage Grotesque';font-size:17px;margin-bottom:6px}
+.compare p{font-size:14px;color:var(--muted)}
+@media(max-width:600px){.compare{grid-template-columns:1fr}}
+.after{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+/* Beard */
+.beard-bg{background:linear-gradient(180deg,var(--bg),#EEF5FB)}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:28px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.tl{padding:22px;position:relative}
+.tl+.tl{border-left:1px solid var(--line)}
+.tl .when{font-family:'Bricolage Grotesque';font-weight:800;font-size:22px}
+.tl .bar2{height:6px;border-radius:6px;margin:10px 0 12px;background:var(--line);overflow:hidden}
+.tl .bar2 i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--pink))}
+.tl p{font-size:14px;color:var(--muted)}
+@media(max-width:820px){.timeline{grid-template-columns:1fr 1fr}.tl:nth-child(3){border-left:0}.tl:nth-child(n+3){border-top:1px solid var(--line)}}
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.tips{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.tips{grid-template-columns:1fr}}
+.tip{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.tip .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;margin-bottom:12px}
+.tip h4{font-family:'Bricolage Grotesque';font-size:18px;margin-bottom:6px}
+.tip p{font-size:15px;color:var(--muted)}
+.myths{margin-top:28px;display:flex;flex-direction:column;gap:10px}
+.myth{background:#fff;border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.myth summary{list-style:none;cursor:pointer;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:800}
+.myth summary::-webkit-details-marker{display:none}
+.myth summary .tag{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--pink-soft);color:#9A3B52;margin-right:10px;flex:none}
+.myth summary .plus{font-size:22px;transition:transform .2s;color:var(--muted)}
+.myth[open] .plus{transform:rotate(45deg)}
+.myth .ans{padding:0 20px 18px;color:var(--muted)}
+.myth .ans b{color:var(--ok)}
+
+/* Footer */
+footer{background:var(--navy);color:#C9D3EA;margin-top:90px}
+footer .wrap{padding:52px 20px 30px;display:grid;grid-template-columns:1fr 1.3fr;gap:40px}
+footer h3{color:#fff;font-size:24px;margin-bottom:8px}
+footer a.mail{color:var(--pink);font-weight:800;font-size:18px;text-decoration:none}
+footer p{font-size:14px;margin-bottom:10px}
+.sources{font-size:13px}
+.sources a{color:var(--blue)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.1);grid-column:1/-1;padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}
+@media(max-width:820px){footer .wrap{grid-template-columns:1fr}}
 
 /* Modal */
-.overlay{position:fixed;inset:0;background:rgba(10,20,45,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:16px;overflow-y:auto}
+.overlay{position:fixed;inset:0;background:rgba(10,20,45,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50;padding:16px;overflow-y:auto}
 .overlay.open{display:flex}
-.modal{background:#fff;width:100%;max-width:560px;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.3);margin:auto}
-.mhead{display:flex;justify-content:space-between;align-items:center;padding:20px 22px 4px}
-.mhead h3{font-size:22px}
-.x{font-size:26px;line-height:1;color:var(--muted);padding:2px 8px;border-radius:8px}
-.modal form{padding:14px 22px 22px;display:flex;flex-direction:column;gap:12px}
-.grid2{display:grid;grid-template-columns:90px 1fr;gap:10px}
-.grid3{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.mfoot{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:6px}
-.small{font-size:12px;color:var(--muted)}
-#toasts{position:fixed;bottom:18px;right:18px;left:18px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:60;pointer-events:none}
-.toast{background:var(--navy);color:#fff;padding:12px 16px;border-radius:12px;font-weight:700;font-size:14px;border-left:5px solid var(--pink);max-width:380px}
-code{background:var(--bg);padding:1px 6px;border-radius:6px;font-size:12px}
+.modal{background:#fff;width:100%;max-width:520px;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.3);overflow:hidden;margin:auto}
+.modal .mhead{padding:22px 24px 6px;display:flex;justify-content:space-between;align-items:start}
+.modal .mhead h3{font-size:26px}
+.modal .mhead p{font-size:14px;color:var(--muted);margin-top:4px}
+.x{font-size:28px;line-height:1;color:var(--muted);padding:4px 8px;border-radius:8px}
+.x:hover{background:var(--bg)}
+.modal form{padding:16px 24px 24px;display:flex;flex-direction:column;gap:14px}
+.row{display:grid;grid-template-columns:90px 1fr;gap:10px}
+.modal .btn{justify-content:center;width:100%;padding:15px;font-size:16px;border-radius:14px}
+.btn[disabled]{opacity:.6;transform:none}
+
+#toasts{position:fixed;bottom:20px;right:20px;left:20px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:60;pointer-events:none}
+.toast{background:var(--navy);color:#fff;padding:14px 18px;border-radius:14px;font-weight:700;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);border-left:5px solid var(--pink);animation:up .3s ease-out;max-width:380px}
+@keyframes up{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+svg{flex:none}
 </style>
 </head>
 <body>
-<div class="flag"><span class="b"></span><span class="p"></span><span class="w"></span><span class="p"></span><span class="b"></span></div>
+
+<div class="flag" aria-hidden="true"><span class="b"></span><span class="p"></span><span class="w"></span><span class="p"></span><span class="b"></span></div>
+
 <header>
-  <div class="wrap">
-    <h1><small>Portal Transmasc Brasil</small>Painel de indicações</h1>
-    <div class="who" id="who" hidden>
-      <span id="who-email"></span>
-      <button class="btn btn-ghost btn-sm" onclick="sair()">Sair</button>
-    </div>
+  <div class="wrap bar">
+    <a href="#topo" class="brand">
+      <span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <span>Transmasc Brasil<small>Portal da comunidade</small></span>
+    </a>
+    <nav class="menu">
+      <a href="#indicacoes">Indicações</a>
+      <a href="#retificacao">Retificação</a>
+      <a href="#barba">Barba</a>
+    </nav>
+    <button class="btn btn-navy btn-contrib" onclick="openModal()">+ Contribuir</button>
   </div>
 </header>
 
-<!-- LOGIN -->
-<section id="login-view" class="wrap">
-  <div class="login">
-    <h2>Entrar</h2>
-    <p>Use a conta de administrador criada no Firebase (Authentication → Usuários).</p>
-    <form class="stack" onsubmit="entrar(event)">
-      <div class="field"><label for="l-email">E-mail</label><input id="l-email" class="input" type="email" required autocomplete="username"></div>
-      <div class="field"><label for="l-senha">Senha</label><input id="l-senha" class="input" type="password" required autocomplete="current-password"></div>
-      <div id="login-err" class="err" hidden></div>
-      <div id="login-ok" class="ok-msg" hidden></div>
-      <button id="btn-entrar" class="btn btn-navy" type="submit">Entrar</button>
-      <button type="button" class="linkbtn" onclick="esqueciSenha()">Esqueci minha senha</button>
-    </form>
+<section class="hero" id="topo">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Feito pela comunidade · para a comunidade</span>
+      <h1>Informação que a gente <em>passaria de mão em mão</em>, agora num lugar só.</h1>
+      <p class="lead">Indicações de cirurgiões, endocrinologistas, ambulatórios e advogados, além de guias práticos sobre retificação de nome e barba.</p>
+      <div class="ctas">
+        <a href="#indicacoes" class="btn btn-pink">Encontrar profissionais</a>
+        <button class="btn btn-ghost" onclick="openModal()">Indicar alguém</button>
+      </div>
+    </div>
+    <div class="stats" aria-live="polite">
+      <div class="stat"><b id="st-total">—</b><span>indicações</span></div>
+      <div class="stat"><b id="st-ufs">—</b><span>estados</span></div>
+      <div class="stat"><b id="st-sus">—</b><span>com atendimento SUS</span></div>
+      <div class="stat"><b>100%</b><span>voluntário e gratuito</span></div>
+    </div>
   </div>
 </section>
 
-<!-- PAINEL -->
-<main id="panel-view" hidden>
+<!-- INDICAÇÕES -->
+<section class="block" id="indicacoes" style="padding-top:36px">
   <div class="wrap">
-    <div id="perm-err" class="err" hidden style="margin-bottom:14px"></div>
-    <div class="seg" role="tablist">
-      <button id="tab-ind" aria-pressed="true" onclick="mostrarAba('ind')">Indicações</button>
-      <button id="tab-adm" aria-pressed="false" onclick="mostrarAba('adm')">Administradores</button>
-    </div>
-
-    <!-- ABA ADMINISTRADORES -->
-    <section id="aba-adm" hidden>
-      <div class="admins">
-        <div class="box">
-          <h3>Quem tem acesso ao painel</h3>
-          <div id="admins-list"><p class="small">Carregando…</p></div>
-          <p class="small" style="margin-top:12px">Remover tira o acesso ao painel na hora. A conta continua existindo no Firebase (Authentication → Usuários), mas não consegue mexer em nada.</p>
-        </div>
-        <div class="box">
-          <h3>Adicionar administrador</h3>
-          <form class="stack" onsubmit="adicionarAdmin(event)">
-            <div class="field"><label for="n-email">E-mail</label><input id="n-email" class="input" type="email" required autocomplete="off"></div>
-            <div class="field"><label for="n-senha">Senha provisória (mín. 8 caracteres)</label><input id="n-senha" class="input" type="text" required minlength="8" autocomplete="new-password"></div>
-            <div id="n-err" class="err" hidden></div>
-            <div id="n-ok" class="ok-msg" hidden></div>
-            <button id="btn-add-adm" class="btn btn-navy" type="submit">Criar acesso</button>
-            <p class="small">Passe a senha provisória para a pessoa por um canal privado. Ela pode trocar depois em "Esqueci minha senha" na tela de login.</p>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABA INDICAÇÕES -->
-    <section id="aba-ind">
-    <div class="top">
-      <div><h2>Indicações</h2><p class="small" id="uid-line"></p></div>
-      <div class="actions">
-        <button class="btn btn-line" id="btn-import" onclick="importarLista()">Sincronizar lista do portal</button>
-        <button class="btn btn-navy" onclick="abrirEdicao(null)">+ Nova indicação</button>
+    <div class="shead">
+      <div>
+        <div class="kicker">Diretório</div>
+        <h2>Indicações da comunidade</h2>
+        <p>Filtre por estado, convênio ou busque pelo nome e cidade. Toque no contato para ligar ou abrir o perfil.</p>
       </div>
     </div>
 
-    <div class="counters" id="counters"></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
 
     <div class="filters">
-      <input id="f-busca" class="input" type="search" placeholder="Buscar por nome, cidade ou contato…" oninput="render()">
-      <select id="f-cat" class="input" onchange="render()">
-        <option value="todas">Todas as categorias</option>
-        <option value="cirurgioes">Cirurgiões (mastectomia)</option>
-        <option value="endocrinologistas">Endocrinologistas</option>
-        <option value="ambulatorios">Ambulatórios trans</option>
-        <option value="advogados">Advogados</option>
-        <option value="outros">Outros</option>
-      </select>
-      <select id="f-uf" class="input" onchange="render()"><option value="todos">Todos os estados</option></select>
+      <div class="field"><label for="f-busca">Buscar</label><input id="f-busca" class="input" type="search" placeholder="Nome ou cidade…" oninput="filtrarLista()"></div>
+      <div class="field"><label for="filter-estado">Estado</label><select id="filter-estado" class="input" onchange="filtrarLista()"><option value="todos">Todos</option></select></div>
+      <div class="field"><label for="filter-convenio">Convênio</label><select id="filter-convenio" class="input" onchange="filtrarLista()"><option value="todos">Todos</option></select></div>
     </div>
 
-    <div class="meta" id="meta"></div>
-    <div class="list" id="list"><div class="empty">Carregando…</div></div>
-    </section>
-  </div>
-</main>
+    <div class="results-meta" id="results-meta"></div>
+    <div id="loading-indicator" class="loading">Carregando indicações…</div>
+    <div id="data-list" class="cards" hidden></div>
+    <div id="ver-mais" class="more"></div>
 
-<!-- MODAL DE EDIÇÃO -->
-<div class="overlay" id="edit-modal" onclick="if(event.target===this)fecharEdicao()">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="e-title">
-    <div class="mhead"><h3 id="e-title">Editar indicação</h3><button class="x" onclick="fecharEdicao()" aria-label="Fechar">&times;</button></div>
-    <form id="edit-form" onsubmit="salvar(event)">
-      <div class="grid3">
-        <div class="field"><label for="e-cat">Categoria</label>
-          <select id="e-cat" class="input" required>
-            <option value="cirurgioes">Cirurgiões (mastectomia)</option>
-            <option value="endocrinologistas">Endocrinologistas</option>
-            <option value="ambulatorios">Ambulatórios trans</option>
-            <option value="advogados">Advogados</option>
-            <option value="outros">Outros</option>
-          </select></div>
-        <div class="field"><label for="e-status">Status</label>
-          <select id="e-status" class="input" required>
-            <option value="aprovado">Aprovado (aparece no site)</option>
-            <option value="pendente">Pendente</option>
-            <option value="rejeitado">Rejeitado</option>
-            <option value="removido">Removido</option>
-          </select></div>
+    <div class="contrib-strip">
+      <p>Conhece um profissional respeitoso que não está aqui? Sua indicação ajuda muita gente.</p>
+      <button class="btn btn-navy" onclick="openModal()">+ Contribuir com indicação</button>
+    </div>
+  </div>
+</section>
+
+<!-- RETIFICAÇÃO -->
+<section class="block" id="retificacao">
+  <div class="wrap">
+    <div class="shead">
+      <div>
+        <div class="kicker">Guia prático</div>
+        <h2>Retificação de nome e gênero</h2>
+        <p>Desde a decisão do STF em 2018, dá pra mudar prenome e gênero direto no cartório, sem processo na Justiça. Hoje as regras estão nos artigos 516 a 523 do Provimento 149/2023 do CNJ.</p>
       </div>
-      <div class="field"><label for="e-nome">Nome do profissional ou local</label><input id="e-nome" class="input" required maxlength="160"></div>
-      <div class="grid2">
-        <div class="field"><label for="e-uf">UF</label><input id="e-uf" class="input" required maxlength="2" style="text-transform:uppercase"></div>
-        <div class="field"><label for="e-cidade">Cidade</label><input id="e-cidade" class="input" required maxlength="80"></div>
-      </div>
-      <div class="field"><label for="e-conv">Convênios (separe com /)</label><input id="e-conv" class="input" maxlength="160" placeholder="Unimed / SUS / Particular"></div>
-      <div class="field"><label for="e-contato">Contato (separe com /)</label><input id="e-contato" class="input" maxlength="160" placeholder="(11) 99999-9999 / @perfil"></div>
-      <div class="field"><label for="e-obs">Observação (aparece no card)</label><textarea id="e-obs" class="input" rows="2" maxlength="300"></textarea></div>
-      <p class="small" id="e-info"></p>
-      <div class="mfoot">
-        <button type="button" class="btn btn-bad" id="e-remover" onclick="removerAtual()">Remover do site</button>
-        <div style="display:flex;gap:8px">
-          <button type="button" class="btn btn-line" onclick="fecharEdicao()">Cancelar</button>
-          <button type="submit" class="btn btn-navy" id="e-salvar">Salvar</button>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>Sem advogado</b><p>Você mesmo faz o pedido no cartório de registro civil.</p></div>
+      <div class="fact"><b>Sem laudo</b><p>Laudo médico ou psicológico não é exigido. Pode juntar, se quiser.</p></div>
+      <div class="fact"><b>Sem cirurgia</b><p>Nenhum procedimento ou hormonização é condição para retificar.</p></div>
+      <div class="fact"><b>18+ anos</b><p>Menores de idade ainda precisam de ação judicial com os responsáveis.</p></div>
+    </div>
+
+    <div class="two">
+      <div class="panel">
+        <h3>Passo a passo</h3>
+        <ol class="steps">
+          <li><strong>Escolha o novo prenome</strong><span>Muda o prenome e agnomes como "Júnior" ou "Filho". O sobrenome de família continua igual, e o novo nome não pode repetir o prenome de outra pessoa da família.</span></li>
+          <li><strong>Junte as certidões</strong><span>A maioria sai de graça, pela internet, nos sites dos tribunais (TJ, TRF, TRT, TSE). Use a lista ao lado para acompanhar.</span></li>
+          <li><strong>Vá a um cartório de registro civil</strong><span>Pode ser qualquer um do país. Se não for o cartório onde você foi registrado, ele envia o pedido pela central (CRC), com taxa de remessa.</span></li>
+          <li><strong>Assine o requerimento</strong><span>Presencialmente, com documentos originais. O cartório confere sua identidade e os papéis.</span></li>
+          <li><strong>Busque a nova certidão</strong><span>Volte na data marcada. A alteração é averbada sob sigilo: não aparece na certidão que você vai usar no dia a dia.</span></li>
+          <li><strong>Atualize o resto</strong><span>Com a certidão nova em mãos, você atualiza RG, CPF, título e os demais cadastros.</span></li>
+        </ol>
+        <div class="after">
+          <span class="chip">RG / CIN</span><span class="chip">CPF (Receita)</span><span class="chip">Título (TSE)</span><span class="chip">CNH (Detran)</span><span class="chip">Cartão SUS</span><span class="chip">Bancos</span><span class="chip">Diplomas e escola</span><span class="chip">Trabalho / CTPS</span><span class="chip">Passaporte</span>
         </div>
       </div>
+
+      <div class="panel">
+        <h3>Checklist de documentos</h3>
+        <div class="ptext" id="chk-text">0 de 0 marcados</div>
+        <div class="progress"><i id="chk-bar"></i></div>
+        <ul class="checklist" id="checklist"></ul>
+        <div class="note info"><strong>Confirme com seu cartório</strong>A lista pode variar um pouco por estado. As certidões judiciais devem cobrir todos os lugares onde você morou nos últimos 5 anos. Ter dívidas ou processos não impede a retificação: eles passam para o novo nome.</div>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:20px">
+      <div class="panel">
+        <h3>Quanto custa e como pedir gratuidade</h3>
+        <p>Os valores mudam de estado para estado e somam taxas do cartório, certidões de protesto e, se for o caso, a remessa entre cartórios. Em muitos lugares o total fica na casa das centenas de reais.</p>
+        <div class="note warn"><strong>Não tem como pagar?</strong>Procure a <b>Defensoria Pública</b> do seu estado. Ela orienta, pode pedir isenção de taxas e, quando o cartório nega, entrar com o pedido na Justiça com gratuidade. Fique de olho também nos <b>mutirões de retificação</b> que Defensorias e tribunais organizam.</div>
+        <div class="note info"><strong>Se o cartório exigir laudo ou cirurgia</strong>Isso não está previsto nas regras do CNJ. Peça a negativa por escrito e procure a Defensoria ou a Corregedoria do Tribunal de Justiça do seu estado.</div>
+      </div>
+      <div class="panel">
+        <h3>Nome social × retificação</h3>
+        <div class="compare" style="margin-top:0">
+          <div><h4>Nome social</h4><p>Seu nome aparece no RG e em cadastros, mas a certidão de nascimento continua igual. Rápido e sem custo de cartório. Uma boa ponte enquanto a retificação não sai.</p></div>
+          <div><h4>Retificação</h4><p>Muda a certidão de nascimento de verdade. O nome e o gênero passam a ser os oficiais em todos os documentos derivados.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BARBA -->
+<section class="block beard-bg" id="barba" style="padding-bottom:60px">
+  <div class="wrap">
+    <div class="shead">
+      <div>
+        <div class="kicker">Cuidados</div>
+        <h2>Dicas pra barba</h2>
+        <p>Cada corpo responde de um jeito. Genética pesa muito: olhe os homens da sua família pra ter uma ideia do padrão. E a regra de ouro é paciência.</p>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl"><div class="when">0–6 meses</div><div class="bar2"><i style="width:15%"></i></div><p>Primeiros fios finos no buço e no queixo. Acne costuma aparecer cedo, com pico entre 6 e 12 meses.</p></div>
+      <div class="tl"><div class="when">6–12 meses</div><div class="bar2"><i style="width:35%"></i></div><p>Pelos engrossam e escurecem. O bigode e as costeletas costumam vir antes das bochechas.</p></div>
+      <div class="tl"><div class="when">1–3 anos</div><div class="bar2"><i style="width:70%"></i></div><p>As falhas vão fechando aos poucos. É a fase de experimentar estilos.</p></div>
+      <div class="tl"><div class="when">3–5 anos</div><div class="bar2"><i style="width:100%"></i></div><p>Em geral é quando a testosterona atinge o efeito máximo. O que existir aqui é a sua barba.</p></div>
+    </div>
+
+    <div class="tips">
+      <div class="tip"><div class="ic" style="background:var(--blue-soft)">🧼</div><h4>Lave do jeito certo</h4><p>Sabonete facial suave ou shampoo de barba. Sabonete comum resseca e deixa a pele coçando.</p></div>
+      <div class="tip"><div class="ic" style="background:var(--pink-soft)">💧</div><h4>Hidrate pele e fio</h4><p>Óleo ou balm de barba deixam os fios mais macios e ajudam a disfarçar falhas visualmente. Escolha produtos não comedogênicos se tiver acne.</p></div>
+      <div class="tip"><div class="ic" style="background:#E3F5EC">🪮</div><h4>Pentear ajuda</h4><p>Pentear na direção do crescimento distribui o óleo e cobre áreas mais ralas.</p></div>
+      <div class="tip"><div class="ic" style="background:#FFF3E8">✂️</div><h4>Apare com intenção</h4><p>Desenhar a linha do pescoço e das bochechas faz uma barba rala parecer muito mais cheia e cuidada.</p></div>
+      <div class="tip"><div class="ic" style="background:var(--blue-soft)">🧔</div><h4>Estilos que favorecem</h4><p>Barba por fazer, cavanhaque e bigode funcionam bem enquanto as bochechas não fecham. Um barbeiro de confiança faz diferença.</p></div>
+      <div class="tip"><div class="ic" style="background:var(--pink-soft)">🌙</div><h4>Corpo em dia</h4><p>Sono, alimentação e não fumar ajudam a saúde dos folículos e da pele em geral.</p></div>
+    </div>
+
+    <div class="note warn" style="margin-top:20px">
+      <strong>E o minoxidil?</strong>
+      Estudos recentes com homens trans em uso de testosterona mostraram ganho de densidade e espessura na barba com minoxidil tópico. Mas é um medicamento: pode irritar a pele e ter efeitos no corpo todo, e não cria folículo onde não existe. Use só com acompanhamento de dermatologista, que define a concentração e a forma de uso.
+    </div>
+
+    <div class="myths">
+      <details class="myth"><summary><span><span class="tag">Mito</span>Raspar faz a barba crescer mais grossa</span><span class="plus">+</span></summary><div class="ans"><b>Não faz.</b> O fio raspado tem a ponta reta e por isso parece mais grosso ao crescer, mas a quantidade e a espessura real dependem dos folículos e dos hormônios.</div></details>
+      <details class="myth"><summary><span><span class="tag">Mito</span>Aumentar a dose de testosterona acelera a barba</span><span class="plus">+</span></summary><div class="ans"><b>Não acelera e é arriscado.</b> Níveis acima da faixa recomendada aumentam riscos (como sangue mais grosso e problemas de circulação) e parte do excesso pode virar estrogênio. Ajuste de dose é sempre com o endocrinologista.</div></details>
+      <details class="myth"><summary><span><span class="tag">Mito</span>Se não cresceu no primeiro ano, não vai crescer</span><span class="plus">+</span></summary><div class="ans"><b>Ainda dá tempo.</b> A barba é um dos efeitos mais lentos e continua evoluindo por anos.</div></details>
+      <details class="myth"><summary><span><span class="tag">Mito</span>Produto de internet resolve sozinho</span><span class="plus">+</span></summary><div class="ans"><b>Desconfie de promessas.</b> Óleos e balms cuidam do fio e da pele, mas não criam pelo. O que tem evidência de efeito no crescimento precisa de orientação médica.</div></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h3>Dúvidas, sugestões ou correções?</h3>
+      <a class="mail" href="mailto:transmascbrasil@gmail.com">transmascbrasil@gmail.com</a>
+      <p style="margin-top:16px">O Portal Transmasc Brasil é uma iniciativa independente e voluntária, criada para centralizar e facilitar o acesso a informações para a comunidade transmasculina.</p>
+    </div>
+    <div>
+      <p><strong style="color:#fff">Atenção:</strong> contatos, valores e convênios podem estar desatualizados ou conter erros. Confirme sempre direto com os profissionais. Os guias são informativos e não substituem orientação médica ou jurídica.</p>
+      <p class="sources"><strong style="color:#fff">Fontes dos guias:</strong>
+        <a href="https://www.irib.org.br/cnj-servico-pessoa-trans-pode-alterar-nome-e-genero-em-cartorio/" target="_blank" rel="noopener">CNJ Serviço</a> ·
+        <a href="https://www.tjpr.jus.br/documents/d/comunicacao/mudanca_de_nome-e-genero" target="_blank" rel="noopener">Cartilha Arpen/TJPR</a> ·
+        <a href="https://www.casaum.org/wp-content/uploads/2022/01/RETIFIQUEI_E_AGORA_.pdf" target="_blank" rel="noopener">Casa 1 – Retifiquei, e agora?</a> ·
+        <a href="https://scielo.br/j/rbgo/a/L9q9t9Bg6cSZQTVM5htQGLx/" target="_blank" rel="noopener">RBGO – Testosterona em homens trans</a> ·
+        <a href="https://portal.afya.com.br/ginecologia-e-obstetricia/uso-de-minoxidil-melhora-o-aparecimento-de-barba-em-homens-trans" target="_blank" rel="noopener">Afya – Minoxidil e barba</a>
+      </p>
+    </div>
+    <div class="foot-bottom">
+      <span>Portal Transmasc Brasil</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Modal -->
+<div class="overlay" id="contribute-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <div class="mhead">
+      <div><h3 id="m-title">Nova indicação</h3><p>Ela passa por uma revisão rápida antes de aparecer no portal.</p></div>
+      <button class="x" onclick="closeModal()" aria-label="Fechar">&times;</button>
+    </div>
+    <form id="contrib-form" onsubmit="submitForm(event)">
+      <div class="field"><label for="f-category">Categoria *</label>
+        <select id="f-category" class="input" required>
+          <option value="cirurgioes">Cirurgiões (mastectomia)</option>
+          <option value="endocrinologistas">Endocrinologistas</option>
+          <option value="ambulatorios">Ambulatórios trans</option>
+          <option value="advogados">Advogados</option>
+          <option value="outros">Outros</option>
+        </select></div>
+      <div class="field"><label for="f-name">Nome do profissional ou local *</label><input id="f-name" class="input" required maxlength="120" placeholder="Ex: Dr. Fulano / Ambulatório X"></div>
+      <div class="row">
+        <div class="field"><label for="f-state">UF *</label><input id="f-state" class="input" required maxlength="2" pattern="[A-Za-z]{2}" placeholder="SP" style="text-transform:uppercase"></div>
+        <div class="field"><label for="f-city">Cidade *</label><input id="f-city" class="input" required maxlength="80" placeholder="São Paulo"></div>
+      </div>
+      <div class="field"><label for="f-details">Convênios (separe com /)</label><input id="f-details" class="input" maxlength="120" placeholder="Ex: Unimed / SUS / Particular"></div>
+      <div class="field"><label for="f-contact">Contato</label><input id="f-contact" class="input" maxlength="120" placeholder="Ex: (11) 99999-9999 / @perfil"></div>
+      <button id="btn-submit" type="submit" class="btn btn-navy">Enviar indicação</button>
     </form>
   </div>
 </div>
 
 <div id="toasts" aria-live="polite"></div>
 
+<script>
+/* ---------- Checklist de documentos (independe do Firebase) ---------- */
+const DOCS = [
+  "Certidão de nascimento atualizada",
+  "Certidão de casamento atualizada (se for casado)",
+  "RG ou CIN",
+  "CPF",
+  "Título de eleitor",
+  "Passaporte (se tiver)",
+  "Comprovante de endereço",
+  "Certidões cíveis estadual e federal (últimos 5 anos)",
+  "Certidões criminais estadual e federal (últimos 5 anos)",
+  "Certidão de execução criminal estadual e federal",
+  "Certidão dos tabelionatos de protesto",
+  "Certidão da Justiça Eleitoral (TSE)",
+  "Certidão da Justiça do Trabalho (TRT)",
+  "Certidão da Justiça Militar (só se for ou já foi militar)"
+];
+const KEY = 'ptb-checklist';
+function loadChecks(){ try{ return JSON.parse(localStorage.getItem(KEY)) || []; }catch(e){ return []; } }
+function saveChecks(v){ try{ localStorage.setItem(KEY, JSON.stringify(v)); }catch(e){} }
+function renderChecklist(){
+  const done = loadChecks();
+  document.getElementById('checklist').innerHTML = DOCS.map((d,i)=>
+    `<li><label><input type="checkbox" data-i="${i}" ${done.includes(i)?'checked':''}><span>${d}</span></label></li>`).join('');
+  updateProgress();
+}
+function updateProgress(){
+  const boxes=[...document.querySelectorAll('#checklist input')];
+  const n=boxes.filter(b=>b.checked).length;
+  document.getElementById('chk-text').textContent=`${n} de ${boxes.length} marcados`;
+  document.getElementById('chk-bar').style.width=(n/boxes.length*100)+'%';
+}
+document.addEventListener('change',e=>{
+  if(e.target.matches('#checklist input')){
+    saveChecks([...document.querySelectorAll('#checklist input')].filter(b=>b.checked).map(b=>+b.dataset.i));
+    updateProgress();
+  }
+});
+renderChecklist();
+</script>
+
 <script type="module">
+/* O Firebase é carregado depois, sem travar a página se falhar (ver initFirebase no fim) */
+/* O site não faz login nenhum: visitantes só leem o que está aprovado e enviam indicações pendentes. */
+let collection, addDoc, onSnapshot, query, where, db = null;
+
 const firebaseConfig = {
   apiKey: "AIzaSyCqz9jXdJy4z3GN0IQ30qeJOErQxAOkx7o",
   authDomain: "portal-d40f5.firebaseapp.com",
@@ -254,10 +505,28 @@ const firebaseConfig = {
   messagingSenderId: "138269570866",
   appId: "1:138269570866:web:64b9698327654988d8c92b"
 };
+
+
 const appIdStr = typeof __app_id !== 'undefined' ? __app_id : 'portal-transmasc-app';
 const COLLECTION_PATH = ['artifacts', appIdStr, 'public', 'data', 'profissionais'].join('/');
 
-/* Lista fixa do portal (cópia da que está no site) — usada só pelo botão "Importar lista do portal" */
+
+
+let currentCategory = 'cirurgioes';
+const PAGE = 7;
+let limite = PAGE;
+window.filtrarLista = () => { limite = PAGE; renderList(); };
+window.verMais = () => { limite += PAGE; renderList(); };
+let allData = [];
+let dbData = [];
+
+const titles = {
+  cirurgioes: "Cirurgiões (mastectomia)",
+  endocrinologistas: "Endocrinologistas",
+  ambulatorios: "Ambulatórios trans",
+  advogados: "Advogados"
+};
+
 const seedData = [
   { categoria: "cirurgioes", nome: "Dra. Gisele Botega", estado: "MG", cidade: "Juiz de Fora", convenio: "Particular / Unimed", contato: "(32) 3215-4648 / @dragiselebotega" },
   { categoria: "cirurgioes", nome: "Dr. Flavio Stilitano", estado: "SP", cidade: "Sorocaba", convenio: "Unimed", contato: "(15) 3211-1372" },
@@ -345,302 +614,199 @@ const seedData = [
   { categoria: "ambulatorios", nome: "Ambulatório Estadual de Atenção à Transexualidade", estado: "MT", cidade: "Cuiabá", convenio: "SUS", contato: "", obs: "Inaugurado em 2024. Acesso regulado." }
 ];
 
-const CATS = { cirurgioes:"Cirurgiões", endocrinologistas:"Endocrinologistas", ambulatorios:"Ambulatórios", advogados:"Advogados", outros:"Outros" };
-const STATUS_LABEL = { pendente:"Pendentes", aprovado:"No site", rejeitado:"Rejeitadas", removido:"Removidas" };
-const norm = s => (s||'').toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
 const keyOf = i => norm(i.categoria) + '|' + norm(i.nome);
-const esc = s => (s||'').toString().replace(/[&<>'"]/g, t => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[t]));
-/* Registros antigos sem status estavam visíveis no site: contam como aprovados */
-const statusOf = i => i.status || 'aprovado';
 
-let fb = null;            // funções do Firebase
-let db, auth, fbApp, appSecundario = null;
-let admins = [], unsubAdm = null;
-const ADMINS_PATH = 'admins';
-let dados = [];           // documentos do banco
-let filtroStatus = 'pendente';
-let editando = null;      // id em edição (null = novo)
-let unsub = null;
+/* Só mostra o que não está pendente de revisão */
+const HIDDEN = ['pendente','rejeitado','removido'];
+const visible = () => allData.filter(i => !HIDDEN.includes(i.status));
 
-function toast(msg){
-  const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
-  document.getElementById('toasts').appendChild(t);
-  setTimeout(()=>{t.style.transition='opacity .3s';t.style.opacity='0';setTimeout(()=>t.remove(),300)},4000);
+function esc(str){
+  return (str || '').toString().replace(/[&<>'"]/g, t => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[t]));
 }
-function mostrarErro(id, msg){ const el=document.getElementById(id); el.textContent=msg; el.hidden=!msg; }
+const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
-function traduzErro(err){
-  const c = (err && err.code) || '';
-  if (c.includes('invalid-credential') || c.includes('wrong-password') || c.includes('user-not-found')) return 'E-mail ou senha incorretos.';
-  if (c.includes('too-many-requests')) return 'Muitas tentativas. Espere alguns minutos e tente de novo.';
-  if (c.includes('operation-not-allowed')) return 'O login por e-mail e senha não está ativado no Firebase (Authentication → Método de login → E-mail/senha).';
-  if (c.includes('network')) return 'Sem conexão com o Firebase. Verifique a internet.';
-  if (c.includes('permission-denied')) return 'Esta conta não tem acesso de administrador. Peça para um administrador te adicionar pelo painel (ou confira o UID nas regras do Firestore).';
-  if (c.includes('email-already-in-use')) return 'Já existe uma conta com esse e-mail. Se for de alguém de confiança, peça o UID dessa conta e adicione o documento em "admins" pelo console.';
-  if (c.includes('weak-password')) return 'Senha fraca. Use pelo menos 8 caracteres.';
-  if (c.includes('invalid-email')) return 'E-mail inválido.';
-  if (c.includes('missing-email')) return 'Digite o seu e-mail no campo acima primeiro.';
-  return 'Erro: ' + ((err && err.message) || err);
+function renderTabs(){
+  const data = visible();
+  document.getElementById('tabs').innerHTML = Object.entries(titles).map(([k,t])=>{
+    const n = data.filter(i=>i.categoria===k).length;
+    return `<button class="tab" role="tab" aria-selected="${k===currentCategory}" onclick="changeCategory('${k}')">${t}<span class="n">${n}</span></button>`;
+  }).join('');
 }
 
-/* ---------- Firebase ---------- */
-async function initFirebase(){
-  const base = "https://www.gstatic.com/firebasejs/11.6.1/";
+function renderStats(){
+  const data = visible();
+  document.getElementById('st-total').textContent = data.length;
+  document.getElementById('st-ufs').textContent = new Set(data.map(i=>i.estado).filter(Boolean)).size;
+  document.getElementById('st-sus').textContent = data.filter(i=>/sus/i.test(i.convenio||'')).length;
+}
+
+function updateFilters(){
+  const data = visible().filter(i => i.categoria === currentCategory);
+  const fe = document.getElementById('filter-estado');
+  const fc = document.getElementById('filter-convenio');
+  const keepE = fe.value, keepC = fc.value;
+  const estados = [...new Set(data.map(i=>i.estado))].filter(Boolean).sort();
+  const convs = new Set();
+  data.forEach(i => (i.convenio||'').split('/').forEach(c => { c=c.trim(); if(c && norm(c)!=='nao informado') convs.add(c); }));
+  fe.innerHTML = '<option value="todos">Todos</option>' + estados.map(u=>`<option value="${esc(u)}">${esc(u)}</option>`).join('');
+  fc.innerHTML = '<option value="todos">Todos</option>' + [...convs].sort().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  if (estados.includes(keepE)) fe.value = keepE;
+  if (convs.has(keepC)) fc.value = keepC;
+}
+
+function contactHTML(raw){
+  if (!raw || !raw.trim()) return '<span class="ctext">Contato não cadastrado</span>';
+  return raw.split(/\s+\/\s+|\s*\/\s*(?=@|\()/).map(p=>p.trim()).filter(Boolean).map(p=>{
+    if (/^@[\w.]+$/.test(p)) {
+      return `<a class="clink" href="https://instagram.com/${esc(p.slice(1))}" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>${esc(p)}</a>`;
+    }
+    const digits = p.replace(/\D/g,'');
+    if (digits.length >= 10 && digits.length <= 13) {
+      return `<a class="clink" href="tel:+55${digits.replace(/^55/,'')}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>${esc(p)}</a>`;
+    }
+    return `<span class="ctext">📍 ${esc(p)}</span>`;
+  }).join('');
+}
+
+function chipClass(c){ const n=norm(c); return n==='sus' ? 'chip sus' : n==='particular' ? 'chip part' : 'chip'; }
+
+window.renderList = () => {
+  const container = document.getElementById('data-list');
+  const q = norm(document.getElementById('f-busca').value);
+  const uf = document.getElementById('filter-estado').value;
+  const cv = document.getElementById('filter-convenio').value;
+
+  let data = visible().filter(i => i.categoria === currentCategory);
+  if (uf !== 'todos') data = data.filter(i => i.estado === uf);
+  if (cv !== 'todos') data = data.filter(i => (i.convenio||'').split('/').map(s=>s.trim()).includes(cv));
+  if (q) data = data.filter(i => norm(i.nome).includes(q) || norm(i.cidade).includes(q));
+  data.sort((a,b)=> (a.estado||'').localeCompare(b.estado||'') || (a.cidade||'').localeCompare(b.cidade||'') || (a.nome||'').localeCompare(b.nome||''));
+
+  document.getElementById('results-meta').textContent = `${data.length} ${data.length===1?'resultado':'resultados'} em ${titles[currentCategory]}`;
+
+  if (!data.length) {
+    container.innerHTML = `<div class="empty" style="grid-column:1/-1">Nenhuma indicação encontrada com esses filtros.<br><button class="btn btn-navy" style="margin-top:14px" onclick="openModal()">Seja o primeiro a indicar</button></div>`;
+    return;
+  }
+  const total = data.length;
+  data = data.slice(0, limite);
+  container.innerHTML = data.map(i => {
+    const convs = (i.convenio||'').split('/').map(s=>s.trim()).filter(Boolean);
+    return `<article class="pcard">
+      <div>
+        <h3>${esc(i.nome)}</h3>
+        <span class="loc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>${esc(i.cidade)} · ${esc(i.estado)}</span>
+      </div>
+      ${convs.length ? `<div class="chips">${convs.map(c=>`<span class="${chipClass(c)}">${esc(c)}</span>`).join('')}</div>` : ''}
+      ${i.obs ? `<p class="ctext">${esc(i.obs)}</p>` : ''}
+      <div class="contacts">${contactHTML(i.contato)}</div>
+    </article>`;
+  }).join('');
+  const resto = total - data.length;
+  document.getElementById('ver-mais').innerHTML = resto > 0
+    ? `<button class="btn btn-navy" onclick="verMais()">Ver mais (${resto} ${resto===1?'restante':'restantes'})</button>` : '';
+};
+
+window.changeCategory = (cat) => {
+  currentCategory = cat;
+  limite = PAGE;
+  document.getElementById('filter-estado').value = 'todos';
+  document.getElementById('filter-convenio').value = 'todos';
+  renderTabs(); updateFilters(); renderList();
+};
+
+window.openModal = () => {
+  document.getElementById('contribute-modal').classList.add('open');
+  document.getElementById('f-category').value = titles[currentCategory] ? currentCategory : 'outros';
+  setTimeout(()=>document.getElementById('f-name').focus(), 50);
+};
+window.closeModal = () => {
+  document.getElementById('contribute-modal').classList.remove('open');
+  document.getElementById('contrib-form').reset();
+};
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+window.submitForm = async (e) => {
+  e.preventDefault();
+  if (!db) { showToast("Sem conexão com o banco. Tente de novo em instantes."); return; }
+  const btn = document.getElementById('btn-submit');
+  btn.textContent = "Enviando…"; btn.disabled = true;
   try {
-    const [a, au, fs] = await Promise.all([import(base+"firebase-app.js"), import(base+"firebase-auth.js"), import(base+"firebase-firestore.js")]);
-    fb = { ...au, ...fs };
-    fbApp = a;
-    const app = a.initializeApp(firebaseConfig);
-    auth = au.getAuth(app); db = fs.getFirestore(app);
-    au.onAuthStateChanged(auth, user => user ? abrirPainel(user) : abrirLogin());
+    await addDoc(collection(db, COLLECTION_PATH), {
+      categoria: document.getElementById('f-category').value,
+      nome: document.getElementById('f-name').value.trim(),
+      estado: document.getElementById('f-state').value.trim().toUpperCase(),
+      cidade: document.getElementById('f-city').value.trim(),
+      convenio: document.getElementById('f-details').value.trim(),
+      contato: document.getElementById('f-contact').value.trim(),
+      status: 'pendente',
+      timestamp: new Date().toISOString()
+    });
+    closeModal();
+    showToast("Valeu! Sua indicação foi enviada e aparece depois da revisão.");
   } catch (err) {
     console.error(err);
-    mostrarErro('login-err', 'Não foi possível carregar o Firebase. Verifique a internet ou se algum bloqueador está impedindo o acesso a gstatic.com.');
+    showToast("Erro ao enviar. Tente novamente.");
+  } finally {
+    btn.textContent = "Enviar indicação"; btn.disabled = false;
+  }
+};
+
+
+function showToast(msg){
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>{ t.style.transition='opacity .3s'; t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 4000);
+}
+
+/* Junta a lista fixa do portal com o que vem do banco (o banco tem prioridade) */
+function mergeData(){
+  /* Quando o banco responde com indicações, ele é a fonte oficial (é o que você edita no painel).
+     A lista fixa do arquivo só aparece como reserva: se o Firebase estiver fora do ar ou ainda vazio. */
+  let fonte;
+  if (dbData.length) {
+    const vistos = new Set();
+    fonte = dbData.filter(i => { const k = keyOf(i); if (vistos.has(k)) return false; vistos.add(k); return true; });
+  } else {
+    fonte = seedData.map(i => ({ ...i, status: 'aprovado' }));
+  }
+  allData = fonte;
+  document.getElementById('loading-indicator').hidden = true;
+  document.getElementById('data-list').hidden = false;
+  renderTabs(); renderStats(); updateFilters(); renderList();
+}
+
+function listen(){
+  /* As regras só deixam o público ler indicações aprovadas, então a consulta precisa filtrar por isso */
+  const q = query(collection(db, COLLECTION_PATH), where('status', '==', 'aprovado'));
+  onSnapshot(q, snap => {
+    dbData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    mergeData();
+  }, err => {
+    console.error("Firestore indisponível; mostrando só a lista fixa.", err);
+  });
+}
+
+/* Mostra as indicações na hora, mesmo antes (ou sem) o Firebase responder */
+mergeData();
+async function initFirebase(){
+  try {
+    const base = "https://www.gstatic.com/firebasejs/11.6.1/";
+    const [fbApp, fbStore] = await Promise.all([
+      import(base + "firebase-app.js"),
+      import(base + "firebase-firestore.js")
+    ]);
+    const app = fbApp.initializeApp(firebaseConfig);
+    ({ collection, addDoc, onSnapshot, query, where } = fbStore);
+    db = fbStore.getFirestore(app);
+    listen();
+  } catch (err) {
+    console.error("Firebase indisponível; mostrando só a lista fixa.", err);
   }
 }
-
-window.entrar = async (e) => {
-  e.preventDefault();
-  if (!fb) return;
-  const btn=document.getElementById('btn-entrar'); btn.disabled=true; btn.textContent='Entrando…';
-  mostrarErro('login-err','');
-  try { await fb.signInWithEmailAndPassword(auth, document.getElementById('l-email').value.trim(), document.getElementById('l-senha').value); }
-  catch (err) { mostrarErro('login-err', traduzErro(err)); }
-  finally { btn.disabled=false; btn.textContent='Entrar'; }
-};
-window.sair = () => fb && fb.signOut(auth);
-
-window.esqueciSenha = async () => {
-  if (!fb) return;
-  mostrarErro('login-err',''); const ok=document.getElementById('login-ok'); ok.hidden=true;
-  const email = document.getElementById('l-email').value.trim();
-  if (!email) { mostrarErro('login-err', 'Digite o seu e-mail no campo acima primeiro.'); return; }
-  try { await fb.sendPasswordResetEmail(auth, email); }
-  catch (err) { if (!String(err.code).includes('user-not-found')) { mostrarErro('login-err', traduzErro(err)); return; } }
-  /* mesma mensagem existindo ou não a conta, para não revelar quem é admin */
-  ok.textContent = 'Se esse e-mail tiver acesso, você vai receber um link para criar uma nova senha. Confira também o spam.';
-  ok.hidden = false;
-};
-
-window.mostrarAba = (a) => {
-  document.getElementById('aba-ind').hidden = a!=='ind';
-  document.getElementById('aba-adm').hidden = a!=='adm';
-  document.getElementById('tab-ind').setAttribute('aria-pressed', a==='ind');
-  document.getElementById('tab-adm').setAttribute('aria-pressed', a==='adm');
-};
-
-function abrirLogin(){
-  if (unsub) { unsub(); unsub=null; }
-  if (unsubAdm) { unsubAdm(); unsubAdm=null; }
-  document.getElementById('login-view').hidden=false;
-  document.getElementById('panel-view').hidden=true;
-  document.getElementById('who').hidden=true;
-}
-function abrirPainel(user){
-  document.getElementById('login-view').hidden=true;
-  document.getElementById('panel-view').hidden=false;
-  document.getElementById('who').hidden=false;
-  document.getElementById('who-email').textContent = user.email || 'conta anônima';
-  document.getElementById('uid-line').innerHTML = `Seu UID: <code>${esc(user.uid)}</code> (é ele que vai nas regras do Firestore)`;
-  if (user.isAnonymous) { fb.signOut(auth); return; }
-  unsubAdm = fb.onSnapshot(fb.collection(db, ADMINS_PATH), snap => {
-    admins = snap.docs.map(d => ({ uid:d.id, ...d.data() }));
-    /* coloca você mesma(o) na lista na primeira vez que entrar */
-    if (!admins.some(a => a.uid === user.uid)) {
-      fb.setDoc(fb.doc(db, ADMINS_PATH, user.uid), { email: user.email || '', criadoPor: user.uid, criadoEm: new Date().toISOString() }).catch(()=>{});
-    }
-    renderAdmins();
-  }, err => { document.getElementById('admins-list').innerHTML = `<p class="err">${esc(traduzErro(err))}</p>`; });
-  unsub = fb.onSnapshot(fb.collection(db, COLLECTION_PATH), snap => {
-    dados = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-    mostrarErro('perm-err','');
-    atualizarUF(); render();
-  }, err => mostrarErro('perm-err', traduzErro(err)));
-}
-
-/* ---------- Lista ---------- */
-function atualizarUF(){
-  const sel=document.getElementById('f-uf'), atual=sel.value;
-  const ufs=[...new Set(dados.map(i=>(i.estado||'').toUpperCase()).filter(Boolean))].sort();
-  sel.innerHTML='<option value="todos">Todos os estados</option>'+ufs.map(u=>`<option>${esc(u)}</option>`).join('');
-  if (ufs.includes(atual)) sel.value=atual;
-}
-
-window.setFiltro = (s) => { filtroStatus = s; render(); };
-
-window.render = () => {
-  const cont = { pendente:0, aprovado:0, rejeitado:0, removido:0 };
-  dados.forEach(i => { const s=statusOf(i); if (s in cont) cont[s]++; });
-  const total = dados.length;
-  document.getElementById('counters').innerHTML = ['pendente','aprovado','todas','fora'].map(k => {
-    const n = k==='todas' ? total : k==='fora' ? cont.rejeitado+cont.removido : cont[k];
-    const lbl = k==='todas' ? 'Todas' : k==='fora' ? 'Rejeitadas / removidas' : STATUS_LABEL[k];
-    return `<button class="counter ${k==='pendente'?'pend':''}" aria-pressed="${filtroStatus===k}" onclick="setFiltro('${k}')"><b>${n}</b><span>${lbl}</span></button>`;
-  }).join('');
-
-  const q=norm(document.getElementById('f-busca').value), cat=document.getElementById('f-cat').value, uf=document.getElementById('f-uf').value;
-  const contagem = {}; dados.forEach(i => { const k=keyOf(i); contagem[k]=(contagem[k]||0)+1; });
-
-  let lista = dados.filter(i => {
-    const s=statusOf(i);
-    if (filtroStatus==='fora') { if (s!=='rejeitado' && s!=='removido') return false; }
-    else if (filtroStatus!=='todas' && s!==filtroStatus) return false;
-    if (cat!=='todas' && i.categoria!==cat) return false;
-    if (uf!=='todos' && (i.estado||'').toUpperCase()!==uf) return false;
-    if (q && ![i.nome,i.cidade,i.contato,i.convenio].some(v=>norm(v).includes(q))) return false;
-    return true;
-  });
-  /* pendentes mais recentes primeiro; o resto por estado/cidade/nome */
-  lista.sort((a,b)=> filtroStatus==='pendente'
-    ? (b.timestamp||'').localeCompare(a.timestamp||'')
-    : (a.estado||'').localeCompare(b.estado||'') || (a.cidade||'').localeCompare(b.cidade||'') || (a.nome||'').localeCompare(b.nome||''));
-
-  document.getElementById('meta').textContent = `${lista.length} ${lista.length===1?'indicação':'indicações'}`;
-  const el=document.getElementById('list');
-  if (!total) { el.innerHTML = `<div class="empty">O banco ainda está vazio. Clique em <b>Sincronizar lista do portal</b> para trazer as indicações do site para cá e poder editá-las.</div>`; return; }
-  if (!lista.length) { el.innerHTML = `<div class="empty">${filtroStatus==='pendente' ? 'Nenhuma indicação esperando aprovação. 🎉' : 'Nada encontrado com esses filtros.'}</div>`; return; }
-
-  el.innerHTML = lista.map(i => {
-    const s=statusOf(i), dup = contagem[keyOf(i)]>1;
-    const quando = i.timestamp ? new Date(i.timestamp).toLocaleDateString('pt-BR') : '';
-    let acts = `<button class="btn btn-line btn-sm" onclick="abrirEdicao('${i.id}')">Editar</button>`;
-    if (s==='pendente') acts = `<button class="btn btn-ok btn-sm" onclick="mudarStatus('${i.id}','aprovado')">Aprovar</button><button class="btn btn-bad btn-sm" onclick="mudarStatus('${i.id}','rejeitado')">Rejeitar</button>` + acts;
-    else if (s==='rejeitado'||s==='removido') acts = `<button class="btn btn-line btn-sm" onclick="mudarStatus('${i.id}','aprovado')">Restaurar</button>` + acts;
-    return `<div class="row st-${s}">
-      <div>
-        <h3>${esc(i.nome)||'<i>(sem nome)</i>'}<span class="badge cat">${CATS[i.categoria]||esc(i.categoria)}</span><span class="badge ${s}">${s}</span>${dup?'<span class="badge dup" title="Existe mais de um registro com este nome nesta categoria">duplicado</span>':''}</h3>
-        <div class="sub"><span>📍 ${esc(i.cidade)} · ${esc(i.estado)}</span>${i.convenio?`<span>💳 ${esc(i.convenio)}</span>`:''}${i.contato?`<span>📞 ${esc(i.contato)}</span>`:''}${quando?`<span>🗓 ${quando}</span>`:''}</div>
-        ${i.obs?`<div class="sub">${esc(i.obs)}</div>`:''}
-      </div>
-      <div class="acts">${acts}</div>
-    </div>`;
-  }).join('');
-};
-
-/* ---------- Ações ---------- */
-window.mudarStatus = async (id, status) => {
-  try { await fb.updateDoc(fb.doc(db, COLLECTION_PATH, id), { status, atualizadoEm: new Date().toISOString() });
-        toast(status==='aprovado' ? 'Aprovada! Já aparece no site.' : status==='rejeitado' ? 'Rejeitada.' : 'Status atualizado.'); }
-  catch (err) { console.error(err); toast(traduzErro(err)); }
-};
-
-const campos = { cat:'categoria', nome:'nome', uf:'estado', cidade:'cidade', conv:'convenio', contato:'contato', obs:'obs', status:'status' };
-
-window.abrirEdicao = (id) => {
-  editando = id;
-  const i = id ? dados.find(d=>d.id===id) : { categoria:'cirurgioes', status:'aprovado' };
-  for (const [k,c] of Object.entries(campos)) document.getElementById('e-'+k).value = k==='status' ? statusOf(i) : (i[c]||'');
-  document.getElementById('e-title').textContent = id ? 'Editar indicação' : 'Nova indicação';
-  document.getElementById('e-remover').hidden = !id;
-  document.getElementById('e-info').textContent = id && i.timestamp ? `Enviada em ${new Date(i.timestamp).toLocaleString('pt-BR')}` : '';
-  document.getElementById('edit-modal').classList.add('open');
-  setTimeout(()=>document.getElementById('e-nome').focus(),50);
-};
-window.fecharEdicao = () => { document.getElementById('edit-modal').classList.remove('open'); editando=null; };
-document.addEventListener('keydown', e => { if (e.key==='Escape') fecharEdicao(); });
-
-window.salvar = async (e) => {
-  e.preventDefault();
-  const v = {};
-  for (const [k,c] of Object.entries(campos)) v[c] = document.getElementById('e-'+k).value.trim();
-  v.estado = v.estado.toUpperCase();
-  v.atualizadoEm = new Date().toISOString();
-  const btn=document.getElementById('e-salvar'); btn.disabled=true; btn.textContent='Salvando…';
-  try {
-    if (editando) {
-      const atual = dados.find(d=>d.id===editando);
-      /* guarda a "identidade original" para o site não mostrar de novo a versão antiga da lista fixa */
-      if (!atual.seedKey) v.seedKey = keyOf(atual);
-      await fb.updateDoc(fb.doc(db, COLLECTION_PATH, editando), v);
-    } else {
-      await fb.addDoc(fb.collection(db, COLLECTION_PATH), { ...v, timestamp: v.atualizadoEm });
-    }
-    fecharEdicao(); toast('Salvo!');
-  } catch (err) { console.error(err); toast(traduzErro(err)); }
-  finally { btn.disabled=false; btn.textContent='Salvar'; }
-};
-
-window.removerAtual = async () => {
-  if (!editando || !confirm('Tirar esta indicação do site? Ela fica guardada em "Rejeitadas / removidas" e pode ser restaurada.')) return;
-  const id = editando; fecharEdicao();
-  const atual = dados.find(d=>d.id===id);
-  try { await fb.updateDoc(fb.doc(db, COLLECTION_PATH, id), { status:'removido', seedKey: atual.seedKey || keyOf(atual), atualizadoEm:new Date().toISOString() }); toast('Removida do site.'); }
-  catch (err) { console.error(err); toast(traduzErro(err)); }
-};
-
-/* Traz para o banco os itens da lista fixa que ainda não estão lá, para poder editá-los */
-window.importarLista = async () => {
-  const noBanco = new Set();
-  dados.forEach(i => { noBanco.add(keyOf(i)); if (i.seedKey) noBanco.add(i.seedKey); });
-  const novos = seedData.filter(i => !noBanco.has(keyOf(i)));
-  /* Registros antigos sem status não aparecem no site com as regras novas: marca como aprovados */
-  const semStatus = dados.filter(i => !i.status);
-  if (!novos.length && !semStatus.length) { toast('Tudo certo: o banco já tem toda a lista do portal.'); return; }
-  const partes = [];
-  if (novos.length) partes.push(`importar ${novos.length} indicações da lista do portal`);
-  if (semStatus.length) partes.push(`marcar ${semStatus.length} registros antigos (sem status) como aprovados`);
-  if (!confirm(`Vou ${partes.join(' e ')}. Continuar?`)) return;
-  const btn=document.getElementById('btn-import'); btn.disabled=true; btn.textContent='Importando…';
-  try {
-    const agora = new Date().toISOString();
-    for (let k=0; k<novos.length; k+=400) {               // lotes (limite do Firestore: 500)
-      const batch = fb.writeBatch(db);
-      novos.slice(k,k+400).forEach(i => batch.set(fb.doc(fb.collection(db, COLLECTION_PATH)), { ...i, status:'aprovado', seedKey:keyOf(i), timestamp:agora }));
-      await batch.commit();
-    }
-    for (let k=0; k<semStatus.length; k+=400) {
-      const batch = fb.writeBatch(db);
-      semStatus.slice(k,k+400).forEach(i => batch.update(fb.doc(db, COLLECTION_PATH, i.id), { status:'aprovado', seedKey: keyOf(i), atualizadoEm: agora }));
-      await batch.commit();
-    }
-    const feito = [];
-    if (novos.length) feito.push(`${novos.length} indicações importadas`);
-    if (semStatus.length) feito.push(`${semStatus.length} registros antigos marcados como aprovados`);
-    toast('Sincronizado! ' + feito.join(' e ') + '.');
-    setFiltro('aprovado');
-  } catch (err) { console.error(err); toast(traduzErro(err)); }
-  finally { btn.disabled=false; btn.textContent='Sincronizar lista do portal'; }
-};
-
-/* ---------- Administradores ---------- */
-function renderAdmins(){
-  const eu = auth.currentUser && auth.currentUser.uid;
-  const el = document.getElementById('admins-list');
-  if (!admins.length) { el.innerHTML = '<p class="small">Nenhum administrador cadastrado ainda.</p>'; return; }
-  el.innerHTML = admins.sort((a,b)=>(a.email||'').localeCompare(b.email||'')).map(a => `
-    <div class="arow">
-      <div><b>${esc(a.email || '(sem e-mail)')}${a.uid===eu?' <span class="badge aprovado">você</span>':''}</b>
-        <span class="small">${a.criadoEm ? 'desde ' + new Date(a.criadoEm).toLocaleDateString('pt-BR') : ''}</span></div>
-      ${a.uid===eu ? '' : `<button class="btn btn-bad btn-sm" onclick="removerAdmin('${esc(a.uid)}','${esc(a.email||'')}')">Remover</button>`}
-    </div>`).join('');
-}
-
-window.adicionarAdmin = async (e) => {
-  e.preventDefault();
-  mostrarErro('n-err',''); const ok=document.getElementById('n-ok'); ok.hidden=true;
-  const email = document.getElementById('n-email').value.trim().toLowerCase();
-  const senha = document.getElementById('n-senha').value;
-  if (senha.length < 8) { mostrarErro('n-err','Use uma senha provisória com pelo menos 8 caracteres.'); return; }
-  const btn=document.getElementById('btn-add-adm'); btn.disabled=true; btn.textContent='Criando…';
-  try {
-    /* Cria a conta numa "segunda conexão" para você não ser deslogada(o) do painel */
-    if (!appSecundario) appSecundario = fbApp.initializeApp(firebaseConfig, 'criar-admin');
-    const authSec = fb.getAuth(appSecundario);
-    const cred = await fb.createUserWithEmailAndPassword(authSec, email, senha);
-    await fb.signOut(authSec);
-    await fb.setDoc(fb.doc(db, ADMINS_PATH, cred.user.uid), { email, criadoPor: auth.currentUser.uid, criadoEm: new Date().toISOString() });
-    e.target.reset();
-    ok.textContent = `Pronto! ${email} já pode entrar no painel com a senha provisória.`; ok.hidden=false;
-  } catch (err) { console.error(err); mostrarErro('n-err', traduzErro(err)); }
-  finally { btn.disabled=false; btn.textContent='Criar acesso'; }
-};
-
-window.removerAdmin = async (uid, email) => {
-  if (!confirm(`Tirar o acesso de ${email || 'esta conta'} ao painel?`)) return;
-  try { await fb.deleteDoc(fb.doc(db, ADMINS_PATH, uid)); toast('Acesso removido.'); }
-  catch (err) { console.error(err); toast(traduzErro(err)); }
-};
-
 initFirebase();
 </script>
 </body>
