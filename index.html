@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TF1N276WZT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TF1N276WZT');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal Transmasc Brasil</title>
@@ -1037,6 +1046,7 @@ window.submitForm = async (e) => {
     });
     closeModal();
     abrirObrigado();
+    if (typeof gtag === 'function') gtag('event', 'envio_indicacao');
   } catch (err) {
     console.error(err);
     showToast("Erro ao enviar. Tente novamente.");
@@ -1107,6 +1117,16 @@ async function initFirebase(){
   }
 }
 initFirebase();
+</script>
+<script>
+/* Eventos para o Google Analytics: cliques na lojinha, no Apoia.se e contatos */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a'); if (!a || typeof gtag !== 'function') return;
+  const h = a.getAttribute('href') || '';
+  if (/meli\.la|mercadolivre/.test(h)) gtag('event', 'clique_lojinha', { link_url: h, link_text: a.textContent.trim().slice(0,60) });
+  else if (/apoia\.se/.test(h)) gtag('event', 'clique_apoiase', { link_url: h });
+  else if (/^tel:|instagram\.com/.test(h)) gtag('event', 'clique_contato', { link_url: h });
+});
 </script>
 </body>
 </html>
