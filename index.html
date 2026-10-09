@@ -95,28 +95,38 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdro
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:28px}
 .hero .wrap{align-items:center}
-/* Banner rotativo */
-.promo{position:relative;border-radius:24px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35);aspect-ratio:4/5;max-height:520px;width:100%;justify-self:end;outline:none}
-.slides{display:flex;height:100%;transition:transform .6s cubic-bezier(.65,0,.35,1)}
-.slide{flex:0 0 100%;height:100%;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;text-decoration:none;color:var(--navy);overflow:hidden}
-.slide .art{position:absolute;inset:0;display:grid;place-items:center;padding-bottom:42%}
-.slide .art svg{width:58%;height:auto;filter:drop-shadow(0 12px 20px rgba(20,37,79,.18))}
-.slide .tag{align-self:flex-start;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;background:var(--navy);color:#fff;padding:5px 10px;border-radius:999px;margin-bottom:12px;position:relative}
-.slide h3{font-family:'Bricolage Grotesque';font-size:clamp(26px,3vw,34px);line-height:1.05;position:relative}
-.slide p{font-weight:700;font-size:15px;margin-top:8px;position:relative;opacity:.85}
-.slide .go{align-self:flex-start;margin-top:16px;position:relative;background:var(--navy);color:#fff;font-weight:800;font-size:14px;padding:10px 16px;border-radius:999px;display:inline-flex;gap:6px;align-items:center;transition:transform .15s}
-.slide:hover .go{transform:translateX(4px)}
-.s-barba{background:linear-gradient(160deg,#E6F7FE 0%,#BFEAFD 100%)}
-.s-mastec{background:linear-gradient(160deg,#FDEEF1 0%,#F8CBD5 100%)}
-.s-binder{background:linear-gradient(160deg,#FFFFFF 0%,#E6F7FE 55%,#FDEEF1 100%)}
-.s-estilo{background:linear-gradient(160deg,#FFF5D6 0%,#FBE3A6 100%)}
-.dots{position:absolute;top:18px;right:18px;display:flex;gap:6px;z-index:2}
-.dots button{width:9px;height:9px;border-radius:999px;background:rgba(20,37,79,.25);transition:width .3s,background .3s;padding:0}
-.dots button[aria-current=true]{width:26px;background:var(--navy)}
-.pbar{position:absolute;left:0;bottom:0;height:4px;background:var(--navy);width:0;z-index:2}
-.promo.run .pbar{animation:pbar 5s linear forwards}
-@keyframes pbar{to{width:100%}}
-@media (prefers-reduced-motion:reduce){.slides{transition:none}.promo.run .pbar{animation:none}}
+/* Carrossel do topo (3 banners) */
+.hero{padding:0}
+.hero .wrap{padding-top:0;padding-bottom:0}
+.hviewport{overflow:hidden;position:relative}
+.htrack{display:flex;transition:transform .7s cubic-bezier(.65,0,.35,1)}
+.hslide{flex:0 0 100%;min-width:0;position:relative}
+.hslide .wrap{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center;padding-top:44px;padding-bottom:96px;min-height:540px}
+.hslide.loja{background:linear-gradient(120deg,#14254F 0%,#1E3A8A 100%)}
+.hslide.mastec{background:linear-gradient(120deg,#14254F 0%,#3A2A5E 100%)}
+.hart{display:grid;place-items:center}
+.hslide .stats{grid-template-columns:1fr 1fr;margin-top:0}
+.hart svg{width:min(100%,420px);height:auto;filter:drop-shadow(0 18px 30px rgba(0,0,0,.35))}
+.chips-hero{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chips-hero a{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:14px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.1);color:#fff;text-decoration:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);transition:background .15s}
+.chips-hero a:hover{background:rgba(255,255,255,.2)}
+.chips-hero a i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.bigstat{display:flex;gap:28px;margin-top:24px;flex-wrap:wrap}
+.bigstat div b{display:block;font-family:'Bricolage Grotesque';font-size:46px;line-height:1;color:#fff}
+.bigstat div span{font-size:13px;font-weight:700;color:#C9D3EA}
+.hnav{position:absolute;left:0;right:0;bottom:20px;display:flex;justify-content:center;align-items:center;gap:10px;z-index:3}
+.hnav .dots{display:flex;gap:7px}
+.hnav .dots button{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.35);padding:0;transition:width .3s,background .3s}
+.hnav .dots button[aria-current=true]{width:30px;background:var(--pink)}
+.harrow{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:18px;font-weight:900;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.harrow:hover{background:rgba(255,255,255,.22)}
+@media (prefers-reduced-motion:reduce){.htrack{transition:none}}
+@media(max-width:820px){
+  .hslide .wrap{grid-template-columns:1fr;gap:18px;min-height:0;padding-top:28px;padding-bottom:84px}
+  .hart{order:-1}.hart svg{width:min(62%,240px)}
+  .bigstat div b{font-size:36px}
+  .harrow{display:none}
+}
 /* Loja */
 .shop{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .scard{border-radius:20px;overflow:hidden;text-decoration:none;color:var(--navy);box-shadow:var(--shadow);display:flex;flex-direction:column;background:#fff;transition:transform .15s}
@@ -131,7 +141,7 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdro
 .scard.off,.slide.off{pointer-events:none}
 @media(max-width:900px){.shop{grid-template-columns:1fr 1fr}}
 @media(max-width:720px){.shop{grid-template-columns:1fr}.scard{flex-direction:row}.scard .top{aspect-ratio:auto;width:110px;flex:none}.scard .top svg{width:64%}
-  .promo{aspect-ratio:auto;height:400px;justify-self:stretch}.stats{display:none}}
+  .stats{display:none}}
 .stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:18px}
 .stat b{display:block;font-family:'Bricolage Grotesque';font-size:36px;line-height:1}
 .stat span{font-size:13px;color:#C9D3EA;font-weight:600}
@@ -300,27 +310,73 @@ svg{flex:none}
   </div>
 </header>
 
-<section class="hero" id="topo">
-  <div class="wrap">
-    <div>
-      <span class="eyebrow">Feito pela comunidade · para a comunidade</span>
-      <h1>Informação que a gente <em>passaria de mão em mão</em>, agora num lugar só.</h1>
-      <p class="lead">Indicações de cirurgiões, endocrinologistas, ambulatórios e advogados, além de guias práticos sobre retificação de nome e barba.</p>
-      <div class="ctas">
-        <a href="#indicacoes" class="btn btn-pink">Encontrar profissionais</a>
-        <button class="btn btn-ghost" onclick="openModal()">Indicar alguém</button>
+<section class="hero" id="topo" aria-roledescription="carrossel" aria-label="Destaques">
+  <div class="hviewport" id="hviewport" tabindex="0">
+    <div class="htrack" id="htrack">
+
+      <!-- Banner 1: portal -->
+      <div class="hslide" aria-roledescription="slide" aria-label="1 de 3">
+        <div class="wrap">
+          <div>
+            <span class="eyebrow">Feito pela comunidade · para a comunidade</span>
+            <h1>Informação que a gente <em>passaria de mão em mão</em>, agora num lugar só.</h1>
+            <p class="lead">Indicações de cirurgiões, endocrinologistas, ambulatórios e advogados, além de guias práticos sobre retificação de nome e barba.</p>
+            <div class="ctas">
+              <a href="#indicacoes" class="btn btn-pink">Encontrar profissionais</a>
+              <button class="btn btn-ghost" onclick="openModal()">Indicar alguém</button>
+            </div>
+          </div>
+          <div class="stats" aria-live="polite">
+            <div class="stat"><b id="st-total">—</b><span>indicações</span></div>
+            <div class="stat"><b id="st-ufs">—</b><span>estados</span></div>
+            <div class="stat"><b id="st-sus">—</b><span>com atendimento SUS</span></div>
+            <div class="stat"><b>100%</b><span>voluntário e gratuito</span></div>
+          </div>
+        </div>
       </div>
-      <div class="stats" aria-live="polite">
-        <div class="stat"><b id="st-total">—</b><span>indicações</span></div>
-        <div class="stat"><b id="st-ufs">—</b><span>estados</span></div>
-        <div class="stat"><b id="st-sus">—</b><span>com SUS</span></div>
-        <div class="stat"><b>100%</b><span>gratuito</span></div>
+
+      <!-- Banner 2: lojinha -->
+      <div class="hslide loja" aria-roledescription="slide" aria-label="2 de 3">
+        <div class="wrap">
+          <div>
+            <span class="eyebrow">Lojinha Transmasc</span>
+            <h1>Tudo que a gente <em>usa e indica</em>, num clique.</h1>
+            <p class="lead">Produtos pra crescer e cuidar da barba, o que comprar pro pós-mastec, binders testados pela comunidade e achados pra ficar no estilo: tênis, bermudas, cuecas e muito mais.</p>
+            <div class="chips-hero" id="hero-loja-chips"></div>
+            <div class="ctas">
+              <a href="#essenciais" class="btn btn-pink">Ver a lojinha</a>
+            </div>
+          </div>
+          <div class="hart"><svg viewBox="0 0 400 360" aria-hidden="true"><circle cx="200" cy="180" r="170" fill="#fff" opacity=".07"/><path d="M110 120h180l-16 200H126z" fill="#F5A9B8"/><path d="M150 120v-18a50 50 0 0 1 100 0v18" stroke="#fff" stroke-width="14" fill="none"/><rect x="110" y="190" width="180" height="16" fill="#5BCEFA"/><rect x="110" y="214" width="180" height="16" fill="#fff"/><g transform="translate(70 90) rotate(-12)"><rect width="78" height="78" rx="20" fill="#FBE3A6"/><text x="39" y="54" text-anchor="middle" font-size="42">👟</text></g><g transform="translate(286 70) rotate(10)"><rect width="78" height="78" rx="20" fill="#BFEAFD"/><text x="39" y="54" text-anchor="middle" font-size="42">🧔</text></g><g transform="translate(300 250) rotate(-8)"><rect width="74" height="74" rx="20" fill="#E6F7FE"/><text x="37" y="52" text-anchor="middle" font-size="40">🩳</text></g><g transform="translate(40 240) rotate(8)"><rect width="74" height="74" rx="20" fill="#FDEEF1"/><text x="37" y="52" text-anchor="middle" font-size="40">🩹</text></g></svg></div>
+        </div>
       </div>
+
+      <!-- Banner 3: mastectomia -->
+      <div class="hslide mastec" aria-roledescription="slide" aria-label="3 de 3">
+        <div class="wrap">
+          <div>
+            <span class="eyebrow">Mastectomia masculinizadora</span>
+            <h1>O guia colaborativo de <em>cirurgiões de mastectomia</em> do Brasil.</h1>
+            <p class="lead">Cirurgiões particulares, por convênio e hospitais que fazem pelo SUS, indicados por quem já passou pela cirurgia. Filtre por estado e convênio e fale direto com o consultório.</p>
+            <div class="bigstat">
+              <div><b id="hm-total">—</b><span>cirurgiões e serviços</span></div>
+              <div><b id="hm-ufs">—</b><span>estados</span></div>
+              <div><b id="hm-sus">—</b><span>pelo SUS</span></div>
+            </div>
+            <div class="ctas">
+              <a href="#indicacoes" class="btn btn-pink" onclick="changeCategory('cirurgioes')">Ver cirurgiões</a>
+              <button class="btn btn-ghost" onclick="openModal()">Indicar meu cirurgião</button>
+            </div>
+          </div>
+          <div class="hart"><svg viewBox="0 0 400 360" aria-hidden="true"><defs><linearGradient id="gm" x1="0" x2="1"><stop offset="0" stop-color="#5BCEFA"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#F5A9B8"/></linearGradient></defs><circle cx="200" cy="185" r="165" fill="url(#gm)" opacity=".16"/><path d="M178 52h44v34q-22 12-44 0z" fill="#E7B48C"/><path d="M200 84c-30 0-46-6-64-4-36 4-62 22-70 52l-10 44c-2 10 6 18 16 18h20l6 150h204l6-150h20c10 0 18-8 16-18l-10-44c-8-30-34-48-70-52-18-2-34 4-64 4z" fill="#F2C6A0"/><path d="M200 84c-30 0-46-6-64-4-36 4-62 22-70 52l-10 44c-2 10 6 18 16 18h20l2 50" fill="none" stroke="#E7B48C" stroke-width="3"/><path d="M118 190q40 20 70 4M212 194q30 16 70-4" stroke="#C99B76" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="150" cy="198" r="5" fill="#C99B76"/><circle cx="250" cy="198" r="5" fill="#C99B76"/><path d="M200 120v170" stroke="#E2AE86" stroke-width="3" opacity=".45"/><path d="M150 250q50 14 100 0" stroke="#E2AE86" stroke-width="3" opacity=".45" fill="none"/><g transform="translate(318 74)"><circle r="44" fill="#14254F" stroke="#F5A9B8" stroke-width="5"/><path d="M-19 0l13 13 25-27" stroke="#5BCEFA" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>
+        </div>
+      </div>
+
     </div>
-    <div class="promo" id="promo" tabindex="0" aria-roledescription="carrossel" aria-label="Produtos essenciais">
-      <div class="dots" id="promo-dots"></div>
-      <div class="slides" id="promo-slides"></div>
-      <div class="pbar" id="promo-bar"></div>
+    <div class="hnav">
+      <button class="harrow" id="hprev" aria-label="Banner anterior">‹</button>
+      <div class="dots" id="hdots"></div>
+      <button class="harrow" id="hnext" aria-label="Próximo banner">›</button>
     </div>
   </div>
 </section>
@@ -589,52 +645,50 @@ const LOJA_COR = {
   const href = i => temLink(i) ? `href="${e(i.link)}" target="_blank" rel="noopener sponsored"` : 'href="#essenciais"';
   const cor = i => LOJA_COR[i.cor] || LOJA_COR.azul;
   const icon = i => LOJA_ICON[i.icone] || LOJA_ICON.sacola;
-  const track = document.getElementById('promo-slides'), dots = document.getElementById('promo-dots');
-  const promo = document.getElementById('promo'), bar = document.getElementById('promo-bar');
-  let atual = 0, timer = null, n = 0;
-  const reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function ir(k){
-    if (!n) return;
-    atual = (k + n) % n;
-    track.style.transform = `translateX(-${atual*100}%)`;
-    [...dots.children].forEach((d,x)=>d.setAttribute('aria-current', x===atual));
-    promo.classList.remove('run'); void bar.offsetWidth; if (timer) promo.classList.add('run');
-  }
-  function play(){ if (reduz || n < 2) return; stop(); timer = setInterval(()=>ir(atual+1), 5000); promo.classList.add('run'); }
-  function stop(){ clearInterval(timer); timer = null; promo.classList.remove('run'); }
-
+  const HEX = { azul:'#5BCEFA', rosa:'#F5A9B8', branco:'#FFFFFF', amarelo:'#FBE3A6', verde:'#7FD6A6', lilas:'#C3B0F2' };
   window.renderLoja = (lista) => {
     LOJA = [...lista].sort((a,b)=>(a.ordem ?? 999)-(b.ordem ?? 999));
-    n = LOJA.length;
-    document.getElementById('essenciais').hidden = !n;
-    promo.hidden = !n;
+    document.getElementById('essenciais').hidden = !LOJA.length;
     document.getElementById('shop').innerHTML = LOJA.map(i => `
       <a class="scard${temLink(i)?'':' off'}" ${href(i)}>
         <div class="top" style="background:${cor(i).card}">${icon(i)}</div>
         <div class="bd"><h3>${e(i.titulo)}</h3><p>${e(i.texto)}</p><span class="go">${temLink(i)?'Ver produtos →':'Em breve'}</span></div>
       </a>`).join('');
-    track.innerHTML = LOJA.map((i,k) => `
-      <a class="slide${temLink(i)?'':' off'}" style="background:${cor(i).slide}" ${href(i)} aria-roledescription="slide" aria-label="${k+1} de ${n}">
-        <div class="art">${icon(i)}</div>
-        <span class="tag">${e(i.tag || i.titulo)}</span>
-        <h3>${e(i.titulo)}</h3>
-        <p>${e(i.texto)}</p>
-        <span class="go">${temLink(i)?'Ver produtos →':'Em breve'}</span>
-      </a>`).join('');
-    dots.innerHTML = n > 1 ? LOJA.map((_,k)=>`<button aria-label="Ir para o slide ${k+1}"></button>`).join('') : '';
-    [...dots.children].forEach((d,k)=>d.addEventListener('click',ev=>{ ev.preventDefault(); ir(k); play(); }));
-    atual = Math.min(atual, Math.max(n-1,0)); ir(atual); play();
+    document.getElementById('hero-loja-chips').innerHTML = LOJA.map(i =>
+      `<a ${href(i)}><i style="background:${HEX[i.cor]||HEX.azul}"></i>${e(i.tag || i.titulo)}</a>`).join('');
   };
-
-  promo.addEventListener('mouseenter', stop); promo.addEventListener('mouseleave', play);
-  promo.addEventListener('keydown', ev => { if (ev.key==='ArrowRight'){ir(atual+1);play();} if (ev.key==='ArrowLeft'){ir(atual-1);play();} });
-  let x0 = null;
-  promo.addEventListener('touchstart', ev => { x0 = ev.touches[0].clientX; stop(); }, {passive:true});
-  promo.addEventListener('touchend', ev => { if (x0===null) return; const dx = ev.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) ir(atual + (dx<0?1:-1)); x0 = null; play(); });
-  document.addEventListener('visibilitychange', () => document.hidden ? stop() : play());
   window.renderLoja(LOJA);
 })();
+
+/* ======== CARROSSEL DO TOPO ======== */
+(function(){
+  const track = document.getElementById('htrack'), vp = document.getElementById('hviewport');
+  const slides = [...track.children], n = slides.length, dots = document.getElementById('hdots');
+  const reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let atual = 0, timer = null;
+  dots.innerHTML = slides.map((_,k)=>`<button aria-label="Ir para o banner ${k+1}"></button>`).join('');
+  function ir(k){
+    atual = (k + n) % n;
+    track.style.transform = `translateX(-${atual*100}%)`;
+    [...dots.children].forEach((d,x)=>d.setAttribute('aria-current', x===atual));
+    slides.forEach((s,x)=>{ s.setAttribute('aria-hidden', x!==atual); s.querySelectorAll('a,button').forEach(el=>el.tabIndex = x===atual?0:-1); });
+  }
+  function play(){ if (reduz) return; stop(); timer = setInterval(()=>ir(atual+1), 7000); }
+  function stop(){ clearInterval(timer); timer = null; }
+  [...dots.children].forEach((d,k)=>d.addEventListener('click',()=>{ ir(k); play(); }));
+  document.getElementById('hprev').onclick = () => { ir(atual-1); play(); };
+  document.getElementById('hnext').onclick = () => { ir(atual+1); play(); };
+  vp.addEventListener('mouseenter', stop); vp.addEventListener('mouseleave', play);
+  vp.addEventListener('focusin', stop);
+  vp.addEventListener('keydown', ev => { if (ev.key==='ArrowRight'){ir(atual+1);play();} if (ev.key==='ArrowLeft'){ir(atual-1);play();} });
+  let x0 = null, y0 = null;
+  vp.addEventListener('touchstart', ev => { x0 = ev.touches[0].clientX; y0 = ev.touches[0].clientY; stop(); }, {passive:true});
+  vp.addEventListener('touchend', ev => { if (x0===null) return; const dx = ev.changedTouches[0].clientX - x0, dy = ev.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) ir(atual + (dx<0?1:-1)); x0 = null; play(); });
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : play());
+  ir(0); play();
+})();
+
 </script>
 <script type="module">
 /* O Firebase é carregado depois, sem travar a página se falhar (ver initFirebase no fim) */
@@ -797,6 +851,10 @@ function renderStats(){
   document.getElementById('st-total').textContent = data.length;
   document.getElementById('st-ufs').textContent = new Set(data.map(i=>i.estado).filter(Boolean)).size;
   document.getElementById('st-sus').textContent = data.filter(i=>/sus/i.test(i.convenio||'')).length;
+  const cir = data.filter(i => i.categoria === 'cirurgioes');
+  document.getElementById('hm-total').textContent = cir.length;
+  document.getElementById('hm-ufs').textContent = new Set(cir.map(i=>i.estado).filter(Boolean)).size;
+  document.getElementById('hm-sus').textContent = cir.filter(i=>/sus/i.test(i.convenio||'')).length;
 }
 
 function updateFilters(){
