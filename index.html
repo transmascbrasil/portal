@@ -284,6 +284,21 @@ footer p{font-size:14px;margin-bottom:10px}
 .modal .btn{justify-content:center;width:100%;padding:15px;font-size:16px;border-radius:14px}
 .btn[disabled]{opacity:.6;transform:none}
 
+.modal.thanks{max-width:480px;text-align:center;animation:pop .35s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
+.thanks-top{height:110px;background:linear-gradient(180deg,#5BCEFA 0 20%,#F5A9B8 20% 40%,#fff 40% 60%,#F5A9B8 60% 80%,#5BCEFA 80%);position:relative}
+.thanks-icon{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);width:84px;height:84px;border-radius:50%;background:var(--navy);display:grid;place-items:center;font-size:30px;box-shadow:0 8px 20px rgba(20,37,79,.3);border:4px solid #fff}
+.thanks-body{padding:52px 26px 26px}
+.thanks-body h3{font-size:28px}
+.thanks-body>p{color:var(--muted);margin-top:10px;font-size:15px}
+.thanks-shop{margin-top:20px;background:var(--bg);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:6px;text-align:left}
+.thanks-shop span{font-size:14px;color:var(--muted)}
+.chips-thanks{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chips-thanks a{font-size:13px;font-weight:800;padding:6px 12px;border-radius:999px;background:#fff;color:var(--navy);text-decoration:none;box-shadow:inset 0 0 0 1.5px var(--line)}
+.chips-thanks a:hover{background:var(--blue-soft)}
+.thanks-ctas{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+.thanks-ctas .btn{justify-content:center;width:100%;padding:14px}
+.btn-line{box-shadow:inset 0 0 0 1.5px var(--line);background:#fff;color:var(--navy)}
 #toasts{position:fixed;bottom:20px;right:20px;left:20px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:60;pointer-events:none}
 .toast{background:var(--navy);color:#fff;padding:14px 18px;border-radius:14px;font-weight:700;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);border-left:5px solid var(--pink);animation:up .3s ease-out;max-width:380px}
 @keyframes up{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
@@ -574,6 +589,28 @@ svg{flex:none}
   </div>
 </div>
 
+<!-- Popup de agradecimento -->
+<div class="overlay" id="thanks-modal" onclick="if(event.target===this)fecharObrigado()">
+  <div class="modal thanks" role="dialog" aria-modal="true" aria-labelledby="t-title">
+    <div class="thanks-top">
+      <div class="thanks-icon" aria-hidden="true">💙🩷</div>
+    </div>
+    <div class="thanks-body">
+      <h3 id="t-title">Valeu demais pela indicação!</h3>
+      <p>Ela chegou pra gente e vai aparecer no portal assim que for revisada. Cada indicação ajuda outro irmão a encontrar atendimento com respeito.</p>
+      <div class="thanks-shop">
+        <b>🛍️ Já conhece a nossa lojinha?</b>
+        <span>Produtos pra barba, pós-mastec, binders e estilo, escolhidos pela comunidade. Comprando por lá, você ajuda a manter o portal gratuito.</span>
+        <div class="chips-thanks" id="thanks-chips"></div>
+      </div>
+      <div class="thanks-ctas">
+        <a href="#essenciais" class="btn btn-pink" onclick="fecharObrigado()">Ver a lojinha</a>
+        <button class="btn btn-line" onclick="fecharObrigado()">Agora não</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="toasts" aria-live="polite"></div>
 
 <script>
@@ -648,6 +685,7 @@ const LOJA_COR = {
   const HEX = { azul:'#5BCEFA', rosa:'#F5A9B8', branco:'#FFFFFF', amarelo:'#FBE3A6', verde:'#7FD6A6', lilas:'#C3B0F2' };
   window.renderLoja = (lista) => {
     LOJA = [...lista].sort((a,b)=>(a.ordem ?? 999)-(b.ordem ?? 999));
+    window.LOJA_ATUAL = LOJA;
     document.getElementById('essenciais').hidden = !LOJA.length;
     document.getElementById('shop').innerHTML = LOJA.map(i => `
       <a class="scard${temLink(i)?'':' off'}" ${href(i)}>
@@ -943,7 +981,14 @@ window.closeModal = () => {
   document.getElementById('contribute-modal').classList.remove('open');
   document.getElementById('contrib-form').reset();
 };
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); fecharObrigado(); } });
+window.abrirObrigado = () => {
+  const e = s => (s||'').toString().replace(/[&<>'"]/g, t => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[t]));
+  document.getElementById('thanks-chips').innerHTML = (window.LOJA_ATUAL || []).filter(i => /^https:\/\//.test(i.link||''))
+    .map(i => `<a href="${e(i.link)}" target="_blank" rel="noopener sponsored">${e(i.tag || i.titulo)}</a>`).join('');
+  document.getElementById('thanks-modal').classList.add('open');
+};
+window.fecharObrigado = () => document.getElementById('thanks-modal').classList.remove('open');
 
 window.submitForm = async (e) => {
   e.preventDefault();
@@ -962,7 +1007,7 @@ window.submitForm = async (e) => {
       timestamp: new Date().toISOString()
     });
     closeModal();
-    showToast("Valeu! Sua indicação foi enviada e aparece depois da revisão.");
+    abrirObrigado();
   } catch (err) {
     console.error(err);
     showToast("Erro ao enviar. Tente novamente.");
