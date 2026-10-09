@@ -32,6 +32,7 @@
   --radius:18px; --shadow:0 1px 2px rgba(20,37,79,.06),0 8px 24px rgba(20,37,79,.07);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{font-family:'Nunito Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;font-size:16px}
 h1,h2,h3,.display{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;line-height:1.1}
@@ -86,13 +87,51 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdro
 .hero{background:var(--navy);color:#fff;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;right:-120px;top:-60px;width:520px;height:520px;border-radius:50%;
   background:conic-gradient(from 200deg,var(--blue),var(--pink),#fff,var(--pink),var(--blue));opacity:.18;filter:blur(2px)}
-.hero .wrap{position:relative;padding-top:40px;padding-bottom:40px;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end}
+.hero .wrap{position:relative;padding-top:40px;padding-bottom:40px;display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:end}
 .eyebrow{display:inline-block;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
 .hero h1{font-size:clamp(32px,4.6vw,52px);font-weight:800}
 .hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p.lead{margin-top:20px;font-size:18px;color:#C9D3EA;max-width:560px}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:28px}
+.hero .wrap{align-items:center}
+/* Banner rotativo */
+.promo{position:relative;border-radius:24px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35);aspect-ratio:4/5;max-height:520px;width:100%;justify-self:end;outline:none}
+.slides{display:flex;height:100%;transition:transform .6s cubic-bezier(.65,0,.35,1)}
+.slide{flex:0 0 100%;height:100%;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;text-decoration:none;color:var(--navy);overflow:hidden}
+.slide .art{position:absolute;inset:0;display:grid;place-items:center;padding-bottom:42%}
+.slide .art svg{width:58%;height:auto;filter:drop-shadow(0 12px 20px rgba(20,37,79,.18))}
+.slide .tag{align-self:flex-start;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;background:var(--navy);color:#fff;padding:5px 10px;border-radius:999px;margin-bottom:12px;position:relative}
+.slide h3{font-family:'Bricolage Grotesque';font-size:clamp(26px,3vw,34px);line-height:1.05;position:relative}
+.slide p{font-weight:700;font-size:15px;margin-top:8px;position:relative;opacity:.85}
+.slide .go{align-self:flex-start;margin-top:16px;position:relative;background:var(--navy);color:#fff;font-weight:800;font-size:14px;padding:10px 16px;border-radius:999px;display:inline-flex;gap:6px;align-items:center;transition:transform .15s}
+.slide:hover .go{transform:translateX(4px)}
+.s-barba{background:linear-gradient(160deg,#E6F7FE 0%,#BFEAFD 100%)}
+.s-mastec{background:linear-gradient(160deg,#FDEEF1 0%,#F8CBD5 100%)}
+.s-binder{background:linear-gradient(160deg,#FFFFFF 0%,#E6F7FE 55%,#FDEEF1 100%)}
+.s-estilo{background:linear-gradient(160deg,#FFF5D6 0%,#FBE3A6 100%)}
+.dots{position:absolute;top:18px;right:18px;display:flex;gap:6px;z-index:2}
+.dots button{width:9px;height:9px;border-radius:999px;background:rgba(20,37,79,.25);transition:width .3s,background .3s;padding:0}
+.dots button[aria-current=true]{width:26px;background:var(--navy)}
+.pbar{position:absolute;left:0;bottom:0;height:4px;background:var(--navy);width:0;z-index:2}
+.promo.run .pbar{animation:pbar 5s linear forwards}
+@keyframes pbar{to{width:100%}}
+@media (prefers-reduced-motion:reduce){.slides{transition:none}.promo.run .pbar{animation:none}}
+/* Loja */
+.shop{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.scard{border-radius:20px;overflow:hidden;text-decoration:none;color:var(--navy);box-shadow:var(--shadow);display:flex;flex-direction:column;background:#fff;transition:transform .15s}
+.scard:hover{transform:translateY(-4px)}
+.scard .top{aspect-ratio:4/3;display:grid;place-items:center}
+.scard .top svg{width:46%;height:auto}
+.scard .bd{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.scard h3{font-size:19px}
+.scard p{font-size:14px;color:var(--muted)}
+.scard .go{margin-top:auto;padding-top:8px;font-weight:800;font-size:14px;color:var(--navy-2)}
+.disclaimer{font-size:13px;color:var(--muted);margin-top:14px}
+.scard.off,.slide.off{pointer-events:none}
+@media(max-width:900px){.shop{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.shop{grid-template-columns:1fr}.scard{flex-direction:row}.scard .top{aspect-ratio:auto;width:110px;flex:none}.scard .top svg{width:64%}
+  .promo{aspect-ratio:auto;height:400px;justify-self:stretch}.stats{display:none}}
 .stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:18px}
 .stat b{display:block;font-family:'Bricolage Grotesque';font-size:36px;line-height:1}
 .stat span{font-size:13px;color:#C9D3EA;font-weight:600}
@@ -255,6 +294,7 @@ svg{flex:none}
       <a href="#indicacoes">Indicações</a>
       <a href="#retificacao">Retificação</a>
       <a href="#barba">Barba</a>
+      <a href="#essenciais">Lojinha</a>
     </nav>
     <button class="btn btn-navy btn-contrib" onclick="openModal()">+ Contribuir</button>
   </div>
@@ -270,12 +310,17 @@ svg{flex:none}
         <a href="#indicacoes" class="btn btn-pink">Encontrar profissionais</a>
         <button class="btn btn-ghost" onclick="openModal()">Indicar alguém</button>
       </div>
+      <div class="stats" aria-live="polite">
+        <div class="stat"><b id="st-total">—</b><span>indicações</span></div>
+        <div class="stat"><b id="st-ufs">—</b><span>estados</span></div>
+        <div class="stat"><b id="st-sus">—</b><span>com SUS</span></div>
+        <div class="stat"><b>100%</b><span>gratuito</span></div>
+      </div>
     </div>
-    <div class="stats" aria-live="polite">
-      <div class="stat"><b id="st-total">—</b><span>indicações</span></div>
-      <div class="stat"><b id="st-ufs">—</b><span>estados</span></div>
-      <div class="stat"><b id="st-sus">—</b><span>com atendimento SUS</span></div>
-      <div class="stat"><b>100%</b><span>voluntário e gratuito</span></div>
+    <div class="promo" id="promo" tabindex="0" aria-roledescription="carrossel" aria-label="Produtos essenciais">
+      <div class="dots" id="promo-dots"></div>
+      <div class="slides" id="promo-slides"></div>
+      <div class="pbar" id="promo-bar"></div>
     </div>
   </div>
 </section>
@@ -308,6 +353,21 @@ svg{flex:none}
       <p>Conhece um profissional respeitoso que não está aqui? Sua indicação ajuda muita gente.</p>
       <button class="btn btn-navy" onclick="openModal()">+ Contribuir com indicação</button>
     </div>
+  </div>
+</section>
+
+<!-- LOJA -->
+<section class="block" id="essenciais">
+  <div class="wrap">
+    <div class="shead">
+      <div>
+        <div class="kicker">Lojinha</div>
+        <h2>Produtos essenciais</h2>
+        <p>Achados que a comunidade usa e indica, separados por momento da jornada.</p>
+      </div>
+    </div>
+    <div class="shop" id="shop"></div>
+    <p class="disclaimer">💙 Os links são de afiliado do Mercado Livre: o portal recebe uma pequena comissão quando você compra por eles, sem custo extra pra você. É isso que ajuda a manter tudo gratuito.</p>
   </div>
 </section>
 
@@ -502,6 +562,80 @@ document.addEventListener('change',e=>{
 renderChecklist();
 </script>
 
+
+<script>
+/* ======== LOJINHA ========
+   Estas são as listas padrão. As que você cadastrar no painel (aba "Lojinha") substituem estas. */
+let LOJA = [
+  { id:'barba',  cor:'azul',    icone:'barba',  tag:'Barba',      titulo:'Cuidados com a barba',     texto:'Pra ajudar a crescer e cuidar: óleo, balm, máquina e muito mais.', link:'https://meli.la/31ecZmk', ordem:1 },
+  { id:'mastec', cor:'rosa',    icone:'mastec', tag:'Pós-mastec', titulo:'O que comprar pós-mastec', texto:'Colete compressor, curativos e itens pra recuperação tranquila.',   link:'https://meli.la/1VAS2qZ', ordem:2 },
+  { id:'binder', cor:'branco',  icone:'binder', tag:'Binders',    titulo:'Binders',                  texto:'Modelos testados pela comunidade, com dica de tamanho.',            link:'https://meli.la/1G3mcbL', ordem:3 },
+  { id:'estilo', cor:'amarelo', icone:'estilo', tag:'Estilo',     titulo:'Estilo pagando pouco',     texto:'Tênis, bermudas, cuecas e muito mais.',                              link:'https://meli.la/1zE2CVz', ordem:4 }
+];
+const LOJA_ICON = {"barba": "<svg viewBox=\"0 0 200 200\" aria-hidden=\"true\"><circle cx=\"100\" cy=\"100\" r=\"92\" fill=\"#fff\"/><path d=\"M52 78c0 58 22 92 48 92s48-34 48-92\" fill=\"#14254F\"/><path d=\"M64 70c10-28 62-28 72 0\" fill=\"#F2C6A0\"/><rect x=\"64\" y=\"60\" width=\"72\" height=\"40\" rx=\"20\" fill=\"#F2C6A0\"/><path d=\"M78 118c8 7 36 7 44 0\" stroke=\"#F2C6A0\" stroke-width=\"7\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M80 108q20-12 40 0\" stroke=\"#14254F\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><circle cx=\"85\" cy=\"84\" r=\"5\" fill=\"#14254F\"/><circle cx=\"115\" cy=\"84\" r=\"5\" fill=\"#14254F\"/><path d=\"M58 52q42-32 84 0v14H58z\" fill=\"#14254F\"/></svg>", "mastec": "<svg viewBox=\"0 0 200 200\" aria-hidden=\"true\"><circle cx=\"100\" cy=\"100\" r=\"92\" fill=\"#fff\"/><path d=\"M50 62l26-14q24 16 48 0l26 14-8 100H58z\" fill=\"#E9D7C3\"/><path d=\"M76 48q24 16 48 0\" stroke=\"#C9B39B\" stroke-width=\"5\" fill=\"none\"/><g stroke=\"#C9B39B\" stroke-width=\"4\"><line x1=\"100\" y1=\"72\" x2=\"100\" y2=\"160\"/></g><g fill=\"#14254F\"><circle cx=\"100\" cy=\"84\" r=\"4\"/><circle cx=\"100\" cy=\"104\" r=\"4\"/><circle cx=\"100\" cy=\"124\" r=\"4\"/><circle cx=\"100\" cy=\"144\" r=\"4\"/></g><path d=\"M150 40l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2z\" fill=\"#F5A9B8\"/></svg>", "binder": "<svg viewBox=\"0 0 200 200\" aria-hidden=\"true\"><circle cx=\"100\" cy=\"100\" r=\"92\" fill=\"#fff\"/><path d=\"M56 70h88v74q-44 14-88 0z\" fill=\"#14254F\"/><path d=\"M64 70l10-26h14l4 26M136 70l-10-26h-14l-4 26\" fill=\"#14254F\"/><g fill=\"#5BCEFA\"><rect x=\"56\" y=\"96\" width=\"88\" height=\"8\"/></g><g fill=\"#F5A9B8\"><rect x=\"56\" y=\"110\" width=\"88\" height=\"8\"/></g><rect x=\"56\" y=\"124\" width=\"88\" height=\"6\" fill=\"#fff\" opacity=\".9\"/></svg>", "estilo": "<svg viewBox=\"0 0 200 200\" aria-hidden=\"true\"><circle cx=\"100\" cy=\"100\" r=\"92\" fill=\"#fff\"/><path d=\"M34 124c4-18 18-26 34-26 10 0 16-8 24-8l18 18c16 6 40 8 54 10 6 1 8 6 8 12v6H34z\" fill=\"#14254F\"/><rect x=\"30\" y=\"134\" width=\"144\" height=\"14\" rx=\"7\" fill=\"#F5A9B8\"/><g stroke=\"#5BCEFA\" stroke-width=\"4\" stroke-linecap=\"round\"><line x1=\"94\" y1=\"100\" x2=\"104\" y2=\"108\"/><line x1=\"86\" y1=\"106\" x2=\"96\" y2=\"114\"/><line x1=\"78\" y1=\"110\" x2=\"88\" y2=\"118\"/></g><path d=\"M118 112q20 6 46 8\" stroke=\"#fff\" stroke-width=\"3\" opacity=\".6\" fill=\"none\"/></svg>"};
+LOJA_ICON.sacola = '<svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="92" fill="#fff"/><path d="M58 76h84l-8 84H66z" fill="#14254F"/><path d="M78 76v-8a22 22 0 0 1 44 0v8" stroke="#14254F" stroke-width="9" fill="none"/><rect x="58" y="104" width="84" height="8" fill="#5BCEFA"/><rect x="58" y="118" width="84" height="8" fill="#F5A9B8"/></svg>';
+LOJA_ICON.coracao = '<svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="92" fill="#fff"/><path d="M100 156s-50-30-50-66a26 26 0 0 1 50-10 26 26 0 0 1 50 10c0 36-50 66-50 66z" fill="#F5A9B8"/><path d="M100 80a26 26 0 0 1 50 10" stroke="#5BCEFA" stroke-width="10" fill="none"/></svg>';
+const LOJA_COR = {
+  azul:   { slide:'linear-gradient(160deg,#E6F7FE 0%,#BFEAFD 100%)', card:'#BFEAFD' },
+  rosa:   { slide:'linear-gradient(160deg,#FDEEF1 0%,#F8CBD5 100%)', card:'#F8CBD5' },
+  branco: { slide:'linear-gradient(160deg,#FFFFFF 0%,#E6F7FE 55%,#FDEEF1 100%)', card:'#E6F7FE' },
+  amarelo:{ slide:'linear-gradient(160deg,#FFF5D6 0%,#FBE3A6 100%)', card:'#FBE3A6' },
+  verde:  { slide:'linear-gradient(160deg,#EAF8F0 0%,#BFE8D2 100%)', card:'#BFE8D2' },
+  lilas:  { slide:'linear-gradient(160deg,#F3EEFD 0%,#D9CCF7 100%)', card:'#D9CCF7' }
+};
+(function(){
+  const e = s => (s||'').toString().replace(/[&<>'"]/g, t => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[t]));
+  const temLink = i => /^https:\/\//.test(i.link||'');
+  const href = i => temLink(i) ? `href="${e(i.link)}" target="_blank" rel="noopener sponsored"` : 'href="#essenciais"';
+  const cor = i => LOJA_COR[i.cor] || LOJA_COR.azul;
+  const icon = i => LOJA_ICON[i.icone] || LOJA_ICON.sacola;
+  const track = document.getElementById('promo-slides'), dots = document.getElementById('promo-dots');
+  const promo = document.getElementById('promo'), bar = document.getElementById('promo-bar');
+  let atual = 0, timer = null, n = 0;
+  const reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function ir(k){
+    if (!n) return;
+    atual = (k + n) % n;
+    track.style.transform = `translateX(-${atual*100}%)`;
+    [...dots.children].forEach((d,x)=>d.setAttribute('aria-current', x===atual));
+    promo.classList.remove('run'); void bar.offsetWidth; if (timer) promo.classList.add('run');
+  }
+  function play(){ if (reduz || n < 2) return; stop(); timer = setInterval(()=>ir(atual+1), 5000); promo.classList.add('run'); }
+  function stop(){ clearInterval(timer); timer = null; promo.classList.remove('run'); }
+
+  window.renderLoja = (lista) => {
+    LOJA = [...lista].sort((a,b)=>(a.ordem ?? 999)-(b.ordem ?? 999));
+    n = LOJA.length;
+    document.getElementById('essenciais').hidden = !n;
+    promo.hidden = !n;
+    document.getElementById('shop').innerHTML = LOJA.map(i => `
+      <a class="scard${temLink(i)?'':' off'}" ${href(i)}>
+        <div class="top" style="background:${cor(i).card}">${icon(i)}</div>
+        <div class="bd"><h3>${e(i.titulo)}</h3><p>${e(i.texto)}</p><span class="go">${temLink(i)?'Ver produtos →':'Em breve'}</span></div>
+      </a>`).join('');
+    track.innerHTML = LOJA.map((i,k) => `
+      <a class="slide${temLink(i)?'':' off'}" style="background:${cor(i).slide}" ${href(i)} aria-roledescription="slide" aria-label="${k+1} de ${n}">
+        <div class="art">${icon(i)}</div>
+        <span class="tag">${e(i.tag || i.titulo)}</span>
+        <h3>${e(i.titulo)}</h3>
+        <p>${e(i.texto)}</p>
+        <span class="go">${temLink(i)?'Ver produtos →':'Em breve'}</span>
+      </a>`).join('');
+    dots.innerHTML = n > 1 ? LOJA.map((_,k)=>`<button aria-label="Ir para o slide ${k+1}"></button>`).join('') : '';
+    [...dots.children].forEach((d,k)=>d.addEventListener('click',ev=>{ ev.preventDefault(); ir(k); play(); }));
+    atual = Math.min(atual, Math.max(n-1,0)); ir(atual); play();
+  };
+
+  promo.addEventListener('mouseenter', stop); promo.addEventListener('mouseleave', play);
+  promo.addEventListener('keydown', ev => { if (ev.key==='ArrowRight'){ir(atual+1);play();} if (ev.key==='ArrowLeft'){ir(atual-1);play();} });
+  let x0 = null;
+  promo.addEventListener('touchstart', ev => { x0 = ev.touches[0].clientX; stop(); }, {passive:true});
+  promo.addEventListener('touchend', ev => { if (x0===null) return; const dx = ev.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) ir(atual + (dx<0?1:-1)); x0 = null; play(); });
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : play());
+  window.renderLoja(LOJA);
+})();
+</script>
 <script type="module">
 /* O Firebase é carregado depois, sem travar a página se falhar (ver initFirebase no fim) */
 /* O site não faz login nenhum: visitantes só leem o que está aprovado e enviam indicações pendentes. */
@@ -805,6 +939,10 @@ function mergeData(){
 }
 
 function listen(){
+  onSnapshot(collection(db, 'loja'), snap => {
+    const lista = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (lista.length) window.renderLoja(lista);
+  }, err => console.error("Lojinha indisponível; usando a padrão.", err));
   onSnapshot(collection(db, 'categorias'), snap => {
     aplicarCategorias(snap.docs.map(d => ({ id: d.id, ...d.data() })));
   }, err => console.error("Categorias indisponíveis; usando as padrão.", err));
