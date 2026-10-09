@@ -65,7 +65,7 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdro
   .brand{font-size:16px;gap:8px}.brand small{font-size:9px}.mark{width:28px;height:28px;border-radius:8px}
   .btn-contrib{padding:7px 12px;font-size:13px}
   .menu{order:3;width:100%;justify-content:space-around;border-top:1px solid var(--line);padding:4px 0;gap:0}
-  .menu a{font-size:14px;padding:8px 10px}
+  .menu a{font-size:13px;padding:8px 6px}
 }
 .more{display:flex;justify-content:center;margin-top:16px}
 @media(max-width:720px){
@@ -299,6 +299,17 @@ footer p{font-size:14px;margin-bottom:10px}
 .thanks-ctas{display:flex;flex-direction:column;gap:8px;margin-top:20px}
 .thanks-ctas .btn{justify-content:center;width:100%;padding:14px}
 .btn-line{box-shadow:inset 0 0 0 1.5px var(--line);background:#fff;color:var(--navy)}
+.apoie{background:linear-gradient(120deg,#14254F,#3A2A5E);color:#fff;border-radius:24px;padding:32px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;position:relative;overflow:hidden}
+.apoie::after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:conic-gradient(var(--blue),var(--pink),#fff,var(--pink),var(--blue));opacity:.15}
+.apoie h2{font-size:clamp(26px,3.4vw,36px)}
+.apoie p{color:#C9D3EA;margin-top:8px;max-width:620px}
+.apoie .btn{position:relative;z-index:1;font-size:16px;padding:15px 24px}
+.apoie small{display:block;color:#C9D3EA;font-size:13px;margin-top:10px}
+@media(max-width:720px){.apoie{grid-template-columns:1fr;padding:24px}.apoie .btn{justify-content:center}}
+.foot-apoie{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:var(--pink);color:var(--navy);font-weight:900;padding:12px 18px;border-radius:999px;text-decoration:none;transition:transform .15s}
+.foot-apoie:hover{transform:translateY(-2px)}
+.thanks-apoie{display:block;margin-top:12px;font-size:13px;color:var(--muted)}
+.thanks-apoie a{color:var(--navy-2);font-weight:800}
 #toasts{position:fixed;bottom:20px;right:20px;left:20px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:60;pointer-events:none}
 .toast{background:var(--navy);color:#fff;padding:14px 18px;border-radius:14px;font-weight:700;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);border-left:5px solid var(--pink);animation:up .3s ease-out;max-width:380px}
 @keyframes up{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
@@ -320,6 +331,7 @@ svg{flex:none}
       <a href="#retificacao">Retificação</a>
       <a href="#barba">Barba</a>
       <a href="#essenciais">Lojinha</a>
+      <a href="#apoie">Apoie</a>
     </nav>
     <button class="btn btn-navy btn-contrib" onclick="openModal()">+ Contribuir</button>
   </div>
@@ -544,12 +556,28 @@ svg{flex:none}
   </div>
 </section>
 
+<!-- APOIE -->
+<section class="block" id="apoie" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="apoie">
+      <div>
+        <div class="kicker" style="color:var(--blue)">Gostou do portal?</div>
+        <h2>Essa informação pode mudar a vida de alguém 💙🩷</h2>
+        <p>Cada cirurgião, ambulatório e guia que está aqui poupa semanas de busca, consultas perdidas e constrangimento pra outro homem trans. O portal é gratuito, voluntário e sem anúncios. Se ele te ajudou, ajude ele a continuar ajudando.</p>
+        <small>Contribua uma vez, com o valor que quiser. Não precisa ser mensal.</small>
+      </div>
+      <a class="btn btn-pink" href="https://apoia.se/transmascbrasil" target="_blank" rel="noopener">Quero contribuir →</a>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div>
       <h3>Dúvidas, sugestões ou correções?</h3>
       <a class="mail" href="mailto:transmascbrasil@gmail.com">transmascbrasil@gmail.com</a>
       <p style="margin-top:16px">O Portal Transmasc Brasil é uma iniciativa independente e voluntária, criada para centralizar e facilitar o acesso a informações para a comunidade transmasculina.</p>
+      <a class="foot-apoie" href="https://apoia.se/transmascbrasil" target="_blank" rel="noopener">💙 Contribua com qualquer valor</a>
     </div>
     <div>
       <p><strong style="color:#fff">Atenção:</strong> contatos, valores e convênios podem estar desatualizados ou conter erros. Confirme sempre direto com os profissionais. Os guias são informativos e não substituem orientação médica ou jurídica.</p>
@@ -607,6 +635,7 @@ svg{flex:none}
         <a href="#essenciais" class="btn btn-pink" onclick="fecharObrigado()">Ver a lojinha</a>
         <button class="btn btn-line" onclick="fecharObrigado()">Agora não</button>
       </div>
+      <span class="thanks-apoie">Quer ajudar ainda mais? <a href="https://apoia.se/transmascbrasil" target="_blank" rel="noopener">Contribua com qualquer valor, uma vez só</a></span>
     </div>
   </div>
 </div>
