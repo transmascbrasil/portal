@@ -778,10 +778,10 @@ const COLLECTION_PATH = ['artifacts', appIdStr, 'public', 'data', 'profissionais
 
 
 let currentCategory = 'cirurgioes';
-const PAGE = 7;
+const PAGE = 6;
 let limite = PAGE;
 window.filtrarLista = () => { limite = PAGE; renderList(); };
-window.verMais = () => { limite += PAGE; renderList(); };
+window.verMais = () => { limite = Infinity; renderList(); };
 let allData = [];
 let dbData = [];
 
@@ -990,7 +990,7 @@ window.renderList = () => {
   }).join('');
   const resto = total - data.length;
   document.getElementById('ver-mais').innerHTML = resto > 0
-    ? `<button class="btn btn-navy" onclick="verMais()">Ver mais (${resto} ${resto===1?'restante':'restantes'})</button>` : '';
+    ? `<button class="btn btn-navy" onclick="verMais()">Ver todos (${total})</button>` : '';
 };
 
 window.changeCategory = (cat) => {
