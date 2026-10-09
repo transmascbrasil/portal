@@ -234,7 +234,7 @@ code{background:var(--bg);padding:1px 6px;border-radius:6px;font-size:12px}
     <!-- ABA INDICAÇÕES -->
     <section id="aba-ind">
     <div class="top">
-      <div><h2>Indicações</h2><p class="small" id="uid-line"></p></div>
+      <div><h2>Indicações</h2></div>
       <div class="actions">
         <button class="btn btn-line" id="btn-import" onclick="importarLista()">Sincronizar lista do portal</button>
         <button class="btn btn-navy" onclick="abrirEdicao(null)">+ Nova indicação</button>
@@ -405,6 +405,13 @@ let categorias = [...CATS_PADRAO];
 let CATS = {};
 const CAT_PATH = 'categorias';
 const STATUS_LABEL = { pendente:"Pendentes", aprovado:"No site", rejeitado:"Rejeitadas", removido:"Removidas" };
+/* Data e hora no horário de Brasília, ex.: 09/10/2026 às 18:36 */
+function quandoTxt(iso){
+  if (!iso) return '';
+  const d = new Date(iso); if (isNaN(d)) return '';
+  const tz = { timeZone:'America/Sao_Paulo' };
+  return d.toLocaleDateString('pt-BR', tz) + ' às ' + d.toLocaleTimeString('pt-BR', { ...tz, hour:'2-digit', minute:'2-digit' });
+}
 const norm = s => (s||'').toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
 const keyOf = i => norm(i.categoria) + '|' + norm(i.nome);
 const esc = s => (s||'').toString().replace(/[&<>'"]/g, t => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[t]));
@@ -509,7 +516,6 @@ function abrirPainel(user){
   document.getElementById('panel-view').hidden=false;
   document.getElementById('who').hidden=false;
   document.getElementById('who-email').textContent = user.email || 'conta anônima';
-  document.getElementById('uid-line').innerHTML = `Seu UID: <code>${esc(user.uid)}</code> (é ele que vai nas regras do Firestore)`;
   if (user.isAnonymous) { fb.signOut(auth); return; }
   unsubLoja = fb.onSnapshot(fb.collection(db, LOJA_PATH), snap => {
     const lista = snap.docs.map(d => ({ id:d.id, ...d.data() }));
@@ -593,14 +599,14 @@ window.render = () => {
 
   el.innerHTML = lista.map(i => {
     const s=statusOf(i), dup = contagem[keyOf(i)]>1;
-    const quando = i.timestamp ? new Date(i.timestamp).toLocaleDateString('pt-BR') : '';
+    const quando = quandoTxt(i.timestamp);
     let acts = `<button class="btn btn-line btn-sm" onclick="abrirEdicao('${i.id}')">Editar</button>`;
     if (s==='pendente') acts = `<button class="btn btn-ok btn-sm" onclick="mudarStatus('${i.id}','aprovado')">Aprovar</button><button class="btn btn-bad btn-sm" onclick="mudarStatus('${i.id}','rejeitado')">Rejeitar</button>` + acts;
     else if (s==='rejeitado'||s==='removido') acts = `<button class="btn btn-line btn-sm" onclick="mudarStatus('${i.id}','aprovado')">Restaurar</button>` + acts;
     return `<div class="row st-${s}">
       <div>
         <h3>${esc(i.nome)||'<i>(sem nome)</i>'}<span class="badge cat">${CATS[i.categoria]||esc(i.categoria)}</span><span class="badge ${s}">${s}</span>${dup?'<span class="badge dup" title="Existe mais de um registro com este nome nesta categoria">duplicado</span>':''}</h3>
-        <div class="sub"><span>📍 ${esc(i.cidade)} · ${esc(i.estado)}</span>${i.convenio?`<span>💳 ${esc(i.convenio)}</span>`:''}${i.contato?`<span>📞 ${esc(i.contato)}</span>`:''}${quando?`<span>🗓 ${quando}</span>`:''}</div>
+        <div class="sub"><span>📍 ${esc(i.cidade)} · ${esc(i.estado)}</span>${i.convenio?`<span>💳 ${esc(i.convenio)}</span>`:''}${i.contato?`<span>📞 ${esc(i.contato)}</span>`:''}${quando?`<span title="Data e hora do envio">🕒 ${quando}</span>`:''}</div>
         ${i.obs?`<div class="sub">${esc(i.obs)}</div>`:''}
       </div>
       <div class="acts">${acts}</div>
@@ -623,7 +629,7 @@ window.abrirEdicao = (id) => {
   for (const [k,c] of Object.entries(campos)) document.getElementById('e-'+k).value = k==='status' ? statusOf(i) : (i[c]||'');
   document.getElementById('e-title').textContent = id ? 'Editar indicação' : 'Nova indicação';
   document.getElementById('e-remover').hidden = !id;
-  document.getElementById('e-info').textContent = id && i.timestamp ? `Enviada em ${new Date(i.timestamp).toLocaleString('pt-BR')}` : '';
+  document.getElementById('e-info').textContent = id && i.timestamp ? `Enviada em ${quandoTxt(i.timestamp)}` + (i.atualizadoEm ? ` · editada em ${quandoTxt(i.atualizadoEm)}` : '') : '';
   document.getElementById('edit-modal').classList.add('open');
   setTimeout(()=>document.getElementById('e-nome').focus(),50);
 };
