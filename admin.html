@@ -19,6 +19,7 @@
   --radius:16px; --shadow:0 1px 2px rgba(20,37,79,.06),0 6px 18px rgba(20,37,79,.06);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
 body{font-family:'Nunito Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:15px}
 h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;line-height:1.15}
 button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
@@ -148,6 +149,7 @@ code{background:var(--bg);padding:1px 6px;border-radius:6px;font-size:12px}
     <div class="seg" role="tablist">
       <button id="tab-ind" aria-pressed="true" onclick="mostrarAba('ind')">Indicações</button>
       <button id="tab-cat" aria-pressed="false" onclick="mostrarAba('cat')">Categorias</button>
+      <button id="tab-loja" aria-pressed="false" onclick="mostrarAba('loja')">Lojinha</button>
       <button id="tab-adm" aria-pressed="false" onclick="mostrarAba('adm')">Administradores</button>
     </div>
 
@@ -165,6 +167,43 @@ code{background:var(--bg);padding:1px 6px;border-radius:6px;font-size:12px}
             <div class="field"><label for="c-nome">Nome (como aparece no site)</label><input id="c-nome" class="input" required maxlength="40" placeholder="Ex: Psicólogos"></div>
             <div id="c-err" class="err" hidden></div>
             <button class="btn btn-navy" type="submit">Criar categoria</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA LOJINHA -->
+    <section id="aba-loja" hidden>
+      <div class="admins">
+        <div class="box">
+          <h3>Listas da lojinha</h3>
+          <div id="loja-list"><p class="small">Carregando…</p></div>
+          <p class="small" style="margin-top:12px">Cada lista vira um slide no banner do topo e um card em "Produtos essenciais". As setas mudam a ordem.</p>
+        </div>
+        <div class="box">
+          <h3 id="lj-titulo-form">Nova lista</h3>
+          <form class="stack" id="loja-form" onsubmit="salvarLoja(event)">
+            <div class="field"><label for="lj-titulo">Título</label><input id="lj-titulo" class="input" required maxlength="50" placeholder="Ex: Cuidados com a barba"></div>
+            <div class="field"><label for="lj-tag">Etiqueta curta (aparece no banner)</label><input id="lj-tag" class="input" maxlength="20" placeholder="Ex: Barba"></div>
+            <div class="field"><label for="lj-texto">Descrição</label><textarea id="lj-texto" class="input" rows="2" maxlength="140" placeholder="Ex: Óleo, balm, máquina e muito mais."></textarea></div>
+            <div class="field"><label for="lj-link">Link da lista no Mercado Livre</label><input id="lj-link" class="input" type="url" maxlength="300" placeholder="https://meli.la/..."></div>
+            <div class="grid3">
+              <div class="field"><label for="lj-icone">Desenho</label>
+                <select id="lj-icone" class="input">
+                  <option value="barba">Barba</option><option value="mastec">Colete pós-mastec</option><option value="binder">Binder</option>
+                  <option value="estilo">Tênis</option><option value="sacola">Sacola</option><option value="coracao">Coração</option>
+                </select></div>
+              <div class="field"><label for="lj-cor">Cor</label>
+                <select id="lj-cor" class="input">
+                  <option value="azul">Azul</option><option value="rosa">Rosa</option><option value="branco">Branco</option>
+                  <option value="amarelo">Amarelo</option><option value="verde">Verde</option><option value="lilas">Lilás</option>
+                </select></div>
+            </div>
+            <div id="lj-err" class="err" hidden></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-navy" type="submit" id="lj-salvar">Adicionar lista</button>
+              <button class="btn btn-line" type="button" id="lj-cancelar" hidden onclick="limparLoja()">Cancelar edição</button>
+            </div>
           </form>
         </div>
       </div>
@@ -374,7 +413,15 @@ const statusOf = i => i.status || 'aprovado';
 
 let fb = null;            // funções do Firebase
 let db, auth, fbApp, appSecundario = null;
-let admins = [], unsubAdm = null, unsubCat = null;
+let admins = [], unsubAdm = null, unsubCat = null, unsubLoja = null;
+let loja = [], editLoja = null;
+const LOJA_PATH = 'loja';
+const LOJA_PADRAO = [
+  { id:'barba',  cor:'azul',    icone:'barba',  tag:'Barba',      titulo:'Cuidados com a barba',     texto:'Pra ajudar a crescer e cuidar: óleo, balm, máquina e muito mais.', link:'https://meli.la/31ecZmk', ordem:1 },
+  { id:'mastec', cor:'rosa',    icone:'mastec', tag:'Pós-mastec', titulo:'O que comprar pós-mastec', texto:'Colete compressor, curativos e itens pra recuperação tranquila.',   link:'https://meli.la/1VAS2qZ', ordem:2 },
+  { id:'binder', cor:'branco',  icone:'binder', tag:'Binders',    titulo:'Binders',                  texto:'Modelos testados pela comunidade, com dica de tamanho.',            link:'https://meli.la/1G3mcbL', ordem:3 },
+  { id:'estilo', cor:'amarelo', icone:'estilo', tag:'Estilo',     titulo:'Estilo pagando pouco',     texto:'Tênis, bermudas, cuecas e muito mais.',                              link:'https://meli.la/1zE2CVz', ordem:4 }
+];
 const ADMINS_PATH = 'admins';
 let dados = [];           // documentos do banco
 let filtroStatus = 'pendente';
@@ -442,7 +489,7 @@ window.esqueciSenha = async () => {
 };
 
 window.mostrarAba = (a) => {
-  ['ind','cat','adm'].forEach(k => {
+  ['ind','cat','loja','adm'].forEach(k => {
     document.getElementById('aba-'+k).hidden = a!==k;
     document.getElementById('tab-'+k).setAttribute('aria-pressed', a===k);
   });
@@ -452,6 +499,7 @@ function abrirLogin(){
   if (unsub) { unsub(); unsub=null; }
   if (unsubAdm) { unsubAdm(); unsubAdm=null; }
   if (unsubCat) { unsubCat(); unsubCat=null; }
+  if (unsubLoja) { unsubLoja(); unsubLoja=null; }
   document.getElementById('login-view').hidden=false;
   document.getElementById('panel-view').hidden=true;
   document.getElementById('who').hidden=true;
@@ -463,6 +511,17 @@ function abrirPainel(user){
   document.getElementById('who-email').textContent = user.email || 'conta anônima';
   document.getElementById('uid-line').innerHTML = `Seu UID: <code>${esc(user.uid)}</code> (é ele que vai nas regras do Firestore)`;
   if (user.isAnonymous) { fb.signOut(auth); return; }
+  unsubLoja = fb.onSnapshot(fb.collection(db, LOJA_PATH), snap => {
+    const lista = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    if (!lista.length && !snap.metadata?.fromCache) {
+      const batch = fb.writeBatch(db);
+      LOJA_PADRAO.forEach(({id, ...dados}) => batch.set(fb.doc(db, LOJA_PATH, id), dados));
+      batch.commit().catch(err => console.error(err));
+      return;
+    }
+    loja = lista.sort((a,b)=>(a.ordem ?? 999)-(b.ordem ?? 999));
+    renderLojaAdmin();
+  }, err => { document.getElementById('loja-list').innerHTML = `<p class="err">${esc(traduzErro(err))}</p>`; });
   unsubCat = fb.onSnapshot(fb.collection(db, CAT_PATH), snap => {
     const lista = snap.docs.map(d => ({ id:d.id, ...d.data() }));
     if (!lista.length) {
@@ -693,6 +752,62 @@ window.removerCategoria = async (id) => {
   const c = categorias.find(x => x.id === id);
   if (!confirm(`Remover a categoria "${c.nome}"? Ela some do site.`)) return;
   try { await fb.deleteDoc(fb.doc(db, CAT_PATH, id)); toast('Categoria removida.'); }
+  catch (err) { console.error(err); toast(traduzErro(err)); }
+};
+
+/* ---------- Lojinha ---------- */
+const COR_HEX = { azul:'#BFEAFD', rosa:'#F8CBD5', branco:'#E6F7FE', amarelo:'#FBE3A6', verde:'#BFE8D2', lilas:'#D9CCF7' };
+function renderLojaAdmin(){
+  document.getElementById('loja-list').innerHTML = loja.map((i,idx) => `
+    <div class="arow">
+      <div style="display:flex;gap:10px;align-items:center;min-width:0">
+        <span style="width:14px;height:40px;border-radius:6px;flex:none;background:${COR_HEX[i.cor]||'#BFEAFD'}"></span>
+        <div style="min-width:0"><b>${esc(i.titulo)}</b>
+          <span class="small" style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${i.link ? `<a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.link)}</a>` : '<span style="color:var(--warn)">sem link (aparece como "Em breve")</span>'}</span></div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;flex:none">
+        <button class="btn btn-line btn-sm" ${idx===0?'disabled':''} onclick="moverLoja(${idx},-1)">↑</button>
+        <button class="btn btn-line btn-sm" ${idx===loja.length-1?'disabled':''} onclick="moverLoja(${idx},1)">↓</button>
+        <button class="btn btn-line btn-sm" onclick="editarLoja('${esc(i.id)}')">Editar</button>
+        <button class="btn btn-bad btn-sm" onclick="removerLoja('${esc(i.id)}')">Remover</button>
+      </div>
+    </div>`).join('') || '<p class="small">Nenhuma lista ainda. Crie a primeira ao lado.</p>';
+}
+const LJ = ['titulo','tag','texto','link','icone','cor'];
+window.limparLoja = () => {
+  editLoja = null; document.getElementById('loja-form').reset();
+  document.getElementById('lj-titulo-form').textContent = 'Nova lista';
+  document.getElementById('lj-salvar').textContent = 'Adicionar lista';
+  document.getElementById('lj-cancelar').hidden = true; mostrarErro('lj-err','');
+};
+window.editarLoja = (id) => {
+  const i = loja.find(x => x.id === id); editLoja = id;
+  LJ.forEach(k => document.getElementById('lj-'+k).value = i[k] || (k==='icone'?'sacola':k==='cor'?'azul':''));
+  document.getElementById('lj-titulo-form').textContent = 'Editar lista';
+  document.getElementById('lj-salvar').textContent = 'Salvar alterações';
+  document.getElementById('lj-cancelar').hidden = false;
+  document.getElementById('lj-titulo').focus();
+};
+window.salvarLoja = async (e) => {
+  e.preventDefault(); mostrarErro('lj-err','');
+  const v = {}; LJ.forEach(k => v[k] = document.getElementById('lj-'+k).value.trim());
+  if (v.link && !/^https:\/\//.test(v.link)) { mostrarErro('lj-err','O link precisa começar com https://'); return; }
+  try {
+    if (editLoja) await fb.updateDoc(fb.doc(db, LOJA_PATH, editLoja), v);
+    else await fb.addDoc(fb.collection(db, LOJA_PATH), { ...v, ordem: Math.max(0, ...loja.map(i => i.ordem || 0)) + 1 });
+    toast(editLoja ? 'Lista atualizada. Já está no site.' : 'Lista criada. Já está no site.');
+    limparLoja();
+  } catch (err) { console.error(err); mostrarErro('lj-err', traduzErro(err)); }
+};
+window.moverLoja = async (idx, dir) => {
+  const l = [...loja]; const j = idx + dir; [l[idx], l[j]] = [l[j], l[idx]];
+  try { const b = fb.writeBatch(db); l.forEach((i,k) => b.update(fb.doc(db, LOJA_PATH, i.id), { ordem:k+1 })); await b.commit(); }
+  catch (err) { console.error(err); toast(traduzErro(err)); }
+};
+window.removerLoja = async (id) => {
+  const i = loja.find(x => x.id === id);
+  if (!confirm(`Remover "${i.titulo}" da lojinha?`)) return;
+  try { await fb.deleteDoc(fb.doc(db, LOJA_PATH, id)); if (editLoja === id) limparLoja(); toast('Lista removida.'); }
   catch (err) { console.error(err); toast(traduzErro(err)); }
 };
 
