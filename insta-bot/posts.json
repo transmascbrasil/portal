@@ -6,7 +6,7 @@
   "posts": [
     {
       "id": "post9",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false,
       "tipo": "passos",
       "kicker": "Dicas de barba",
