@@ -19,7 +19,12 @@ if (DRY_RUN && IG_USER_ID && IG_ACCESS_TOKEN) {
   );
   const j = await r.json();
   if (j.error) console.log("CONEXÃO FALHOU:", j.error.message);
-  else console.log("CONEXÃO OK. Conta do Instagram:", j.username || j.id);
+  else if (j.username) console.log("CONEXÃO OK. Conta do Instagram:", j.username);
+  else
+    console.log(
+      "ATENÇÃO: o ID respondeu, mas SEM nome de usuário do Instagram. " +
+        "Provavelmente IG_USER_ID é o ID da Página do Facebook, e não o de instagram_business_account."
+    );
 }
 
 const config = JSON.parse(readFileSync("posts.json", "utf8"));
