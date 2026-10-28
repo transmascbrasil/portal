@@ -9,7 +9,18 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 const { IG_USER_ID, IG_ACCESS_TOKEN, IMAGE_BASE_URL, DRY_RUN } = process.env;
 const HOST = process.env.IG_API_HOST || "graph.facebook.com";
-const V = "v21.0";
+const V = process.env.IG_API_VERSION || "v26.0";
+
+// Teste de conexão (só no modo DRY_RUN): confirma que o token e o ID funcionam,
+// sem mostrar o token nos logs.
+if (DRY_RUN && IG_USER_ID && IG_ACCESS_TOKEN) {
+  const r = await fetch(
+    `https://${HOST}/${V}/${IG_USER_ID}?fields=username&access_token=${IG_ACCESS_TOKEN}`
+  );
+  const j = await r.json();
+  if (j.error) console.log("CONEXÃO FALHOU:", j.error.message);
+  else console.log("CONEXÃO OK. Conta do Instagram:", j.username || j.id);
+}
 
 const config = JSON.parse(readFileSync("posts.json", "utf8"));
 const post = config.posts.find((p) => p.aprovado && !p.postado);
