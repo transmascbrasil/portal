@@ -1,0 +1,13 @@
+{
+  "name": "insta-bot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "node render.mjs",
+    "publish": "node publish.mjs"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.0.0",
+    "playwright": "^1.48.0"
+  }
+}
