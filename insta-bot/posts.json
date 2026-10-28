@@ -7,23 +7,42 @@
     {
       "id": "post9",
       "aprovado": true,
-      "postado": false,
+      "postado": true,
       "tipo": "passos",
       "kicker": "Dicas de barba",
-      "titulo": ["Barba chegando?", "Cuide dela"],
+      "titulo": [
+        "Barba chegando?",
+        "Cuide dela"
+      ],
       "tamanhoTitulo": 90,
       "itens": [
-        { "titulo": "Deixe crescer primeiro", "texto": "Só decida o formato quando tiver pelo suficiente" },
-        { "titulo": "Lave e hidrate a pele", "texto": "Rosto limpo e hidratado ajuda a barba a ficar bonita" },
-        { "titulo": "Apare com regularidade", "texto": "Um acabamento simples já deixa tudo mais alinhado" },
-        { "titulo": "Procure um barbeiro", "texto": "Peça um corte que combine com o formato do seu rosto" },
-        { "titulo": "Tenha paciência", "texto": "Cada corpo tem o seu tempo, sem comparação" }
+        {
+          "titulo": "Deixe crescer primeiro",
+          "texto": "Só decida o formato quando tiver pelo suficiente"
+        },
+        {
+          "titulo": "Lave e hidrate a pele",
+          "texto": "Rosto limpo e hidratado ajuda a barba a ficar bonita"
+        },
+        {
+          "titulo": "Apare com regularidade",
+          "texto": "Um acabamento simples já deixa tudo mais alinhado"
+        },
+        {
+          "titulo": "Procure um barbeiro",
+          "texto": "Peça um corte que combine com o formato do seu rosto"
+        },
+        {
+          "titulo": "Tenha paciência",
+          "texto": "Cada corpo tem o seu tempo, sem comparação"
+        }
       ],
       "destaque": {
         "forte": "Tem lista de cuidados com a barba na lojinha.",
         "texto": "Link na bio"
       },
-      "legenda": "Barba chegando? 🧔\n\nCada corpo tem o seu tempo, e cuidar dela desde o começo faz diferença: deixar crescer, manter a pele limpa e hidratada, aparar com regularidade e, se rolar, pedir ajuda de um barbeiro.\n\nNa lojinha do portal tem uma lista com produtos de cuidados com a barba 💙\n\nMe segue aí, galera, compartilha com quem está começando e conta nos comentários qual é a sua dica de barba.\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #barba"
+      "legenda": "Barba chegando? 🧔\n\nCada corpo tem o seu tempo, e cuidar dela desde o começo faz diferença: deixar crescer, manter a pele limpa e hidratada, aparar com regularidade e, se rolar, pedir ajuda de um barbeiro.\n\nNa lojinha do portal tem uma lista com produtos de cuidados com a barba 💙\n\nMe segue aí, galera, compartilha com quem está começando e conta nos comentários qual é a sua dica de barba.\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #barba",
+      "publicadoEm": "2026-10-28T23:37:57.119Z"
     },
     {
       "id": "post10",
@@ -31,15 +50,38 @@
       "postado": false,
       "tipo": "lista",
       "kicker": "Binder",
-      "titulo": ["Uso seguro", "do binder"],
+      "titulo": [
+        "Uso seguro",
+        "do binder"
+      ],
       "tamanhoTitulo": 96,
       "subtitulo": "Informações gerais pra você se cuidar",
       "itens": [
-        { "emoji": "📏", "titulo": "Use o tamanho certo", "texto": "Apertado demais machuca e atrapalha a respiração" },
-        { "emoji": "🚫", "titulo": "Nada de improvisar", "texto": "Fita e faixas elásticas não são seguras" },
-        { "emoji": "⏳", "titulo": "Faça pausas", "texto": "Evite passar muitas horas seguidas com ele" },
-        { "emoji": "🛌", "titulo": "Não durma com binder", "texto": "Seu corpo precisa descansar" },
-        { "emoji": "⚠️", "titulo": "Dor ou falta de ar?", "texto": "Tire na hora e procure atendimento" }
+        {
+          "emoji": "📏",
+          "titulo": "Use o tamanho certo",
+          "texto": "Apertado demais machuca e atrapalha a respiração"
+        },
+        {
+          "emoji": "🚫",
+          "titulo": "Nada de improvisar",
+          "texto": "Fita e faixas elásticas não são seguras"
+        },
+        {
+          "emoji": "⏳",
+          "titulo": "Faça pausas",
+          "texto": "Evite passar muitas horas seguidas com ele"
+        },
+        {
+          "emoji": "🛌",
+          "titulo": "Não durma com binder",
+          "texto": "Seu corpo precisa descansar"
+        },
+        {
+          "emoji": "⚠️",
+          "titulo": "Dor ou falta de ar?",
+          "texto": "Tire na hora e procure atendimento"
+        }
       ],
       "destaque": {
         "forte": "Informação geral, não é orientação médica.",
@@ -53,14 +95,33 @@
       "postado": false,
       "tipo": "lista",
       "kicker": "Estilo e roupas",
-      "titulo": ["Se vestir bem", "é se sentir bem"],
+      "titulo": [
+        "Se vestir bem",
+        "é se sentir bem"
+      ],
       "tamanhoTitulo": 90,
       "subtitulo": "Dicas simples pra montar o seu estilo",
       "itens": [
-        { "emoji": "👕", "titulo": "Vá ao provador", "texto": "Cada marca veste de um jeito, teste antes de levar" },
-        { "emoji": "🧵", "titulo": "Ajuste na costureira", "texto": "Uma barra ou cintura ajustada muda tudo" },
-        { "emoji": "🎨", "titulo": "Comece com cores neutras", "texto": "Combina fácil e rende muitos looks" },
-        { "emoji": "🛍️", "titulo": "Vale brechó e promoção", "texto": "Dá pra se vestir bem pagando pouco" }
+        {
+          "emoji": "👕",
+          "titulo": "Vá ao provador",
+          "texto": "Cada marca veste de um jeito, teste antes de levar"
+        },
+        {
+          "emoji": "🧵",
+          "titulo": "Ajuste na costureira",
+          "texto": "Uma barra ou cintura ajustada muda tudo"
+        },
+        {
+          "emoji": "🎨",
+          "titulo": "Comece com cores neutras",
+          "texto": "Combina fácil e rende muitos looks"
+        },
+        {
+          "emoji": "🛍️",
+          "titulo": "Vale brechó e promoção",
+          "texto": "Dá pra se vestir bem pagando pouco"
+        }
       ],
       "destaque": {
         "forte": "Não existe um único jeito de ser homem.",
@@ -74,13 +135,28 @@
       "postado": false,
       "tipo": "passos",
       "kicker": "Contribua",
-      "titulo": ["Conhece um", "bom profissional?"],
+      "titulo": [
+        "Conhece um",
+        "bom profissional?"
+      ],
       "tamanhoTitulo": 96,
       "itens": [
-        { "titulo": "Abra o portal", "texto": "O link está na bio" },
-        { "titulo": "Clique em contribuir", "texto": "Não precisa de login" },
-        { "titulo": "Preencha os dados", "texto": "Nome, cidade, convênio e contato" },
-        { "titulo": "A gente revisa", "texto": "A indicação entra no portal depois de aprovada" }
+        {
+          "titulo": "Abra o portal",
+          "texto": "O link está na bio"
+        },
+        {
+          "titulo": "Clique em contribuir",
+          "texto": "Não precisa de login"
+        },
+        {
+          "titulo": "Preencha os dados",
+          "texto": "Nome, cidade, convênio e contato"
+        },
+        {
+          "titulo": "A gente revisa",
+          "texto": "A indicação entra no portal depois de aprovada"
+        }
       ],
       "destaque": {
         "forte": "O portal é feito pela comunidade.",
