@@ -1,0 +1,61 @@
+name: Postar no Instagram
+
+on:
+  schedule:
+    # Terça, quinta e sábado às 12h (horário de Brasília = 15h UTC)
+    - cron: "0 15 * * 2,4,6"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Teste: não publica de verdade"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  postar:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: insta-bot
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+
+      - name: Gerar imagens
+        run: node render.mjs
+
+      - name: Enviar imagens para o repositório (URL pública)
+        run: |
+          git config user.name "insta-bot"
+          git config user.email "insta-bot@users.noreply.github.com"
+          git add -f out
+          git diff --cached --quiet || git commit -m "chore: imagens dos posts"
+          git pull --rebase
+          git push
+
+      - name: Publicar próximo post aprovado
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_API_HOST: ${{ vars.IG_API_HOST }}
+          IMAGE_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/insta-bot/out
+          DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+        run: node publish.mjs
+
+      - name: Salvar status (post marcado como postado)
+        run: |
+          git add posts.json
+          git diff --cached --quiet || git commit -m "chore: post publicado"
+          git pull --rebase
+          git push
