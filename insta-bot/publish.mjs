@@ -13,7 +13,16 @@ const V = process.env.IG_API_VERSION || "v26.0";
 
 // Teste de conexão (só no modo DRY_RUN): confirma que o token e o ID funcionam,
 // sem mostrar o token nos logs.
-if (DRY_RUN && IG_USER_ID && IG_ACCESS_TOKEN) {
+if (IG_USER_ID && IG_ACCESS_TOKEN) {
+  // Quem é o dono do token? (Página ou usuário)
+  try {
+    const m = await (
+      await fetch(`https://${HOST}/${V}/me?fields=id,name&access_token=${IG_ACCESS_TOKEN}`)
+    ).json();
+    console.log("Token pertence a:", m.error ? "ERRO: " + m.error.message : m.name || "(sem nome)");
+  } catch (e) {
+    console.log("Não consegui consultar /me:", e.message);
+  }
   const r = await fetch(
     `https://${HOST}/${V}/${IG_USER_ID}?fields=username&access_token=${IG_ACCESS_TOKEN}`
   );
