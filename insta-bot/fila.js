@@ -73,9 +73,59 @@ export function escolherRepeticao(config, agora = new Date()) {
 
 // ---------- horários e decisão de "o que publicar agora" ----------
 const TZ = "America/Sao_Paulo";
-export const DIAS_SLOT = [2, 4, 6]; // terça, quinta, sábado
-export const HORA_SLOT = 12;        // a partir de 12h (Brasília)
-export const HORA_FIM_SLOT = 20;    // o horário regular fecha às 20h
+// Agenda regular (pode ser mudada no painel; fica em posts.json -> "agenda")
+export const AGENDA_PADRAO = { dias: [2, 4, 6], hora: "12:00" }; // terça, quinta e sábado às 12h (Brasília)
+export const JANELA_HORAS = 8; // depois do horário, o robô ainda tenta por até 8h (ou até 23h59)
+export const NOMES_DIAS = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
+
+export function agendaDe(config) {
+  const a = (config && config.agenda) || {};
+  let dias = Array.isArray(a.dias) ? [...new Set(a.dias.map(Number).filter((d) => d >= 0 && d <= 6))].sort() : [];
+  if (!dias.length) dias = AGENDA_PADRAO.dias;
+  const [h, m] = String(a.hora || AGENDA_PADRAO.hora).split(":").map(Number);
+  return { dias, hora: Number.isFinite(h) ? h : 12, minuto: Number.isFinite(m) ? m : 0 };
+}
+export function descreverAgenda(config) {
+  const ag = agendaDe(config);
+  const nomes = ag.dias.length === 7 ? "todos os dias" : ag.dias.map((d) => NOMES_DIAS[d]).join(", ").replace(/, ([^,]*)$/, " e $1");
+  return `${nomes} às ${String(ag.hora).padStart(2, "0")}:${String(ag.minuto).padStart(2, "0")}`;
+}
+
+// Rascunhos automáticos: a cada N dias, o robô transforma as próximas ideias do banco em rascunhos
+export function rascunhosAutoDe(config) {
+  const r = (config && config.rascunhosAuto) || {};
+  return {
+    ativa: !!r.ativa,
+    aCadaDias: Math.max(1, Math.min(60, Number(r.aCadaDias) || 7)),
+    quantidade: Math.max(1, Math.min(10, Number(r.quantidade) || 1)),
+    aprovar: !!r.aprovar,
+    ultimaVez: r.ultimaVez || null,
+  };
+}
+// Quando o robô cria os próximos (Date). Data no passado = na próxima rodada. null = desligado.
+export function proximaCriacao(config) {
+  const r = rascunhosAutoDe(config);
+  if (!r.ativa) return null;
+  return r.ultimaVez ? new Date(Date.parse(r.ultimaVez) + r.aCadaDias * 86400000) : new Date(0);
+}
+export function criarRascunhosAuto(config, ideias, agora = new Date()) {
+  const r = rascunhosAutoDe(config);
+  if (!r.ativa) return { criados: [], motivo: "desligado" };
+  const quando = proximaCriacao(config);
+  if (quando > agora) return { criados: [], motivo: "ainda não está na hora" };
+  const usados = new Set(config.posts.map((p) => p.id));
+  const criados = (ideias || [])
+    .filter((i) => !usados.has(i.id))
+    .slice(0, r.quantidade)
+    .map((i) => {
+      const c = JSON.parse(JSON.stringify(i));
+      delete c.avisos;
+      return { ...c, aprovado: r.aprovar, postado: false };
+    });
+  config.posts.push(...criados);
+  config.rascunhosAuto = { ...(config.rascunhosAuto || {}), ultimaVez: agora.toISOString() };
+  return { criados, motivo: criados.length ? "" : "banco de ideias vazio" };
+}
 
 export function partesBRT(d) {
   const f = new Intl.DateTimeFormat("en-CA", {
@@ -92,11 +142,13 @@ export function partesBRT(d) {
   };
 }
 
-// O horário regular (ter/qui/sáb, a partir das 12h) está aberto e ainda não saiu nenhum post hoje?
-export function slotAberto(posts, agora = new Date()) {
-  const b = partesBRT(agora);
-  if (!DIAS_SLOT.includes(b.sem) || b.hora < HORA_SLOT || b.hora >= HORA_FIM_SLOT) return false;
-  return !posts.some((p) => p.postado && p.publicadoEm && partesBRT(new Date(p.publicadoEm)).dia === b.dia);
+// O horário regular está aberto (dia da agenda, depois do horário) e ainda não saiu nenhum post hoje?
+export function slotAberto(config, agora = new Date()) {
+  const ag = agendaDe(config), b = partesBRT(agora);
+  const agoraMin = b.hora * 60 + b.minuto, ini = ag.hora * 60 + ag.minuto;
+  const fim = Math.min(ini + JANELA_HORAS * 60, 24 * 60);
+  if (!ag.dias.includes(b.sem) || agoraMin < ini || agoraMin >= fim) return false;
+  return !config.posts.some((p) => p.postado && p.publicadoEm && partesBRT(new Date(p.publicadoEm)).dia === b.dia);
 }
 
 // Decide o que publicar nesta rodada.
@@ -117,7 +169,7 @@ export function proximaPublicacao(config, { agora = new Date(), modo = "manual",
       .filter((p) => p.aprovado && !p.postado && p.agendarPara && Date.parse(p.agendarPara) <= agora.getTime())
       .sort((a, b) => Date.parse(a.agendarPara) - Date.parse(b.agendarPara));
     if (vencidos.length) return { post: vencidos[0] };
-    if (!slotAberto(posts, agora)) return { motivo: "Sem post agendado vencido e fora do horário regular (ou já saiu um post hoje)." };
+    if (!slotAberto(config, agora)) return { motivo: "Sem post agendado vencido e fora do horário regular (ou já saiu um post hoje)." };
   }
   const fila = posts.find((p) => p.aprovado && !p.postado && !p.agendarPara);
   if (fila) return { post: fila };
