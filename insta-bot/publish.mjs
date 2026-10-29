@@ -6,6 +6,7 @@
 //   IG_API_HOST      opcional: graph.facebook.com (padrão) ou graph.instagram.com (login do Instagram, sem Página)
 //   DRY_RUN=1        só mostra o que faria
 import { readFileSync, writeFileSync } from "node:fs";
+import { escolherRepeticao, copiaParaRepost, proximoId } from "./fila.js";
 
 const { IG_USER_ID, IG_ACCESS_TOKEN, IMAGE_BASE_URL, DRY_RUN } = process.env;
 const HOST = process.env.IG_API_HOST || "graph.facebook.com";
@@ -37,14 +38,33 @@ if (IG_USER_ID && IG_ACCESS_TOKEN) {
 }
 
 const config = JSON.parse(readFileSync("posts.json", "utf8"));
-const post = config.posts.find((p) => p.aprovado && !p.postado);
+let post = config.posts.find((p) => p.aprovado && !p.postado);
+
+// Fila vazia: se a repetição automática estiver ligada, reposta o post publicado há mais tempo
+if (!post) {
+  const fonte = escolherRepeticao(config);
+  if (fonte) {
+    let extras = [];
+    try { extras = JSON.parse(readFileSync("ideias.json", "utf8")).posts || []; } catch (e) {}
+    post = copiaParaRepost(fonte, proximoId(config.posts, extras));
+    post.imagemDe = fonte.id; // reaproveita a imagem já gerada do post original
+    config.posts.push(post);
+    console.log(
+      `Fila vazia: a repetição automática escolheu "${fonte.id}" (publicado em ${fonte.publicadoEm || "data desconhecida"}).`
+    );
+  }
+}
 
 if (!post) {
-  console.log("Fila vazia: nenhum post aprovado e pendente. Nada a publicar.");
+  console.log(
+    "Fila vazia: nenhum post aprovado e pendente" +
+      (config.repeticao && config.repeticao.ativa ? ", e nenhum post elegível para repetir ainda." : " (repetição automática desligada).") +
+      " Nada a publicar."
+  );
   process.exit(0);
 }
 
-const imageUrl = `${IMAGE_BASE_URL}/${post.id}.jpg`;
+const imageUrl = `${IMAGE_BASE_URL}/${post.imagemDe || post.id}.jpg`;
 console.log("Próximo post:", post.id, imageUrl);
 if (DRY_RUN) {
   console.log("DRY_RUN: não publicado.\n" + post.legenda);
@@ -89,4 +109,5 @@ console.log("Publicado! media id:", mediaId);
 // 4) marca como postado (o workflow faz o commit)
 post.postado = true;
 post.publicadoEm = new Date().toISOString();
+post.instagramMediaId = mediaId;
 writeFileSync("posts.json", JSON.stringify(config, null, 2) + "\n");

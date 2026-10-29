@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel do Robô do Instagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1a3a;--bg2:#14254F;--card:#1b2d5e;--card2:#233669;--azul:#5BCEFA;--rosa:#F5A9B8;--txt:#fff;--mut:#9fb0d6;--ok:#6ee7a8;--erro:#ff8a8a;--aviso:#ffd37a}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--txt);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.4;padding-bottom:90px}
+button{font:inherit;cursor:pointer}
+.faixa{height:8px;display:flex}.faixa i{flex:1}.faixa i:nth-child(1),.faixa i:nth-child(5){background:var(--azul)}.faixa i:nth-child(2),.faixa i:nth-child(4){background:var(--rosa)}.faixa i:nth-child(3){background:#fff}
+header{display:flex;align-items:center;gap:14px;padding:18px 24px;flex-wrap:wrap}
+header h1{font-size:22px;font-weight:900;margin:0;letter-spacing:-.01em}
+header .repo{color:var(--mut);font-size:13px}
+header .sp{flex:1}
+.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:700;background:var(--card2);color:#fff}
+.btn:hover{filter:brightness(1.15)}
+.btn.azul{background:var(--azul);color:#0e1a3a}
+.btn.rosa{background:var(--rosa);color:#0e1a3a}
+.btn.perigo{background:#5b2431;color:#ffd5db}
+.btn.peq{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+main{max-width:1280px;margin:0 auto;padding:0 24px}
+.avisos{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.aviso{border-radius:12px;padding:12px 16px;background:#3a2f12;color:var(--aviso);font-weight:600}
+.aviso.erro{background:#4a1f27;color:var(--erro)}
+.aviso.info{background:#173a52;color:#a7dcf7}
+.resumo{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px}
+.res{background:var(--card);border-radius:14px;padding:14px 16px}
+.res small{display:block;color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.res b{font-size:24px;font-weight:900;display:block;margin-top:2px}
+.res span{color:var(--mut);font-size:13px}
+.layout{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab{background:transparent;border:2px solid var(--card2);color:var(--mut);border-radius:999px;padding:8px 16px;font-weight:700}
+.tab.on{background:var(--azul);border-color:var(--azul);color:#0e1a3a}
+.tab em{font-style:normal;opacity:.8;margin-left:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{background:var(--card);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.card.sel{outline:3px solid var(--azul)}
+.thumb{width:100%;aspect-ratio:1080/1350;position:relative;overflow:hidden;background:var(--bg2)}
+.thumb iframe{position:absolute;top:0;left:0;width:1080px;height:1350px;border:0;transform-origin:0 0;pointer-events:none}
+.badge{position:absolute;top:10px;right:10px;z-index:2;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:800;background:#0e1a3acc;color:#fff;backdrop-filter:blur(4px)}
+.badge.ok{background:#12452f;color:var(--ok)}
+.badge.fila{background:#173a52;color:#a7dcf7}
+.badge.rasc{background:#3a2f12;color:var(--aviso)}
+.badge.rep{background:#3b2a5c;color:#d9c2ff}
+.marca{position:absolute;top:8px;left:8px;z-index:3;width:26px;height:26px;accent-color:var(--azul);cursor:pointer}
+.info{padding:12px 14px 6px;flex:1}
+.info .tit{font-weight:800;font-size:15px}
+.info .kick{color:var(--azul);font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.info .leg{color:var(--mut);font-size:13px;margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.info .data{margin-top:8px;font-weight:700;color:var(--rosa);font-size:13px}
+.acoes{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px 14px}
+.vazio{background:var(--card);border-radius:14px;padding:28px;text-align:center;color:var(--mut)}
+.selbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--card);border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.selbar .sp{flex:1;color:var(--mut);font-size:13px}
+.lado{background:var(--card);border-radius:16px;padding:16px;margin-bottom:16px}
+.lado h3{margin:0 0 10px;font-size:15px}
+.exec{display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--card2);font-size:13px}
+.exec:first-of-type{border-top:0}
+.exec a{color:var(--azul);text-decoration:none;font-weight:600}
+.exec small{color:var(--mut);display:block}
+.robo{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+label.chk{display:flex;gap:10px;align-items:flex-start;color:#fff;font-size:14px;margin:0 0 8px}
+label.chk input{width:auto;margin-top:3px;accent-color:var(--azul)}
+.linha{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mut);flex-wrap:wrap}
+.linha input{width:72px}
+.ia{background:var(--card);border-radius:16px;padding:20px;max-width:760px}
+.ia h2{margin:0 0 6px;font-size:20px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.chip{border:1.5px solid var(--card2);background:transparent;color:var(--mut);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
+.chip:hover{border-color:var(--azul);color:#fff}
+.ia .linha2{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-top:12px}
+.ia .linha2 > div{flex:1;min-width:180px}
+.barra{position:fixed;left:0;right:0;bottom:0;background:#0a1330;border-top:2px solid var(--rosa);padding:12px 24px;display:none;align-items:center;gap:12px;z-index:20;flex-wrap:wrap}
+.barra.on{display:flex}
+.barra .t{flex:1;font-weight:700}
+dialog{border:0;border-radius:18px;background:var(--bg2);color:#fff;padding:0;max-width:96vw;width:520px}
+dialog::backdrop{background:#000a}
+dialog.largo{width:1080px}
+.dh{padding:18px 22px;font-weight:900;font-size:18px;border-bottom:1px solid var(--card2);display:flex;align-items:center}
+.dh span{flex:1}
+.db{padding:18px 22px}
+.df{padding:14px 22px;border-top:1px solid var(--card2);display:flex;gap:8px;justify-content:flex-end}
+label{display:block;font-weight:700;font-size:13px;color:var(--mut);margin:12px 0 4px}
+input,select,textarea{width:100%;background:#0e1a3a;border:1.5px solid var(--card2);color:#fff;border-radius:10px;padding:9px 11px;font:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--azul);border-color:transparent}
+textarea{resize:vertical}
+.dica{color:var(--mut);font-size:12px;margin-top:4px}
+.ed{display:grid;grid-template-columns:1fr 330px;gap:24px}
+@media(max-width:900px){.ed{grid-template-columns:1fr}}
+.prev{width:330px;max-width:100%;aspect-ratio:1080/1350;overflow:hidden;border-radius:12px;background:var(--bg);align-self:start;position:sticky;top:0}
+.prev iframe{position:absolute;top:0;left:0;width:1080px;height:1350px;border:0;transform-origin:0 0;pointer-events:none}
+.item{display:grid;grid-template-columns:60px 1fr 1.3fr 34px;gap:6px;margin-bottom:6px}
+.item.sem-emoji{grid-template-columns:1fr 1.3fr 34px}
+.item button{background:#5b2431;border:0;color:#fff;border-radius:8px}
+.cnt{float:right;font-weight:600}
+.cnt.erro{color:var(--erro)}
+.edavisos{background:#3a2f12;color:var(--aviso);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:13px;font-weight:600}
+.edavisos ul{margin:6px 0 0;padding-left:18px}
+.toast{position:fixed;right:20px;top:20px;z-index:50;display:flex;flex-direction:column;gap:8px}
+.toast div{background:#0a1330;border-left:5px solid var(--azul);border-radius:10px;padding:12px 16px;font-weight:600;max-width:360px;box-shadow:0 8px 24px #0008}
+.toast div.erro{border-color:var(--erro)}
+.toast div.ok{border-color:var(--ok)}
+</style>
+</head>
+<body>
+<div class="faixa"><i></i><i></i><i></i><i></i><i></i></div>
+<header>
+  <h1>🤖 Painel do robô do Instagram</h1>
+  <span class="repo" id="repoInfo"></span>
+  <span class="sp"></span>
+  <button class="btn azul" id="btnNovo">＋ Novo post</button>
+  <button class="btn" id="btnRecarregar">↻ Recarregar</button>
+  <button class="btn" id="btnConfig">⚙ Configurações</button>
+</header>
+
+<main>
+  <div class="avisos" id="avisos"></div>
+  <div class="resumo" id="resumo"></div>
+  <div class="layout">
+    <div>
+      <div class="tabs" id="tabs"></div>
+      <div id="conteudo"></div>
+    </div>
+    <aside>
+      <div class="lado">
+        <h3>Robô</h3>
+        <div class="robo">
+          <button class="btn azul" id="btnPublicar">🚀 Publicar o próximo agora</button>
+          <button class="btn" id="btnTeste">🔌 Testar conexão (sem publicar)</button>
+        </div>
+        <h3>Últimas execuções <button class="btn peq" id="btnExec" style="float:right">↻</button></h3>
+        <div id="execucoes"><span class="dica">Carregando…</span></div>
+        <p class="dica" style="margin-top:12px">Agenda: terça, quinta e sábado, por volta das 12h (Brasília). O GitHub pode atrasar alguns minutos.</p>
+      </div>
+      <div class="lado">
+        <h3>🔁 Repetição automática</h3>
+        <label class="chk"><input type="checkbox" id="repAtiva"><span>Reciclar posts antigos quando a fila acabar</span></label>
+        <div class="linha">Esperar pelo menos <input id="repDias" type="number" min="7" max="720"> dias desde a última publicação</div>
+        <p class="dica" id="repPrev"></p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div class="barra" id="barra">
+  <span class="t" id="barraTxt">Você tem alterações não salvas.</span>
+  <button class="btn" id="btnDescartar">Descartar</button>
+  <button class="btn rosa" id="btnSalvar">💾 Salvar no GitHub</button>
+</div>
+
+<dialog id="dlgConfig">
+  <div class="dh"><span>Configurações</span><button class="btn peq" data-fechar>✕</button></div>
+  <div class="db">
+    <label>Usuário ou organização do GitHub</label><input id="cOwner">
+    <label>Repositório</label><input id="cRepo">
+    <label>Branch</label><input id="cBranch">
+    <label>Caminho do posts.json</label><input id="cPath">
+    <label>Caminho do ideias.json</label><input id="cIdeias">
+    <label>Token do GitHub (só para salvar e publicar)</label>
+    <input id="cToken" type="password" autocomplete="off" placeholder="github_pat_...">
+    <p class="dica">Fica guardado só neste navegador. Crie em
+      <a style="color:var(--azul)" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Settings → Developer settings → Fine-grained tokens</a>:
+      escolha <b>só este repositório</b> e as permissões <b>Contents: Read and write</b> e <b>Actions: Read and write</b>. Não use em computador compartilhado.</p>
+    <label>Chave da API da Anthropic (só para a aba "Criar com IA")</label>
+    <input id="cApiKey" type="password" autocomplete="off" placeholder="sk-ant-...">
+    <label>Modelo</label><input id="cModelo" placeholder="claude-sonnet-5-5">
+    <p class="dica">Crie a chave em <a style="color:var(--azul)" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. A API é cobrada por uso, separada do plano do claude.ai. A chave fica só neste navegador e é enviada apenas para a Anthropic. <b>Defina um limite mensal de gasto no Console</b> e use uma chave só para este painel.</p>
+  </div>
+  <div class="df">
+    <button class="btn perigo" id="cLimpar">Remover chaves deste navegador</button>
+    <button class="btn azul" id="cSalvar">Salvar e recarregar</button>
+  </div>
+</dialog>
+
+<dialog id="dlgRepost">
+  <div class="dh"><span>🔁 Repostar</span><button class="btn peq" data-fechar>✕</button></div>
+  <div class="db">
+    <div id="rpLista"></div>
+    <label>Onde entram na fila?</label>
+    <select id="rpPos">
+      <option value="fim">No fim da fila (saem depois dos que já estão aprovados)</option>
+      <option value="inicio">No começo da fila (saem primeiro)</option>
+    </select>
+    <p class="dica">Cada repostagem é uma cópia, com data própria no histórico. Depois você pode editar o texto e mudar a ordem na aba Fila. Lembre de conferir se contatos, convênios e números ainda estão atuais.</p>
+  </div>
+  <div class="df">
+    <button class="btn" data-fechar>Cancelar</button>
+    <button class="btn azul" id="rpOk">Adicionar à fila</button>
+  </div>
+</dialog>
+
+<dialog id="dlgEditor" class="largo">
+  <div class="dh"><span id="edTitulo">Editar post</span><button class="btn peq" data-fechar>✕</button></div>
+  <div class="db">
+    <div id="edAvisos"></div>
+    <div class="ed">
+      <div>
+        <label>Tipo</label>
+        <select id="fTipo"><option value="passos">Passos (lista numerada)</option><option value="lista">Lista (com emoji)</option></select>
+        <label>Chamada pequena (kicker)</label><input id="fKicker" placeholder="Ex.: Dicas de barba">
+        <label>Título <small>(uma linha por linha; a última fica rosa)</small></label>
+        <textarea id="fTitulo" rows="2"></textarea>
+        <label>Tamanho do título <small>(opcional, padrão 84)</small></label><input id="fTam" type="number" min="50" max="130" placeholder="84">
+        <label>Subtítulo <small>(opcional)</small></label><input id="fSub">
+        <label>Itens</label>
+        <div id="fItens"></div>
+        <button class="btn peq" id="fAddItem">＋ Item</button>
+        <label>Caixa rosa: frase principal <small>(opcional)</small></label><input id="fDestF">
+        <label>Caixa rosa: frase menor <small>(opcional)</small></label><input id="fDestT">
+        <label>Legenda <span class="cnt" id="fCnt"></span></label>
+        <textarea id="fLegenda" rows="10"></textarea>
+        <p class="dica">Em temas de saúde e direito, deixe claro que é informação geral e não orientação individual.</p>
+        <label class="chk" style="margin-top:12px"><input type="checkbox" id="fRepetir" checked><span>Pode entrar na repetição automática</span></label>
+      </div>
+      <div class="prev" id="edPrev"></div>
+    </div>
+  </div>
+  <div class="df">
+    <button class="btn" data-fechar>Cancelar</button>
+    <button class="btn azul" id="fOk">Aplicar</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { postHtml, esc } from './template.js';
+import { raizDe, proximoId as proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao } from './fila.js';
+
+const $ = (s, r = document) => r.querySelector(s);
+const F = id => document.getElementById(id);
+const DIAS = [2, 4, 6];      // terça, quinta, sábado
+const HORA_UTC = 15;         // 12h em Brasília
+const FONT_CSS = "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap');";
+const CFG_KEY = 'igbot_cfg_v1';
+const DEFAULTS = { owner: 'transmascbrasil', repo: 'portal', branch: 'main', path: 'insta-bot/posts.json', ideias: 'insta-bot/ideias.json', token: '', apiKey: '', model: 'claude-sonnet-5-5' };
+
+let cfg = { ...DEFAULTS };
+try { cfg = { ...DEFAULTS, ...JSON.parse(localStorage.getItem(CFG_KEY) || '{}') }; } catch (e) {}
+const saveCfg = () => { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch (e) {} };
+
+let data = null, sha = null, ideias = [], dirty = false, tab = 'fila', loadError = '';
+const selecionados = new Set();
+let iaPrompt = '', iaTipo = 'auto', iaCarregando = false;
+
+// ---------- utilidades ----------
+function toast(msg, tipo = '') {
+  const d = document.createElement('div');
+  d.className = tipo; d.textContent = msg;
+  $('#toast').appendChild(d);
+  setTimeout(() => d.remove(), tipo === 'erro' ? 9000 : 4500);
+}
+const dec = b64 => new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\s/g, '')), c => c.charCodeAt(0)));
+const enc = str => {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(bin);
+};
+function gh(path, opts = {}) {
+  return fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/${path}`, {
+    cache: 'no-store',
+    ...opts,
+    headers: {
+      Accept: 'application/vnd.github+json',
+      ...(cfg.token ? { Authorization: 'Bearer ' + cfg.token } : {}),
+      ...(opts.headers || {})
+    }
+  });
+}
+async function erroDaApi(r) {
+  let msg = '';
+  try { msg = (await r.json()).message || ''; } catch (e) {}
+  if (r.status === 401) return 'Token inválido ou vencido. Gere outro em Configurações.';
+  if (r.status === 403) return 'Sem permissão (ou limite de consultas). ' + msg;
+  if (r.status === 404) return 'Não encontrei o arquivo/repositório. Confira as Configurações (repositório, branch e caminho) e, se o repositório for privado, o token. ' + msg;
+  return `Erro ${r.status}. ${msg}`;
+}
+const fmtData = d => new Intl.DateTimeFormat('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }).format(d);
+const fmtDia = iso => iso ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }).format(new Date(iso)) : '';
+
+function proximasDatas(n) {
+  const out = [], agora = new Date();
+  for (let i = 0; out.length < n && i < 800; i++) {
+    const t = new Date(Date.UTC(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate() + i, HORA_UTC, 0, 0));
+    if (DIAS.includes(t.getUTCDay()) && t > agora) out.push(t);
+  }
+  return out;
+}
+const tituloTxt = p => (p.titulo || []).join(' ');
+const filaDe = () => data.posts.filter(p => p.aprovado && !p.postado);
+const rascunhosDe = () => data.posts.filter(p => !p.aprovado && !p.postado);
+const postadosDe = () => data.posts.filter(p => p.postado);
+const proximoId = () => proximoIdBase(data.posts, ideias);
+function marcar() { dirty = true; render(); }
+
+// ---------- carregar / salvar ----------
+async function carregar() {
+  loadError = '';
+  try {
+    const r = await gh(`contents/${cfg.path}?ref=${encodeURIComponent(cfg.branch)}`);
+    if (!r.ok) throw new Error(await erroDaApi(r));
+    const j = await r.json();
+    sha = j.sha; data = JSON.parse(dec(j.content)); dirty = false;
+    if (!data.posts) data.posts = [];
+    selecionados.clear();
+    try {
+      const r2 = await gh(`contents/${cfg.ideias}?ref=${encodeURIComponent(cfg.branch)}`);
+      ideias = r2.ok ? (JSON.parse(dec((await r2.json()).content)).posts || []) : [];
+    } catch (e) { ideias = []; }
+  } catch (e) { loadError = e.message; data = null; }
+  render(); carregarExecucoes();
+}
+async function mesclarRemoto() {
+  const r = await gh(`contents/${cfg.path}?ref=${encodeURIComponent(cfg.branch)}`);
+  if (!r.ok) throw new Error(await erroDaApi(r));
+  const j = await r.json();
+  const remoto = JSON.parse(dec(j.content));
+  for (const rp of remoto.posts || []) {
+    const lp = data.posts.find(p => p.id === rp.id);
+    if (lp && rp.postado) { lp.postado = true; if (rp.publicadoEm) lp.publicadoEm = rp.publicadoEm; if (rp.instagramMediaId) lp.instagramMediaId = rp.instagramMediaId; }
+    // post criado pelo robô (repetição automática) enquanto eu editava
+    if (!lp && rp.origem && rp.postado) data.posts.push(rp);
+  }
+  sha = j.sha;
+}
+async function salvar(tentar = true) {
+  if (!cfg.token) { abrirConfig(); toast('Cole o token do GitHub para poder salvar.', 'erro'); return false; }
+  const btn = $('#btnSalvar'); btn.disabled = true; btn.textContent = 'Salvando…';
+  try {
+    const body = { message: 'painel: atualiza a fila de posts do Instagram', content: enc(JSON.stringify(data, null, 2) + '\n'), sha, branch: cfg.branch };
+    const r = await gh(`contents/${cfg.path}`, { method: 'PUT', body: JSON.stringify(body) });
+    if (r.status === 409 || r.status === 422) {
+      if (tentar) { await mesclarRemoto(); return await salvar(false); }
+      throw new Error('O arquivo mudou no GitHub. Clique em Recarregar e refaça a alteração.');
+    }
+    if (!r.ok) throw new Error(await erroDaApi(r));
+    sha = (await r.json()).content.sha; dirty = false;
+    toast('Salvo no GitHub ✅', 'ok'); render(); return true;
+  } catch (e) { toast(e.message, 'erro'); return false; }
+  finally { btn.disabled = false; btn.textContent = '💾 Salvar no GitHub'; }
+}
+async function disparar(dry) {
+  if (!cfg.token) { abrirConfig(); toast('Cole o token do GitHub (com permissão de Actions).', 'erro'); return; }
+  if (dirty) { toast('Salve as alterações antes de rodar o robô.', 'erro'); return; }
+  const prox = data && filaDe()[0];
+  if (!dry) {
+    const rep = !prox && data && escolherRepeticao(data);
+    if (!prox && !rep) { toast('Não há nenhum post aprovado na fila (e nada elegível para repetir).', 'erro'); return; }
+    const titulo = prox ? tituloTxt(prox) : tituloTxt(rep) + ' (repetição automática)';
+    if (!confirm(`Publicar AGORA no Instagram?\n\n"${titulo}"\n\nIsso vai ao ar na conta pública.`)) return;
+  }
+  const r = await gh('actions/workflows/instagram.yml/dispatches', { method: 'POST', body: JSON.stringify({ ref: cfg.branch, inputs: { dry_run: String(dry) } }) });
+  if (r.status === 204) { toast(dry ? 'Teste iniciado. Veja o resultado em "Últimas execuções".' : 'Publicação iniciada. Acompanhe em "Últimas execuções".', 'ok'); setTimeout(carregarExecucoes, 4000); }
+  else toast(await erroDaApi(r), 'erro');
+}
+async function carregarExecucoes() {
+  const box = $('#execucoes');
+  try {
+    const r = await gh('actions/workflows/instagram.yml/runs?per_page=6');
+    if (!r.ok) throw new Error(await erroDaApi(r));
+    const runs = (await r.json()).workflow_runs || [];
+    if (!runs.length) { box.innerHTML = '<span class="dica">Nenhuma execução ainda.</span>'; return; }
+    box.innerHTML = runs.map(x => {
+      const ic = x.status !== 'completed' ? '⏳' : x.conclusion === 'success' ? '✅' : x.conclusion === 'cancelled' ? '⚪' : '❌';
+      const ev = x.event === 'schedule' ? 'agendada' : 'manual';
+      return `<div class="exec"><span>${ic}</span><div><a href="${esc(x.html_url)}" target="_blank" rel="noopener">#${esc(x.run_number)} · ${ev}</a><small>${esc(fmtDia(x.created_at))}</small></div></div>`;
+    }).join('');
+  } catch (e) { box.innerHTML = `<span class="dica">${esc(e.message)}</span>`; }
+}
+
+// ---------- ações nos posts ----------
+function achar(id) { return data.posts.find(p => p.id === id); }
+function aprovar(id, v) { const p = achar(id); if (p && !p.postado) { p.aprovado = v; marcar(); } }
+function mover(id, dir) {
+  const fila = filaDe(), i = fila.findIndex(p => p.id === id), j = i + dir;
+  if (i < 0 || j < 0 || j >= fila.length) return;
+  const a = data.posts.indexOf(fila[i]), b = data.posts.indexOf(fila[j]);
+  [data.posts[a], data.posts[b]] = [data.posts[b], data.posts[a]];
+  marcar();
+}
+function paraOTopo(id) {
+  const fila = filaDe(), p = achar(id);
+  if (!p || fila[0] === p) return;
+  const alvo = data.posts.indexOf(fila[0]);
+  data.posts.splice(data.posts.indexOf(p), 1);
+  data.posts.splice(alvo, 0, p);
+  marcar();
+}
+function excluir(id) {
+  const p = achar(id); if (!p || p.postado) return;
+  if (!confirm(`Excluir o rascunho "${tituloTxt(p)}"?`)) return;
+  data.posts.splice(data.posts.indexOf(p), 1); marcar();
+}
+function duplicar(id) {
+  const p = achar(id); if (!p) return;
+  const c = JSON.parse(JSON.stringify(p));
+  c.id = proximoId(); c.aprovado = false; c.postado = false;
+  ['publicadoEm', 'instagramMediaId', 'imagemDe', 'origem'].forEach(k => delete c[k]);
+  data.posts.push(c); tab = 'rascunhos'; marcar(); toast('Cópia criada em Rascunhos.');
+}
+function adicionarIdeia(id, silencioso = false) {
+  const p = ideias.find(x => x.id === id); if (!p || achar(id)) return;
+  data.posts.push({ ...JSON.parse(JSON.stringify(p)), aprovado: false, postado: false });
+  if (!silencioso) { marcar(); toast('Adicionado aos rascunhos.'); }
+}
+function alternarRepeticaoAuto(p) {
+  const membros = data.posts.filter(x => raizDe(x) === raizDe(p));
+  const proibido = membros.some(m => m.repetir === false);
+  membros.forEach(m => { if (proibido) delete m.repetir; else m.repetir = false; });
+  marcar();
+}
+
+// ---------- repost ----------
+let repIds = [];
+function abrirRepost(ids) {
+  const validos = ids.map(achar).filter(p => p && p.postado);
+  const ok = validos.filter(p => !jaNaFila(data.posts, p));
+  if (!ok.length) return toast(validos.length ? 'Esse post já tem uma cópia esperando na fila.' : 'Nada para repostar.', 'erro');
+  repIds = ok.map(p => p.id);
+  const pulados = validos.length - ok.length;
+  F('rpLista').innerHTML = `<b>${ok.length} post(s):</b><ul style="margin:6px 0 0;padding-left:18px">${ok.map(p => `<li>${esc(tituloTxt(p))}</li>`).join('')}</ul>${pulados ? `<p class="dica">${pulados} já estava(m) na fila e foi(ram) ignorado(s).</p>` : ''}`;
+  F('rpPos').value = 'fim';
+  F('dlgRepost').showModal();
+}
+F('rpOk').onclick = () => {
+  const pos = F('rpPos').value; let n = 0, at = null;
+  for (const id of repIds) {
+    const src = achar(id); if (!src || jaNaFila(data.posts, src)) continue;
+    const c = copiaParaRepost(src, proximoId());
+    if (pos === 'inicio') {
+      const f = filaDe();
+      const idx = at !== null ? at : (f.length ? data.posts.indexOf(f[0]) : data.posts.length);
+      data.posts.splice(idx, 0, c); at = idx + 1;
+    } else data.posts.push(c);
+    n++;
+  }
+  selecionados.clear(); F('dlgRepost').close();
+  if (n) { tab = 'fila'; marcar(); toast(`${n} post(s) voltaram para a fila ✅`, 'ok'); }
+};
+
+// ---------- renderização ----------
+function miniatura(p) {
+  const wrap = document.createElement('div'); wrap.className = 'thumb';
+  const f = document.createElement('iframe');
+  f.setAttribute('sandbox', 'allow-scripts'); f.loading = 'lazy'; f.title = tituloTxt(p);
+  f.srcdoc = postHtml(p, data.marca, FONT_CSS);
+  wrap.appendChild(f);
+  const ajustar = () => { f.style.transform = `scale(${wrap.clientWidth / 1080})`; };
+  new ResizeObserver(ajustar).observe(wrap); ajustar();
+  return wrap;
+}
+function btn(txt, cls, fn, disabled = false) {
+  const b = document.createElement('button'); b.className = 'btn peq ' + cls; b.textContent = txt; b.disabled = disabled; b.onclick = fn; return b;
+}
+function card(p, { badge, badgeCls, extra, acoes, selecionavel }) {
+  const el = document.createElement('article'); el.className = 'card' + (selecionavel && selecionados.has(p.id) ? ' sel' : '');
+  const th = miniatura(p);
+  const b = document.createElement('span'); b.className = 'badge ' + badgeCls; b.textContent = badge; th.appendChild(b);
+  if (selecionavel) {
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.className = 'marca'; cb.checked = selecionados.has(p.id); cb.title = 'Selecionar para repostar';
+    cb.onchange = () => { cb.checked ? selecionados.add(p.id) : selecionados.delete(p.id); render(); };
+    th.appendChild(cb);
+  }
+  el.appendChild(th);
+  const info = document.createElement('div'); info.className = 'info';
+  info.innerHTML = `${p.kicker ? `<div class="kick">${esc(p.kicker)}</div>` : ''}<div class="tit">${esc(tituloTxt(p))}</div><div class="leg">${esc(p.legenda || '')}</div>${extra ? `<div class="data">${esc(extra)}</div>` : ''}`;
+  el.appendChild(info);
+  const ac = document.createElement('div'); ac.className = 'acoes'; acoes.forEach(a => ac.appendChild(a)); el.appendChild(ac);
+  return el;
+}
+function renderRepeticao() {
+  const rep = data.repeticao || {};
+  F('repAtiva').checked = !!rep.ativa;
+  F('repDias').value = rep.diasMinimos || 90;
+  const prev = F('repPrev');
+  if (!rep.ativa) { prev.textContent = 'Desligada: quando a fila acabar, o robô não posta nada. Ligue para ele reaproveitar os posts já publicados (o mais antigo primeiro).'; return; }
+  const alvo = escolherRepeticao(data);
+  prev.textContent = alvo
+    ? `Se a fila acabasse agora, o robô repostaria: "${tituloTxt(alvo)}".`
+    : 'Nenhum post elegível agora (todos foram publicados há pouco tempo, ou estão marcados para não repetir).';
+}
+function render() {
+  $('#repoInfo').textContent = `${cfg.owner}/${cfg.repo} · ${cfg.branch}`;
+  const av = $('#avisos'); av.innerHTML = '';
+  const addAviso = (t, c = '') => { const d = document.createElement('div'); d.className = 'aviso ' + c; d.textContent = t; av.appendChild(d); };
+  if (loadError) { addAviso(loadError, 'erro'); $('#resumo').innerHTML = ''; $('#tabs').innerHTML = ''; $('#conteudo').innerHTML = '<div class="vazio">Não consegui carregar os posts.</div>'; $('#barra').classList.remove('on'); return; }
+  if (!data) { $('#conteudo').innerHTML = '<div class="vazio">Carregando…</div>'; return; }
+  if (!cfg.token) addAviso('Modo leitura: para aprovar, salvar e publicar, cole o token do GitHub em ⚙ Configurações.', 'info');
+
+  const fila = filaDe(), rasc = rascunhosDe(), done = postadosDe();
+  const datas = proximasDatas(fila.length);
+  const novas = ideias.filter(i => !achar(i.id));
+  const repAtiva = !!(data.repeticao && data.repeticao.ativa);
+  if (!fila.length && !repAtiva) addAviso('Nenhum post aprovado: o robô não vai publicar nada nos próximos dias. Aprove rascunhos, reposte algum post antigo ou ligue a repetição automática.');
+  else if (!fila.length && repAtiva) addAviso('Fila vazia: o robô vai usar a repetição automática (post mais antigo) no próximo horário.', 'info');
+  else if (fila.length < 3) addAviso(`A fila está curta: só ${fila.length} post(s) aprovado(s). Vai até ${fmtData(datas[datas.length - 1])}.`);
+
+  $('#resumo').innerHTML = `
+    <div class="res"><small>Na fila</small><b>${fila.length}</b><span>${fila.length ? 'até ' + fmtData(datas[datas.length - 1]) : 'fila vazia'}</span></div>
+    <div class="res"><small>Próximo post</small><b style="font-size:18px">${fila.length ? esc(fmtData(datas[0])) : '—'}</b><span>${fila.length ? esc(tituloTxt(fila[0])) : 'nada aprovado'}</span></div>
+    <div class="res"><small>Rascunhos</small><b>${rasc.length}</b><span>aguardando aprovação</span></div>
+    <div class="res"><small>Publicações</small><b>${done.length}</b><span>no histórico</span></div>`;
+
+  const T = [['fila', 'Fila', fila.length], ['rascunhos', 'Rascunhos', rasc.length], ['postados', 'Postados', done.length], ['ideias', 'Banco de ideias', novas.length], ['ia', '✨ Criar com IA', null]];
+  $('#tabs').innerHTML = '';
+  for (const [id, nome, n] of T) {
+    const b = document.createElement('button'); b.className = 'tab' + (tab === id ? ' on' : '');
+    b.innerHTML = `${esc(nome)}${n === null ? '' : `<em>${n}</em>`}`; b.onclick = () => { tab = id; render(); };
+    $('#tabs').appendChild(b);
+  }
+
+  const c = $('#conteudo'); c.innerHTML = '';
+  const grid = document.createElement('div'); grid.className = 'grid';
+  if (tab === 'fila') {
+    fila.forEach((p, i) => grid.appendChild(card(p, {
+      badge: p.origem ? `#${i + 1} · repetição` : `#${i + 1} na fila`, badgeCls: p.origem ? 'rep' : 'fila', extra: '📅 ' + fmtData(datas[i]),
+      acoes: [btn('⏫ Topo', '', () => paraOTopo(p.id), i === 0), btn('◀', '', () => mover(p.id, -1), i === 0), btn('▶', '', () => mover(p.id, 1), i === fila.length - 1),
+              btn('Desaprovar', 'perigo', () => aprovar(p.id, false)), btn('Editar', '', () => abrirEditor(p.id))]
+    })));
+    if (!fila.length) c.innerHTML = '<div class="vazio">Nenhum post aprovado. Aprove um rascunho ou reposte um post antigo (aba Postados).</div>';
+  } else if (tab === 'rascunhos') {
+    rasc.forEach(p => grid.appendChild(card(p, {
+      badge: 'Rascunho', badgeCls: 'rasc',
+      acoes: [btn('✓ Aprovar', 'azul', () => aprovar(p.id, true)), btn('Editar', '', () => abrirEditor(p.id)), btn('Duplicar', '', () => duplicar(p.id)), btn('Excluir', 'perigo', () => excluir(p.id))]
+    })));
+    if (!rasc.length) c.innerHTML = '<div class="vazio">Nenhum rascunho. Crie um post novo, gere com IA ou adicione do Banco de ideias.</div>';
+  } else if (tab === 'postados') {
+    const lista = done.slice().sort((a, b) => String(b.publicadoEm || '').localeCompare(String(a.publicadoEm || '')));
+    if (lista.length) {
+      const barra = document.createElement('div'); barra.className = 'selbar';
+      const sp = document.createElement('span'); sp.className = 'sp'; sp.textContent = selecionados.size ? `${selecionados.size} selecionado(s)` : 'Marque os posts que quer repostar, ou use o botão em cada card.';
+      barra.appendChild(sp);
+      barra.appendChild(btn('Selecionar todos', '', () => { lista.forEach(p => selecionados.add(p.id)); render(); }));
+      barra.appendChild(btn('Limpar', '', () => { selecionados.clear(); render(); }, !selecionados.size));
+      barra.appendChild(btn(`🔁 Repostar selecionados (${selecionados.size})`, 'azul', () => abrirRepost([...selecionados]), !selecionados.size));
+      c.appendChild(barra);
+      const nota = document.createElement('p'); nota.className = 'dica'; nota.style.margin = '-4px 0 14px';
+      nota.textContent = 'Todo o histórico fica guardado no posts.json do seu GitHub (com versões de cada alteração).';
+      c.appendChild(nota);
+    }
+    lista.forEach(p => {
+      const pubs = publicacoesDe(data.posts, p);
+      const ordinal = pubs.length - pubs.indexOf(p);
+      const proibido = data.posts.some(x => raizDe(x) === raizDe(p) && x.repetir === false);
+      grid.appendChild(card(p, {
+        badge: p.origem ? 'Repetição' : 'Postado', badgeCls: p.origem ? 'rep' : 'ok', selecionavel: true,
+        extra: `✅ ${p.publicadoEm ? fmtDia(p.publicadoEm) : 'publicado'}${pubs.length > 1 ? ` · ${ordinal}ª de ${pubs.length} publicações` : ''}`,
+        acoes: [btn('🔁 Repostar', 'azul', () => abrirRepost([p.id])), btn(proibido ? 'Auto: não' : 'Auto: sim', '', () => alternarRepeticaoAuto(p)), btn('Duplicar', '', () => duplicar(p.id))]
+      }));
+    });
+    if (!lista.length) c.innerHTML = '<div class="vazio">Ainda não há posts publicados pelo robô.</div>';
+  } else if (tab === 'ideias') {
+    if (novas.length) {
+      const topo = document.createElement('div'); topo.style.marginBottom = '14px';
+      topo.appendChild(btn(`Adicionar todas (${novas.length}) aos rascunhos`, 'azul', () => { novas.forEach(i => adicionarIdeia(i.id, true)); tab = 'rascunhos'; marcar(); toast(`${novas.length} posts adicionados aos rascunhos.`); }));
+      c.appendChild(topo);
+    }
+    novas.forEach(p => grid.appendChild(card(p, {
+      badge: 'Ideia', badgeCls: 'rasc',
+      acoes: [btn('＋ Adicionar aos rascunhos', 'azul', () => adicionarIdeia(p.id))]
+    })));
+    if (!novas.length) c.innerHTML = '<div class="vazio">Todas as ideias já foram adicionadas.</div>';
+  } else {
+    renderIA(c);
+  }
+  if (grid.children.length) c.appendChild(grid);
+
+  renderRepeticao();
+  $('#barra').classList.toggle('on', dirty);
+}
+
+// ---------- criar com IA ----------
+const EXEMPLOS = [
+  'Dicas de uso seguro de colete/binder no verão',
+  'Como se preparar para a primeira consulta com endocrinologista (perguntas para levar)',
+  'Mito ou verdade sobre retificação de nome',
+  'Convite para a galera indicar profissionais no portal',
+  'Cuidados com a pele no começo da barba'
+];
+const SYSTEM_IA = [
+  'Você escreve posts de Instagram (imagem única 1080x1350) para o Portal Transmasc Brasil (@transmascbrasil), um guia gratuito, comunitário e sem fins lucrativos, feito por e para homens trans e pessoas transmasculinas no Brasil. O público são pessoas no começo ou no meio da transição, e também familiares e amigos.',
+  '',
+  'TOM: direto, acolhedor e de comunidade ("a gente", "galera"), sem formalidade. Frases curtas. Português do Brasil. Use "homens trans" e "pessoas transmasculinas". Emojis com moderação (💙 🏳️‍⚧️ 🤝 🏥).',
+  '',
+  'REGRAS DE CONTEÚDO (obrigatórias):',
+  '- Saúde: nunca dê orientação médica individual. Em temas como binder, colete e meias compressoras, pós-operatório e hormônios, informe de forma geral e lembre de seguir a equipe de saúde. Não invente doses, prazos, tempos ou números clínicos.',
+  '- Direito: a retificação de nome e gênero se baseia na decisão do STF de 2018 (ADI 4275) e no Provimento 73 do CNJ: direto no cartório, por autodeclaração, sem cirurgia, sem laudo e sem processo judicial, a partir dos 18 anos. Avise que as exigências de documentos podem variar por cartório. Não dê aconselhamento jurídico individual.',
+  '- Indicações de profissionais vêm da comunidade e são moderadas. Não prometa qualidade ou resultado de nenhum profissional. Contatos e convênios podem mudar.',
+  '- Não afirme números que o portal não sustente. Pode dizer "mais de 40 ambulatórios" e que o portal tem o maior acervo de cirurgiões de mastectomia masculinizadora do Brasil. Não cite outros números ou estatísticas.',
+  '- Não identifique nem exponha pessoas. Não cite nomes de profissionais nem de pessoas reais.',
+  '- Não invente fatos, leis, estudos ou estatísticas. Se não tiver certeza, escreva em termos gerais e liste o ponto em "avisos".',
+  '- Não escreva o endereço do site. Diga "Link na bio".',
+  '- Lojinha: links de afiliado do Mercado Livre (a pessoa não paga a mais). Se citar o Apoia.se, diga "contribua com qualquer valor" e inclua em "avisos": "Confirmar se o Apoia.se aceita contribuição única".',
+  '- Sem imagens de corpos. Nada sensacionalista.',
+  '',
+  'FORMATO: responda SOMENTE com um objeto JSON válido, sem markdown e sem texto fora do JSON:',
+  '{',
+  '  "tipo": "passos" ou "lista",            // passos = sequência numerada; lista = dicas, mitos, checklists',
+  '  "kicker": "chamada curta, até 24 caracteres",',
+  '  "titulo": ["linha 1", "linha 2"],       // 1 ou 2 linhas, até 22 caracteres cada; a última linha fica rosa',
+  '  "subtitulo": "opcional, até 60 caracteres",',
+  '  "itens": [ { "emoji": "só no tipo lista", "titulo": "até 38 caracteres", "texto": "opcional, até 60 caracteres" } ],   // de 3 a 5 itens',
+  '  "destaque": { "forte": "até 50 caracteres", "texto": "até 60 caracteres" },   // caixa rosa; use para o aviso importante',
+  '  "legenda": "legenda completa do Instagram",',
+  '  "avisos": ["pontos que a pessoa deve conferir antes de aprovar"]',
+  '}',
+  '',
+  'LEGENDA: comece com um gancho, use de 2 a 4 parágrafos curtos, feche pedindo para seguir ("Me segue aí, galera"), compartilhar e, quando fizer sentido, indicar um profissional. Termine com "🔗 Link na bio", uma linha em branco e as hashtags #transmasc #homemtrans #transmasculino #transbrasil (mais uma específica do tema). No máximo 1500 caracteres.',
+  'Em temas de saúde e direito, inclua na legenda e na caixa rosa que é informação geral, não orientação individual.'
+].join('\n');
+
+function renderIA(c) {
+  const box = document.createElement('div'); box.className = 'ia';
+  box.innerHTML = `<h2>✨ Criar post com IA</h2>
+    <p class="dica">Descreva o que você quer. A IA monta título, itens, caixa rosa e legenda seguindo as regras do projeto (saúde, direito, tom de comunidade). O resultado abre no editor, com prévia, como <b>rascunho</b>: você revisa antes de aprovar.</p>
+    <label>O que o post deve falar?</label>
+    <textarea id="iaTxt" rows="4" placeholder="Ex.: dicas simples de cuidado com a pele no começo da barba, para quem está começando"></textarea>
+    <div class="chips" id="iaChips"></div>
+    <div class="linha2">
+      <div><label>Formato</label><select id="iaTipo"><option value="auto">Deixar a IA escolher</option><option value="passos">Passos (lista numerada)</option><option value="lista">Lista (com emoji)</option></select></div>
+      <div><button class="btn azul" id="iaGerar" style="width:100%;padding:11px"></button></div>
+    </div>
+    <p class="dica">${cfg.apiKey ? 'Chave da API configurada neste navegador.' : 'Falta a chave da API da Anthropic: cole em ⚙ Configurações.'} Cada geração é cobrada por uso na sua conta da API (normalmente poucos centavos de dólar). A IA pode errar: leia tudo e confira fatos antes de aprovar.</p>`;
+  c.appendChild(box);
+  const txt = box.querySelector('#iaTxt'), tipo = box.querySelector('#iaTipo'), gerar = box.querySelector('#iaGerar');
+  txt.value = iaPrompt; tipo.value = iaTipo;
+  txt.oninput = () => { iaPrompt = txt.value; };
+  tipo.onchange = () => { iaTipo = tipo.value; };
+  gerar.textContent = iaCarregando ? 'Gerando… (até 1 minuto)' : '✨ Gerar post'; gerar.disabled = iaCarregando;
+  gerar.onclick = gerarComIA;
+  EXEMPLOS.forEach(e => { const ch = document.createElement('button'); ch.className = 'chip'; ch.textContent = e; ch.onclick = () => { iaPrompt = e; txt.value = e; }; box.querySelector('#iaChips').appendChild(ch); });
+}
+function extrairJson(texto) {
+  const ini = texto.indexOf('{'), fim = texto.lastIndexOf('}');
+  if (ini < 0 || fim <= ini) throw new Error('A IA não devolveu um post válido. Tente de novo.');
+  return JSON.parse(texto.slice(ini, fim + 1));
+}
+function normalizarPost(o) {
+  const tipo = o.tipo === 'lista' ? 'lista' : 'passos';
+  const titulo = (Array.isArray(o.titulo) ? o.titulo : [o.titulo || '']).map(s => String(s).trim()).filter(Boolean).slice(0, 3);
+  const itens = (Array.isArray(o.itens) ? o.itens : []).slice(0, 6).map(i => ({
+    ...(tipo === 'lista' ? { emoji: String(i.emoji || '').trim() } : {}),
+    titulo: String(i.titulo || '').trim(),
+    ...(i.texto ? { texto: String(i.texto).trim() } : {})
+  })).filter(i => i.titulo);
+  const d = o.destaque || {};
+  return {
+    post: {
+      tipo, kicker: String(o.kicker || '').trim(), titulo, subtitulo: String(o.subtitulo || '').trim(), itens,
+      destaque: { forte: String(d.forte || '').trim(), texto: String(d.texto || '').trim() },
+      legenda: String(o.legenda || '').trim()
+    },
+    avisos: (Array.isArray(o.avisos) ? o.avisos : []).map(String).filter(Boolean)
+  };
+}
+async function gerarComIA() {
+  if (!cfg.apiKey) { abrirConfig(); return toast('Cole a chave da API da Anthropic em Configurações.', 'erro'); }
+  const pedido = iaPrompt.trim();
+  if (!pedido) return toast('Escreva o que você quer no post.', 'erro');
+  iaCarregando = true; render();
+  try {
+    const formato = iaTipo === 'auto' ? 'Escolha o melhor formato.' : `Use o tipo "${iaTipo}".`;
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-api-key': cfg.apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: cfg.model || 'claude-sonnet-5-5', max_tokens: 6000, system: SYSTEM_IA, messages: [{ role: 'user', content: `${formato}\n\nPedido: ${pedido}` }] })
+    });
+    let j = {}; try { j = await r.json(); } catch (e) {}
+    if (!r.ok) {
+      const m = (j.error && j.error.message) || `Erro ${r.status}`;
+      throw new Error(r.status === 401 ? 'Chave da API inválida. Confira em Configurações.' : r.status === 429 ? 'Limite de uso da API atingido. Tente mais tarde. ' + m : m);
+    }
+    const texto = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    const { post, avisos } = normalizarPost(extrairJson(texto));
+    if (!post.titulo.length || !post.itens.length || !post.legenda) throw new Error('A IA devolveu um post incompleto. Tente de novo.');
+    abrirEditor(null, post, avisos);
+    toast('Post gerado. Revise no editor e clique em Aplicar para salvar como rascunho.', 'ok');
+  } catch (e) { toast('Não consegui gerar: ' + e.message, 'erro'); }
+  finally { iaCarregando = false; if (tab === 'ia') render(); }
+}
+
+// ---------- editor ----------
+let edId = null, edItens = [];
+function lerForm() {
+  const tipo = F('fTipo').value;
+  const p = {
+    tipo,
+    kicker: F('fKicker').value.trim(),
+    titulo: F('fTitulo').value.split('\n').map(s => s.trim()).filter(Boolean),
+    subtitulo: F('fSub').value.trim(),
+    itens: edItens.map(i => ({ ...(tipo === 'lista' ? { emoji: i.emoji.trim() } : {}), titulo: i.titulo.trim(), ...(i.texto.trim() ? { texto: i.texto.trim() } : {}) })).filter(i => i.titulo),
+    destaque: { forte: F('fDestF').value.trim(), texto: F('fDestT').value.trim() },
+    legenda: F('fLegenda').value
+  };
+  const tam = parseInt(F('fTam').value, 10); if (tam) p.tamanhoTitulo = tam;
+  return p;
+}
+function desenharItens() {
+  const box = F('fItens'); box.innerHTML = '';
+  const lista = F('fTipo').value === 'lista';
+  edItens.forEach((it, i) => {
+    const row = document.createElement('div'); row.className = 'item' + (lista ? '' : ' sem-emoji');
+    const mk = (campo, ph) => { const x = document.createElement('input'); x.value = it[campo]; x.placeholder = ph; x.oninput = () => { it[campo] = x.value; prever(); }; return x; };
+    if (lista) row.appendChild(mk('emoji', '😀'));
+    row.appendChild(mk('titulo', 'Título do item'));
+    row.appendChild(mk('texto', 'Texto menor (opcional)'));
+    const del = document.createElement('button'); del.textContent = '✕'; del.onclick = () => { edItens.splice(i, 1); desenharItens(); prever(); };
+    row.appendChild(del); box.appendChild(row);
+  });
+}
+let tPrev;
+function prever() {
+  clearTimeout(tPrev);
+  tPrev = setTimeout(() => {
+    const p = lerForm(), box = F('edPrev');
+    let f = box.querySelector('iframe');
+    if (!f) { f = document.createElement('iframe'); f.setAttribute('sandbox', 'allow-scripts'); box.appendChild(f); }
+    f.style.transform = `scale(${box.clientWidth / 1080})`;
+    f.srcdoc = postHtml(p, data.marca, FONT_CSS);
+  }, 250);
+  const n = F('fLegenda').value.length, c = F('fCnt');
+  c.textContent = `${n}/2200`; c.classList.toggle('erro', n > 2200);
+}
+function abrirEditor(id, preset = null, avisos = []) {
+  edId = id || null;
+  const p = id ? achar(id) : (preset || { tipo: 'passos', kicker: '', titulo: [''], subtitulo: '', itens: [{ titulo: '', texto: '' }], destaque: {}, legenda: '' });
+  if (!p) return;
+  F('edTitulo').textContent = id ? `Editar ${p.id}` : (preset ? 'Post gerado pela IA (rascunho)' : 'Novo post');
+  const av = F('edAvisos'); av.innerHTML = '';
+  if (avisos.length) {
+    const d = document.createElement('div'); d.className = 'edavisos'; d.textContent = '⚠ Confira antes de aprovar:';
+    const ul = document.createElement('ul'); avisos.forEach(a => { const li = document.createElement('li'); li.textContent = a; ul.appendChild(li); });
+    d.appendChild(ul); av.appendChild(d);
+  }
+  F('fTipo').value = p.tipo || 'passos'; F('fKicker').value = p.kicker || ''; F('fTitulo').value = (p.titulo || []).join('\n');
+  F('fTam').value = p.tamanhoTitulo || ''; F('fSub').value = p.subtitulo || '';
+  F('fDestF').value = (p.destaque && p.destaque.forte) || ''; F('fDestT').value = (p.destaque && p.destaque.texto) || '';
+  F('fLegenda').value = p.legenda || '';
+  F('fRepetir').checked = id ? !data.posts.some(x => raizDe(x) === raizDe(p) && x.repetir === false) : true;
+  edItens = (p.itens || []).map(i => ({ emoji: i.emoji || '', titulo: i.titulo || '', texto: i.texto || '' }));
+  if (!edItens.length) edItens.push({ emoji: '', titulo: '', texto: '' });
+  desenharItens();
+  F('dlgEditor').showModal(); prever();
+}
+['fTipo', 'fKicker', 'fTitulo', 'fTam', 'fSub', 'fDestF', 'fDestT', 'fLegenda'].forEach(id => F(id).addEventListener('input', () => { if (id === 'fTipo') desenharItens(); prever(); }));
+F('fAddItem').onclick = () => { edItens.push({ emoji: '', titulo: '', texto: '' }); desenharItens(); };
+F('fOk').onclick = () => {
+  const novo = lerForm();
+  if (!novo.titulo.length) return toast('Preencha o título.', 'erro');
+  if (!novo.itens.length) return toast('Adicione pelo menos um item.', 'erro');
+  if (!novo.legenda.trim()) return toast('Escreva a legenda.', 'erro');
+  if (novo.legenda.length > 2200) return toast('A legenda passa de 2200 caracteres (limite do Instagram).', 'erro');
+  const podeRepetir = F('fRepetir').checked;
+  if (edId) {
+    const p = achar(edId), { id, aprovado, postado, publicadoEm, origem, instagramMediaId, imagemDe } = p;
+    Object.keys(p).forEach(k => delete p[k]);
+    Object.assign(p, { id, aprovado, postado }, novo);
+    if (publicadoEm) p.publicadoEm = publicadoEm;
+    if (origem) p.origem = origem;
+    if (instagramMediaId) p.instagramMediaId = instagramMediaId;
+    if (imagemDe) p.imagemDe = imagemDe;
+    data.posts.filter(x => raizDe(x) === raizDe(p)).forEach(m => { if (podeRepetir) delete m.repetir; else m.repetir = false; });
+  } else {
+    const n = { id: proximoId(), aprovado: false, postado: false, ...novo };
+    if (!podeRepetir) n.repetir = false;
+    data.posts.push(n); tab = 'rascunhos';
+  }
+  F('dlgEditor').close(); marcar();
+};
+
+// ---------- configurações ----------
+function abrirConfig() {
+  F('cOwner').value = cfg.owner; F('cRepo').value = cfg.repo; F('cBranch').value = cfg.branch;
+  F('cPath').value = cfg.path; F('cIdeias').value = cfg.ideias; F('cToken').value = cfg.token;
+  F('cApiKey').value = cfg.apiKey; F('cModelo').value = cfg.model;
+  F('dlgConfig').showModal();
+}
+F('cSalvar').onclick = () => {
+  cfg = { owner: F('cOwner').value.trim(), repo: F('cRepo').value.trim(), branch: F('cBranch').value.trim() || 'main', path: F('cPath').value.trim(), ideias: F('cIdeias').value.trim(), token: F('cToken').value.trim(), apiKey: F('cApiKey').value.trim(), model: F('cModelo').value.trim() || 'claude-sonnet-5-5' };
+  saveCfg(); F('dlgConfig').close(); carregar();
+};
+F('cLimpar').onclick = () => { cfg.token = ''; cfg.apiKey = ''; F('cToken').value = ''; F('cApiKey').value = ''; saveCfg(); toast('Chaves removidas deste navegador.'); render(); };
+document.querySelectorAll('[data-fechar]').forEach(b => b.onclick = () => b.closest('dialog').close());
+
+// ---------- repetição automática (controles) ----------
+function atualizarRepeticao() {
+  if (!data) return;
+  data.repeticao = { ativa: F('repAtiva').checked, diasMinimos: Math.max(7, parseInt(F('repDias').value, 10) || 90) };
+  marcar();
+}
+F('repAtiva').onchange = atualizarRepeticao;
+F('repDias').onchange = atualizarRepeticao;
+
+// ---------- eventos gerais ----------
+$('#btnNovo').onclick = () => { if (!data) return toast('Carregue os posts primeiro.', 'erro'); abrirEditor(null); };
+$('#btnRecarregar').onclick = () => { if (dirty && !confirm('Descartar as alterações não salvas e recarregar?')) return; carregar(); };
+$('#btnConfig').onclick = abrirConfig;
+$('#btnSalvar').onclick = () => salvar();
+$('#btnDescartar').onclick = () => { if (confirm('Descartar as alterações não salvas?')) carregar(); };
+$('#btnPublicar').onclick = () => disparar(false);
+$('#btnTeste').onclick = () => disparar(true);
+$('#btnExec').onclick = carregarExecucoes;
+window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+carregar();
+</script>
+</body>
+</html>

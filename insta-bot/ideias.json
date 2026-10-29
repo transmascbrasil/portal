@@ -1,0 +1,171 @@
+{
+  "posts": [
+    {
+      "id": "post13",
+      "aprovado": false,
+      "postado": false,
+      "tipo": "lista",
+      "kicker": "Retificação",
+      "titulo": ["Vai retificar?", "Separe estes papéis"],
+      "tamanhoTitulo": 88,
+      "subtitulo": "Lista geral. Cada cartório pode pedir um pouco diferente.",
+      "itens": [
+        { "emoji": "📄", "titulo": "Certidão de nascimento ou casamento", "texto": "Atualizada" },
+        { "emoji": "🪪", "titulo": "RG, CPF e título de eleitor", "texto": "Leve os originais" },
+        { "emoji": "🏠", "titulo": "Comprovante de endereço" },
+        { "emoji": "🧾", "titulo": "Certidões de distribuição e de protesto", "texto": "A maioria sai de graça no site dos tribunais" },
+        { "emoji": "📞", "titulo": "Ligue no cartório antes", "texto": "Confirme a lista de documentos que ele exige" }
+      ],
+      "destaque": {
+        "forte": "Sem laudo. Sem cirurgia. A partir dos 18 anos.",
+        "texto": "Sem dinheiro para as taxas? Procure a Defensoria Pública."
+      },
+      "legenda": "Vai retificar nome e gênero no cartório? 🏳️‍⚧️\n\nSepare os papéis antes: certidão de nascimento ou casamento atualizada, RG, CPF e título de eleitor, comprovante de endereço e as certidões de distribuição e de protesto (a maioria sai de graça no site dos tribunais).\n\nDesde a decisão do STF de 2018 e o Provimento 73 do CNJ, dá pra fazer direto no cartório, por autodeclaração, sem cirurgia, sem laudo e sem processo judicial. As exigências podem variar por cartório, então ligue e confirme a lista com o seu.\n\nInformação geral, não substitui orientação jurídica. Sem dinheiro para as taxas? Procure a Defensoria Pública.\n\nO guia passo a passo completo está no portal. Me segue aí, galera, e compartilha com quem precisa 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #retificacao"
+    },
+    {
+      "id": "post14",
+      "aprovado": false,
+      "postado": false,
+      "tipo": "lista",
+      "kicker": "Mito ou verdade",
+      "titulo": ["Retificação", "no cartório"],
+      "tamanhoTitulo": 96,
+      "subtitulo": "Dá pra mudar nome e gênero sem cirurgia?",
+      "itens": [
+        { "emoji": "❌", "titulo": "Precisa de cirurgia?", "texto": "MITO. Não precisa de cirurgia." },
+        { "emoji": "❌", "titulo": "Precisa de laudo?", "texto": "MITO. Não precisa de laudo médico nem psicológico." },
+        { "emoji": "❌", "titulo": "Precisa de advogado?", "texto": "MITO. Dá pra fazer direto no cartório." },
+        { "emoji": "✅", "titulo": "Tem idade mínima?", "texto": "VERDADE. A partir dos 18 anos." }
+      ],
+      "destaque": {
+        "forte": "Decisão do STF (2018) e Provimento 73 do CNJ.",
+        "texto": "Exigências de documentos podem variar por cartório."
+      },
+      "legenda": "Mito ou verdade: retificação no cartório 🏳️‍⚧️\n\n❌ Precisa de cirurgia? Mito.\n❌ Precisa de laudo médico ou psicológico? Mito.\n❌ Precisa de advogado? Mito, dá pra fazer direto no cartório.\n✅ Tem idade mínima? Verdade: a partir dos 18 anos.\n\nIsso vem da decisão do STF de 2018 (ADI 4275) e do Provimento 73 do CNJ, que permitem a retificação por autodeclaração direto no cartório. As exigências de documentos podem variar por cartório.\n\nInformação geral, não substitui orientação jurídica.\n\nTem o passo a passo no portal. Me segue aí, galera, e manda pra quem ainda acha que precisa de cirurgia 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #retificacao"
+    },
+    {
+      "id": "post15",
+      "aprovado": false,
+      "postado": false,
+      "tipo": "passos",
+      "kicker": "Saúde",
+      "titulo": ["Procurando", "ambulatório trans?"],
+      "tamanhoTitulo": 92,
+      "itens": [
+        { "titulo": "Abra o portal", "texto": "O link está na bio" },
+        { "titulo": "Entre em Ambulatórios trans", "texto": "É uma das abas do portal" },
+        { "titulo": "Filtre por estado e cidade", "texto": "Pra achar o mais perto de você" },
+        { "titulo": "Confira convênio e contato", "texto": "Eles aparecem em cada card" }
+      ],
+      "destaque": {
+        "forte": "Mais de 40 ambulatórios na lista.",
+        "texto": "Contatos podem mudar. Confirme antes de ir."
+      },
+      "legenda": "Procurando ambulatório trans? 🏥\n\nNo portal você abre a aba de ambulatórios, filtra por estado e cidade e já vê convênio e contato de cada um. Hoje a lista tem mais de 40 ambulatórios, e a comunidade ainda pode indicar outros.\n\nContato e convênio podem mudar, então confirme antes de ir. As indicações são feitas pela comunidade e revisadas antes de entrar.\n\nMe segue aí, galera, e compartilha com quem está procurando 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans"
+    },
+    {
+      "id": "post16",
+      "aprovado": false,
+      "postado": false,
+      "tipo": "passos",
+      "kicker": "Mastectomia",
+      "titulo": ["Pesquisando", "cirurgião?"],
+      "tamanhoTitulo": 96,
+      "itens": [
+        { "titulo": "Veja o acervo do portal", "texto": "Cirurgiões indicados pela comunidade" },
+        { "titulo": "Filtre por estado e cidade", "texto": "E confira convênio e contato" },
+        { "titulo": "Converse com mais de um", "texto": "Se puder, compare antes de decidir" },
+        { "titulo": "Confira o registro no CRM", "texto": "Dá pra checar no site do conselho" }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "O portal não garante resultado de nenhum profissional."
+      },
+      "legenda": "Pesquisando cirurgião pra mastectomia masculinizadora? 🏥\n\nO portal reúne o maior acervo de cirurgiões que fazem mastectomia masculinizadora no Brasil, indicados pela comunidade. Dá pra filtrar por estado e cidade e ver convênio e contato.\n\nDica geral: converse com mais de um profissional, se puder, e confira o registro no CRM.\n\nImportante: as indicações vêm da comunidade e o portal não garante qualidade nem resultado de nenhum profissional. Contato e convênio podem mudar. Isso não substitui consulta nem orientação médica.\n\nMe segue aí, galera, e indica quem atendeu bem você 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #mastectomia"
+    },
+    {
+      "id": "post17",
+      "aprovado": false,
+      "postado": false,
+      "tipo": "lista",
+      "kicker": "Consulta",
+      "titulo": ["Vai consultar um", "cirurgião?"],
+      "tamanhoTitulo": 90,
+      "subtitulo": "Leve estas perguntas pra conversa",
+      "itens": [
+        { "emoji": "🩺", "titulo": "Como é o procedimento?", "texto": "Peça pra explicarem com calma" },
+        { "emoji": "🗓️", "titulo": "Como é a recuperação?", "texto": "Pergunte sobre prazos e cuidados" },
+        { "emoji": "💰", "titulo": "O que está incluso?", "texto": "Valores, convênio e exames" },
+        { "emoji": "📞", "titulo": "Como é o acompanhamento?", "texto": "O que acontece depois da cirurgia" }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Siga sempre a sua equipe de saúde."
+      },
+      "legenda": "Vai consultar um cirurgião? Leva estas perguntas anotadas 🩺\n\n• Como é o procedimento?\n• Como é a recuperação?\n• O que está incluso (valores, convênio, exames)?\n• Como é o acompanhamento depois da cirurgia?\n\nÉ só uma lista geral pra te ajudar a organizar a conversa. Ela não substitui a orientação da sua equipe de saúde, que conhece o seu caso.\n\nMe segue aí, galera, e salva pra levar na consulta 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #mastectomia"
+    },
+    {
+      "id": "post18",
+      "aprovado": false,
+      "postado": false,
+      "tipo": "lista",
+      "kicker": "Pra família e amigos",
+      "titulo": ["Como apoiar", "um homem trans"],
+      "tamanhoTitulo": 90,
+      "subtitulo": "Atitudes simples fazem muita diferença",
+      "itens": [
+        { "emoji": "🗣️", "titulo": "Use o nome e os pronomes que ele escolheu", "texto": "Mesmo quando ele não estiver por perto" },
+        { "emoji": "👂", "titulo": "Escute sem julgar", "texto": "Deixe ele contar no tempo dele" },
+        { "emoji": "🔒", "titulo": "Não exponha ele", "texto": "A história é dele, não conte sem ele autorizar" },
+        { "emoji": "🚫", "titulo": "Evite perguntas íntimas", "texto": "Sobre corpo e cirurgia, só se ele puxar o assunto" },
+        { "emoji": "📚", "titulo": "Procure informação", "texto": "O portal reúne o que a gente passava de mão em mão" }
+      ],
+      "destaque": {
+        "forte": "Acolher também é cuidar.",
+        "texto": "Compartilhe com quem precisa ler isso."
+      },
+      "legenda": "Como apoiar um homem trans: pra família e amigos 💙\n\n🗣️ Use o nome e os pronomes que ele escolheu\n👂 Escute sem julgar\n🔒 Não exponha ele: a história é dele\n🚫 Evite perguntas íntimas sobre corpo e cirurgia\n📚 Procure informação\n\nSe você é familiar ou amigo e quer entender melhor, o portal reúne guias e indicações feitas pela própria comunidade.\n\nMe segue aí, galera, e compartilha com quem precisa ler isso 🏳️‍⚧️\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #familia"
+    },
+    {
+      "id": "post19",
+      "aprovado": false,
+      "postado": false,
+      "tipo": "lista",
+      "kicker": "Lojinha",
+      "titulo": ["Achados úteis", "na lojinha"],
+      "tamanhoTitulo": 92,
+      "subtitulo": "Listas prontas de produtos",
+      "itens": [
+        { "emoji": "💸", "titulo": "Pagando pouco", "texto": "Opções mais em conta" },
+        { "emoji": "🩹", "titulo": "Pós-mastectomia", "texto": "Itens que a galera costuma procurar" },
+        { "emoji": "👕", "titulo": "Binder", "texto": "Opções pra escolher" },
+        { "emoji": "🧔", "titulo": "Cuidados com a barba", "texto": "Produtos pra cuidar dela" }
+      ],
+      "destaque": {
+        "forte": "Links de afiliado do Mercado Livre.",
+        "texto": "Você não paga nada a mais e ajuda o portal."
+      },
+      "legenda": "A lojinha do portal tem listas prontas de produtos 🛍️\n\n💸 Pagando pouco\n🩹 Pós-mastectomia\n👕 Binder\n🧔 Cuidados com a barba\n\nSão links de afiliado do Mercado Livre: você não paga nada a mais e o portal recebe uma pequena comissão, que ajuda a mantê-lo no ar. Para itens de saúde, siga sempre a orientação da sua equipe médica.\n\nMe segue aí, galera, e compartilha 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #lojinha"
+    },
+    {
+      "id": "post20",
+      "aprovado": false,
+      "postado": false,
+      "tipo": "lista",
+      "kicker": "Apoie",
+      "titulo": ["Ajude o portal", "a continuar"],
+      "tamanhoTitulo": 92,
+      "subtitulo": "Comunitário, gratuito e sem fins lucrativos",
+      "itens": [
+        { "emoji": "🤝", "titulo": "Feito por e para homens trans", "texto": "Mantido por uma pessoa só, sem equipe" },
+        { "emoji": "💙", "titulo": "Contribua com qualquer valor", "texto": "Uma contribuição pontual já ajuda" },
+        { "emoji": "🔗", "titulo": "Link na bio", "texto": "Procure o botão Apoie no portal" }
+      ],
+      "destaque": {
+        "forte": "Não pode contribuir? Compartilhar também ajuda.",
+        "texto": "Indique o portal pra quem precisa."
+      },
+      "legenda": "Quer ajudar o portal a continuar no ar? 💙\n\nO Portal Transmasc Brasil é gratuito, comunitário e sem fins lucrativos, mantido por uma pessoa só. Se puder, contribua com qualquer valor pela campanha no Apoia.se (o link está no portal).\n\nNão pode contribuir? Compartilhar, seguir e indicar profissionais também ajuda muito 🤝\n\nMe segue aí, galera!\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil"
+    }
+  ]
+}
