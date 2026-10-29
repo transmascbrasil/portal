@@ -6,6 +6,25 @@ export const esc = (s = "") =>
 
 const ICONE = `<svg width="56" height="56" viewBox="0 0 56 56"><defs><clipPath id="c"><rect width="56" height="56" rx="14"/></clipPath></defs><g clip-path="url(#c)"><rect width="56" height="11.2" fill="#5BCEFA"/><rect y="11.2" width="56" height="11.2" fill="#F5A9B8"/><rect y="22.4" width="56" height="11.2" fill="#fff"/><rect y="33.6" width="56" height="11.2" fill="#F5A9B8"/><rect y="44.8" width="56" height="11.2" fill="#5BCEFA"/></g></svg>`;
 
+// Temas de cor. "escuro" é o padrão (identidade do portal).
+export const TEMAS = {
+  escuro: { nome: "Escuro (padrão)", bg: "#14254F", txt: "#fff", mut: "#c3cdea", card: "#25376a", kick: "#5BCEFA", acc2: "#F5A9B8", hl: "", num: "#5BCEFA", numtxt: "#14254F", c1: "#1a3a63", c2: "#243566", dbg: "#F5A9B8", dtxt: "#14254F", user: "#5BCEFA", tmb: "#F5A9B8", tmt: "#14254F", tvb: "#5BCEFA", tvt: "#14254F", h1b: "#5BCEFA", h1t: "#14254F", h2b: "#F5A9B8", h2t: "#14254F" },
+  claro: { nome: "Claro", bg: "#F7FAFF", txt: "#14254F", mut: "#4a5a85", card: "#E3EDFB", kick: "#1b86b8", acc2: "#D6486F", hl: "", num: "#14254F", numtxt: "#fff", c1: "#e1f1fb", c2: "#fbe3ea", dbg: "#14254F", dtxt: "#fff", user: "#1b86b8", tmb: "#F5A9B8", tmt: "#14254F", tvb: "#5BCEFA", tvt: "#14254F", h1b: "#5BCEFA", h1t: "#14254F", h2b: "#F5A9B8", h2t: "#14254F" },
+  rosa: { nome: "Rosa", bg: "#F5A9B8", txt: "#14254F", mut: "#3a3057", card: "#FBD2DB", kick: "#14254F", acc2: "#14254F", hl: "#5BCEFA", num: "#14254F", numtxt: "#fff", c1: "#f8bcc8", c2: "#f29db0", dbg: "#14254F", dtxt: "#fff", user: "#14254F", tmb: "#14254F", tmt: "#fff", tvb: "#fff", tvt: "#14254F", h1b: "#14254F", h1t: "#fff", h2b: "#fff", h2t: "#14254F" },
+  azul: { nome: "Azul", bg: "#5BCEFA", txt: "#14254F", mut: "#1d3a66", card: "#A8E3FB", kick: "#14254F", acc2: "#14254F", hl: "#F5A9B8", num: "#14254F", numtxt: "#fff", c1: "#74d6fb", c2: "#42c0ee", dbg: "#14254F", dtxt: "#fff", user: "#14254F", tmb: "#14254F", tmt: "#fff", tvb: "#fff", tvt: "#14254F", h1b: "#14254F", h1t: "#fff", h2b: "#fff", h2t: "#14254F" },
+};
+export const TIPOS = {
+  passos: "Passos (lista numerada)",
+  lista: "Lista (com emoji)",
+  checklist: "Checklist (caixinhas)",
+  mito: "Mito ou verdade",
+  comparativo: "Comparativo (2 colunas)",
+  citacao: "Frase em destaque",
+  capa: "Capa / aviso (só título)",
+};
+export const TIPOS_SEM_ITENS = ["capa", "citacao"];
+export const TIPOS_COM_EMOJI = ["lista", "comparativo"];
+
 // fontCss: CSS com @font-face (Node) ou @import do Google Fonts (painel)
 export function postHtml(p, marca, fontCss = "") {
   const linhas = p.titulo || [];
@@ -13,17 +32,48 @@ export function postHtml(p, marca, fontCss = "") {
     .map((l, i) => `<span class="${i === linhas.length - 1 && linhas.length > 1 ? "rosa" : ""}">${esc(l)}</span>`)
     .join("<br>");
 
+  const T = TEMAS[p.tema] || TEMAS.escuro;
+  const tipo = TIPOS[p.tipo] ? p.tipo : "passos";
+  const itens = p.itens || [];
+  const centrado = tipo === "capa" || tipo === "citacao";
+
   let corpo = "";
-  if (p.tipo === "passos") {
-    corpo = (p.itens || [])
+  if (tipo === "passos") {
+    corpo = itens
       .map(
         (it, i) => `<div class="passo"><div class="num">${i + 1}</div><div><div class="pt">${esc(it.titulo)}</div>${
           it.texto ? `<div class="ps">${esc(it.texto)}</div>` : ""
         }</div></div>`
       )
       .join("");
-  } else {
-    corpo = (p.itens || [])
+  } else if (tipo === "checklist") {
+    corpo = itens
+      .map(
+        (it) => `<div class="pilula"><span class="box">✓</span><div><div class="lt">${esc(it.titulo)}</div>${
+          it.texto ? `<div class="ls">${esc(it.texto)}</div>` : ""
+        }</div></div>`
+      )
+      .join("");
+  } else if (tipo === "mito") {
+    corpo = itens
+      .map(
+        (it) => `<div class="mv"><div class="mvl"><span class="tag m">MITO</span><span class="mvt">${esc(it.titulo)}</span></div>${
+          it.texto ? `<div class="mvl"><span class="tag v">VERDADE</span><span class="mvt2">${esc(it.texto)}</span></div>` : ""
+        }</div>`
+      )
+      .join("");
+  } else if (tipo === "comparativo") {
+    corpo = `<div class="cols">${itens
+      .slice(0, 2)
+      .map((it, k) => {
+        const linhas = String(it.texto || "").split("|").map((x) => x.trim()).filter(Boolean);
+        return `<div class="col"><div class="ch h${k + 1}">${it.emoji ? esc(it.emoji) + " " : ""}${esc(it.titulo)}</div><div class="cb">${linhas
+          .map((l) => `<div>${esc(l)}</div>`)
+          .join("")}</div></div>`;
+      })
+      .join("")}</div>`;
+  } else if (tipo === "lista") {
+    corpo = itens
       .map(
         (it) => `<div class="pilula"><span class="emoji">${esc(it.emoji || "")}</span><div><div class="lt">${esc(it.titulo)}</div>${
           it.texto ? `<div class="ls">${esc(it.texto)}</div>` : ""
@@ -31,6 +81,10 @@ export function postHtml(p, marca, fontCss = "") {
       )
       .join("");
   }
+  const tituloHtml = tipo === "citacao"
+    ? esc(linhas.join(" "))
+    : titulo;
+  const tamPadrao = tipo === "capa" ? 118 : tipo === "citacao" ? 68 : 84;
 
   const destaque = p.destaque && (p.destaque.forte || p.destaque.texto)
     ? `<div class="destaque"><b>${esc(p.destaque.forte || "")}</b>${p.destaque.texto ? `<span>${esc(p.destaque.texto)}</span>` : ""}</div>`
@@ -39,38 +93,53 @@ export function postHtml(p, marca, fontCss = "") {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 ${fontCss}
 *{box-sizing:border-box;margin:0;padding:0}
-body{width:1080px;height:1350px;background:#14254F;font-family:'Inter',sans-serif;color:#fff;position:relative;overflow:hidden}
+body{width:1080px;height:1350px;background:${T.bg};font-family:'Inter',sans-serif;color:${T.txt};position:relative;overflow:hidden}
 .faixa{position:absolute;top:0;left:0;width:1080px;height:14px;display:flex;z-index:5}
 .faixa i{flex:1}.faixa i:nth-child(1),.faixa i:nth-child(5){background:#5BCEFA}.faixa i:nth-child(2),.faixa i:nth-child(4){background:#F5A9B8}.faixa i:nth-child(3){background:#fff}
-.c1{position:absolute;right:-400px;top:-320px;width:800px;height:800px;border-radius:50%;background:#1a3a63;opacity:.7}
-.c2{position:absolute;left:-300px;bottom:-420px;width:660px;height:660px;border-radius:50%;background:#243566;opacity:.8}
-.wrap{position:absolute;inset:0;padding:108px 80px 0 80px}
-.kicker{font-size:34px;font-weight:800;letter-spacing:.22em;color:#5BCEFA;text-transform:uppercase;margin-bottom:14px}
-h1{font-size:${Number(p.tamanhoTitulo) || 84}px;line-height:1.06;font-weight:900;letter-spacing:-.02em}
-h1 .rosa{color:#F5A9B8}
-.sub{margin-top:22px;font-size:36px;line-height:1.25;font-weight:700;color:#fff}
-.corpo{margin-top:${p.tipo === "passos" ? 52 : 46}px;display:flex;flex-direction:column;gap:${p.tipo === "passos" ? 36 : 18}px}
+.c1{position:absolute;right:-400px;top:-320px;width:800px;height:800px;border-radius:50%;background:${T.c1};opacity:.7}
+.c2{position:absolute;left:-300px;bottom:-420px;width:660px;height:660px;border-radius:50%;background:${T.c2};opacity:.8}
+.wrap{position:absolute;inset:0;padding:108px 80px 0 80px;${centrado ? "padding-bottom:230px;display:flex;flex-direction:column;justify-content:center;" : ""}}
+.kicker{font-size:34px;font-weight:800;letter-spacing:.22em;color:${T.kick};text-transform:uppercase;margin-bottom:14px}
+h1{font-size:${Number(p.tamanhoTitulo) || tamPadrao}px;line-height:${tipo === "citacao" ? 1.16 : 1.06};font-weight:900;letter-spacing:-.02em}
+h1 .rosa{color:${T.acc2};${T.hl ? `background:${T.hl};color:${T.txt};padding:0 .16em;border-radius:14px;-webkit-box-decoration-break:clone;box-decoration-break:clone;` : ""}}
+.aspas{font-size:300px;line-height:.6;font-weight:900;color:${T.hl || T.kick};height:150px;margin-left:-8px}
+.sub{margin-top:22px;font-size:${tipo === "capa" ? 44 : 36}px;line-height:1.25;font-weight:700;color:${tipo === "citacao" ? T.kick : T.txt}}
+.corpo{margin-top:${tipo === "passos" ? 52 : 46}px;display:flex;flex-direction:column;gap:${tipo === "passos" ? 36 : tipo === "mito" ? 22 : 18}px}
 .passo{display:flex;gap:28px;align-items:flex-start}
-.num{flex:none;width:80px;height:80px;border-radius:50%;background:#5BCEFA;color:#14254F;font-size:44px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.num{flex:none;width:80px;height:80px;border-radius:50%;background:${T.num};color:${T.numtxt};font-size:44px;font-weight:900;display:flex;align-items:center;justify-content:center}
 .pt{font-size:40px;font-weight:800;line-height:1.15}
-.ps{font-size:30px;font-weight:500;color:#c3cdea;margin-top:6px;line-height:1.25}
-.pilula{display:flex;gap:22px;align-items:center;background:#25376a;border-radius:22px;padding:22px 30px}
+.ps{font-size:30px;font-weight:500;color:${T.mut};margin-top:6px;line-height:1.25}
+.pilula{display:flex;gap:22px;align-items:center;background:${T.card};border-radius:22px;padding:22px 30px}
 .emoji{font-size:40px;flex:none}
+.box{flex:none;width:58px;height:58px;border-radius:15px;background:${T.num};color:${T.numtxt};font-size:40px;font-weight:900;display:flex;align-items:center;justify-content:center}
 .lt{font-size:36px;font-weight:700;line-height:1.2}
-.ls{font-size:28px;font-weight:500;color:#c3cdea;margin-top:4px;line-height:1.25}
-.destaque{position:absolute;left:80px;right:80px;bottom:200px;background:#F5A9B8;color:#14254F;border-radius:26px;padding:28px 36px}
+.ls{font-size:28px;font-weight:500;color:${T.mut};margin-top:4px;line-height:1.25}
+.mv{background:${T.card};border-radius:24px;padding:22px 28px;display:flex;flex-direction:column;gap:14px}
+.mvl{display:flex;gap:18px;align-items:flex-start}
+.tag{flex:none;min-width:150px;text-align:center;font-size:24px;font-weight:900;letter-spacing:.08em;border-radius:12px;padding:8px 14px;margin-top:3px}
+.tag.m{background:${T.tmb};color:${T.tmt}}.tag.v{background:${T.tvb};color:${T.tvt}}
+.mvt{font-size:34px;font-weight:800;line-height:1.2}
+.mvt2{font-size:30px;font-weight:600;line-height:1.25;color:${T.mut}}
+.cols{display:flex;gap:24px;align-items:stretch}
+.col{flex:1;background:${T.card};border-radius:26px;overflow:hidden}
+.ch{padding:22px 24px;font-size:36px;font-weight:900;line-height:1.15}
+.ch.h1{background:${T.h1b};color:${T.h1t}}.ch.h2{background:${T.h2b};color:${T.h2t}}
+.cb{padding:22px 24px;display:flex;flex-direction:column;gap:18px}
+.cb div{font-size:30px;font-weight:600;line-height:1.25}
+.destaque{position:absolute;left:80px;right:80px;bottom:200px;background:${T.dbg};color:${T.dtxt};border-radius:26px;padding:28px 36px}
 .destaque b{display:block;font-size:38px;font-weight:900;line-height:1.2}
 .destaque span{display:block;font-size:29px;font-weight:700;margin-top:8px;line-height:1.25}
 .rodape{position:absolute;left:80px;bottom:56px;display:flex;align-items:center;gap:22px}
 .rodape .n{font-size:30px;font-weight:800}
-.rodape .u{font-size:28px;font-weight:600;color:#5BCEFA;margin-top:2px}
+.rodape .u{font-size:28px;font-weight:600;color:${T.user};margin-top:2px}
 </style></head><body>
 <div class="faixa"><i></i><i></i><i></i><i></i><i></i></div><div class="c1"></div><div class="c2"></div>
 <div class="wrap"><div class="inner">
   ${p.kicker ? `<div class="kicker">${esc(p.kicker)}</div>` : ""}
-  <h1>${titulo}</h1>
+  ${tipo === "citacao" ? '<div class="aspas">“</div>' : ""}
+  <h1>${tituloHtml}</h1>
   ${p.subtitulo ? `<div class="sub">${esc(p.subtitulo)}</div>` : ""}
-  <div class="corpo">${corpo}</div>
+  ${corpo ? `<div class="corpo">${corpo}</div>` : ""}
 </div></div>
 ${destaque}
 <div class="rodape">${ICONE}<div><div class="n">${esc(marca.nome)}</div><div class="u">${esc(marca.rodape)}</div></div></div>
