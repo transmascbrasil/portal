@@ -267,10 +267,31 @@ nav .it.on em{background:#0e1a3a22}
     <p class="dica">Fica guardado só neste navegador (o login protege o painel, mas o token continua salvo aqui até você remover). Crie em
       <a style="color:var(--azul)" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Settings → Developer settings → Fine-grained tokens</a>:
       escolha <b>só este repositório</b> e as permissões <b>Contents: Read and write</b> e <b>Actions: Read and write</b>. Não use em computador compartilhado.</p>
-    <label>Chave da API da Anthropic (só para a aba "Criar com IA")</label>
-    <input id="cApiKey" type="password" autocomplete="off" placeholder="sk-ant-...">
-    <label>Modelo</label><input id="cModelo" placeholder="claude-sonnet-5-5">
-    <p class="dica">Crie a chave em <a style="color:var(--azul)" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. A API é cobrada por uso, separada do plano do claude.ai. A chave fica só neste navegador e é enviada apenas para a Anthropic. <b>Defina um limite mensal de gasto no Console</b> e use uma chave só para este painel.</p>
+    <label>IA para gerar posts e ideias</label>
+    <select id="cProv">
+      <option value="anthropic">Claude (Anthropic): melhor qualidade, pago por uso</option>
+      <option value="gemini">Google Gemini: tem plano gratuito</option>
+      <option value="compat">Outra (Groq, OpenRouter e similares): tem planos gratuitos</option>
+    </select>
+    <div id="gAnt">
+      <label>Chave da API da Anthropic</label>
+      <input id="cApiKey" type="password" autocomplete="off" placeholder="sk-ant-...">
+      <label>Modelo</label><input id="cModelo" placeholder="claude-sonnet-5-5">
+      <p class="dica">Crie a chave em <a style="color:var(--azul)" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. A API é cobrada por uso, separada do plano do claude.ai (em geral poucos centavos de dólar por post). <b>Defina um limite mensal de gasto no Console</b> e use uma chave só para este painel.</p>
+    </div>
+    <div id="gGem" hidden>
+      <label>Chave da API do Google Gemini</label>
+      <input id="cGemKey" type="password" autocomplete="off" placeholder="AIza...">
+      <label>Modelo</label><input id="cGemModelo" placeholder="gemini-2.5-flash">
+      <p class="dica">Crie a chave grátis em <a style="color:var(--azul)" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> (precisa de conta Google). O plano gratuito tem limite de uso por minuto e por dia, e o Google pode usar o que for enviado para melhorar os produtos dele, então não envie dados pessoais. Se der erro de modelo, veja o nome atual no AI Studio e troque aqui.</p>
+    </div>
+    <div id="gComp" hidden>
+      <label>Endereço da API (compatível com OpenAI)</label><input id="cCompUrl" placeholder="https://api.groq.com/openai/v1">
+      <label>Chave da API</label><input id="cCompKey" type="password" autocomplete="off">
+      <label>Modelo</label><input id="cCompModelo" placeholder="llama-3.3-70b-versatile">
+      <p class="dica">Exemplos: Groq (<code>https://api.groq.com/openai/v1</code>) e OpenRouter (<code>https://openrouter.ai/api/v1</code>, com modelos que terminam em <code>:free</code>). Os modelos gratuitos mudam com frequência: confira o nome e os limites no site do serviço. Esses modelos costumam errar mais em português e em seguir as regras do projeto, então leia tudo com atenção.</p>
+    </div>
+    <p class="dica">As chaves ficam só neste navegador e são enviadas apenas para o serviço escolhido.</p>
   </div>
   <div class="df">
     <button class="btn perigo" id="cLimpar">Remover chaves deste navegador</button>
@@ -375,14 +396,14 @@ const DIAS = [2, 4, 6];      // terça, quinta, sábado
 const HORA_UTC = 15;         // 12h em Brasília
 const FONT_CSS = "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap');";
 const CFG_KEY = 'igbot_cfg_v1';
-const DEFAULTS = { owner: 'transmascbrasil', repo: 'portal', branch: 'main', path: 'insta-bot/posts.json', ideias: 'insta-bot/ideias.json', token: '', apiKey: '', model: 'claude-sonnet-5-5' };
+const DEFAULTS = { owner: 'transmascbrasil', repo: 'portal', branch: 'main', path: 'insta-bot/posts.json', ideias: 'insta-bot/ideias.json', token: '', provider: 'anthropic', apiKey: '', model: 'claude-sonnet-5-5', geminiKey: '', geminiModel: 'gemini-2.5-flash', compatUrl: 'https://api.groq.com/openai/v1', compatKey: '', compatModel: 'llama-3.3-70b-versatile' };
 
 let cfg = { ...DEFAULTS };
 try { cfg = { ...DEFAULTS, ...JSON.parse(localStorage.getItem(CFG_KEY) || '{}') }; } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch (e) {} };
 
 const PAGINAS = ['inicio', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'robo', 'repeticao'];
-let data = null, sha = null, ideias = [], dirty = false, tab = PAGINAS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio', loadError = '';
+let data = null, sha = null, ideiasSha = null, snapPosts = '', snapIdeias = '', ideias = [], dirty = false, tab = PAGINAS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio', loadError = '';
 const selecionados = new Set();
 let iaPrompt = '', iaTipo = 'auto', iaCarregando = false;
 
@@ -452,8 +473,10 @@ async function carregar() {
     selecionados.clear();
     try {
       const r2 = await gh(`contents/${cfg.ideias}?ref=${encodeURIComponent(cfg.branch)}`);
-      ideias = r2.ok ? (JSON.parse(dec((await r2.json()).content)).posts || []) : [];
-    } catch (e) { ideias = []; }
+      if (r2.ok) { const j2 = await r2.json(); ideiasSha = j2.sha; ideias = JSON.parse(dec(j2.content)).posts || []; }
+      else { ideiasSha = null; ideias = []; }
+    } catch (e) { ideias = []; ideiasSha = null; }
+    snapPosts = JSON.stringify(data); snapIdeias = JSON.stringify(ideias);
   } catch (e) { loadError = e.message; data = null; }
   render(); carregarExecucoes();
 }
@@ -470,18 +493,37 @@ async function mesclarRemoto() {
   }
   sha = j.sha;
 }
-async function salvar(tentar = true) {
+async function salvarPosts(tentar = true) {
+  const body = { message: 'painel: atualiza a fila de posts do Instagram', content: enc(JSON.stringify(data, null, 2) + '\n'), sha, branch: cfg.branch };
+  const r = await gh(`contents/${cfg.path}`, { method: 'PUT', body: JSON.stringify(body) });
+  if (r.status === 409 || r.status === 422) {
+    if (tentar) { await mesclarRemoto(); return await salvarPosts(false); }
+    throw new Error('O arquivo mudou no GitHub. Clique em Recarregar e refaça a alteração.');
+  }
+  if (!r.ok) throw new Error(await erroDaApi(r));
+  sha = (await r.json()).content.sha; snapPosts = JSON.stringify(data);
+}
+async function salvarIdeias(tentar = true) {
+  const body = { message: 'painel: atualiza o banco de ideias', content: enc(JSON.stringify({ posts: ideias }, null, 2) + '\n'), branch: cfg.branch, ...(ideiasSha ? { sha: ideiasSha } : {}) };
+  const r = await gh(`contents/${cfg.ideias}`, { method: 'PUT', body: JSON.stringify(body) });
+  if (r.status === 409 || r.status === 422) {
+    if (tentar) {
+      const g = await gh(`contents/${cfg.ideias}?ref=${encodeURIComponent(cfg.branch)}`);
+      if (g.ok) { const jg = await g.json(); ideiasSha = jg.sha; for (const x of JSON.parse(dec(jg.content)).posts || []) if (!ideias.some(y => y.id === x.id)) ideias.push(x); }
+      return await salvarIdeias(false);
+    }
+    throw new Error('O banco de ideias mudou no GitHub. Clique em Recarregar e refaça a alteração.');
+  }
+  if (!r.ok) throw new Error(await erroDaApi(r));
+  ideiasSha = (await r.json()).content.sha; snapIdeias = JSON.stringify(ideias);
+}
+async function salvar() {
   if (!cfg.token) { abrirConfig(); toast('Cole o token do GitHub para poder salvar.', 'erro'); return false; }
   const btn = $('#btnSalvar'); btn.disabled = true; btn.textContent = 'Salvando…';
   try {
-    const body = { message: 'painel: atualiza a fila de posts do Instagram', content: enc(JSON.stringify(data, null, 2) + '\n'), sha, branch: cfg.branch };
-    const r = await gh(`contents/${cfg.path}`, { method: 'PUT', body: JSON.stringify(body) });
-    if (r.status === 409 || r.status === 422) {
-      if (tentar) { await mesclarRemoto(); return await salvar(false); }
-      throw new Error('O arquivo mudou no GitHub. Clique em Recarregar e refaça a alteração.');
-    }
-    if (!r.ok) throw new Error(await erroDaApi(r));
-    sha = (await r.json()).content.sha; dirty = false;
+    if (JSON.stringify(data) !== snapPosts) await salvarPosts();
+    if (JSON.stringify(ideias) !== snapIdeias) await salvarIdeias();
+    dirty = false;
     toast('Salvo no GitHub ✅', 'ok'); render(); return true;
   } catch (e) { toast(e.message, 'erro'); return false; }
   finally { btn.disabled = false; btn.textContent = '💾 Salvar no GitHub'; }
@@ -547,7 +589,7 @@ function duplicar(id) {
 }
 function adicionarIdeia(id, silencioso = false) {
   const p = ideias.find(x => x.id === id); if (!p || achar(id)) return;
-  data.posts.push({ ...JSON.parse(JSON.stringify(p)), aprovado: false, postado: false });
+  const cp = JSON.parse(JSON.stringify(p)); delete cp.avisos; data.posts.push({ ...cp, aprovado: false, postado: false });
   if (!silencioso) { marcar(); toast('Adicionado aos rascunhos.'); }
 }
 async function publicarAgora(id) {
@@ -789,16 +831,24 @@ function render() {
     });
     if (!lista.length) c.innerHTML = '<div class="vazio">Ainda não há posts publicados pelo robô.</div>';
   } else if (tab === 'ideias') {
+    const gb = document.createElement('div'); gb.className = 'selbar'; gb.style.flexWrap = 'wrap';
+    gb.innerHTML = `<span class="sp" style="min-width:220px">✨ Gerar novas ideias com IA e guardar no banco. ${temChave() ? `Usando ${esc(NOME_PROV[cfg.provider || 'anthropic'])}.` : 'Falta configurar a chave da IA em ⚙ Configurações.'}</span>
+      <input id="gqTema" placeholder="Tema opcional (ex.: cuidados com a pele)" style="flex:2;min-width:220px">
+      <input id="gqQtd" type="number" min="1" max="5" style="width:70px" title="Quantidade (1 a 5)">`;
+    const gq = gb.querySelector('#gqQtd'), gt = gb.querySelector('#gqTema'); gq.value = ideiasQtd; gt.value = ideiasTema;
+    gq.oninput = () => { ideiasQtd = parseInt(gq.value, 10) || 1; }; gt.oninput = () => { ideiasTema = gt.value; };
+    gb.appendChild(btn(ideiasGerando ? 'Gerando… (até 1 minuto)' : '✨ Gerar novas ideias', 'azul', gerarIdeias, ideiasGerando));
+    c.appendChild(gb);
     if (novas.length) {
       const topo = document.createElement('div'); topo.style.marginBottom = '14px';
       topo.appendChild(btn(`Adicionar todas (${novas.length}) aos rascunhos`, 'azul', () => { novas.forEach(i => adicionarIdeia(i.id, true)); tab = 'rascunhos'; marcar(); toast(`${novas.length} posts adicionados aos rascunhos.`); }));
       c.appendChild(topo);
     }
     novas.forEach(p => grid.appendChild(card(p, {
-      badge: 'Ideia', badgeCls: 'rasc',
-      acoes: [btn('＋ Adicionar aos rascunhos', 'azul', () => adicionarIdeia(p.id))]
+      badge: 'Ideia', badgeCls: 'rasc', extra: p.avisos && p.avisos.length ? '⚠ Conferir: ' + p.avisos.join(' · ') : '',
+      acoes: [btn('＋ Adicionar aos rascunhos', 'azul', () => adicionarIdeia(p.id)), btn('Excluir', 'perigo', () => { if (confirm(`Tirar "${tituloTxt(p)}" do banco de ideias?`)) { ideias.splice(ideias.indexOf(p), 1); marcar(); } })]
     })));
-    if (!novas.length) c.innerHTML = '<div class="vazio">Todas as ideias já foram adicionadas.</div>';
+    if (!novas.length) { const v = document.createElement('div'); v.className = 'vazio'; v.textContent = 'O banco está vazio. Use o botão acima para gerar novas ideias.'; c.appendChild(v); }
   } else if (tab === 'ia') {
     renderIA(c);
   }
@@ -832,7 +882,7 @@ const SYSTEM_IA = [
   '- Lojinha: links de afiliado do Mercado Livre (a pessoa não paga a mais). Se citar o Apoia.se, diga "contribua com qualquer valor" e inclua em "avisos": "Confirmar se o Apoia.se aceita contribuição única".',
   '- Sem imagens de corpos. Nada sensacionalista.',
   '',
-  'FORMATO: responda SOMENTE com um objeto JSON válido, sem markdown e sem texto fora do JSON:',
+  'FORMATO: responda SOMENTE com JSON válido, sem markdown e sem texto fora do JSON. Para um post, um objeto; quando o pedido for de vários posts, um array de objetos. Cada objeto tem este formato:',
   '{',
   '  "tipo": um de "passos" | "lista" | "checklist" | "mito" | "comparativo" | "citacao" | "capa",',
   '     // passos = sequência numerada; lista = dicas com emoji; checklist = o que levar/conferir; mito = cada item tem "titulo" (o mito) e "texto" (a verdade), 2 a 3 itens;',
@@ -862,7 +912,7 @@ function renderIA(c) {
       <div><label>Formato</label><select id="iaTipo"><option value="auto">Deixar a IA escolher</option>${Object.entries(TIPOS).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join('')}</select></div>
       <div><button class="btn azul" id="iaGerar" style="width:100%;padding:11px"></button></div>
     </div>
-    <p class="dica">${cfg.apiKey ? 'Chave da API configurada neste navegador.' : 'Falta a chave da API da Anthropic: cole em ⚙ Configurações.'} Cada geração é cobrada por uso na sua conta da API (normalmente poucos centavos de dólar). A IA pode errar: leia tudo e confira fatos antes de aprovar.</p>`;
+    <p class="dica">${temChave() ? `Usando ${esc(NOME_PROV[cfg.provider || 'anthropic'])} (troque em ⚙ Configurações).` : 'Falta configurar a chave da IA em ⚙ Configurações.'} Serviços pagos cobram por uso na sua conta (poucos centavos por post); os gratuitos têm limite diário. A IA pode errar: leia tudo e confira fatos antes de aprovar.</p>`;
   c.appendChild(box);
   const txt = box.querySelector('#iaTxt'), tipo = box.querySelector('#iaTipo'), gerar = box.querySelector('#iaGerar');
   txt.value = iaPrompt; tipo.value = iaTipo;
@@ -873,9 +923,50 @@ function renderIA(c) {
   EXEMPLOS.forEach(e => { const ch = document.createElement('button'); ch.className = 'chip'; ch.textContent = e; ch.onclick = () => { iaPrompt = e; txt.value = e; }; box.querySelector('#iaChips').appendChild(ch); });
 }
 function extrairJson(texto) {
-  const ini = texto.indexOf('{'), fim = texto.lastIndexOf('}');
-  if (ini < 0 || fim <= ini) throw new Error('A IA não devolveu um post válido. Tente de novo.');
+  const ini = texto.search(/[\[{]/);
+  if (ini < 0) throw new Error('A IA não devolveu um post válido. Tente de novo.');
+  const fim = texto.lastIndexOf(texto[ini] === '[' ? ']' : '}');
+  if (fim <= ini) throw new Error('A resposta da IA veio cortada. Tente de novo (ou peça menos posts de uma vez).');
   return JSON.parse(texto.slice(ini, fim + 1));
+}
+const NOME_PROV = { anthropic: 'Claude', gemini: 'Google Gemini', compat: 'a IA configurada' };
+function temChave() {
+  const p = cfg.provider || 'anthropic';
+  return p === 'gemini' ? !!cfg.geminiKey : p === 'compat' ? !!(cfg.compatKey && cfg.compatUrl && cfg.compatModel) : !!cfg.apiKey;
+}
+// Chama a IA escolhida e devolve só o texto da resposta.
+async function chamarIA(system, usuario, maxTokens = 6000) {
+  const prov = cfg.provider || 'anthropic';
+  let url, headers, body;
+  if (prov === 'gemini') {
+    url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(cfg.geminiModel || 'gemini-2.5-flash')}:generateContent`;
+    headers = { 'content-type': 'application/json', 'x-goog-api-key': cfg.geminiKey };
+    body = { systemInstruction: { parts: [{ text: system }] }, contents: [{ role: 'user', parts: [{ text: usuario }] }], generationConfig: { maxOutputTokens: maxTokens + 4000, responseMimeType: 'application/json' } };
+  } else if (prov === 'compat') {
+    url = cfg.compatUrl.replace(/\/+$/, '') + '/chat/completions';
+    headers = { 'content-type': 'application/json', Authorization: 'Bearer ' + cfg.compatKey };
+    body = { model: cfg.compatModel, max_tokens: maxTokens, messages: [{ role: 'system', content: system }, { role: 'user', content: usuario }] };
+  } else {
+    url = 'https://api.anthropic.com/v1/messages';
+    headers = { 'content-type': 'application/json', 'x-api-key': cfg.apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' };
+    body = { model: cfg.model || 'claude-sonnet-5-5', max_tokens: maxTokens, system, messages: [{ role: 'user', content: usuario }] };
+  }
+  let r;
+  try { r = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) }); }
+  catch (e) { throw new Error('Não consegui falar com a IA (sem internet, ou o serviço não aceita chamadas direto do navegador).'); }
+  let j = {}; try { j = await r.json(); } catch (e) {}
+  if (!r.ok) {
+    const e = j.error; const m = typeof e === 'string' ? e : (e && e.message) || `Erro ${r.status}`;
+    if (r.status === 401 || r.status === 403) throw new Error('Chave da API inválida ou sem permissão. Confira em Configurações. ' + m);
+    if (r.status === 429) throw new Error('Limite de uso da IA atingido (planos gratuitos têm limite por minuto e por dia). Espere um pouco e tente de novo. ' + m);
+    throw new Error(m);
+  }
+  let texto = '';
+  if (prov === 'gemini') texto = ((j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || []).filter(p => !p.thought).map(p => p.text || '').join('');
+  else if (prov === 'compat') texto = (j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || '';
+  else texto = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+  if (!texto.trim()) throw new Error('A IA não devolveu texto (pode ter sido bloqueada). Tente de novo.');
+  return texto;
 }
 function normalizarPost(o) {
   const tipo = TIPOS[o.tipo] ? o.tipo : 'passos';
@@ -886,39 +977,70 @@ function normalizarPost(o) {
     ...(i.texto ? { texto: String(i.texto).trim() } : {})
   })).filter(i => i.titulo);
   const d = o.destaque || {};
-  return {
-    post: {
-      tipo, kicker: String(o.kicker || '').trim(), titulo, subtitulo: String(o.subtitulo || '').trim(), itens,
-      destaque: { forte: String(d.forte || '').trim(), texto: String(d.texto || '').trim() },
-      legenda: String(o.legenda || '').trim()
-    },
-    avisos: (Array.isArray(o.avisos) ? o.avisos : []).map(String).filter(Boolean)
+  const post = {
+    tipo, kicker: String(o.kicker || '').trim(), titulo, subtitulo: String(o.subtitulo || '').trim(), itens,
+    destaque: { forte: String(d.forte || '').trim(), texto: String(d.texto || '').trim() },
+    legenda: String(o.legenda || '').trim()
   };
+  const avisos = (Array.isArray(o.avisos) ? o.avisos : []).map(String).filter(Boolean);
+  // conferências automáticas (a IA às vezes passa do tamanho)
+  if (tipo === 'comparativo' && itens.length !== 2) avisos.push('Comparativo precisa de exatamente 2 itens: ajuste no editor.');
+  if (post.kicker.length > 28) avisos.push('Chamada pequena (kicker) muito longa.');
+  if (titulo.some(l => l.length > 30) && tipo !== 'citacao') avisos.push('Alguma linha do título está longa: confira a prévia.');
+  if (itens.some(i => i.titulo.length > 46 || (i.texto || '').length > 90)) avisos.push('Algum item está longo: confira a prévia.');
+  if (post.legenda.length > 2000) avisos.push('Legenda longa (o Instagram aceita até 2200 caracteres).');
+  if (!/link na bio/i.test(post.legenda)) avisos.push('A legenda não tem "Link na bio".');
+  return { post, avisos };
+}
+const postCompleto = p => p.titulo.length && (TIPOS_SEM_ITENS.includes(p.tipo) || p.itens.length) && p.legenda;
+// pede à IA e tenta de novo uma vez se a resposta não vier em JSON válido
+async function pedirJson(usuario, maxTokens) {
+  let ultimo;
+  for (let t = 0; t < 2; t++) {
+    try { return extrairJson(await chamarIA(SYSTEM_IA, usuario, maxTokens)); }
+    catch (e) { ultimo = e; if (!(e instanceof SyntaxError) && !/não devolveu um post|veio cortada/.test(e.message)) throw e; }
+  }
+  throw ultimo instanceof SyntaxError ? new Error('A IA devolveu uma resposta fora do formato. Tente de novo.') : ultimo;
 }
 async function gerarComIA() {
-  if (!cfg.apiKey) { abrirConfig(); return toast('Cole a chave da API da Anthropic em Configurações.', 'erro'); }
+  if (!temChave()) { abrirConfig(); return toast('Configure a chave da IA em Configurações.', 'erro'); }
   const pedido = iaPrompt.trim();
   if (!pedido) return toast('Escreva o que você quer no post.', 'erro');
   iaCarregando = true; render();
   try {
     const formato = iaTipo === 'auto' ? 'Escolha o melhor formato.' : `Use o tipo "${iaTipo}".`;
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', 'x-api-key': cfg.apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-      body: JSON.stringify({ model: cfg.model || 'claude-sonnet-5-5', max_tokens: 6000, system: SYSTEM_IA, messages: [{ role: 'user', content: `${formato}\n\nPedido: ${pedido}` }] })
-    });
-    let j = {}; try { j = await r.json(); } catch (e) {}
-    if (!r.ok) {
-      const m = (j.error && j.error.message) || `Erro ${r.status}`;
-      throw new Error(r.status === 401 ? 'Chave da API inválida. Confira em Configurações.' : r.status === 429 ? 'Limite de uso da API atingido. Tente mais tarde. ' + m : m);
-    }
-    const texto = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
-    const { post, avisos } = normalizarPost(extrairJson(texto));
-    if (!post.titulo.length || (!TIPOS_SEM_ITENS.includes(post.tipo) && !post.itens.length) || !post.legenda) throw new Error('A IA devolveu um post incompleto. Tente de novo.');
+    const bruto = await pedirJson(`${formato}\n\nPedido: ${pedido}`, 6000);
+    const { post, avisos } = normalizarPost(Array.isArray(bruto) ? bruto[0] : bruto);
+    if (!postCompleto(post)) throw new Error('A IA devolveu um post incompleto. Tente de novo.');
     abrirEditor(null, post, avisos);
     toast('Post gerado. Revise no editor e clique em Aplicar para salvar como rascunho.', 'ok');
   } catch (e) { toast('Não consegui gerar: ' + e.message, 'erro'); }
   finally { iaCarregando = false; if (tab === 'ia') render(); }
+}
+// Gera várias ideias de uma vez e guarda no banco de ideias
+let ideiasQtd = 3, ideiasTema = '', ideiasGerando = false;
+async function gerarIdeias() {
+  if (!temChave()) { abrirConfig(); return toast('Configure a chave da IA em Configurações.', 'erro'); }
+  const qtd = Math.max(1, Math.min(parseInt(ideiasQtd, 10) || 1, 5));
+  const tema = ideiasTema.trim();
+  const existentes = [...data.posts, ...ideias].map(tituloTxt).filter(Boolean).slice(-80);
+  ideiasGerando = true; render();
+  try {
+    const pedido = `Crie ${qtd} post(s) DIFERENTES entre si, em formatos (tipo) variados. ` +
+      (tema ? `Direção do pedido: ${tema}. ` : 'Varie os temas dentro do escopo do portal (barba, binder, retificação de nome, saúde em termos gerais, estilo e roupas, direitos, comunidade, indicar profissionais, apoio a familiares). ') +
+      `NÃO repita estes temas que já existem: ${existentes.join(' | ') || '(nenhum)'}. Responda SOMENTE com um array JSON com ${qtd} objeto(s), cada um no formato descrito.`;
+    const bruto = await pedirJson(pedido, Math.min(16000, 2500 * qtd + 1500));
+    const lista = Array.isArray(bruto) ? bruto : [bruto];
+    let n = 0;
+    for (const o of lista.slice(0, qtd)) {
+      const { post, avisos } = normalizarPost(o);
+      if (!postCompleto(post)) continue;
+      ideias.push({ id: proximoId(), ...post, ...(avisos.length ? { avisos } : {}) }); n++;
+    }
+    if (!n) throw new Error('A IA não devolveu nenhum post completo. Tente de novo.');
+    dirty = true; toast(`${n} ideia(s) nova(s) no banco. Clique em Salvar no GitHub para guardar.`, 'ok');
+  } catch (e) { toast('Não consegui gerar: ' + e.message, 'erro'); }
+  finally { ideiasGerando = false; render(); }
 }
 
 // ---------- editor ----------
@@ -1026,13 +1148,18 @@ function abrirConfig() {
   F('cOwner').value = cfg.owner; F('cRepo').value = cfg.repo; F('cBranch').value = cfg.branch;
   F('cPath').value = cfg.path; F('cIdeias').value = cfg.ideias; F('cToken').value = cfg.token;
   F('cApiKey').value = cfg.apiKey; F('cModelo').value = cfg.model;
+  F('cProv').value = cfg.provider || 'anthropic'; F('cGemKey').value = cfg.geminiKey; F('cGemModelo').value = cfg.geminiModel;
+  F('cCompUrl').value = cfg.compatUrl; F('cCompKey').value = cfg.compatKey; F('cCompModelo').value = cfg.compatModel;
+  mostrarProv();
   F('dlgConfig').showModal();
 }
+function mostrarProv() { const p = F('cProv').value; F('gAnt').hidden = p !== 'anthropic'; F('gGem').hidden = p !== 'gemini'; F('gComp').hidden = p !== 'compat'; }
+F('cProv').onchange = mostrarProv;
 F('cSalvar').onclick = () => {
-  cfg = { owner: F('cOwner').value.trim(), repo: F('cRepo').value.trim(), branch: F('cBranch').value.trim() || 'main', path: F('cPath').value.trim(), ideias: F('cIdeias').value.trim(), token: F('cToken').value.trim(), apiKey: F('cApiKey').value.trim(), model: F('cModelo').value.trim() || 'claude-sonnet-5-5' };
+  cfg = { owner: F('cOwner').value.trim(), repo: F('cRepo').value.trim(), branch: F('cBranch').value.trim() || 'main', path: F('cPath').value.trim(), ideias: F('cIdeias').value.trim(), token: F('cToken').value.trim(), provider: F('cProv').value, apiKey: F('cApiKey').value.trim(), model: F('cModelo').value.trim() || 'claude-sonnet-5-5', geminiKey: F('cGemKey').value.trim(), geminiModel: F('cGemModelo').value.trim() || 'gemini-2.5-flash', compatUrl: F('cCompUrl').value.trim(), compatKey: F('cCompKey').value.trim(), compatModel: F('cCompModelo').value.trim() };
   saveCfg(); F('dlgConfig').close(); carregar();
 };
-F('cLimpar').onclick = () => { cfg.token = ''; cfg.apiKey = ''; F('cToken').value = ''; F('cApiKey').value = ''; saveCfg(); toast('Chaves removidas deste navegador.'); render(); };
+F('cLimpar').onclick = () => { cfg.token = ''; cfg.apiKey = ''; cfg.geminiKey = ''; cfg.compatKey = ''; ['cToken', 'cApiKey', 'cGemKey', 'cCompKey'].forEach(i => F(i).value = ''); saveCfg(); toast('Chaves removidas deste navegador.'); render(); };
 document.querySelectorAll('[data-fechar]').forEach(b => b.onclick = () => b.closest('dialog').close());
 
 // ---------- repetição automática (controles) ----------
