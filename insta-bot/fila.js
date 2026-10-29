@@ -120,7 +120,8 @@ export function criarRascunhosAuto(config, ideias, agora = new Date()) {
     .map((i) => {
       const c = JSON.parse(JSON.stringify(i));
       delete c.avisos;
-      return { ...c, aprovado: r.aprovar, postado: false };
+      // posts escritos pela IA nunca vão direto para a fila sem revisão
+      return { ...c, aprovado: r.aprovar && !i.geradoPorIA, postado: false };
     });
   config.posts.push(...criados);
   config.rascunhosAuto = { ...(config.rascunhosAuto || {}), ultimaVez: agora.toISOString() };
@@ -180,3 +181,25 @@ export function proximaPublicacao(config, { agora = new Date(), modo = "manual",
       (config.repeticao && config.repeticao.ativa ? ", e nenhum post elegível para repetir ainda." : " (repetição automática desligada)."),
   };
 }
+
+// Banco de ideias automático: quando sobram poucas ideias, o robô pede novas para a IA
+export const MODELO_PADRAO = { anthropic: "claude-sonnet-5-5", gemini: "gemini-2.5-flash", compat: "llama-3.3-70b-versatile" };
+export const SECRET_DA_IA = { anthropic: "ANTHROPIC_API_KEY", gemini: "GEMINI_API_KEY", compat: "IA_API_KEY" };
+export function ideiasAutoDe(config) {
+  const r = (config && config.ideiasAuto) || {};
+  const provedor = ["anthropic", "gemini", "compat"].includes(r.provedor) ? r.provedor : "gemini";
+  return {
+    ativa: !!r.ativa,
+    minimo: Math.max(0, Math.min(30, Number.isFinite(Number(r.minimo)) && r.minimo !== "" && r.minimo != null ? Number(r.minimo) : 5)),
+    quantidade: Math.max(1, Math.min(10, Number(r.quantidade) || 5)),
+    provedor,
+    modelo: r.modelo || MODELO_PADRAO[provedor],
+    compatUrl: r.compatUrl || "https://api.groq.com/openai/v1",
+    ultimaTentativa: r.ultimaTentativa || null,
+    ultimoResultado: r.ultimoResultado || "",
+  };
+}
+export const ideiasDisponiveis = (config, ideias) => {
+  const usados = new Set(config.posts.map((p) => p.id));
+  return (ideias || []).filter((i) => !usados.has(i.id));
+};
