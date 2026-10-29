@@ -23,6 +23,7 @@ export function copiaParaRepost(src, novoId) {
   delete c.publicadoEm;
   delete c.instagramMediaId;
   delete c.imagemDe;
+  delete c.agendarPara;
   return c;
 }
 
@@ -68,4 +69,62 @@ export function escolherRepeticao(config, agora = new Date()) {
     if (!melhor || quando < melhor.quando) melhor = { fonte: ultimo, quando };
   }
   return melhor ? melhor.fonte : null;
+}
+
+// ---------- horários e decisão de "o que publicar agora" ----------
+const TZ = "America/Sao_Paulo";
+export const DIAS_SLOT = [2, 4, 6]; // terça, quinta, sábado
+export const HORA_SLOT = 12;        // a partir de 12h (Brasília)
+export const HORA_FIM_SLOT = 20;    // o horário regular fecha às 20h
+
+export function partesBRT(d) {
+  const f = new Intl.DateTimeFormat("en-CA", {
+    timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", weekday: "short", hourCycle: "h23",
+  });
+  const o = {};
+  for (const p of f.formatToParts(d)) o[p.type] = p.value;
+  return {
+    dia: `${o.year}-${o.month}-${o.day}`,
+    hora: Number(o.hour),
+    minuto: Number(o.minute),
+    sem: { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[o.weekday],
+  };
+}
+
+// O horário regular (ter/qui/sáb, a partir das 12h) está aberto e ainda não saiu nenhum post hoje?
+export function slotAberto(posts, agora = new Date()) {
+  const b = partesBRT(agora);
+  if (!DIAS_SLOT.includes(b.sem) || b.hora < HORA_SLOT || b.hora >= HORA_FIM_SLOT) return false;
+  return !posts.some((p) => p.postado && p.publicadoEm && partesBRT(new Date(p.publicadoEm)).dia === b.dia);
+}
+
+// Decide o que publicar nesta rodada.
+//  modo "manual": botão "publicar agora" (ou workflow disparado à mão): publica já.
+//  modo "agenda": rodada automática (a cada 30 min): só publica agendado vencido ou, no horário regular, o próximo da fila.
+//  postId: publica exatamente esse post (botão "publicar agora" de um card).
+// Retorna { post } | { repeticao: fonte } | { motivo }
+export function proximaPublicacao(config, { agora = new Date(), modo = "manual", postId = "" } = {}) {
+  const posts = config.posts;
+  if (postId) {
+    const p = posts.find((x) => x.id === postId);
+    if (!p) return { motivo: `O post "${postId}" não existe no posts.json.` };
+    if (p.postado) return { motivo: `O post "${postId}" já foi publicado.` };
+    return { post: p };
+  }
+  if (modo === "agenda") {
+    const vencidos = posts
+      .filter((p) => p.aprovado && !p.postado && p.agendarPara && Date.parse(p.agendarPara) <= agora.getTime())
+      .sort((a, b) => Date.parse(a.agendarPara) - Date.parse(b.agendarPara));
+    if (vencidos.length) return { post: vencidos[0] };
+    if (!slotAberto(posts, agora)) return { motivo: "Sem post agendado vencido e fora do horário regular (ou já saiu um post hoje)." };
+  }
+  const fila = posts.find((p) => p.aprovado && !p.postado && !p.agendarPara);
+  if (fila) return { post: fila };
+  const fonte = escolherRepeticao(config, agora);
+  if (fonte) return { repeticao: fonte };
+  return {
+    motivo: "Fila vazia: nenhum post aprovado e pendente" +
+      (config.repeticao && config.repeticao.ativa ? ", e nenhum post elegível para repetir ainda." : " (repetição automática desligada)."),
+  };
 }
