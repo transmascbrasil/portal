@@ -348,8 +348,26 @@ nav .it.on em{background:#0e1a3a22}
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI } from './template.js';
-import { raizDe, proximoId as proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT } from './fila.js';
+// Os módulos são carregados aqui (e não com "import" no topo) para a página poder mostrar um aviso
+// claro se algum arquivo estiver faltando ou desatualizado no GitHub, em vez de travar em silêncio.
+function falhaFatal(msg) {
+  const e = document.getElementById('lErro'), b = document.getElementById('lEntrar');
+  if (e) { e.textContent = msg; e.hidden = false; }
+  if (b) { b.textContent = 'Indisponível'; b.disabled = true; }
+  document.getElementById('lock').hidden = false;
+}
+let postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, raizDe, proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT;
+try {
+  const VER = '?v=20261029'; // evita usar uma cópia antiga em cache
+  const [T, Fm] = await Promise.all([import('./template.js' + VER), import('./fila.js' + VER)]);
+  ({ postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI } = T);
+  ({ raizDe, proximoId: proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT } = Fm);
+  if (!TIPOS || !TEMAS || !partesBRT || !escolherRepeticao) throw new Error('template.js ou fila.js desatualizado');
+} catch (e) {
+  console.error(e);
+  falhaFatal('Não consegui carregar os arquivos do painel. Envie as versões mais recentes de template.js e fila.js para a pasta insta-bot do GitHub (junto com o painel.html), aguarde 1 a 2 minutos e recarregue com Ctrl+Shift+R. Detalhe: ' + (e && e.message ? e.message : e));
+  throw e;
+}
 
 const $ = (s, r = document) => r.querySelector(s);
 const F = id => document.getElementById(id);
@@ -1078,7 +1096,7 @@ function mostrarApp(user) {
 async function aoMudarUsuario(user) {
   if (!user || user.isAnonymous) { if (user) fb.signOut(auth); return mostrarLogin(); }
   try {
-    const d = await fb.getDoc(fb.doc(db, 'admins', user.uid));
+    const d = await Promise.race([fb.getDoc(fb.doc(db, 'admins', user.uid)), new Promise((_, rej) => setTimeout(() => rej({ code: 'tempo esgotado ao consultar permissões' }), 15000))]);
     if (!d.exists()) { lockMsg = 'Esta conta não está na lista de administradores. Entre uma vez no painel de indicações do site e depois volte aqui.'; return fb.signOut(auth); }
   } catch (e) { lockMsg = 'Não consegui confirmar o acesso de administrador desta conta. ' + ((e && e.code) || ''); return fb.signOut(auth); }
   mostrarApp(user);
@@ -1087,7 +1105,8 @@ async function iniciarLogin() {
   F('lock').hidden = false;
   try {
     const base = 'https://www.gstatic.com/firebasejs/11.6.1/';
-    const [a, au, fs] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]);
+    const limite = (p, ms, msg) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error(msg)), ms))]);
+    const [a, au, fs] = await limite(Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]), 20000, 'tempo esgotado ao carregar o Firebase');
     fb = { ...au, ...fs };
     const app = a.initializeApp(FB_CONFIG);
     auth = au.getAuth(app); db = fs.getFirestore(app);
@@ -1096,7 +1115,7 @@ async function iniciarLogin() {
   } catch (e) {
     console.error(e);
     F('lEntrar').textContent = 'Indisponível';
-    lockErro('Não foi possível carregar o login (Firebase). Verifique a internet ou se algum bloqueador impede o acesso a gstatic.com.');
+    lockErro('Não foi possível carregar o login (Firebase). Verifique a internet ou se algum bloqueador de anúncios/privacidade impede o acesso a gstatic.com. Detalhe: ' + ((e && e.message) || e));
   }
 }
 F('loginForm').onsubmit = async ev => {
