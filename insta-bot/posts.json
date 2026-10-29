@@ -477,13 +477,45 @@
         "texto": "Indique o portal pra quem precisa."
       },
       "legenda": "Quer ajudar o portal a continuar no ar? 💙\n\nO Portal Transmasc Brasil é gratuito, comunitário e sem fins lucrativos, mantido por uma pessoa só. Se puder, contribua com qualquer valor pela campanha no Apoia.se (o link está no portal).\n\nNão pode contribuir? Compartilhar, seguir e indicar profissionais também ajuda muito 🤝\n\nMe segue aí, galera!\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil"
+    },
+    {
+      "id": "post101",
+      "tipo": "mito",
+      "tema": "escuro",
+      "kicker": "Mito ou verdade",
+      "titulo": [
+        "Transição",
+        "e hormônio"
+      ],
+      "itens": [
+        {
+          "titulo": "Todo homem trans faz hormônio",
+          "texto": "Cada pessoa decide o próprio caminho"
+        },
+        {
+          "titulo": "Dá pra começar por conta própria",
+          "texto": "O acompanhamento médico é importante"
+        },
+        {
+          "titulo": "Sem cirurgia não é homem de verdade",
+          "texto": "Identidade não depende de cirurgia"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral",
+        "texto": "Não é orientação médica individual"
+      },
+      "legenda": "Bora desfazer uns mitos que a gente escuta direto? 🏳️‍⚧️\n\nNão existe um jeito certo de ser homem trans. Tem quem faça hormônio, tem quem não faça, tem quem faça cirurgia e tem quem não queira. Tudo isso é válido.\n\nSe você quer começar a hormonização, procure acompanhamento médico. Um ambulatório trans pode ajudar, e no portal tem uma lista deles.\n\nEste post é informação geral e não substitui consulta.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #hormonizacao",
+      "aprovado": false,
+      "postado": false
     }
   ],
   "rascunhosAuto": {
     "ativa": true,
     "aCadaDias": 2,
     "quantidade": 1,
-    "aprovar": false
+    "aprovar": false,
+    "ultimaVez": "2026-10-29T14:42:26.942Z"
   },
   "agenda": {
     "dias": [
