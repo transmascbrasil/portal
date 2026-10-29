@@ -45,8 +45,128 @@
       "publicadoEm": "2026-10-28T23:37:57.119Z"
     },
     {
+      "id": "post18",
+      "aprovado": true,
+      "postado": false,
+      "tipo": "lista",
+      "kicker": "Pra família e amigos",
+      "titulo": [
+        "Como apoiar",
+        "um homem trans"
+      ],
+      "subtitulo": "Atitudes simples fazem muita diferença",
+      "itens": [
+        {
+          "emoji": "🗣️",
+          "titulo": "Use o nome e os pronomes que ele escolheu",
+          "texto": "Mesmo quando ele não estiver por perto"
+        },
+        {
+          "emoji": "👂",
+          "titulo": "Escute sem julgar",
+          "texto": "Deixe ele contar no tempo dele"
+        },
+        {
+          "emoji": "🔒",
+          "titulo": "Não exponha ele",
+          "texto": "A história é dele, não conte sem ele autorizar"
+        },
+        {
+          "emoji": "🚫",
+          "titulo": "Evite perguntas íntimas",
+          "texto": "Sobre corpo e cirurgia, só se ele puxar o assunto"
+        },
+        {
+          "emoji": "📚",
+          "titulo": "Procure informação",
+          "texto": "O portal reúne o que a gente passava de mão em mão"
+        }
+      ],
+      "destaque": {
+        "forte": "Acolher também é cuidar.",
+        "texto": "Compartilhe com quem precisa ler isso."
+      },
+      "legenda": "Como apoiar um homem trans: pra família e amigos 💙\n\n🗣️ Use o nome e os pronomes que ele escolheu\n👂 Escute sem julgar\n🔒 Não exponha ele: a história é dele\n🚫 Evite perguntas íntimas sobre corpo e cirurgia\n📚 Procure informação\n\nSe você é familiar ou amigo e quer entender melhor, o portal reúne guias e indicações feitas pela própria comunidade.\n\nMe segue aí, galera, e compartilha com quem precisa ler isso 🏳️‍⚧️\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #familia",
+      "tamanhoTitulo": 90
+    },
+    {
+      "id": "post12",
+      "aprovado": true,
+      "postado": false,
+      "tipo": "passos",
+      "kicker": "Contribua",
+      "titulo": [
+        "Conhece um",
+        "bom profissional?"
+      ],
+      "tamanhoTitulo": 96,
+      "itens": [
+        {
+          "titulo": "Abra o portal",
+          "texto": "O link está na bio"
+        },
+        {
+          "titulo": "Clique em contribuir",
+          "texto": "Não precisa de login"
+        },
+        {
+          "titulo": "Preencha os dados",
+          "texto": "Nome, cidade, convênio e contato"
+        },
+        {
+          "titulo": "A gente revisa",
+          "texto": "A indicação entra no portal depois de aprovada"
+        }
+      ],
+      "destaque": {
+        "forte": "O portal é feito pela comunidade.",
+        "texto": "Cirurgiões, ambulatórios, advogados e mais."
+      },
+      "legenda": "Conhece um cirurgião, ambulatório, advogado ou outro profissional que atende bem a nossa comunidade? 🤝\n\nIndica no portal! Não precisa de login: é só abrir o link na bio, clicar em contribuir e preencher os dados. A indicação passa por revisão antes de aparecer.\n\nO portal é feito pela comunidade e cresce com a ajuda de todo mundo 💙\n\nMe segue aí, galera, e compartilha com quem pode ajudar.\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil"
+    },
+    {
+      "id": "post11",
+      "aprovado": true,
+      "postado": false,
+      "tipo": "lista",
+      "kicker": "Estilo e roupas",
+      "titulo": [
+        "Se vestir bem",
+        "é se sentir bem"
+      ],
+      "tamanhoTitulo": 90,
+      "subtitulo": "Dicas simples pra montar o seu estilo",
+      "itens": [
+        {
+          "emoji": "👕",
+          "titulo": "Vá ao provador",
+          "texto": "Cada marca veste de um jeito, teste antes de levar"
+        },
+        {
+          "emoji": "🧵",
+          "titulo": "Ajuste na costureira",
+          "texto": "Uma barra ou cintura ajustada muda tudo"
+        },
+        {
+          "emoji": "🎨",
+          "titulo": "Comece com cores neutras",
+          "texto": "Combina fácil e rende muitos looks"
+        },
+        {
+          "emoji": "🛍️",
+          "titulo": "Vale brechó e promoção",
+          "texto": "Dá pra se vestir bem pagando pouco"
+        }
+      ],
+      "destaque": {
+        "forte": "Não existe um único jeito de ser homem.",
+        "texto": "Vista o que combina com você."
+      },
+      "legenda": "Se vestir bem é se sentir bem 👕\n\nVá ao provador, ajuste na costureira, comece com cores neutras e use brechó e promoção a favor do seu bolso. E lembra: não existe um único jeito de ser homem. Vista o que combina com você.\n\nMe segue aí, galera, e conta nos comentários qual peça faz você se sentir mais você 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #estilo"
+    },
+    {
       "id": "post10",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false,
       "tipo": "lista",
       "kicker": "Binder",
@@ -90,83 +210,8 @@
       "legenda": "Uso seguro do binder 💙\n\nInformação geral pra ajudar você a se cuidar: tamanho certo, nada de improvisar com fita ou faixa, fazer pausas, não dormir com ele e tirar se sentir dor ou falta de ar.\n\nIsso não substitui orientação médica. Converse com a sua equipe de saúde sobre o seu caso.\n\nMe segue aí, galera, e compartilha com quem usa binder 🏳️‍⚧️\n\nNa lojinha do portal tem uma lista de binders. 🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #binder"
     },
     {
-      "id": "post11",
-      "aprovado": false,
-      "postado": false,
-      "tipo": "lista",
-      "kicker": "Estilo e roupas",
-      "titulo": [
-        "Se vestir bem",
-        "é se sentir bem"
-      ],
-      "tamanhoTitulo": 90,
-      "subtitulo": "Dicas simples pra montar o seu estilo",
-      "itens": [
-        {
-          "emoji": "👕",
-          "titulo": "Vá ao provador",
-          "texto": "Cada marca veste de um jeito, teste antes de levar"
-        },
-        {
-          "emoji": "🧵",
-          "titulo": "Ajuste na costureira",
-          "texto": "Uma barra ou cintura ajustada muda tudo"
-        },
-        {
-          "emoji": "🎨",
-          "titulo": "Comece com cores neutras",
-          "texto": "Combina fácil e rende muitos looks"
-        },
-        {
-          "emoji": "🛍️",
-          "titulo": "Vale brechó e promoção",
-          "texto": "Dá pra se vestir bem pagando pouco"
-        }
-      ],
-      "destaque": {
-        "forte": "Não existe um único jeito de ser homem.",
-        "texto": "Vista o que combina com você."
-      },
-      "legenda": "Se vestir bem é se sentir bem 👕\n\nVá ao provador, ajuste na costureira, comece com cores neutras e use brechó e promoção a favor do seu bolso. E lembra: não existe um único jeito de ser homem. Vista o que combina com você.\n\nMe segue aí, galera, e conta nos comentários qual peça faz você se sentir mais você 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #estilo"
-    },
-    {
-      "id": "post12",
-      "aprovado": false,
-      "postado": false,
-      "tipo": "passos",
-      "kicker": "Contribua",
-      "titulo": [
-        "Conhece um",
-        "bom profissional?"
-      ],
-      "tamanhoTitulo": 96,
-      "itens": [
-        {
-          "titulo": "Abra o portal",
-          "texto": "O link está na bio"
-        },
-        {
-          "titulo": "Clique em contribuir",
-          "texto": "Não precisa de login"
-        },
-        {
-          "titulo": "Preencha os dados",
-          "texto": "Nome, cidade, convênio e contato"
-        },
-        {
-          "titulo": "A gente revisa",
-          "texto": "A indicação entra no portal depois de aprovada"
-        }
-      ],
-      "destaque": {
-        "forte": "O portal é feito pela comunidade.",
-        "texto": "Cirurgiões, ambulatórios, advogados e mais."
-      },
-      "legenda": "Conhece um cirurgião, ambulatório, advogado ou outro profissional que atende bem a nossa comunidade? 🤝\n\nIndica no portal! Não precisa de login: é só abrir o link na bio, clicar em contribuir e preencher os dados. A indicação passa por revisão antes de aparecer.\n\nO portal é feito pela comunidade e cresce com a ajuda de todo mundo 💙\n\nMe segue aí, galera, e compartilha com quem pode ajudar.\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil"
-    },
-    {
       "id": "post13",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false,
       "tipo": "lista",
       "kicker": "Retificação",
@@ -210,7 +255,7 @@
     },
     {
       "id": "post14",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false,
       "tipo": "lista",
       "kicker": "Mito ou verdade",
@@ -250,7 +295,7 @@
     },
     {
       "id": "post15",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false,
       "tipo": "passos",
       "kicker": "Saúde",
@@ -285,7 +330,7 @@
     },
     {
       "id": "post16",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false,
       "tipo": "passos",
       "kicker": "Mastectomia",
@@ -320,7 +365,7 @@
     },
     {
       "id": "post17",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false,
       "tipo": "lista",
       "kicker": "Consulta",
@@ -359,53 +404,8 @@
       "legenda": "Vai consultar um cirurgião? Leva estas perguntas anotadas 🩺\n\n• Como é o procedimento?\n• Como é a recuperação?\n• O que está incluso (valores, convênio, exames)?\n• Como é o acompanhamento depois da cirurgia?\n\nÉ só uma lista geral pra te ajudar a organizar a conversa. Ela não substitui a orientação da sua equipe de saúde, que conhece o seu caso.\n\nMe segue aí, galera, e salva pra levar na consulta 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #mastectomia"
     },
     {
-      "id": "post18",
-      "aprovado": false,
-      "postado": false,
-      "tipo": "lista",
-      "kicker": "Pra família e amigos",
-      "titulo": [
-        "Como apoiar",
-        "um homem trans"
-      ],
-      "tamanhoTitulo": 90,
-      "subtitulo": "Atitudes simples fazem muita diferença",
-      "itens": [
-        {
-          "emoji": "🗣️",
-          "titulo": "Use o nome e os pronomes que ele escolheu",
-          "texto": "Mesmo quando ele não estiver por perto"
-        },
-        {
-          "emoji": "👂",
-          "titulo": "Escute sem julgar",
-          "texto": "Deixe ele contar no tempo dele"
-        },
-        {
-          "emoji": "🔒",
-          "titulo": "Não exponha ele",
-          "texto": "A história é dele, não conte sem ele autorizar"
-        },
-        {
-          "emoji": "🚫",
-          "titulo": "Evite perguntas íntimas",
-          "texto": "Sobre corpo e cirurgia, só se ele puxar o assunto"
-        },
-        {
-          "emoji": "📚",
-          "titulo": "Procure informação",
-          "texto": "O portal reúne o que a gente passava de mão em mão"
-        }
-      ],
-      "destaque": {
-        "forte": "Acolher também é cuidar.",
-        "texto": "Compartilhe com quem precisa ler isso."
-      },
-      "legenda": "Como apoiar um homem trans: pra família e amigos 💙\n\n🗣️ Use o nome e os pronomes que ele escolheu\n👂 Escute sem julgar\n🔒 Não exponha ele: a história é dele\n🚫 Evite perguntas íntimas sobre corpo e cirurgia\n📚 Procure informação\n\nSe você é familiar ou amigo e quer entender melhor, o portal reúne guias e indicações feitas pela própria comunidade.\n\nMe segue aí, galera, e compartilha com quem precisa ler isso 🏳️‍⚧️\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #familia"
-    },
-    {
       "id": "post19",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false,
       "tipo": "lista",
       "kicker": "Lojinha",
@@ -445,7 +445,7 @@
     },
     {
       "id": "post20",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false,
       "tipo": "lista",
       "kicker": "Apoie",
@@ -484,5 +484,13 @@
     "aCadaDias": 2,
     "quantidade": 1,
     "aprovar": false
+  },
+  "agenda": {
+    "dias": [
+      1,
+      4,
+      6
+    ],
+    "hora": "12:00"
   }
 }
