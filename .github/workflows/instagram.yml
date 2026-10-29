@@ -2,17 +2,33 @@ name: Postar no Instagram
 
 on:
   schedule:
-    # Terça, quinta e sábado às 12h (horário de Brasília = 15h UTC)
-    - cron: "0 15 * * 2,4,6"
+    # A cada 30 min, das 7h às 23h30 (Brasília). Quase sempre a rodada termina em segundos
+    # ("nada a fazer"). O robô decide sozinho: post agendado que venceu, ou o horário
+    # regular (dias e hora configurados no painel, página Agenda) com o próximo da fila.
+    - cron: "*/30 0-2,10-23 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
         description: "Teste: não publica de verdade"
         type: boolean
         default: true
+      post_id:
+        description: "Opcional: id de um post específico para publicar (ex.: post12)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
+
+# uma rodada por vez (evita publicar duas vezes)
+concurrency:
+  group: instagram-bot
+  cancel-in-progress: false
+
+env:
+  MODO: ${{ github.event_name == 'schedule' && 'agenda' || 'manual' }}
+  POST_ID: ${{ inputs.post_id }}
+  DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
 
 jobs:
   postar:
@@ -22,20 +38,42 @@ jobs:
         working-directory: insta-bot
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}   # sempre a versão mais recente do posts.json
 
       - uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      - name: Rascunhos automáticos (se estiver ligado e na hora)
+        if: github.event_name == 'schedule'
+        run: |
+          node rascunhos.mjs
+          git config user.name "insta-bot"
+          git config user.email "insta-bot@users.noreply.github.com"
+          git add posts.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: rascunhos automáticos"
+            git pull --rebase
+            git push
+          fi
+
+      - name: Há algo para publicar agora?
+        id: pre
+        run: node precheck.mjs
+
       - name: Instalar dependências
+        if: steps.pre.outputs.run == 'true'
         run: |
           npm install
           npx playwright install --with-deps chromium
 
       - name: Gerar imagens
+        if: steps.pre.outputs.run == 'true'
         run: node render.mjs
 
       - name: Enviar imagens para o repositório (URL pública)
+        if: steps.pre.outputs.run == 'true'
         run: |
           git config user.name "insta-bot"
           git config user.email "insta-bot@users.noreply.github.com"
@@ -45,15 +83,16 @@ jobs:
           git push
 
       - name: Publicar próximo post aprovado
+        if: steps.pre.outputs.run == 'true'
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_API_HOST: ${{ vars.IG_API_HOST }}
           IMAGE_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/insta-bot/out
-          DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
         run: node publish.mjs
 
       - name: Salvar status (post marcado como postado)
+        if: steps.pre.outputs.run == 'true'
         run: |
           git add posts.json
           git diff --cached --quiet || git commit -m "chore: post publicado"
