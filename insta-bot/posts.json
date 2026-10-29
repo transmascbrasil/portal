@@ -478,5 +478,11 @@
       },
       "legenda": "Quer ajudar o portal a continuar no ar? 💙\n\nO Portal Transmasc Brasil é gratuito, comunitário e sem fins lucrativos, mantido por uma pessoa só. Se puder, contribua com qualquer valor pela campanha no Apoia.se (o link está no portal).\n\nNão pode contribuir? Compartilhar, seguir e indicar profissionais também ajuda muito 🤝\n\nMe segue aí, galera!\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil"
     }
-  ]
+  ],
+  "rascunhosAuto": {
+    "ativa": true,
+    "aCadaDias": 2,
+    "quantidade": 1,
+    "aprovar": false
+  }
 }
