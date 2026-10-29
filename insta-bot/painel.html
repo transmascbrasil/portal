@@ -163,6 +163,31 @@ nav .it.on em{background:#0e1a3a22}
   .barra{left:0;padding:12px 16px}
   .prox .q{width:110px}
 }
+/* ===== página Agenda ===== */
+.fl{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;background:var(--card2);margin-bottom:8px;border:2px solid transparent}
+.fl.drag{opacity:.4}
+.fl.alvo{border-color:var(--azul);border-style:dashed}
+.fl .h{cursor:grab;font-size:20px;color:var(--mut);width:22px;text-align:center;flex:none;user-select:none}
+.fl .h.fixo{cursor:default;font-size:16px}
+.fl .n{font-weight:900;color:var(--azul);width:30px;flex:none}
+.fl .q{width:132px;flex:none;color:var(--rosa);font-weight:800;font-size:13px}
+.fl .t{flex:1;min-width:0;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fl .t small{display:block;color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.fl .t .rp{font-style:normal;font-size:11px;background:#3b2a5c;color:#d9c2ff;border-radius:999px;padding:2px 8px;margin-left:6px}
+.fl .ac{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.fl .ac .btn{padding:5px 9px;font-size:12px}
+.sub2{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:14px 0 8px}
+.dias{display:flex;gap:6px;flex-wrap:wrap}
+.dia{display:flex;align-items:center;justify-content:center;margin:0;min-width:52px;padding:9px 10px;border-radius:10px;border:2px solid var(--card2);color:var(--mut);font-weight:800;cursor:pointer;text-transform:capitalize}
+.dia input{display:none}
+.dia.on{background:var(--azul);border-color:var(--azul);color:#0e1a3a}
+.lado .linha input[type=number]{width:70px}
+@media(max-width:700px){
+  .fl{flex-wrap:wrap}
+  .fl .t{flex-basis:calc(100% - 70px);white-space:normal}
+  .fl .q{width:auto}
+  .fl .ac{width:100%;justify-content:flex-start}
+}
 /* ===== tela de login ===== */
 [hidden]{display:none!important}
 .lock{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:60;overflow:auto}
@@ -233,7 +258,7 @@ nav .it.on em{background:#0e1a3a22}
       <button class="btn azul" id="btnPublicar">🚀 Publicar o próximo agora</button>
       <button class="btn" id="btnTeste">🔌 Testar conexão (sem publicar)</button>
     </div>
-    <p class="dica">Horário regular: terça, quinta e sábado, a partir das 12h (Brasília). Posts programados saem na data escolhida. O GitHub pode atrasar alguns minutos.</p>
+    <p class="dica" id="roboAgenda">Os dias e o horário das publicações automáticas ficam na página Agenda. Posts programados saem na data escolhida. O GitHub pode atrasar alguns minutos.</p>
   </div>
   <div class="lado" id="boxExec">
     <h3>Últimas execuções <button class="btn peq" id="btnExec" style="float:right">↻</button></h3>
@@ -322,7 +347,7 @@ nav .it.on em{background:#0e1a3a22}
     <p id="agTitulo" style="font-weight:800;margin:0 0 4px"></p>
     <label>Data e hora (horário de Brasília)</label>
     <input type="datetime-local" id="agData">
-    <p class="dica">O robô confere a cada 30 minutos, das 7h às 23h30. O post sai no primeiro horário depois do que você escolher, então pode atrasar alguns minutos (às vezes mais, quando o GitHub está cheio). Programar já aprova o post. Se já houver um post publicado no mesmo dia, o horário regular de terça, quinta e sábado é pulado para não sair dois no dia.</p>
+    <p class="dica">O robô confere a cada 30 minutos, das 7h às 23h30. O post sai no primeiro horário depois do que você escolher, então pode atrasar alguns minutos (às vezes mais, quando o GitHub está cheio). Programar já aprova o post. Se já houver um post publicado no mesmo dia, o horário regular daquele dia é pulado para não sair dois no dia.</p>
   </div>
   <div class="df">
     <button class="btn perigo" id="agRemover">Remover agendamento</button>
@@ -377,13 +402,13 @@ function falhaFatal(msg) {
   if (b) { b.textContent = 'Indisponível'; b.disabled = true; }
   document.getElementById('lock').hidden = false;
 }
-let postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, raizDe, proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT;
+let postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, raizDe, proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT, agendaDe, descreverAgenda, rascunhosAutoDe, proximaCriacao, NOMES_DIAS, JANELA_HORAS;
 try {
-  const VER = '?v=20261029'; // evita usar uma cópia antiga em cache
+  const VER = '?v=20261029b'; // evita usar uma cópia antiga em cache
   const [T, Fm] = await Promise.all([import('./template.js' + VER), import('./fila.js' + VER)]);
   ({ postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI } = T);
-  ({ raizDe, proximoId: proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT } = Fm);
-  if (!TIPOS || !TEMAS || !partesBRT || !escolherRepeticao) throw new Error('template.js ou fila.js desatualizado');
+  ({ raizDe, proximoId: proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT, agendaDe, descreverAgenda, rascunhosAutoDe, proximaCriacao, NOMES_DIAS, JANELA_HORAS } = Fm);
+  if (!TIPOS || !TEMAS || !partesBRT || !escolherRepeticao || !agendaDe || !rascunhosAutoDe) throw new Error('template.js ou fila.js desatualizado');
 } catch (e) {
   console.error(e);
   falhaFatal('Não consegui carregar os arquivos do painel. Envie as versões mais recentes de template.js e fila.js para a pasta insta-bot do GitHub (junto com o painel.html), aguarde 1 a 2 minutos e recarregue com Ctrl+Shift+R. Detalhe: ' + (e && e.message ? e.message : e));
@@ -392,8 +417,7 @@ try {
 
 const $ = (s, r = document) => r.querySelector(s);
 const F = id => document.getElementById(id);
-const DIAS = [2, 4, 6];      // terça, quinta, sábado
-const HORA_UTC = 15;         // 12h em Brasília
+const pad2 = n => String(n).padStart(2, '0');
 const FONT_CSS = "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap');";
 const CFG_KEY = 'igbot_cfg_v1';
 const DEFAULTS = { owner: 'transmascbrasil', repo: 'portal', branch: 'main', path: 'insta-bot/posts.json', ideias: 'insta-bot/ideias.json', token: '', provider: 'anthropic', apiKey: '', model: 'claude-sonnet-5-5', geminiKey: '', geminiModel: 'gemini-2.5-flash', compatUrl: 'https://api.groq.com/openai/v1', compatKey: '', compatModel: 'llama-3.3-70b-versatile' };
@@ -402,7 +426,7 @@ let cfg = { ...DEFAULTS };
 try { cfg = { ...DEFAULTS, ...JSON.parse(localStorage.getItem(CFG_KEY) || '{}') }; } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch (e) {} };
 
-const PAGINAS = ['inicio', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'robo', 'repeticao'];
+const PAGINAS = ['inicio', 'agenda', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'robo', 'repeticao'];
 let data = null, sha = null, ideiasSha = null, snapPosts = '', snapIdeias = '', ideias = [], dirty = false, tab = PAGINAS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio', loadError = '';
 const selecionados = new Set();
 let iaPrompt = '', iaTipo = 'auto', iaCarregando = false;
@@ -443,11 +467,17 @@ async function erroDaApi(r) {
 const fmtData = d => new Intl.DateTimeFormat('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }).format(d);
 const fmtDia = iso => iso ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }).format(new Date(iso)) : '';
 
+// Próximos horários regulares, de acordo com a agenda configurada (posts.json -> agenda)
 function proximasDatas(n, ocupados = new Set()) {
-  const out = [], agora = new Date();
+  const out = [], agora = new Date(), ag = agendaDe(data || {});
+  const base = new Date(partesBRT(agora).dia + 'T12:00:00-03:00').getTime();
   for (let i = 0; out.length < n && i < 800; i++) {
-    const t = new Date(Date.UTC(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate() + i, HORA_UTC, 0, 0));
-    if (DIAS.includes(t.getUTCDay()) && t > agora && !ocupados.has(partesBRT(t).dia)) out.push(t);
+    const dia = partesBRT(new Date(base + i * 86400000)).dia;
+    const t = new Date(`${dia}T${pad2(ag.hora)}:${pad2(ag.minuto)}:00-03:00`);
+    if (ag.dias.includes(partesBRT(t).sem) && t.getTime() + JANELA_HORAS * 3600000 > agora.getTime() && !ocupados.has(dia)) {
+      // horário de hoje já passou, mas a janela ainda está aberta: sai na próxima rodada (de 30 em 30 min)
+      out.push(t > agora ? t : new Date(Math.ceil((agora.getTime() + 60000) / 1800000) * 1800000));
+    }
   }
   return out;
 }
@@ -485,12 +515,18 @@ async function mesclarRemoto() {
   if (!r.ok) throw new Error(await erroDaApi(r));
   const j = await r.json();
   const remoto = JSON.parse(dec(j.content));
+  let idsOriginais = new Set();
+  try { idsOriginais = new Set((JSON.parse(snapPosts).posts || []).map(p => p.id)); } catch (e) {}
   for (const rp of remoto.posts || []) {
     const lp = data.posts.find(p => p.id === rp.id);
     if (lp && rp.postado) { lp.postado = true; if (rp.publicadoEm) lp.publicadoEm = rp.publicadoEm; if (rp.instagramMediaId) lp.instagramMediaId = rp.instagramMediaId; }
     // post criado pelo robô (repetição automática) enquanto eu editava
     if (!lp && rp.origem && rp.postado) data.posts.push(rp);
+    // rascunho criado pelo robô (rascunhos automáticos) enquanto eu editava
+    else if (!lp && !idsOriginais.has(rp.id)) data.posts.push(rp);
   }
+  const ru = remoto.rascunhosAuto && remoto.rascunhosAuto.ultimaVez, lu = data.rascunhosAuto && data.rascunhosAuto.ultimaVez;
+  if (ru && (!lu || ru > lu)) data.rascunhosAuto = { ...(data.rascunhosAuto || {}), ultimaVez: ru };
   sha = j.sha;
 }
 async function salvarPosts(tentar = true) {
@@ -626,7 +662,7 @@ F('agOk').onclick = () => {
 F('agRemover').onclick = () => { const p = achar(agId); if (p) { delete p.agendarPara; } F('dlgAgenda').close(); marcar(); toast('Agendamento removido: o post voltou para a fila normal.'); };
 function gerarRascunhos(qtd) {
   const novas = ideias.filter(i => !achar(i.id));
-  if (!novas.length) return toast('O banco de ideias acabou. Use a aba ✨ Criar com IA para novos temas.', 'erro');
+  if (!novas.length) return toast('O banco de ideias já está todo nos rascunhos. Use ✨ Criar com IA para novos temas.', 'erro');
   const n = Math.max(1, Math.min(parseInt(qtd, 10) || 1, novas.length));
   novas.slice(0, n).forEach(i => adicionarIdeia(i.id, true));
   tab = 'rascunhos'; marcar(); toast(`${n} rascunho(s) criado(s) a partir do banco de ideias. Revise e aprove.`, 'ok');
@@ -699,11 +735,137 @@ function card(p, { badge, badgeCls, extra, acoes, selecionavel }) {
 function barraGerar(disp) {
   const b = document.createElement('div'); b.className = 'selbar';
   const sp = document.createElement('span'); sp.className = 'sp';
-  sp.textContent = disp ? `Banco de ideias: ${disp} pronta(s) para virar rascunho.` : 'O banco de ideias acabou. Use a aba ✨ Criar com IA.';
+  sp.textContent = disp ? `${disp} ideia(s) pronta(s) no banco. Escolha quantas quer transformar em rascunho agora (sem IA e sem chave).` : 'Todas as ideias do banco já viraram rascunho.';
   const q = document.createElement('input'); q.type = 'number'; q.min = 1; q.max = Math.max(disp, 1); q.value = Math.min(qtdRasc, Math.max(disp, 1)); q.style.width = '70px'; q.disabled = !disp;
   q.oninput = () => { qtdRasc = parseInt(q.value, 10) || 1; };
-  const g = btn('📥 Gerar rascunhos', 'azul', () => gerarRascunhos(q.value), !disp);
+  const g = btn('📥 Gerar rascunhos agora', 'azul', () => gerarRascunhos(q.value), !disp);
   b.append(sp, q, g); return b;
+}
+// ---------- página Agenda e controle ----------
+let arrastando = null;
+function moverAntesDe(id, alvoId) {
+  const p = achar(id), alvo = achar(alvoId);
+  if (!p || !alvo || p === alvo) return;
+  data.posts.splice(data.posts.indexOf(p), 1);
+  data.posts.splice(data.posts.indexOf(alvo), 0, p);
+  marcar();
+}
+function paraOFim(id) {
+  const fila = filaDe(), p = achar(id);
+  if (!p || fila[fila.length - 1] === p) return;
+  const ultimo = fila[fila.length - 1];
+  data.posts.splice(data.posts.indexOf(p), 1);
+  data.posts.splice(data.posts.indexOf(ultimo) + 1, 0, p);
+  marcar();
+}
+function mudarConfig(chave, novo) {
+  if (JSON.stringify(data[chave] || null) === JSON.stringify(novo)) return; // nada mudou: não redesenha
+  data[chave] = novo; marcar();
+}
+function secao(titulo, dica) {
+  const b = document.createElement('div'); b.className = 'lado';
+  b.innerHTML = `<h3>${titulo}</h3>${dica ? `<p class="dica" style="margin:-4px 0 12px">${dica}</p>` : ''}`;
+  return b;
+}
+function linhaFila(p, { q, n, arrastavel, acoes }) {
+  const r = document.createElement('div'); r.className = 'fl'; r.dataset.id = p.id;
+  r.innerHTML = `${arrastavel ? '<span class="h" title="Arraste para mudar a ordem">⠿</span>' : '<span class="h fixo">🗓</span>'}
+    ${n ? `<span class="n">#${n}</span>` : ''}<span class="q">${esc(q)}</span>
+    <span class="t">${esc(tituloTxt(p))}${p.origem ? ' <em class="rp">repetição</em>' : ''}${p.kicker ? `<small>${esc(p.kicker)}</small>` : ''}</span>`;
+  const DICAS_BTN = { '↑': 'Subir', '↓': 'Descer', '⏫': 'Mandar para o topo', '⏬': 'Mandar para o fim', '🗓': 'Programar data e hora', '🚀': 'Publicar agora', 'Tirar': 'Tirar da fila (volta para rascunhos)' };
+  const ac = document.createElement('span'); ac.className = 'ac'; acoes.forEach(a => { if (DICAS_BTN[a.textContent]) a.title = DICAS_BTN[a.textContent]; ac.appendChild(a); }); r.appendChild(ac);
+  if (arrastavel) {
+    r.draggable = true;
+    r.addEventListener('dragstart', e => { arrastando = p.id; r.classList.add('drag'); e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', p.id); } catch (x) {} });
+    r.addEventListener('dragend', () => { arrastando = null; r.classList.remove('drag'); });
+    r.addEventListener('dragover', e => { if (arrastando && arrastando !== p.id) { e.preventDefault(); r.classList.add('alvo'); } });
+    r.addEventListener('dragleave', () => r.classList.remove('alvo'));
+    r.addEventListener('drop', e => { e.preventDefault(); r.classList.remove('alvo'); const de = arrastando; arrastando = null; if (de) moverAntesDe(de, p.id); });
+  }
+  return r;
+}
+function renderAgenda(c, fila, agend, datas, novas) {
+  // 1) fila
+  const s1 = secao('📋 Fila de publicação', 'Arraste pelo ⠿ (ou use as setas) para mudar a ordem. Os agendados saem na data marcada e não entram na ordem. Depois de mexer, clique em Salvar no GitHub.');
+  if (!fila.length && !agend.length) s1.insertAdjacentHTML('beforeend', '<p class="vazio" style="padding:18px">Nenhum post aprovado. Aprove rascunhos ou reposte posts antigos.</p>');
+  if (agend.length) {
+    s1.insertAdjacentHTML('beforeend', '<div class="sub2">Agendados</div>');
+    agend.forEach(p => s1.appendChild(linhaFila(p, { q: fmtData(new Date(p.agendarPara)), arrastavel: false, acoes: [
+      btn('🗓 Mudar', '', () => abrirAgenda(p.id)), btn('Tirar data', '', () => { delete p.agendarPara; marcar(); toast('Voltou para a fila regular.'); }),
+      btn('🚀', 'azul', () => publicarAgora(p.id)), btn('Editar', '', () => abrirEditor(p.id))] })));
+  }
+  if (fila.length) {
+    s1.insertAdjacentHTML('beforeend', `<div class="sub2">Fila regular: ${esc(descreverAgenda(data))}</div>`);
+    fila.forEach((p, i) => s1.appendChild(linhaFila(p, { n: i + 1, q: datas[i] ? fmtData(datas[i]) : '', arrastavel: true, acoes: [
+      btn('↑', '', () => mover(p.id, -1), i === 0), btn('↓', '', () => mover(p.id, 1), i === fila.length - 1),
+      btn('⏫', '', () => paraOTopo(p.id), i === 0), btn('⏬', '', () => paraOFim(p.id), i === fila.length - 1),
+      btn('🗓', '', () => abrirAgenda(p.id)), btn('🚀', 'azul', () => publicarAgora(p.id)), btn('Editar', '', () => abrirEditor(p.id)), btn('Tirar', 'perigo', () => aprovar(p.id, false))] })));
+  }
+  c.appendChild(s1);
+
+  const duas = document.createElement('div'); duas.className = 'duas';
+  // 2) periodicidade
+  const ag = agendaDe(data);
+  const s2 = secao('⏰ Publicações automáticas', 'Em quais dias e a que horas o robô publica o próximo da fila. Sai 1 post por dia marcado. Se já saiu um post no dia (agendado ou "publicar agora"), aquele dia é pulado.');
+  const dd = document.createElement('div'); dd.className = 'dias';
+  NOMES_DIAS.forEach((nome, d) => {
+    const l = document.createElement('label'); l.className = 'dia' + (ag.dias.includes(d) ? ' on' : '');
+    l.innerHTML = `<input type="checkbox" ${ag.dias.includes(d) ? 'checked' : ''}><span>${nome}</span>`;
+    l.querySelector('input').onchange = ev => {
+      const novos = ev.target.checked ? [...ag.dias, d] : ag.dias.filter(x => x !== d);
+      if (!novos.length) { ev.target.checked = true; return toast('Deixe pelo menos um dia marcado.', 'erro'); }
+      mudarConfig('agenda', { dias: [...new Set(novos)].sort(), hora: `${pad2(ag.hora)}:${pad2(ag.minuto)}` });
+    };
+    dd.appendChild(l);
+  });
+  s2.appendChild(dd);
+  const lh = document.createElement('div'); lh.className = 'linha'; lh.style.marginTop = '12px'; lh.innerHTML = 'Horário (Brasília): ';
+  const sh = document.createElement('select'); sh.style.width = '110px';
+  for (let h = 7; h <= 22; h++) for (const m of [0, 30]) { const v = `${pad2(h)}:${pad2(m)}`; sh.insertAdjacentHTML('beforeend', `<option ${h === ag.hora && m === ag.minuto ? 'selected' : ''}>${v}</option>`); }
+  sh.onchange = () => mudarConfig('agenda', { dias: ag.dias, hora: sh.value });
+  lh.appendChild(sh); s2.appendChild(lh);
+  const semana = ag.dias.length;
+  s2.insertAdjacentHTML('beforeend', `<p class="dica" style="margin-top:12px">Agora: <b>${esc(descreverAgenda(data))}</b>, ${semana} post(s) por semana. Com ${fila.length} post(s) na fila regular, ela dura até ${fila.length ? esc(fmtData(datas[datas.length - 1])) : '—'}.</p>`);
+  duas.appendChild(s2);
+
+  // 3) rascunhos automáticos
+  const ra = rascunhosAutoDe(data);
+  const s3 = secao('📝 Rascunhos automáticos', 'O robô transforma as próximas ideias do Banco de ideias em rascunhos de tempos em tempos. Não usa IA nem chave.');
+  const salvarRA = mud => mudarConfig('rascunhosAuto', { ativa: ra.ativa, aCadaDias: ra.aCadaDias, quantidade: ra.quantidade, aprovar: ra.aprovar, ...(ra.ultimaVez ? { ultimaVez: ra.ultimaVez } : {}), ...mud });
+  const l1 = document.createElement('label'); l1.className = 'chk'; l1.innerHTML = `<input type="checkbox" ${ra.ativa ? 'checked' : ''}><span>Criar rascunhos automaticamente</span>`;
+  l1.querySelector('input').onchange = ev => salvarRA({ ativa: ev.target.checked });
+  s3.appendChild(l1);
+  const l2 = document.createElement('div'); l2.className = 'linha'; l2.innerHTML = 'A cada <input type="number" min="1" max="60" class="rdias"> dia(s), criar <input type="number" min="1" max="10" class="rqtd"> rascunho(s)';
+  const i1 = l2.querySelector('.rdias'), i2 = l2.querySelector('.rqtd'); i1.value = ra.aCadaDias; i2.value = ra.quantidade;
+  i1.onchange = () => salvarRA({ aCadaDias: Math.max(1, Math.min(60, parseInt(i1.value, 10) || 7)) });
+  i2.onchange = () => salvarRA({ quantidade: Math.max(1, Math.min(10, parseInt(i2.value, 10) || 1)) });
+  s3.appendChild(l2);
+  const l3 = document.createElement('label'); l3.className = 'chk'; l3.style.marginTop = '12px';
+  l3.innerHTML = `<input type="checkbox" ${ra.aprovar ? 'checked' : ''}><span>Já colocar na fila aprovados (sem eu revisar)</span>`;
+  l3.querySelector('input').onchange = ev => { if (ev.target.checked && !confirm('Os posts do banco vão direto para a fila e podem ser publicados sem você revisar. Em temas de saúde e direito, o ideal é revisar antes. Ligar mesmo assim?')) { ev.target.checked = false; return; } salvarRA({ aprovar: ev.target.checked }); };
+  s3.appendChild(l3);
+  const quando = proximaCriacao(data);
+  const txtQ = !ra.ativa ? 'Desligado.' : quando <= new Date() ? 'Próxima criação: na próxima rodada do robô (em até 30 min, depois de salvar).' : 'Próxima criação: ' + fmtData(quando) + '.';
+  s3.insertAdjacentHTML('beforeend', `<p class="dica">${esc(txtQ)} No banco: ${novas.length} ideia(s) disponível(is)${novas.length ? ` (dá para ${Math.ceil(novas.length / ra.quantidade)} rodada(s))` : '. Quando acabar, o robô não cria nada.'}.${ra.ultimaVez ? ' Última criação: ' + esc(fmtDia(ra.ultimaVez)) + '.' : ''}</p>`);
+  const at = document.createElement('div'); at.className = 'atalhos';
+  at.appendChild(btn(`Criar ${ra.quantidade} agora`, 'azul', () => {
+    const lista = ideias.filter(i => !achar(i.id)).slice(0, ra.quantidade);
+    if (!lista.length) return toast('O banco de ideias está vazio.', 'erro');
+    lista.forEach(i => { adicionarIdeia(i.id, true); if (ra.aprovar) achar(i.id).aprovado = true; });
+    data.rascunhosAuto = { ...(data.rascunhosAuto || {}), ...ra, ultimaVez: new Date().toISOString() };
+    marcar(); toast(`${lista.length} criado(s) ${ra.aprovar ? 'na fila' : 'nos rascunhos'}. A contagem dos dias recomeça agora.`, 'ok');
+  }, !novas.length));
+  at.appendChild(btn('💡 Ver banco de ideias', '', () => ir('ideias')));
+  s3.appendChild(at);
+  duas.appendChild(s3);
+  c.appendChild(duas);
+
+  // 4) resumo da repetição
+  const rep = data.repeticao || {};
+  const s4 = secao('🔁 Repetição automática', '');
+  s4.insertAdjacentHTML('beforeend', `<p class="dica">${rep.ativa ? `Ligada: quando a fila acabar, reposta o post mais antigo (mínimo de ${rep.diasMinimos || 90} dias entre repetições).` : 'Desligada: quando a fila acabar, o robô não publica nada.'}</p>`);
+  s4.appendChild(btn('Configurar repetição', '', () => ir('repeticao')));
+  c.appendChild(s4);
 }
 function renderRepeticao() {
   const rep = data.repeticao || {};
@@ -716,7 +878,7 @@ function renderRepeticao() {
     ? `Se a fila acabasse agora, o robô repostaria: "${tituloTxt(alvo)}".`
     : 'Nenhum post elegível agora (todos foram publicados há pouco tempo, ou estão marcados para não repetir).';
 }
-const TITULOS = { inicio: 'Visão geral', fila: 'Fila e agenda', rascunhos: 'Rascunhos', postados: 'Postados', ia: '✨ Criar com IA', ideias: 'Banco de ideias', robo: 'Robô e execuções', repeticao: 'Repetição automática' };
+const TITULOS = { inicio: 'Visão geral', agenda: '🗓 Agenda e controle', fila: 'Fila (prévias)', rascunhos: 'Rascunhos', postados: 'Postados', ia: '✨ Criar com IA', ideias: 'Banco de ideias', robo: 'Robô e execuções', repeticao: 'Repetição automática' };
 function ir(p) { tab = p; F('side').classList.remove('open'); F('veu').classList.remove('on'); render(); window.scrollTo(0, 0); }
 function render() {
   F('stash').append(F('resumo'), F('boxRobo'), F('boxExec'), F('boxRep'));
@@ -730,7 +892,7 @@ function render() {
   if (!cfg.token) addAviso('Modo leitura: para aprovar, salvar e publicar, cole o token do GitHub em ⚙ Configurações.', 'info');
 
   const fila = filaDe(), agend = agendadosDe(), rasc = rascunhosDe(), done = postadosDe();
-  const ocupados = new Set(agend.map(p => partesBRT(new Date(p.agendarPara)).dia));
+  const ocupados = new Set([...agend.map(p => partesBRT(new Date(p.agendarPara)).dia), ...done.filter(p => p.publicadoEm).map(p => partesBRT(new Date(p.publicadoEm)).dia)]);
   const datas = proximasDatas(fila.length, ocupados);
   const novas = ideias.filter(i => !achar(i.id));
   const repAtiva = !!(data.repeticao && data.repeticao.ativa);
@@ -750,7 +912,7 @@ function render() {
 
   const NAV = [
     ['Geral', [['inicio', '🏠', 'Visão geral', null]]],
-    ['Publicações', [['fila', '📅', 'Fila e agenda', fila.length + agend.length], ['rascunhos', '📝', 'Rascunhos', rasc.length], ['postados', '✅', 'Postados', done.length]]],
+    ['Publicações', [['agenda', '🗓', 'Agenda e controle', fila.length + agend.length], ['fila', '🖼', 'Fila (prévias)', null], ['rascunhos', '📝', 'Rascunhos', rasc.length], ['postados', '✅', 'Postados', done.length]]],
     ['Criar', [['ia', '✨', 'Criar com IA', null], ['ideias', '💡', 'Banco de ideias', novas.length]]],
     ['Automação', [['robo', '🤖', 'Robô e execuções', null], ['repeticao', '🔁', 'Repetição automática', null]]]
   ];
@@ -771,11 +933,13 @@ function render() {
     const prox = [...agend.map(p => ({ p, q: new Date(p.agendarPara) })), ...fila.map((p, i) => ({ p, q: datas[i] }))].sort((a, b) => a.q - b.q).slice(0, 6);
     const box = document.createElement('div'); box.className = 'lado'; box.innerHTML = '<h3>Próximas publicações</h3>';
     if (!prox.length) box.innerHTML += '<p class="dica">Nada aprovado na fila. Aprove rascunhos ou reposte posts antigos.</p>';
-    prox.forEach(({ p, q }) => { const r = document.createElement('div'); r.className = 'prox'; r.innerHTML = `<span class="q">${esc(fmtData(q))}${p.agendarPara ? ' 🗓' : ''}</span><span class="t">${esc(tituloTxt(p))}</span>`; r.onclick = () => ir('fila'); box.appendChild(r); });
+    prox.forEach(({ p, q }) => { const r = document.createElement('div'); r.className = 'prox'; r.innerHTML = `<span class="q">${esc(fmtData(q))}${p.agendarPara ? ' 🗓' : ''}</span><span class="t">${esc(tituloTxt(p))}</span>`; r.onclick = () => ir('agenda'); box.appendChild(r); });
     c.appendChild(box);
     const at = document.createElement('div'); at.className = 'atalhos';
     [['＋ Novo post', 'azul', () => abrirEditor(null)], ['✨ Criar com IA', '', () => ir('ia')], ['📝 Ver rascunhos', '', () => ir('rascunhos')], ['🤖 Robô e execuções', '', () => ir('robo')]].forEach(([t, k, f]) => at.appendChild(btn(t, k, f)));
     c.appendChild(at);
+  } else if (tab === 'agenda') {
+    renderAgenda(c, fila, agend, datas, novas);
   } else if (tab === 'robo') {
     const d = document.createElement('div'); d.className = 'duas'; d.append(F('boxRobo'), F('boxExec')); c.appendChild(d);
   } else if (tab === 'repeticao') {
@@ -789,7 +953,7 @@ function render() {
         acoes: [btn('🚀 Agora', 'azul', () => publicarAgora(p.id)), btn('🗓 Mudar', '', () => abrirAgenda(p.id)), btn('Desaprovar', 'perigo', () => { delete p.agendarPara; aprovar(p.id, false); }), btn('Editar', '', () => abrirEditor(p.id))]
       })));
       c.appendChild(g2);
-      if (fila.length) { const h2 = document.createElement('h3'); h2.textContent = 'Fila regular (ter, qui e sáb)'; h2.style.margin = '0 0 10px'; c.appendChild(h2); }
+      if (fila.length) { const h2 = document.createElement('h3'); h2.textContent = 'Fila regular (' + descreverAgenda(data) + ')'; h2.style.margin = '0 0 10px'; c.appendChild(h2); }
     }
     fila.forEach((p, i) => grid.appendChild(card(p, {
       badge: p.origem ? `#${i + 1} · repetição` : `#${i + 1} na fila`, badgeCls: p.origem ? 'rep' : 'fila', extra: '📅 ' + fmtData(datas[i]),
@@ -799,7 +963,6 @@ function render() {
     })));
     if (!fila.length && !agend.length) c.innerHTML = '<div class="vazio">Nenhum post aprovado. Aprove um rascunho ou reposte um post antigo (aba Postados).</div>';
   } else if (tab === 'rascunhos') {
-    c.appendChild(barraGerar(novas.length));
     rasc.forEach(p => grid.appendChild(card(p, {
       badge: 'Rascunho', badgeCls: 'rasc',
       acoes: [btn('✓ Aprovar', 'azul', () => aprovar(p.id, true)), btn('🚀 Agora', '', () => publicarAgora(p.id)), btn('🗓 Programar', '', () => abrirAgenda(p.id)), btn('Editar', '', () => abrirEditor(p.id)), btn('Duplicar', '', () => duplicar(p.id)), btn('Excluir', 'perigo', () => excluir(p.id))]
@@ -831,14 +994,7 @@ function render() {
     });
     if (!lista.length) c.innerHTML = '<div class="vazio">Ainda não há posts publicados pelo robô.</div>';
   } else if (tab === 'ideias') {
-    const gb = document.createElement('div'); gb.className = 'selbar'; gb.style.flexWrap = 'wrap';
-    gb.innerHTML = `<span class="sp" style="min-width:220px">✨ Gerar novas ideias com IA e guardar no banco. ${temChave() ? `Usando ${esc(NOME_PROV[cfg.provider || 'anthropic'])}.` : 'Falta configurar a chave da IA em ⚙ Configurações.'}</span>
-      <input id="gqTema" placeholder="Tema opcional (ex.: cuidados com a pele)" style="flex:2;min-width:220px">
-      <input id="gqQtd" type="number" min="1" max="5" style="width:70px" title="Quantidade (1 a 5)">`;
-    const gq = gb.querySelector('#gqQtd'), gt = gb.querySelector('#gqTema'); gq.value = ideiasQtd; gt.value = ideiasTema;
-    gq.oninput = () => { ideiasQtd = parseInt(gq.value, 10) || 1; }; gt.oninput = () => { ideiasTema = gt.value; };
-    gb.appendChild(btn(ideiasGerando ? 'Gerando… (até 1 minuto)' : '✨ Gerar novas ideias', 'azul', gerarIdeias, ideiasGerando));
-    c.appendChild(gb);
+    c.appendChild(barraGerar(novas.length));
     if (novas.length) {
       const topo = document.createElement('div'); topo.style.marginBottom = '14px';
       topo.appendChild(btn(`Adicionar todas (${novas.length}) aos rascunhos`, 'azul', () => { novas.forEach(i => adicionarIdeia(i.id, true)); tab = 'rascunhos'; marcar(); toast(`${novas.length} posts adicionados aos rascunhos.`); }));
@@ -848,7 +1004,7 @@ function render() {
       badge: 'Ideia', badgeCls: 'rasc', extra: p.avisos && p.avisos.length ? '⚠ Conferir: ' + p.avisos.join(' · ') : '',
       acoes: [btn('＋ Adicionar aos rascunhos', 'azul', () => adicionarIdeia(p.id)), btn('Excluir', 'perigo', () => { if (confirm(`Tirar "${tituloTxt(p)}" do banco de ideias?`)) { ideias.splice(ideias.indexOf(p), 1); marcar(); } })]
     })));
-    if (!novas.length) { const v = document.createElement('div'); v.className = 'vazio'; v.textContent = 'O banco está vazio. Use o botão acima para gerar novas ideias.'; c.appendChild(v); }
+    if (!novas.length) { const v = document.createElement('div'); v.className = 'vazio'; v.textContent = 'O banco de ideias está vazio. Crie posts novos em ✨ Criar com IA ou em ＋ Novo post.'; c.appendChild(v); }
   } else if (tab === 'ia') {
     renderIA(c);
   }
@@ -1016,31 +1172,6 @@ async function gerarComIA() {
     toast('Post gerado. Revise no editor e clique em Aplicar para salvar como rascunho.', 'ok');
   } catch (e) { toast('Não consegui gerar: ' + e.message, 'erro'); }
   finally { iaCarregando = false; if (tab === 'ia') render(); }
-}
-// Gera várias ideias de uma vez e guarda no banco de ideias
-let ideiasQtd = 3, ideiasTema = '', ideiasGerando = false;
-async function gerarIdeias() {
-  if (!temChave()) { abrirConfig(); return toast('Configure a chave da IA em Configurações.', 'erro'); }
-  const qtd = Math.max(1, Math.min(parseInt(ideiasQtd, 10) || 1, 5));
-  const tema = ideiasTema.trim();
-  const existentes = [...data.posts, ...ideias].map(tituloTxt).filter(Boolean).slice(-80);
-  ideiasGerando = true; render();
-  try {
-    const pedido = `Crie ${qtd} post(s) DIFERENTES entre si, em formatos (tipo) variados. ` +
-      (tema ? `Direção do pedido: ${tema}. ` : 'Varie os temas dentro do escopo do portal (barba, binder, retificação de nome, saúde em termos gerais, estilo e roupas, direitos, comunidade, indicar profissionais, apoio a familiares). ') +
-      `NÃO repita estes temas que já existem: ${existentes.join(' | ') || '(nenhum)'}. Responda SOMENTE com um array JSON com ${qtd} objeto(s), cada um no formato descrito.`;
-    const bruto = await pedirJson(pedido, Math.min(16000, 2500 * qtd + 1500));
-    const lista = Array.isArray(bruto) ? bruto : [bruto];
-    let n = 0;
-    for (const o of lista.slice(0, qtd)) {
-      const { post, avisos } = normalizarPost(o);
-      if (!postCompleto(post)) continue;
-      ideias.push({ id: proximoId(), ...post, ...(avisos.length ? { avisos } : {}) }); n++;
-    }
-    if (!n) throw new Error('A IA não devolveu nenhum post completo. Tente de novo.');
-    dirty = true; toast(`${n} ideia(s) nova(s) no banco. Clique em Salvar no GitHub para guardar.`, 'ok');
-  } catch (e) { toast('Não consegui gerar: ' + e.message, 'erro'); }
-  finally { ideiasGerando = false; render(); }
 }
 
 // ---------- editor ----------
