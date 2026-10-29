@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Painel do Robô do Instagram</title>
+<title>Gerenciador Instagram</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -109,47 +109,144 @@ textarea{resize:vertical}
 .toast div{background:#0a1330;border-left:5px solid var(--azul);border-radius:10px;padding:12px 16px;font-weight:600;max-width:360px;box-shadow:0 8px 24px #0008}
 .toast div.erro{border-color:var(--erro)}
 .toast div.ok{border-color:var(--ok)}
+
+/* ===== layout com menu lateral ===== */
+#app{display:grid;grid-template-columns:268px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;background:#0a1330;border-right:1px solid var(--card2);display:flex;flex-direction:column;overflow-y:auto;z-index:30}
+.side .faixa{flex:none}
+.brand{display:flex;gap:12px;align-items:center;padding:18px 20px 10px}
+.brand .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(180deg,var(--azul) 0 20%,var(--rosa) 20% 40%,#fff 40% 60%,var(--rosa) 60% 80%,var(--azul) 80%);flex:none}
+.brand b{display:block;font-size:17px;font-weight:900;line-height:1.1}
+.brand small{color:var(--mut);font-weight:600}
+nav#nav{padding:6px 12px;flex:1}
+nav .grp{margin:16px 8px 6px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+nav .it{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:0;color:#dbe4ff;border-radius:11px;padding:10px 12px;font-weight:700;font-size:15px}
+nav .it:hover{background:var(--card)}
+nav .it.on{background:var(--azul);color:#0e1a3a}
+nav .it .ic{width:22px;text-align:center;flex:none}
+nav .it .tx{flex:1}
+nav .it em{font-style:normal;font-size:12px;font-weight:800;background:#ffffff22;border-radius:999px;padding:2px 8px}
+nav .it.on em{background:#0e1a3a22}
+.sidefoot{padding:12px;border-top:1px solid var(--card2);display:flex;flex-direction:column;gap:2px}
+.sidefoot a,.sidefoot button{display:flex;gap:12px;align-items:center;color:#dbe4ff;text-decoration:none;background:transparent;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px;text-align:left}
+.sidefoot a:hover,.sidefoot button:hover{background:var(--card)}
+.sidefoot .who{color:var(--mut);font-size:12px;padding:6px 12px;word-break:break-all}
+.content{min-width:0}
+.topbar{display:flex;align-items:center;gap:12px;padding:16px 28px;flex-wrap:wrap;border-bottom:1px solid var(--card2);background:var(--bg);position:sticky;top:0;z-index:20}
+.topbar h2{margin:0;font-size:22px;font-weight:900;letter-spacing:-.01em}
+.topbar .repo{color:var(--mut);font-size:13px}
+.topbar .sp{flex:1}
+#btnMenu{display:none}
+#app main{max-width:1180px;margin:0 auto;padding:22px 28px}
+.duas{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;align-items:start}
+.lado.larga{max-width:640px}
+.prox{display:flex;gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--card2);cursor:pointer}
+.prox:first-of-type{border-top:0}
+.prox .q{width:150px;flex:none;color:var(--rosa);font-weight:800;font-size:13px}
+.prox .t{font-weight:700}
+.atalhos{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.barra{left:268px}
+.veu{display:none}
+@media(max-width:900px){
+  #app{grid-template-columns:1fr}
+  .side{position:fixed;left:0;top:0;bottom:0;width:280px;transform:translateX(-100%);transition:transform .2s}
+  .side.open{transform:none;box-shadow:0 0 40px #000a}
+  .veu.on{display:block;position:fixed;inset:0;background:#0008;z-index:25}
+  #btnMenu{display:inline-block}
+  .topbar{padding:10px 14px;gap:8px}
+  .topbar h2{font-size:18px;flex:1}
+  .topbar .repo{display:none}
+  .topbar .btn{padding:8px 11px;font-size:14px}
+  #btnRecarregar{font-size:0;padding:8px 12px}
+  #btnRecarregar::before{content:'↻';font-size:16px}
+  #app main{padding:16px}
+  .barra{left:0;padding:12px 16px}
+  .prox .q{width:110px}
+}
+/* ===== tela de login ===== */
+[hidden]{display:none!important}
+.lock{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:60;overflow:auto}
+.lockcard{margin:auto;width:min(420px,calc(100vw - 32px));background:var(--card);border-radius:20px;padding:28px 26px;box-shadow:0 20px 60px #0008}
+.lockcard .logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(180deg,var(--azul) 0 20%,var(--rosa) 20% 40%,#fff 40% 60%,var(--rosa) 60% 80%,var(--azul) 80%);margin-bottom:14px}
+.lockcard h1{margin:0 0 6px;font-size:24px;font-weight:900}
+.lockcard p{color:var(--mut);margin:0 0 6px}
+.lockcard .msg{border-radius:10px;padding:10px 12px;font-weight:600;font-size:14px;margin-top:12px}
+.lockcard .msg.erro{background:#4a1f27;color:var(--erro)}
+.lockcard .msg.ok{background:#12452f;color:var(--ok)}
+.lockcard .btn{width:100%;padding:12px;margin-top:14px}
+.lockcard .link{background:none;border:0;color:var(--azul);font-weight:600;margin-top:10px;padding:4px;width:100%;text-align:center}
 </style>
 </head>
 <body>
-<div class="faixa"><i></i><i></i><i></i><i></i><i></i></div>
-<header>
-  <h1>🤖 Painel do robô do Instagram</h1>
-  <span class="repo" id="repoInfo"></span>
-  <span class="sp"></span>
-  <button class="btn azul" id="btnNovo">＋ Novo post</button>
-  <button class="btn" id="btnRecarregar">↻ Recarregar</button>
-  <button class="btn" id="btnConfig">⚙ Configurações</button>
-</header>
+<!-- LOGIN (mesma conta de administrador do painel de indicações do site) -->
+<div class="lock" id="lock">
+  <div class="faixa"><i></i><i></i><i></i><i></i><i></i></div>
+  <form class="lockcard" id="loginForm" autocomplete="on">
+    <div class="logo"></div>
+    <h1>Gerenciador Instagram</h1>
+    <p>Portal Transmasc Brasil. Entre com a mesma conta de administrador do painel de indicações do site.</p>
+    <label for="lEmail">E-mail</label><input id="lEmail" type="email" required autocomplete="username">
+    <label for="lSenha">Senha</label><input id="lSenha" type="password" required autocomplete="current-password">
+    <div class="msg erro" id="lErro" hidden></div>
+    <div class="msg ok" id="lOk" hidden></div>
+    <button class="btn azul" id="lEntrar" type="submit" disabled>Carregando…</button>
+    <button class="link" type="button" id="lEsqueci">Esqueci minha senha</button>
+  </form>
+</div>
 
-<main>
-  <div class="avisos" id="avisos"></div>
-  <div class="resumo" id="resumo"></div>
-  <div class="layout">
-    <div>
-      <div class="tabs" id="tabs"></div>
-      <div id="conteudo"></div>
+<div id="app" hidden>
+  <aside class="side" id="side">
+    <div class="faixa"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="brand"><span class="logo"></span><div><b>Gerenciador</b><small>Instagram</small></div></div>
+    <nav id="nav"></nav>
+    <div class="sidefoot">
+      <a href="../" target="_blank" rel="noopener" id="lnkSite"><span>🌐</span>Abrir o site</a>
+      <a href="../admin.html" id="lnkAdmin"><span>🗂</span>Painel de indicações</a>
+      <button id="btnConfig"><span>⚙</span>Configurações</button>
+      <div class="who" id="whoEmail"></div>
+      <button id="btnSair"><span>⎋</span>Sair</button>
     </div>
-    <aside>
-      <div class="lado">
-        <h3>Robô</h3>
-        <div class="robo">
-          <button class="btn azul" id="btnPublicar">🚀 Publicar o próximo agora</button>
-          <button class="btn" id="btnTeste">🔌 Testar conexão (sem publicar)</button>
-        </div>
-        <h3>Últimas execuções <button class="btn peq" id="btnExec" style="float:right">↻</button></h3>
-        <div id="execucoes"><span class="dica">Carregando…</span></div>
-        <p class="dica" style="margin-top:12px">Agenda: terça, quinta e sábado, por volta das 12h (Brasília). O GitHub pode atrasar alguns minutos.</p>
-      </div>
-      <div class="lado">
-        <h3>🔁 Repetição automática</h3>
-        <label class="chk"><input type="checkbox" id="repAtiva"><span>Reciclar posts antigos quando a fila acabar</span></label>
-        <div class="linha">Esperar pelo menos <input id="repDias" type="number" min="7" max="720"> dias desde a última publicação</div>
-        <p class="dica" id="repPrev"></p>
-      </div>
-    </aside>
+  </aside>
+  <div class="veu" id="veu"></div>
+  <div class="content">
+    <div class="topbar">
+      <button class="btn" id="btnMenu" aria-label="Abrir menu">☰</button>
+      <h2 id="pgTitulo"></h2>
+      <span class="repo" id="repoInfo"></span>
+      <span class="sp"></span>
+      <button class="btn azul" id="btnNovo">＋ Novo post</button>
+      <button class="btn" id="btnRecarregar">↻ Recarregar</button>
+    </div>
+    <main>
+      <div class="avisos" id="avisos"></div>
+      <div id="conteudo"></div>
+    </main>
   </div>
-</main>
+</div>
+
+<!-- peças que aparecem em páginas diferentes (o script move para a página certa) -->
+<div id="stash" hidden>
+  <div class="resumo" id="resumo"></div>
+  <div class="lado" id="boxRobo">
+    <h3>Publicar</h3>
+    <div class="robo">
+      <button class="btn azul" id="btnPublicar">🚀 Publicar o próximo agora</button>
+      <button class="btn" id="btnTeste">🔌 Testar conexão (sem publicar)</button>
+    </div>
+    <p class="dica">Horário regular: terça, quinta e sábado, a partir das 12h (Brasília). Posts programados saem na data escolhida. O GitHub pode atrasar alguns minutos.</p>
+  </div>
+  <div class="lado" id="boxExec">
+    <h3>Últimas execuções <button class="btn peq" id="btnExec" style="float:right">↻</button></h3>
+    <div id="execucoes"><span class="dica">Carregando…</span></div>
+  </div>
+  <div class="lado larga" id="boxRep">
+    <h3>🔁 Repetição automática</h3>
+    <label class="chk"><input type="checkbox" id="repAtiva"><span>Reciclar posts antigos quando a fila acabar</span></label>
+    <div class="linha">Esperar pelo menos <input id="repDias" type="number" min="7" max="720"> dias desde a última publicação</div>
+    <p class="dica" id="repPrev"></p>
+    <p class="dica">Quando não houver nenhum post aprovado na fila, o robô reposta o post publicado há mais tempo, sem repetir um post publicado há menos dias do que o limite. Para um post nunca ser repostado sozinho, use "Auto: não" no card dele, na página Postados.</p>
+  </div>
+</div>
 
 <div class="barra" id="barra">
   <span class="t" id="barraTxt">Você tem alterações não salvas.</span>
@@ -167,7 +264,7 @@ textarea{resize:vertical}
     <label>Caminho do ideias.json</label><input id="cIdeias">
     <label>Token do GitHub (só para salvar e publicar)</label>
     <input id="cToken" type="password" autocomplete="off" placeholder="github_pat_...">
-    <p class="dica">Fica guardado só neste navegador. Crie em
+    <p class="dica">Fica guardado só neste navegador (o login protege o painel, mas o token continua salvo aqui até você remover). Crie em
       <a style="color:var(--azul)" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Settings → Developer settings → Fine-grained tokens</a>:
       escolha <b>só este repositório</b> e as permissões <b>Contents: Read and write</b> e <b>Actions: Read and write</b>. Não use em computador compartilhado.</p>
     <label>Chave da API da Anthropic (só para a aba "Criar com IA")</label>
@@ -198,6 +295,21 @@ textarea{resize:vertical}
   </div>
 </dialog>
 
+<dialog id="dlgAgenda">
+  <div class="dh"><span>🗓 Programar publicação</span><button class="btn peq" data-fechar>✕</button></div>
+  <div class="db">
+    <p id="agTitulo" style="font-weight:800;margin:0 0 4px"></p>
+    <label>Data e hora (horário de Brasília)</label>
+    <input type="datetime-local" id="agData">
+    <p class="dica">O robô confere a cada 30 minutos, das 7h às 23h30. O post sai no primeiro horário depois do que você escolher, então pode atrasar alguns minutos (às vezes mais, quando o GitHub está cheio). Programar já aprova o post. Se já houver um post publicado no mesmo dia, o horário regular de terça, quinta e sábado é pulado para não sair dois no dia.</p>
+  </div>
+  <div class="df">
+    <button class="btn perigo" id="agRemover">Remover agendamento</button>
+    <button class="btn" data-fechar>Cancelar</button>
+    <button class="btn azul" id="agOk">Programar</button>
+  </div>
+</dialog>
+
 <dialog id="dlgEditor" class="largo">
   <div class="dh"><span id="edTitulo">Editar post</span><button class="btn peq" data-fechar>✕</button></div>
   <div class="db">
@@ -205,7 +317,10 @@ textarea{resize:vertical}
     <div class="ed">
       <div>
         <label>Tipo</label>
-        <select id="fTipo"><option value="passos">Passos (lista numerada)</option><option value="lista">Lista (com emoji)</option></select>
+        <select id="fTipo"></select>
+        <p class="dica" id="fTipoDica"></p>
+        <label>Cor do fundo</label>
+        <select id="fTema"></select>
         <label>Chamada pequena (kicker)</label><input id="fKicker" placeholder="Ex.: Dicas de barba">
         <label>Título <small>(uma linha por linha; a última fica rosa)</small></label>
         <textarea id="fTitulo" rows="2"></textarea>
@@ -233,8 +348,8 @@ textarea{resize:vertical}
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { postHtml, esc } from './template.js';
-import { raizDe, proximoId as proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao } from './fila.js';
+import { postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI } from './template.js';
+import { raizDe, proximoId as proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT } from './fila.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const F = id => document.getElementById(id);
@@ -248,7 +363,8 @@ let cfg = { ...DEFAULTS };
 try { cfg = { ...DEFAULTS, ...JSON.parse(localStorage.getItem(CFG_KEY) || '{}') }; } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch (e) {} };
 
-let data = null, sha = null, ideias = [], dirty = false, tab = 'fila', loadError = '';
+const PAGINAS = ['inicio', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'robo', 'repeticao'];
+let data = null, sha = null, ideias = [], dirty = false, tab = PAGINAS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio', loadError = '';
 const selecionados = new Set();
 let iaPrompt = '', iaTipo = 'auto', iaCarregando = false;
 
@@ -288,17 +404,20 @@ async function erroDaApi(r) {
 const fmtData = d => new Intl.DateTimeFormat('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }).format(d);
 const fmtDia = iso => iso ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }).format(new Date(iso)) : '';
 
-function proximasDatas(n) {
+function proximasDatas(n, ocupados = new Set()) {
   const out = [], agora = new Date();
   for (let i = 0; out.length < n && i < 800; i++) {
     const t = new Date(Date.UTC(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate() + i, HORA_UTC, 0, 0));
-    if (DIAS.includes(t.getUTCDay()) && t > agora) out.push(t);
+    if (DIAS.includes(t.getUTCDay()) && t > agora && !ocupados.has(partesBRT(t).dia)) out.push(t);
   }
   return out;
 }
+const paraInputBRT = iso => { const b = partesBRT(new Date(iso)); return `${b.dia}T${String(b.hora).padStart(2, '0')}:${String(b.minuto).padStart(2, '0')}`; };
 const tituloTxt = p => (p.titulo || []).join(' ');
-const filaDe = () => data.posts.filter(p => p.aprovado && !p.postado);
+const filaDe = () => data.posts.filter(p => p.aprovado && !p.postado && !p.agendarPara);
+const agendadosDe = () => data.posts.filter(p => p.aprovado && !p.postado && p.agendarPara).sort((a, b) => Date.parse(a.agendarPara) - Date.parse(b.agendarPara));
 const rascunhosDe = () => data.posts.filter(p => !p.aprovado && !p.postado);
+let qtdRasc = 3;
 const postadosDe = () => data.posts.filter(p => p.postado);
 const proximoId = () => proximoIdBase(data.posts, ideias);
 function marcar() { dirty = true; render(); }
@@ -405,13 +524,52 @@ function duplicar(id) {
   const p = achar(id); if (!p) return;
   const c = JSON.parse(JSON.stringify(p));
   c.id = proximoId(); c.aprovado = false; c.postado = false;
-  ['publicadoEm', 'instagramMediaId', 'imagemDe', 'origem'].forEach(k => delete c[k]);
+  ['publicadoEm', 'instagramMediaId', 'imagemDe', 'origem', 'agendarPara'].forEach(k => delete c[k]);
   data.posts.push(c); tab = 'rascunhos'; marcar(); toast('Cópia criada em Rascunhos.');
 }
 function adicionarIdeia(id, silencioso = false) {
   const p = ideias.find(x => x.id === id); if (!p || achar(id)) return;
   data.posts.push({ ...JSON.parse(JSON.stringify(p)), aprovado: false, postado: false });
   if (!silencioso) { marcar(); toast('Adicionado aos rascunhos.'); }
+}
+async function publicarAgora(id) {
+  const p = achar(id); if (!p || p.postado) return;
+  if (!cfg.token) { abrirConfig(); return toast('Cole o token do GitHub (com permissão de Actions).', 'erro'); }
+  if (!confirm(`Publicar AGORA no Instagram?\n\n"${tituloTxt(p)}"\n\nVai ao ar na conta pública em poucos minutos, mesmo sem estar aprovado.`)) return;
+  if (dirty && !(await salvar())) return;
+  const r = await gh('actions/workflows/instagram.yml/dispatches', { method: 'POST', body: JSON.stringify({ ref: cfg.branch, inputs: { dry_run: 'false', post_id: id } }) });
+  if (r.status === 204) { toast('Publicação iniciada. Acompanhe em "Últimas execuções" e depois clique em Recarregar.', 'ok'); setTimeout(carregarExecucoes, 4000); }
+  else toast(await erroDaApi(r), 'erro');
+}
+let agId = null;
+function abrirAgenda(id) {
+  const p = achar(id); if (!p || p.postado) return;
+  agId = id;
+  F('agTitulo').textContent = tituloTxt(p);
+  const base = p.agendarPara ? new Date(p.agendarPara) : new Date(Date.now() + 86400000);
+  if (!p.agendarPara) { base.setUTCHours(15, 0, 0, 0); } // sugere 12h de amanhã
+  F('agData').value = paraInputBRT(base.toISOString());
+  F('agRemover').style.display = p.agendarPara ? '' : 'none';
+  F('dlgAgenda').showModal();
+}
+F('agOk').onclick = () => {
+  const v = F('agData').value; if (!v) return toast('Escolha a data e a hora.', 'erro');
+  const d = new Date(v + ':00-03:00'); // horário de Brasília
+  if (isNaN(d)) return toast('Data inválida.', 'erro');
+  if (d.getTime() < Date.now() + 5 * 60000) return toast('Escolha um horário daqui a pelo menos 5 minutos.', 'erro');
+  const b = partesBRT(d), min = b.hora * 60 + b.minuto;
+  if (min < 7 * 60 || min > 23 * 60 + 30) return toast('O robô só confere horários entre 7h e 23h30 (Brasília). Escolha dentro dessa faixa.', 'erro');
+  const p = achar(agId); if (!p) return;
+  p.aprovado = true; p.agendarPara = d.toISOString();
+  F('dlgAgenda').close(); tab = 'fila'; marcar(); toast(`Programado para ${fmtData(d)}. Clique em Salvar no GitHub.`, 'ok');
+};
+F('agRemover').onclick = () => { const p = achar(agId); if (p) { delete p.agendarPara; } F('dlgAgenda').close(); marcar(); toast('Agendamento removido: o post voltou para a fila normal.'); };
+function gerarRascunhos(qtd) {
+  const novas = ideias.filter(i => !achar(i.id));
+  if (!novas.length) return toast('O banco de ideias acabou. Use a aba ✨ Criar com IA para novos temas.', 'erro');
+  const n = Math.max(1, Math.min(parseInt(qtd, 10) || 1, novas.length));
+  novas.slice(0, n).forEach(i => adicionarIdeia(i.id, true));
+  tab = 'rascunhos'; marcar(); toast(`${n} rascunho(s) criado(s) a partir do banco de ideias. Revise e aprove.`, 'ok');
 }
 function alternarRepeticaoAuto(p) {
   const membros = data.posts.filter(x => raizDe(x) === raizDe(p));
@@ -478,6 +636,15 @@ function card(p, { badge, badgeCls, extra, acoes, selecionavel }) {
   const ac = document.createElement('div'); ac.className = 'acoes'; acoes.forEach(a => ac.appendChild(a)); el.appendChild(ac);
   return el;
 }
+function barraGerar(disp) {
+  const b = document.createElement('div'); b.className = 'selbar';
+  const sp = document.createElement('span'); sp.className = 'sp';
+  sp.textContent = disp ? `Banco de ideias: ${disp} pronta(s) para virar rascunho.` : 'O banco de ideias acabou. Use a aba ✨ Criar com IA.';
+  const q = document.createElement('input'); q.type = 'number'; q.min = 1; q.max = Math.max(disp, 1); q.value = Math.min(qtdRasc, Math.max(disp, 1)); q.style.width = '70px'; q.disabled = !disp;
+  q.oninput = () => { qtdRasc = parseInt(q.value, 10) || 1; };
+  const g = btn('📥 Gerar rascunhos', 'azul', () => gerarRascunhos(q.value), !disp);
+  b.append(sp, q, g); return b;
+}
 function renderRepeticao() {
   const rep = data.repeticao || {};
   F('repAtiva').checked = !!rep.ativa;
@@ -489,51 +656,95 @@ function renderRepeticao() {
     ? `Se a fila acabasse agora, o robô repostaria: "${tituloTxt(alvo)}".`
     : 'Nenhum post elegível agora (todos foram publicados há pouco tempo, ou estão marcados para não repetir).';
 }
+const TITULOS = { inicio: 'Visão geral', fila: 'Fila e agenda', rascunhos: 'Rascunhos', postados: 'Postados', ia: '✨ Criar com IA', ideias: 'Banco de ideias', robo: 'Robô e execuções', repeticao: 'Repetição automática' };
+function ir(p) { tab = p; F('side').classList.remove('open'); F('veu').classList.remove('on'); render(); window.scrollTo(0, 0); }
 function render() {
+  F('stash').append(F('resumo'), F('boxRobo'), F('boxExec'), F('boxRep'));
+  F('pgTitulo').textContent = TITULOS[tab] || '';
+  try { history.replaceState(null, '', '#' + tab); } catch (e) {}
   $('#repoInfo').textContent = `${cfg.owner}/${cfg.repo} · ${cfg.branch}`;
   const av = $('#avisos'); av.innerHTML = '';
   const addAviso = (t, c = '') => { const d = document.createElement('div'); d.className = 'aviso ' + c; d.textContent = t; av.appendChild(d); };
-  if (loadError) { addAviso(loadError, 'erro'); $('#resumo').innerHTML = ''; $('#tabs').innerHTML = ''; $('#conteudo').innerHTML = '<div class="vazio">Não consegui carregar os posts.</div>'; $('#barra').classList.remove('on'); return; }
+  if (loadError) { addAviso(loadError, 'erro'); $('#conteudo').innerHTML = '<div class="vazio">Não consegui carregar os posts.</div>'; $('#barra').classList.remove('on'); return; }
   if (!data) { $('#conteudo').innerHTML = '<div class="vazio">Carregando…</div>'; return; }
   if (!cfg.token) addAviso('Modo leitura: para aprovar, salvar e publicar, cole o token do GitHub em ⚙ Configurações.', 'info');
 
-  const fila = filaDe(), rasc = rascunhosDe(), done = postadosDe();
-  const datas = proximasDatas(fila.length);
+  const fila = filaDe(), agend = agendadosDe(), rasc = rascunhosDe(), done = postadosDe();
+  const ocupados = new Set(agend.map(p => partesBRT(new Date(p.agendarPara)).dia));
+  const datas = proximasDatas(fila.length, ocupados);
   const novas = ideias.filter(i => !achar(i.id));
   const repAtiva = !!(data.repeticao && data.repeticao.ativa);
-  if (!fila.length && !repAtiva) addAviso('Nenhum post aprovado: o robô não vai publicar nada nos próximos dias. Aprove rascunhos, reposte algum post antigo ou ligue a repetição automática.');
-  else if (!fila.length && repAtiva) addAviso('Fila vazia: o robô vai usar a repetição automática (post mais antigo) no próximo horário.', 'info');
-  else if (fila.length < 3) addAviso(`A fila está curta: só ${fila.length} post(s) aprovado(s). Vai até ${fmtData(datas[datas.length - 1])}.`);
+  if (!fila.length && !agend.length && !repAtiva) addAviso('Nenhum post aprovado: o robô não vai publicar nada nos próximos dias. Aprove rascunhos, reposte algum post antigo ou ligue a repetição automática.');
+  else if (!fila.length && !agend.length && repAtiva) addAviso('Fila vazia: o robô vai usar a repetição automática (post mais antigo) no próximo horário.', 'info');
+  else if (fila.length && fila.length < 3) addAviso(`A fila está curta: só ${fila.length} post(s) aprovado(s). Vai até ${fmtData(datas[datas.length - 1])}.`);
 
+  const cands = [];
+  if (agend.length) cands.push({ post: agend[0], quando: new Date(agend[0].agendarPara) });
+  if (fila.length) cands.push({ post: fila[0], quando: datas[0] });
+  const proximo = cands.sort((a, b) => a.quando - b.quando)[0];
   $('#resumo').innerHTML = `
-    <div class="res"><small>Na fila</small><b>${fila.length}</b><span>${fila.length ? 'até ' + fmtData(datas[datas.length - 1]) : 'fila vazia'}</span></div>
-    <div class="res"><small>Próximo post</small><b style="font-size:18px">${fila.length ? esc(fmtData(datas[0])) : '—'}</b><span>${fila.length ? esc(tituloTxt(fila[0])) : 'nada aprovado'}</span></div>
+    <div class="res"><small>Na fila</small><b>${fila.length + agend.length}</b><span>${agend.length ? agend.length + ' agendado(s)' : (fila.length ? 'até ' + fmtData(datas[datas.length - 1]) : 'fila vazia')}</span></div>
+    <div class="res"><small>Próximo post</small><b style="font-size:18px">${proximo ? esc(fmtData(proximo.quando)) : '—'}</b><span>${proximo ? esc(tituloTxt(proximo.post)) : 'nada aprovado'}</span></div>
     <div class="res"><small>Rascunhos</small><b>${rasc.length}</b><span>aguardando aprovação</span></div>
     <div class="res"><small>Publicações</small><b>${done.length}</b><span>no histórico</span></div>`;
 
-  const T = [['fila', 'Fila', fila.length], ['rascunhos', 'Rascunhos', rasc.length], ['postados', 'Postados', done.length], ['ideias', 'Banco de ideias', novas.length], ['ia', '✨ Criar com IA', null]];
-  $('#tabs').innerHTML = '';
-  for (const [id, nome, n] of T) {
-    const b = document.createElement('button'); b.className = 'tab' + (tab === id ? ' on' : '');
-    b.innerHTML = `${esc(nome)}${n === null ? '' : `<em>${n}</em>`}`; b.onclick = () => { tab = id; render(); };
-    $('#tabs').appendChild(b);
+  const NAV = [
+    ['Geral', [['inicio', '🏠', 'Visão geral', null]]],
+    ['Publicações', [['fila', '📅', 'Fila e agenda', fila.length + agend.length], ['rascunhos', '📝', 'Rascunhos', rasc.length], ['postados', '✅', 'Postados', done.length]]],
+    ['Criar', [['ia', '✨', 'Criar com IA', null], ['ideias', '💡', 'Banco de ideias', novas.length]]],
+    ['Automação', [['robo', '🤖', 'Robô e execuções', null], ['repeticao', '🔁', 'Repetição automática', null]]]
+  ];
+  const nav = $('#nav'); nav.innerHTML = '';
+  for (const [grupo, itens] of NAV) {
+    const g = document.createElement('div'); g.className = 'grp'; g.textContent = grupo; nav.appendChild(g);
+    for (const [id, ic, nome, n] of itens) {
+      const b = document.createElement('button'); b.className = 'it' + (tab === id ? ' on' : '');
+      b.innerHTML = `<span class="ic">${ic}</span><span class="tx">${esc(nome)}</span>${n === null ? '' : `<em>${n}</em>`}`;
+      b.onclick = () => ir(id); nav.appendChild(b);
+    }
   }
 
   const c = $('#conteudo'); c.innerHTML = '';
   const grid = document.createElement('div'); grid.className = 'grid';
-  if (tab === 'fila') {
+  if (tab === 'inicio') {
+    c.appendChild(F('resumo'));
+    const prox = [...agend.map(p => ({ p, q: new Date(p.agendarPara) })), ...fila.map((p, i) => ({ p, q: datas[i] }))].sort((a, b) => a.q - b.q).slice(0, 6);
+    const box = document.createElement('div'); box.className = 'lado'; box.innerHTML = '<h3>Próximas publicações</h3>';
+    if (!prox.length) box.innerHTML += '<p class="dica">Nada aprovado na fila. Aprove rascunhos ou reposte posts antigos.</p>';
+    prox.forEach(({ p, q }) => { const r = document.createElement('div'); r.className = 'prox'; r.innerHTML = `<span class="q">${esc(fmtData(q))}${p.agendarPara ? ' 🗓' : ''}</span><span class="t">${esc(tituloTxt(p))}</span>`; r.onclick = () => ir('fila'); box.appendChild(r); });
+    c.appendChild(box);
+    const at = document.createElement('div'); at.className = 'atalhos';
+    [['＋ Novo post', 'azul', () => abrirEditor(null)], ['✨ Criar com IA', '', () => ir('ia')], ['📝 Ver rascunhos', '', () => ir('rascunhos')], ['🤖 Robô e execuções', '', () => ir('robo')]].forEach(([t, k, f]) => at.appendChild(btn(t, k, f)));
+    c.appendChild(at);
+  } else if (tab === 'robo') {
+    const d = document.createElement('div'); d.className = 'duas'; d.append(F('boxRobo'), F('boxExec')); c.appendChild(d);
+  } else if (tab === 'repeticao') {
+    c.appendChild(F('boxRep'));
+  } else if (tab === 'fila') {
+    if (agend.length) {
+      const h = document.createElement('h3'); h.textContent = '🗓 Agendados'; h.style.margin = '0 0 10px'; c.appendChild(h);
+      const g2 = document.createElement('div'); g2.className = 'grid'; g2.style.marginBottom = '24px';
+      agend.forEach(p => g2.appendChild(card(p, {
+        badge: '🗓 ' + fmtData(new Date(p.agendarPara)), badgeCls: 'fila', extra: '📅 ' + fmtData(new Date(p.agendarPara)),
+        acoes: [btn('🚀 Agora', 'azul', () => publicarAgora(p.id)), btn('🗓 Mudar', '', () => abrirAgenda(p.id)), btn('Desaprovar', 'perigo', () => { delete p.agendarPara; aprovar(p.id, false); }), btn('Editar', '', () => abrirEditor(p.id))]
+      })));
+      c.appendChild(g2);
+      if (fila.length) { const h2 = document.createElement('h3'); h2.textContent = 'Fila regular (ter, qui e sáb)'; h2.style.margin = '0 0 10px'; c.appendChild(h2); }
+    }
     fila.forEach((p, i) => grid.appendChild(card(p, {
       badge: p.origem ? `#${i + 1} · repetição` : `#${i + 1} na fila`, badgeCls: p.origem ? 'rep' : 'fila', extra: '📅 ' + fmtData(datas[i]),
       acoes: [btn('⏫ Topo', '', () => paraOTopo(p.id), i === 0), btn('◀', '', () => mover(p.id, -1), i === 0), btn('▶', '', () => mover(p.id, 1), i === fila.length - 1),
+              btn('🚀 Agora', 'azul', () => publicarAgora(p.id)), btn('🗓 Programar', '', () => abrirAgenda(p.id)),
               btn('Desaprovar', 'perigo', () => aprovar(p.id, false)), btn('Editar', '', () => abrirEditor(p.id))]
     })));
-    if (!fila.length) c.innerHTML = '<div class="vazio">Nenhum post aprovado. Aprove um rascunho ou reposte um post antigo (aba Postados).</div>';
+    if (!fila.length && !agend.length) c.innerHTML = '<div class="vazio">Nenhum post aprovado. Aprove um rascunho ou reposte um post antigo (aba Postados).</div>';
   } else if (tab === 'rascunhos') {
+    c.appendChild(barraGerar(novas.length));
     rasc.forEach(p => grid.appendChild(card(p, {
       badge: 'Rascunho', badgeCls: 'rasc',
-      acoes: [btn('✓ Aprovar', 'azul', () => aprovar(p.id, true)), btn('Editar', '', () => abrirEditor(p.id)), btn('Duplicar', '', () => duplicar(p.id)), btn('Excluir', 'perigo', () => excluir(p.id))]
+      acoes: [btn('✓ Aprovar', 'azul', () => aprovar(p.id, true)), btn('🚀 Agora', '', () => publicarAgora(p.id)), btn('🗓 Programar', '', () => abrirAgenda(p.id)), btn('Editar', '', () => abrirEditor(p.id)), btn('Duplicar', '', () => duplicar(p.id)), btn('Excluir', 'perigo', () => excluir(p.id))]
     })));
-    if (!rasc.length) c.innerHTML = '<div class="vazio">Nenhum rascunho. Crie um post novo, gere com IA ou adicione do Banco de ideias.</div>';
+    if (!rasc.length) { const v = document.createElement('div'); v.className = 'vazio'; v.textContent = 'Nenhum rascunho. Crie um post novo, gere com IA ou use o botão acima.'; c.appendChild(v); }
   } else if (tab === 'postados') {
     const lista = done.slice().sort((a, b) => String(b.publicadoEm || '').localeCompare(String(a.publicadoEm || '')));
     if (lista.length) {
@@ -570,7 +781,7 @@ function render() {
       acoes: [btn('＋ Adicionar aos rascunhos', 'azul', () => adicionarIdeia(p.id))]
     })));
     if (!novas.length) c.innerHTML = '<div class="vazio">Todas as ideias já foram adicionadas.</div>';
-  } else {
+  } else if (tab === 'ia') {
     renderIA(c);
   }
   if (grid.children.length) c.appendChild(grid);
@@ -605,11 +816,14 @@ const SYSTEM_IA = [
   '',
   'FORMATO: responda SOMENTE com um objeto JSON válido, sem markdown e sem texto fora do JSON:',
   '{',
-  '  "tipo": "passos" ou "lista",            // passos = sequência numerada; lista = dicas, mitos, checklists',
+  '  "tipo": um de "passos" | "lista" | "checklist" | "mito" | "comparativo" | "citacao" | "capa",',
+  '     // passos = sequência numerada; lista = dicas com emoji; checklist = o que levar/conferir; mito = cada item tem "titulo" (o mito) e "texto" (a verdade), 2 a 3 itens;',
+  '     // comparativo = EXATAMENTE 2 itens, cada um com "titulo" (nome da coluna, até 14 caracteres) e "texto" (de 3 a 4 pontos curtos separados por |, até 28 caracteres cada);',
+  '     // citacao = frase grande no "titulo" (1 a 3 linhas de até 26 caracteres), autoria opcional no "subtitulo", itens vazios; capa = aviso ou novidade, só título, itens vazios',
   '  "kicker": "chamada curta, até 24 caracteres",',
   '  "titulo": ["linha 1", "linha 2"],       // 1 ou 2 linhas, até 22 caracteres cada; a última linha fica rosa',
   '  "subtitulo": "opcional, até 60 caracteres",',
-  '  "itens": [ { "emoji": "só no tipo lista", "titulo": "até 38 caracteres", "texto": "opcional, até 60 caracteres" } ],   // de 3 a 5 itens',
+  '  "itens": [ { "emoji": "só nos tipos lista e comparativo", "titulo": "até 38 caracteres", "texto": "opcional, até 60 caracteres" } ],   // de 3 a 5 itens (veja as regras de cada tipo)',
   '  "destaque": { "forte": "até 50 caracteres", "texto": "até 60 caracteres" },   // caixa rosa; use para o aviso importante',
   '  "legenda": "legenda completa do Instagram",',
   '  "avisos": ["pontos que a pessoa deve conferir antes de aprovar"]',
@@ -627,7 +841,7 @@ function renderIA(c) {
     <textarea id="iaTxt" rows="4" placeholder="Ex.: dicas simples de cuidado com a pele no começo da barba, para quem está começando"></textarea>
     <div class="chips" id="iaChips"></div>
     <div class="linha2">
-      <div><label>Formato</label><select id="iaTipo"><option value="auto">Deixar a IA escolher</option><option value="passos">Passos (lista numerada)</option><option value="lista">Lista (com emoji)</option></select></div>
+      <div><label>Formato</label><select id="iaTipo"><option value="auto">Deixar a IA escolher</option>${Object.entries(TIPOS).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join('')}</select></div>
       <div><button class="btn azul" id="iaGerar" style="width:100%;padding:11px"></button></div>
     </div>
     <p class="dica">${cfg.apiKey ? 'Chave da API configurada neste navegador.' : 'Falta a chave da API da Anthropic: cole em ⚙ Configurações.'} Cada geração é cobrada por uso na sua conta da API (normalmente poucos centavos de dólar). A IA pode errar: leia tudo e confira fatos antes de aprovar.</p>`;
@@ -646,10 +860,10 @@ function extrairJson(texto) {
   return JSON.parse(texto.slice(ini, fim + 1));
 }
 function normalizarPost(o) {
-  const tipo = o.tipo === 'lista' ? 'lista' : 'passos';
+  const tipo = TIPOS[o.tipo] ? o.tipo : 'passos';
   const titulo = (Array.isArray(o.titulo) ? o.titulo : [o.titulo || '']).map(s => String(s).trim()).filter(Boolean).slice(0, 3);
   const itens = (Array.isArray(o.itens) ? o.itens : []).slice(0, 6).map(i => ({
-    ...(tipo === 'lista' ? { emoji: String(i.emoji || '').trim() } : {}),
+    ...(TIPOS_COM_EMOJI.includes(tipo) && i.emoji ? { emoji: String(i.emoji).trim() } : {}),
     titulo: String(i.titulo || '').trim(),
     ...(i.texto ? { texto: String(i.texto).trim() } : {})
   })).filter(i => i.titulo);
@@ -682,7 +896,7 @@ async function gerarComIA() {
     }
     const texto = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
     const { post, avisos } = normalizarPost(extrairJson(texto));
-    if (!post.titulo.length || !post.itens.length || !post.legenda) throw new Error('A IA devolveu um post incompleto. Tente de novo.');
+    if (!post.titulo.length || (!TIPOS_SEM_ITENS.includes(post.tipo) && !post.itens.length) || !post.legenda) throw new Error('A IA devolveu um post incompleto. Tente de novo.');
     abrirEditor(null, post, avisos);
     toast('Post gerado. Revise no editor e clique em Aplicar para salvar como rascunho.', 'ok');
   } catch (e) { toast('Não consegui gerar: ' + e.message, 'erro'); }
@@ -690,6 +904,11 @@ async function gerarComIA() {
 }
 
 // ---------- editor ----------
+const DICAS_TIPO = {
+  passos: 'Sequência numerada. Bom para tutoriais.', lista: 'Cartões com emoji. Bom para dicas.', checklist: 'Cartões com caixinha marcada. Bom para listas do que levar ou conferir.',
+  mito: 'Cada item é um mito (título) e a verdade (texto). Use de 2 a 3 itens.', comparativo: 'Exatamente 2 itens, um por coluna. Em cada um, escreva os pontos separados por | (barra vertical).',
+  citacao: 'Frase grande. Escreva a frase no Título e, se quiser, a autoria no Subtítulo. Não usa itens.', capa: 'Título grande para avisos e novidades. Não usa itens.'
+};
 let edId = null, edItens = [];
 function lerForm() {
   const tipo = F('fTipo').value;
@@ -698,22 +917,26 @@ function lerForm() {
     kicker: F('fKicker').value.trim(),
     titulo: F('fTitulo').value.split('\n').map(s => s.trim()).filter(Boolean),
     subtitulo: F('fSub').value.trim(),
-    itens: edItens.map(i => ({ ...(tipo === 'lista' ? { emoji: i.emoji.trim() } : {}), titulo: i.titulo.trim(), ...(i.texto.trim() ? { texto: i.texto.trim() } : {}) })).filter(i => i.titulo),
+    itens: edItens.map(i => ({ ...(TIPOS_COM_EMOJI.includes(tipo) && i.emoji.trim() ? { emoji: i.emoji.trim() } : {}), titulo: i.titulo.trim(), ...(i.texto.trim() ? { texto: i.texto.trim() } : {}) })).filter(i => i.titulo),
     destaque: { forte: F('fDestF').value.trim(), texto: F('fDestT').value.trim() },
     legenda: F('fLegenda').value
   };
   const tam = parseInt(F('fTam').value, 10); if (tam) p.tamanhoTitulo = tam;
+  if (F('fTema').value && F('fTema').value !== 'escuro') p.tema = F('fTema').value;
   return p;
 }
 function desenharItens() {
   const box = F('fItens'); box.innerHTML = '';
-  const lista = F('fTipo').value === 'lista';
+  const tp = F('fTipo').value, lista = TIPOS_COM_EMOJI.includes(tp);
+  const ph = tp === 'mito' ? ['O mito (frase errada)', 'A verdade'] : tp === 'comparativo' ? ['Nome da coluna', 'Itens separados por |'] : ['Título do item', 'Texto menor (opcional)'];
+  F('fItens').style.display = F('fAddItem').style.display = TIPOS_SEM_ITENS.includes(tp) ? 'none' : '';
+  F('fTipoDica').textContent = DICAS_TIPO[tp] || '';
   edItens.forEach((it, i) => {
     const row = document.createElement('div'); row.className = 'item' + (lista ? '' : ' sem-emoji');
     const mk = (campo, ph) => { const x = document.createElement('input'); x.value = it[campo]; x.placeholder = ph; x.oninput = () => { it[campo] = x.value; prever(); }; return x; };
     if (lista) row.appendChild(mk('emoji', '😀'));
-    row.appendChild(mk('titulo', 'Título do item'));
-    row.appendChild(mk('texto', 'Texto menor (opcional)'));
+    row.appendChild(mk('titulo', ph[0]));
+    row.appendChild(mk('texto', ph[1]));
     const del = document.createElement('button'); del.textContent = '✕'; del.onclick = () => { edItens.splice(i, 1); desenharItens(); prever(); };
     row.appendChild(del); box.appendChild(row);
   });
@@ -742,7 +965,7 @@ function abrirEditor(id, preset = null, avisos = []) {
     const ul = document.createElement('ul'); avisos.forEach(a => { const li = document.createElement('li'); li.textContent = a; ul.appendChild(li); });
     d.appendChild(ul); av.appendChild(d);
   }
-  F('fTipo').value = p.tipo || 'passos'; F('fKicker').value = p.kicker || ''; F('fTitulo').value = (p.titulo || []).join('\n');
+  F('fTipo').value = TIPOS[p.tipo] ? p.tipo : 'passos'; F('fTema').value = TEMAS[p.tema] ? p.tema : 'escuro'; F('fKicker').value = p.kicker || ''; F('fTitulo').value = (p.titulo || []).join('\n');
   F('fTam').value = p.tamanhoTitulo || ''; F('fSub').value = p.subtitulo || '';
   F('fDestF').value = (p.destaque && p.destaque.forte) || ''; F('fDestT').value = (p.destaque && p.destaque.texto) || '';
   F('fLegenda').value = p.legenda || '';
@@ -752,23 +975,25 @@ function abrirEditor(id, preset = null, avisos = []) {
   desenharItens();
   F('dlgEditor').showModal(); prever();
 }
-['fTipo', 'fKicker', 'fTitulo', 'fTam', 'fSub', 'fDestF', 'fDestT', 'fLegenda'].forEach(id => F(id).addEventListener('input', () => { if (id === 'fTipo') desenharItens(); prever(); }));
+['fTipo', 'fTema', 'fKicker', 'fTitulo', 'fTam', 'fSub', 'fDestF', 'fDestT', 'fLegenda'].forEach(id => F(id).addEventListener('input', () => { if (id === 'fTipo') desenharItens(); prever(); }));
 F('fAddItem').onclick = () => { edItens.push({ emoji: '', titulo: '', texto: '' }); desenharItens(); };
 F('fOk').onclick = () => {
   const novo = lerForm();
   if (!novo.titulo.length) return toast('Preencha o título.', 'erro');
-  if (!novo.itens.length) return toast('Adicione pelo menos um item.', 'erro');
+  if (!TIPOS_SEM_ITENS.includes(novo.tipo) && !novo.itens.length) return toast('Adicione pelo menos um item.', 'erro');
+  if (novo.tipo === 'comparativo' && novo.itens.length !== 2) return toast('O comparativo precisa de exatamente 2 itens (uma coluna cada).', 'erro');
   if (!novo.legenda.trim()) return toast('Escreva a legenda.', 'erro');
   if (novo.legenda.length > 2200) return toast('A legenda passa de 2200 caracteres (limite do Instagram).', 'erro');
   const podeRepetir = F('fRepetir').checked;
   if (edId) {
-    const p = achar(edId), { id, aprovado, postado, publicadoEm, origem, instagramMediaId, imagemDe } = p;
+    const p = achar(edId), { id, aprovado, postado, publicadoEm, origem, instagramMediaId, imagemDe, agendarPara } = p;
     Object.keys(p).forEach(k => delete p[k]);
     Object.assign(p, { id, aprovado, postado }, novo);
     if (publicadoEm) p.publicadoEm = publicadoEm;
     if (origem) p.origem = origem;
     if (instagramMediaId) p.instagramMediaId = instagramMediaId;
     if (imagemDe) p.imagemDe = imagemDe;
+    if (agendarPara) p.agendarPara = agendarPara;
     data.posts.filter(x => raizDe(x) === raizDe(p)).forEach(m => { if (podeRepetir) delete m.repetir; else m.repetir = false; });
   } else {
     const n = { id: proximoId(), aprovado: false, postado: false, ...novo };
@@ -795,11 +1020,18 @@ document.querySelectorAll('[data-fechar]').forEach(b => b.onclick = () => b.clos
 // ---------- repetição automática (controles) ----------
 function atualizarRepeticao() {
   if (!data) return;
-  data.repeticao = { ativa: F('repAtiva').checked, diasMinimos: Math.max(7, parseInt(F('repDias').value, 10) || 90) };
+  const nova = { ativa: F('repAtiva').checked, diasMinimos: Math.max(7, parseInt(F('repDias').value, 10) || 90) };
+  const atual = data.repeticao || {};
+  if (!!atual.ativa === nova.ativa && (atual.diasMinimos || 90) === nova.diasMinimos) return; // nada mudou: não redesenha (evita perder cliques)
+  data.repeticao = nova;
   marcar();
 }
 F('repAtiva').onchange = atualizarRepeticao;
 F('repDias').onchange = atualizarRepeticao;
+
+// selects de tipo e tema
+F('fTipo').innerHTML = Object.entries(TIPOS).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join('');
+F('fTema').innerHTML = Object.entries(TEMAS).map(([k, v]) => `<option value="${k}">${esc(v.nome)}</option>`).join('');
 
 // ---------- eventos gerais ----------
 $('#btnNovo').onclick = () => { if (!data) return toast('Carregue os posts primeiro.', 'erro'); abrirEditor(null); };
@@ -812,7 +1044,79 @@ $('#btnTeste').onclick = () => disparar(true);
 $('#btnExec').onclick = carregarExecucoes;
 window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
 
-carregar();
+// ---------- login (mesma conta de administrador do painel de indicações do site) ----------
+const FB_CONFIG = {
+  apiKey: "AIzaSyCqz9jXdJy4z3GN0IQ30qeJOErQxAOkx7o",
+  authDomain: "portal-d40f5.firebaseapp.com",
+  projectId: "portal-d40f5",
+  storageBucket: "portal-d40f5.firebasestorage.app",
+  messagingSenderId: "138269570866",
+  appId: "1:138269570866:web:64b9698327654988d8c92b"
+}; // configuração pública do Firebase (não é segredo; a proteção está no login e nas regras do Firestore)
+let fb = null, auth = null, db = null, lockMsg = '', jaCarregou = false;
+const lockErro = t => { const e = F('lErro'); e.textContent = t || ''; e.hidden = !t; };
+const lockOk = t => { const e = F('lOk'); e.textContent = t || ''; e.hidden = !t; };
+function erroLogin(err) {
+  const c = String((err && err.code) || err || '');
+  if (/invalid-credential|wrong-password|user-not-found|invalid-email/.test(c)) return 'E-mail ou senha incorretos.';
+  if (c.includes('too-many-requests')) return 'Muitas tentativas. Aguarde alguns minutos ou use "Esqueci minha senha".';
+  if (c.includes('network')) return 'Sem conexão com a internet.';
+  if (c.includes('user-disabled')) return 'Esta conta foi desativada.';
+  if (c.includes('missing-email')) return 'Digite o seu e-mail no campo acima primeiro.';
+  return 'Erro: ' + ((err && err.message) || err);
+}
+function mostrarLogin() {
+  F('app').hidden = true; F('lock').hidden = false;
+  data = null; sha = null; ideias = []; dirty = false; jaCarregou = false;
+  lockErro(lockMsg); lockMsg = ''; F('lSenha').value = '';
+}
+function mostrarApp(user) {
+  F('lock').hidden = true; F('app').hidden = false;
+  F('whoEmail').textContent = user.email || '';
+  if (!jaCarregou) { jaCarregou = true; render(); carregar(); }
+}
+async function aoMudarUsuario(user) {
+  if (!user || user.isAnonymous) { if (user) fb.signOut(auth); return mostrarLogin(); }
+  try {
+    const d = await fb.getDoc(fb.doc(db, 'admins', user.uid));
+    if (!d.exists()) { lockMsg = 'Esta conta não está na lista de administradores. Entre uma vez no painel de indicações do site e depois volte aqui.'; return fb.signOut(auth); }
+  } catch (e) { lockMsg = 'Não consegui confirmar o acesso de administrador desta conta. ' + ((e && e.code) || ''); return fb.signOut(auth); }
+  mostrarApp(user);
+}
+async function iniciarLogin() {
+  F('lock').hidden = false;
+  try {
+    const base = 'https://www.gstatic.com/firebasejs/11.6.1/';
+    const [a, au, fs] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]);
+    fb = { ...au, ...fs };
+    const app = a.initializeApp(FB_CONFIG);
+    auth = au.getAuth(app); db = fs.getFirestore(app);
+    F('lEntrar').disabled = false; F('lEntrar').textContent = 'Entrar';
+    au.onAuthStateChanged(auth, aoMudarUsuario);
+  } catch (e) {
+    console.error(e);
+    F('lEntrar').textContent = 'Indisponível';
+    lockErro('Não foi possível carregar o login (Firebase). Verifique a internet ou se algum bloqueador impede o acesso a gstatic.com.');
+  }
+}
+F('loginForm').onsubmit = async ev => {
+  ev.preventDefault(); if (!fb) return;
+  const b = F('lEntrar'); b.disabled = true; b.textContent = 'Entrando…'; lockErro(''); lockOk('');
+  try { await fb.signInWithEmailAndPassword(auth, F('lEmail').value.trim(), F('lSenha').value); }
+  catch (e) { lockErro(erroLogin(e)); }
+  finally { b.disabled = false; b.textContent = 'Entrar'; }
+};
+F('lEsqueci').onclick = async () => {
+  if (!fb) return; lockErro(''); lockOk('');
+  const email = F('lEmail').value.trim();
+  if (!email) return lockErro('Digite o seu e-mail no campo acima primeiro.');
+  try { await fb.sendPasswordResetEmail(auth, email); } catch (e) { if (!/user-not-found/.test(String(e.code))) return lockErro(erroLogin(e)); }
+  lockOk('Se esse e-mail tiver acesso, você vai receber um link para criar uma nova senha. Confira também o spam.');
+};
+F('btnSair').onclick = () => { if (dirty && !confirm('Há alterações não salvas. Sair mesmo assim?')) return; fb && fb.signOut(auth); };
+F('btnMenu').onclick = () => { F('side').classList.add('open'); F('veu').classList.add('on'); };
+F('veu').onclick = () => { F('side').classList.remove('open'); F('veu').classList.remove('on'); };
+iniciarLogin();
 </script>
 </body>
 </html>
