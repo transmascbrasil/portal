@@ -16,6 +16,10 @@ on:
         description: "Opcional: id de um post específico para publicar (ex.: post12)"
         type: string
         default: ""
+      gerar_ideias:
+        description: "Só gerar ideias novas no banco agora (não publica)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -29,6 +33,7 @@ env:
   MODO: ${{ github.event_name == 'schedule' && 'agenda' || 'manual' }}
   POST_ID: ${{ inputs.post_id }}
   DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+  SO_IDEIAS: ${{ inputs.gerar_ideias && '1' || '' }}
 
 jobs:
   postar:
@@ -44,6 +49,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Banco de ideias automático (IA, quando estiver acabando)
+        if: github.event_name == 'schedule' || inputs.gerar_ideias
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          IA_API_KEY: ${{ secrets.IA_API_KEY }}
+          FORCAR: ${{ inputs.gerar_ideias && '1' || '' }}
+        run: |
+          node ideias-auto.mjs
+          git config user.name "insta-bot"
+          git config user.email "insta-bot@users.noreply.github.com"
+          git add ideias.json posts.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: ideias novas no banco"
+            git pull --rebase
+            git push
+          fi
 
       - name: Rascunhos automáticos (se estiver ligado e na hora)
         if: github.event_name == 'schedule'
