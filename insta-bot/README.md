@@ -11,6 +11,8 @@ Agenda padrão: terça, quinta e sábado às 12h (Brasília). Para mudar, edite 
 
 ## Estrutura
 - `posts.json`: marca, textos, legendas e status de cada post
+- `ideias.json`: banco de conteúdo (ideias, frases, datas comemorativas e modelos de legenda)
+- `banco.js`: regras que transformam o banco em rascunhos (painel e robô)
 - `render.mjs`: gera `out/<id>.jpg`
 - `publish.mjs`: publica via Instagram Graph API
 - `.github/workflows/instagram.yml`: agendamento
@@ -22,6 +24,21 @@ Agenda padrão: terça, quinta e sábado às 12h (Brasília). Para mudar, edite 
 - Campos: `kicker`, `titulo` (array de linhas; a última fica rosa), `subtitulo`, `itens`, `destaque` (caixa rosa), `legenda`
 
 Testar localmente: `npm install && npx playwright install chromium && node render.mjs`
+
+## Banco de conteúdo (`ideias.json`)
+É de onde saem os rascunhos, **sem IA e sem chave**. No painel: **💡 Banco de conteúdo**.
+
+- **Ideias** (`posts`): posts prontos, já com legenda. Viram rascunho na ordem da lista.
+- **Frases** (`frases`): frases soltas que viram o modelo "Frase em destaque".
+- **Datas comemorativas** (`datas`): viram rascunho alguns dias antes (`regras.diasAntecedencia`), já com a data marcada. Ao aprovar, o post sai nesse dia. `"data": "MM-DD"` repete todo ano; `"AAAA-MM-DD"` acontece uma vez.
+- **Legenda automática** (`legenda`): modelos, chamadas para ação e hashtags usados nas frases e datas sem legenda própria.
+- **Regras** (`regras`): `frasesACada` (1 frase a cada N rascunhos) e `diasAntecedencia`.
+
+Cada item vira rascunho uma vez só. O botão **📥 Gerar rascunhos** (painel) e os **rascunhos automáticos** (robô, `rascunhos.mjs`) usam a mesma regra, em `banco.js`: primeiro as datas que estão chegando, depois as ideias, com uma frase a cada N rascunhos.
+
+## Marca
+No painel: **🎨 Marca**. Fica em `posts.json` → `marca`:
+`nome`, `rodape`, `cores` (`escura`, `clara`, `primaria`, `secundaria`), `faixa` (cores da faixa do topo), `fonte` (Google Fonts) e `logo` (arquivo nesta pasta, como `logo.png`, ou URL). Sem `cores`, os posts usam o visual padrão do portal.
 
 ## Configurar a Meta (uma vez)
 1. Instagram profissional (já está) e, se for pelo fluxo clássico, ligado a uma Página do Facebook.
