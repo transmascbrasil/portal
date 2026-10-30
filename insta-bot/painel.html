@@ -182,6 +182,22 @@ nav .it.on em{background:#0e1a3a22}
 .dia input{display:none}
 .dia.on{background:var(--azul);border-color:var(--azul);color:#0e1a3a}
 .lado .linha input[type=number]{width:70px}
+.bitem{display:flex;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--card2)}
+.bitem:first-of-type{border-top:0}
+.bitem .bt{flex:1;min-width:0;font-size:14px}
+.bitem .bt small,.bitem small.usado{display:block;color:var(--mut);font-size:12px;margin-top:2px}
+.bitem small.usado{color:var(--ok);white-space:nowrap}
+.bitem input{flex:2;min-width:0}
+.bitem input.curto{flex:1}
+.bitem.frase{flex-wrap:wrap}
+.bitem.frase textarea{flex:1 1 100%}
+.lado > .btn{margin-top:10px}
+.cores{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+label.cor{display:flex;gap:8px;align-items:center;margin:0;font-weight:600}
+label.cor input{width:44px;height:34px;padding:2px;flex:none}
+.temas4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.temas4 .thumb{border-radius:10px}
+@media(max-width:600px){.bitem{flex-wrap:wrap}.cores{grid-template-columns:1fr}}
 @media(max-width:700px){
   .fl{flex-wrap:wrap}
   .fl .t{flex-basis:calc(100% - 70px);white-space:normal}
@@ -402,25 +418,30 @@ function falhaFatal(msg) {
   if (b) { b.textContent = 'Indisponível'; b.disabled = true; }
   document.getElementById('lock').hidden = false;
 }
-let SYSTEM_IA, extrairJson, NOME_PROV, temChaveDe, chamarIADe, normalizarPost, postCompleto, pedirJsonDe, postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, raizDe, proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT, agendaDe, descreverAgenda, rascunhosAutoDe, proximaCriacao, NOMES_DIAS, JANELA_HORAS, ideiasAutoDe, MODELO_PADRAO, SECRET_DA_IA;
+let SYSTEM_IA, extrairJson, NOME_PROV, temChaveDe, chamarIADe, normalizarPost, postCompleto, pedirJsonDe, postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, temasDe, coresDe, CORES_PADRAO, FAIXA_PADRAO, fonteCssGoogle, criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO, raizDe, proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT, agendaDe, descreverAgenda, rascunhosAutoDe, proximaCriacao, NOMES_DIAS, JANELA_HORAS, ideiasAutoDe, MODELO_PADRAO, SECRET_DA_IA;
 try {
-  const VER = '?v=20261029e'; // evita usar uma cópia antiga em cache
-  const [T, Fm, IA] = await Promise.all([import('./template.js' + VER), import('./fila.js' + VER), import('./ia.js' + VER)]);
+  const VER = '?v=20261030a'; // evita usar uma cópia antiga em cache
+  const [T, Fm, IA, B] = await Promise.all([import('./template.js' + VER), import('./fila.js' + VER), import('./ia.js' + VER), import('./banco.js' + VER)]);
+  ({ criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO } = B);
   ({ SYSTEM_IA, extrairJson, NOME_PROV, temChave: temChaveDe, chamarIA: chamarIADe, normalizarPost, postCompleto, pedirJson: pedirJsonDe } = IA);
   if (!pedirJsonDe) throw new Error('ia.js desatualizado');
-  ({ postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI } = T);
+  ({ postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, temasDe, coresDe, CORES_PADRAO, FAIXA_PADRAO, fonteCssGoogle } = T);
   ({ raizDe, proximoId: proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT, agendaDe, descreverAgenda, rascunhosAutoDe, proximaCriacao, NOMES_DIAS, JANELA_HORAS, ideiasAutoDe, MODELO_PADRAO, SECRET_DA_IA } = Fm);
+  if (!temasDe || !criarDoBanco) throw new Error('template.js ou banco.js desatualizado');
   if (!TIPOS || !TEMAS || !partesBRT || !escolherRepeticao || !agendaDe || !rascunhosAutoDe || !ideiasAutoDe) throw new Error('template.js ou fila.js desatualizado');
 } catch (e) {
   console.error(e);
-  falhaFatal('Não consegui carregar os arquivos do painel. Envie as versões mais recentes de template.js, fila.js e ia.js para a pasta insta-bot do GitHub (junto com o painel.html), aguarde 1 a 2 minutos e recarregue com Ctrl+Shift+R. Detalhe: ' + (e && e.message ? e.message : e));
+  falhaFatal('Não consegui carregar os arquivos do painel. Envie as versões mais recentes de template.js, fila.js, ia.js e banco.js para a pasta insta-bot do GitHub (junto com o painel.html), aguarde 1 a 2 minutos e recarregue com Ctrl+Shift+R. Detalhe: ' + (e && e.message ? e.message : e));
   throw e;
 }
 
 const $ = (s, r = document) => r.querySelector(s);
 const F = id => document.getElementById(id);
 const pad2 = n => String(n).padStart(2, '0');
-const FONT_CSS = "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap');";
+// marca usada nas prévias: o que está no posts.json + o logo já convertido (o logoSrc não é salvo)
+let logoSrc = '';
+const marcaR = () => ({ ...((data && data.marca) || {}), ...(logoSrc ? { logoSrc } : {}) });
+const fontCss = () => fonteCssGoogle((data && data.marca) || {});
 const CFG_KEY = 'igbot_cfg_v1';
 const DEFAULTS = { owner: 'transmascbrasil', repo: 'portal', branch: 'main', path: 'insta-bot/posts.json', ideias: 'insta-bot/ideias.json', token: '', provider: 'anthropic', apiKey: '', model: 'claude-sonnet-5-5', geminiKey: '', geminiModel: 'gemini-2.5-flash', compatUrl: 'https://api.groq.com/openai/v1', compatKey: '', compatModel: 'llama-3.3-70b-versatile' };
 
@@ -428,8 +449,8 @@ let cfg = { ...DEFAULTS };
 try { cfg = { ...DEFAULTS, ...JSON.parse(localStorage.getItem(CFG_KEY) || '{}') }; } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch (e) {} };
 
-const PAGINAS = ['inicio', 'agenda', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'robo', 'repeticao'];
-let data = null, sha = null, ideiasSha = null, snapPosts = '', snapIdeias = '', ideias = [], dirty = false, tab = PAGINAS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio', loadError = '';
+const PAGINAS = ['inicio', 'agenda', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'marca', 'robo', 'repeticao'];
+let data = null, sha = null, ideiasSha = null, snapPosts = '', snapIdeias = '', ideias = [], banco = { posts: [] }, dirty = false, tab = PAGINAS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio', loadError = '';
 const selecionados = new Set();
 let iaPrompt = '', iaTipo = 'auto', iaCarregando = false;
 
@@ -505,10 +526,13 @@ async function carregar() {
     selecionados.clear();
     try {
       const r2 = await gh(`contents/${cfg.ideias}?ref=${encodeURIComponent(cfg.branch)}`);
-      if (r2.ok) { const j2 = await r2.json(); ideiasSha = j2.sha; ideias = JSON.parse(dec(j2.content)).posts || []; }
-      else { ideiasSha = null; ideias = []; }
-    } catch (e) { ideias = []; ideiasSha = null; }
-    snapPosts = JSON.stringify(data); snapIdeias = JSON.stringify(ideias);
+      if (r2.ok) { const j2 = await r2.json(); ideiasSha = j2.sha; banco = JSON.parse(dec(j2.content)); }
+      else { ideiasSha = null; banco = {}; }
+    } catch (e) { banco = {}; ideiasSha = null; }
+    if (!Array.isArray(banco.posts)) banco.posts = [];
+    ideias = banco.posts;
+    snapPosts = JSON.stringify(data); snapIdeias = JSON.stringify(banco);
+    await carregarLogo();
   } catch (e) { loadError = e.message; data = null; }
   render(); carregarExecucoes();
 }
@@ -544,7 +568,8 @@ async function salvarPosts(tentar = true) {
   sha = (await r.json()).content.sha; snapPosts = JSON.stringify(data);
 }
 async function salvarIdeias(tentar = true) {
-  const body = { message: 'painel: atualiza o banco de ideias', content: enc(JSON.stringify({ posts: ideias }, null, 2) + '\n'), branch: cfg.branch, ...(ideiasSha ? { sha: ideiasSha } : {}) };
+  banco.posts = ideias;
+  const body = { message: 'painel: atualiza o banco de conteúdo', content: enc(JSON.stringify(banco, null, 2) + '\n'), branch: cfg.branch, ...(ideiasSha ? { sha: ideiasSha } : {}) };
   const r = await gh(`contents/${cfg.ideias}`, { method: 'PUT', body: JSON.stringify(body) });
   if (r.status === 409 || r.status === 422) {
     if (tentar) {
@@ -552,17 +577,17 @@ async function salvarIdeias(tentar = true) {
       if (g.ok) { const jg = await g.json(); ideiasSha = jg.sha; for (const x of JSON.parse(dec(jg.content)).posts || []) if (!ideias.some(y => y.id === x.id)) ideias.push(x); }
       return await salvarIdeias(false);
     }
-    throw new Error('O banco de ideias mudou no GitHub. Clique em Recarregar e refaça a alteração.');
+    throw new Error('O banco de conteúdo mudou no GitHub. Clique em Recarregar e refaça a alteração.');
   }
   if (!r.ok) throw new Error(await erroDaApi(r));
-  ideiasSha = (await r.json()).content.sha; snapIdeias = JSON.stringify(ideias);
+  ideiasSha = (await r.json()).content.sha; snapIdeias = JSON.stringify(banco);
 }
 async function salvar() {
   if (!cfg.token) { abrirConfig(); toast('Cole o token do GitHub para poder salvar.', 'erro'); return false; }
   const btn = $('#btnSalvar'); btn.disabled = true; btn.textContent = 'Salvando…';
   try {
     if (JSON.stringify(data) !== snapPosts) await salvarPosts();
-    if (JSON.stringify(ideias) !== snapIdeias) await salvarIdeias();
+    if (JSON.stringify(banco) !== snapIdeias) await salvarIdeias();
     dirty = false;
     toast('Salvo no GitHub ✅', 'ok'); render(); return true;
   } catch (e) { toast(e.message, 'erro'); return false; }
@@ -664,13 +689,21 @@ F('agOk').onclick = () => {
   F('dlgAgenda').close(); tab = 'fila'; marcar(); toast(`Programado para ${fmtData(d)}. Clique em Salvar no GitHub.`, 'ok');
 };
 F('agRemover').onclick = () => { const p = achar(agId); if (p) { delete p.agendarPara; } F('dlgAgenda').close(); marcar(); toast('Agendamento removido: o post voltou para a fila normal.'); };
+// Cria rascunhos a partir do banco de conteúdo (datas comemorativas, ideias e frases). Sem IA e sem chave.
+// As regras ficam em banco.js, as mesmas que o robô usa nos rascunhos automáticos.
+function criarDoBancoAgora(qtd, aprovar = false) {
+  const ag = agendaDe(data);
+  const novos = criarDoBanco(data, banco, qtd, { proximoId: proximoIdBase, hora: `${pad2(ag.hora)}:${pad2(ag.minuto)}` });
+  novos.forEach(n => { if (aprovar && !n.geradoPorIA) n.aprovado = true; data.posts.push(n); });
+  return novos;
+}
 function gerarRascunhos(qtd, aprovar = false) {
-  const novas = ideias.filter(i => !achar(i.id));
-  if (!novas.length) return toast('O banco de ideias acabou: todas as ideias já foram usadas. Crie posts em ✨ Criar com IA ou peça mais ideias para o banco.', 'erro');
-  const n = Math.max(1, Math.min(parseInt(qtd, 10) || 1, novas.length));
-  novas.slice(0, n).forEach(i => { adicionarIdeia(i.id, true); if (aprovar) achar(i.id).aprovado = true; });
+  const disp = totalDisponivel(data, banco);
+  if (!disp) return toast('O banco de conteúdo acabou: tudo já virou rascunho. Adicione ideias, frases ou datas no Banco de conteúdo.', 'erro');
+  const n = Math.max(1, Math.min(parseInt(qtd, 10) || 1, disp));
+  const novos = criarDoBancoAgora(n, aprovar);
   tab = aprovar ? 'agenda' : 'rascunhos'; marcar();
-  toast(aprovar ? `${n} post(s) aprovado(s) e colocado(s) no fim da fila. Clique em Salvar no GitHub.` : `${n} rascunho(s) criado(s). Revise, aprove e salve no GitHub.`, 'ok');
+  toast(aprovar ? `${novos.length} post(s) aprovado(s) e colocado(s) na fila. Clique em Salvar no GitHub.` : `${novos.length} rascunho(s) criado(s). Revise, aprove e salve no GitHub.`, 'ok');
 }
 function alternarRepeticaoAuto(p) {
   const membros = data.posts.filter(x => raizDe(x) === raizDe(p));
@@ -712,7 +745,7 @@ function miniatura(p) {
   const wrap = document.createElement('div'); wrap.className = 'thumb';
   const f = document.createElement('iframe');
   f.setAttribute('sandbox', 'allow-scripts'); f.loading = 'lazy'; f.title = tituloTxt(p);
-  f.srcdoc = postHtml(p, data.marca, FONT_CSS);
+  f.srcdoc = postHtml(p, marcaR(), fontCss());
   wrap.appendChild(f);
   const ajustar = () => { f.style.transform = `scale(${wrap.clientWidth / 1080})`; };
   new ResizeObserver(ajustar).observe(wrap); ajustar();
@@ -740,7 +773,7 @@ function card(p, { badge, badgeCls, extra, acoes, selecionavel }) {
 function barraGerar(disp) {
   const b = document.createElement('div'); b.className = 'selbar';
   const sp = document.createElement('span'); sp.className = 'sp';
-  sp.textContent = disp ? `${disp} ideia(s) pronta(s) no banco. Escolha quantas usar agora (sem IA e sem chave).` : 'O banco de ideias acabou: todas já viraram rascunho ou foram para a fila.';
+  sp.textContent = disp ? `${disp} item(ns) pronto(s) no banco de conteúdo (ideias, frases e datas que estão chegando). Escolha quantos rascunhos criar agora (sem IA e sem chave).` : 'O banco de conteúdo acabou: tudo já virou rascunho ou foi para a fila.';
   const q = document.createElement('input'); q.type = 'number'; q.min = 1; q.max = Math.max(disp, 1); q.value = Math.min(qtdRasc, Math.max(disp, 1)); q.style.width = '70px'; q.disabled = !disp;
   q.oninput = () => { qtdRasc = parseInt(q.value, 10) || 1; };
   const g = btn('📥 Gerar rascunhos', '', () => gerarRascunhos(q.value), !disp);
@@ -838,7 +871,7 @@ function renderAgenda(c, fila, agend, datas, novas) {
 
   // 3) rascunhos automáticos
   const ra = rascunhosAutoDe(data);
-  const s3 = secao('📝 Rascunhos automáticos', 'O robô transforma as próximas ideias do Banco de ideias em rascunhos de tempos em tempos. Não usa IA nem chave.');
+  const s3 = secao('📝 Rascunhos automáticos', 'O robô transforma o próximo conteúdo do Banco de conteúdo (datas comemorativas, ideias e frases) em rascunhos de tempos em tempos. Não usa IA nem chave.');
   const salvarRA = mud => mudarConfig('rascunhosAuto', { ativa: ra.ativa, aCadaDias: ra.aCadaDias, quantidade: ra.quantidade, aprovar: ra.aprovar, ...(ra.ultimaVez ? { ultimaVez: ra.ultimaVez } : {}), ...mud });
   const l1 = document.createElement('label'); l1.className = 'chk'; l1.innerHTML = `<input type="checkbox" ${ra.ativa ? 'checked' : ''}><span>Criar rascunhos automaticamente</span>`;
   l1.querySelector('input').onchange = ev => salvarRA({ ativa: ev.target.checked });
@@ -854,16 +887,15 @@ function renderAgenda(c, fila, agend, datas, novas) {
   s3.appendChild(l3);
   const quando = proximaCriacao(data);
   const txtQ = !ra.ativa ? 'Desligado.' : quando <= new Date() ? 'Próxima criação: na próxima rodada do robô (em até 30 min, depois de salvar).' : 'Próxima criação: ' + fmtData(quando) + '.';
-  s3.insertAdjacentHTML('beforeend', `<p class="dica">${esc(txtQ)} No banco: ${novas.length} ideia(s) disponível(is)${novas.length ? ` (dá para ${Math.ceil(novas.length / ra.quantidade)} rodada(s))` : '. Quando acabar, o robô não cria nada.'}.${ra.ultimaVez ? ' Última criação: ' + esc(fmtDia(ra.ultimaVez)) + '.' : ''}</p>`);
+  s3.insertAdjacentHTML('beforeend', `<p class="dica">${esc(txtQ)} No banco: ${novas.length} item(ns) disponível(is)${novas.length ? ` (dá para ${Math.ceil(novas.length / ra.quantidade)} rodada(s))` : '. Quando acabar, o robô não cria nada.'}.${ra.ultimaVez ? ' Última criação: ' + esc(fmtDia(ra.ultimaVez)) + '.' : ''}</p>`);
   const at = document.createElement('div'); at.className = 'atalhos';
   at.appendChild(btn(`Criar ${ra.quantidade} agora`, 'azul', () => {
-    const lista = ideias.filter(i => !achar(i.id)).slice(0, ra.quantidade);
-    if (!lista.length) return toast('O banco de ideias está vazio.', 'erro');
-    lista.forEach(i => { adicionarIdeia(i.id, true); if (ra.aprovar && !i.geradoPorIA) achar(i.id).aprovado = true; });
+    if (!totalDisponivel(data, banco)) return toast('O banco de conteúdo está vazio.', 'erro');
+    const lista = criarDoBancoAgora(ra.quantidade, ra.aprovar);
     data.rascunhosAuto = { ...(data.rascunhosAuto || {}), ...ra, ultimaVez: new Date().toISOString() };
     marcar(); toast(`${lista.length} criado(s) ${ra.aprovar ? 'na fila' : 'nos rascunhos'}. A contagem dos dias recomeça agora.`, 'ok');
   }, !novas.length));
-  at.appendChild(btn('💡 Ver banco de ideias', '', () => ir('ideias')));
+  at.appendChild(btn('💡 Ver banco de conteúdo', '', () => ir('ideias')));
   s3.appendChild(at);
   duas.appendChild(s3);
   c.appendChild(duas);
@@ -894,7 +926,7 @@ function renderAgenda(c, fila, agend, datas, novas) {
   const linkSecret = `https://github.com/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/settings/secrets/actions/new`;
   const ondeChave = { gemini: 'aistudio.google.com/apikey (grátis)', anthropic: 'console.anthropic.com', compat: 'no site do serviço (Groq ou OpenRouter)' }[ia.provedor];
   s5.insertAdjacentHTML('beforeend', `<p class="dica" style="margin-top:12px"><b>Uma vez só:</b> crie a chave em ${ondeChave} e guarde no GitHub em <a style="color:var(--azul)" href="${linkSecret}" target="_blank" rel="noopener">Settings → Secrets → Actions</a> com o nome <code>${nomeSecret}</code>. A chave fica só no GitHub; o painel nunca a vê.</p>
-    <p class="dica">No banco agora: ${novas.length} ideia(s). ${ia.ativa ? `O robô confere a cada rodada e gera no máximo uma vez a cada 20 horas.` : 'Desligado.'}${ia.ultimaTentativa ? ` Última tentativa: ${esc(fmtDia(ia.ultimaTentativa))}: ${esc(ia.ultimoResultado)}` : ''}</p>`);
+    <p class="dica">No banco agora: ${novas.length} item(ns). ${ia.ativa ? `O robô confere a cada rodada e gera no máximo uma vez a cada 20 horas.` : 'Desligado.'}${ia.ultimaTentativa ? ` Última tentativa: ${esc(fmtDia(ia.ultimaTentativa))}: ${esc(ia.ultimoResultado)}` : ''}</p>`);
   const k5 = document.createElement('div'); k5.className = 'atalhos';
   k5.appendChild(btn('⚡ Gerar ideias agora pelo robô', 'azul', async () => {
     if (!cfg.token) { abrirConfig(); return toast('Cole o token do GitHub (com permissão de Actions).', 'erro'); }
@@ -924,7 +956,7 @@ function renderRepeticao() {
     ? `Se a fila acabasse agora, o robô repostaria: "${tituloTxt(alvo)}".`
     : 'Nenhum post elegível agora (todos foram publicados há pouco tempo, ou estão marcados para não repetir).';
 }
-const TITULOS = { inicio: 'Visão geral', agenda: '🗓 Agenda e controle', fila: 'Fila', rascunhos: 'Rascunhos', postados: 'Postados', ia: '✨ Criar com IA', ideias: 'Banco de ideias', robo: 'Robô e execuções', repeticao: 'Repetição automática' };
+const TITULOS = { inicio: 'Visão geral', agenda: '🗓 Agenda e controle', fila: 'Fila', rascunhos: 'Rascunhos', postados: 'Postados', ia: '✨ Criar com IA', marca: '🎨 Marca', ideias: '💡 Banco de conteúdo', robo: 'Robô e execuções', repeticao: 'Repetição automática' };
 function ir(p) { tab = p; F('side').classList.remove('open'); F('veu').classList.remove('on'); render(); window.scrollTo(0, 0); }
 function render() {
   F('stash').append(F('resumo'), F('boxRobo'), F('boxExec'), F('boxRep'));
@@ -940,7 +972,8 @@ function render() {
   const fila = filaDe(), agend = agendadosDe(), rasc = rascunhosDe(), done = postadosDe();
   const ocupados = new Set([...agend.map(p => partesBRT(new Date(p.agendarPara)).dia), ...done.filter(p => p.publicadoEm).map(p => partesBRT(new Date(p.publicadoEm)).dia)]);
   const datas = proximasDatas(fila.length, ocupados);
-  const novas = ideias.filter(i => !achar(i.id));
+  const dispBanco = disponiveisNoBanco(data, banco);
+  const novas = [...dispBanco.datas, ...dispBanco.ideias, ...dispBanco.frases];
   const repAtiva = !!(data.repeticao && data.repeticao.ativa);
   if (!fila.length && !agend.length && !repAtiva) addAviso('Nenhum post aprovado: o robô não vai publicar nada nos próximos dias. Aprove rascunhos, reposte algum post antigo ou ligue a repetição automática.');
   else if (!fila.length && !agend.length && repAtiva) addAviso('Fila vazia: o robô vai usar a repetição automática (post mais antigo) no próximo horário.', 'info');
@@ -959,7 +992,7 @@ function render() {
   const NAV = [
     ['Geral', [['inicio', '🏠', 'Visão geral', null]]],
     ['Publicações', [['agenda', '🗓', 'Agenda e controle', fila.length + agend.length], ['fila', '🖼', 'Fila', null], ['rascunhos', '📝', 'Rascunhos', rasc.length], ['postados', '✅', 'Postados', done.length]]],
-    ['Criar', [['ia', '✨', 'Criar com IA', null], ['ideias', '💡', 'Banco de ideias', novas.length]]],
+    ['Criar', [['ia', '✨', 'Criar com IA', null], ['ideias', '💡', 'Banco de conteúdo', novas.length], ['marca', '🎨', 'Marca', null]]],
     ['Automação', [['robo', '🤖', 'Robô e execuções', null], ['repeticao', '🔁', 'Repetição automática', null]]]
   ];
   const nav = $('#nav'); nav.innerHTML = '';
@@ -1010,7 +1043,7 @@ function render() {
     if (!fila.length && !agend.length) c.innerHTML = '<div class="vazio">Nenhum post aprovado. Aprove um rascunho ou reposte um post antigo (aba Postados).</div>';
   } else if (tab === 'rascunhos') {
     rasc.forEach(p => grid.appendChild(card(p, {
-      badge: 'Rascunho', badgeCls: 'rasc',
+      badge: 'Rascunho', badgeCls: 'rasc', extra: p.agendarPara ? '🗓 Data sugerida: ' + fmtData(new Date(p.agendarPara)) + ' (ao aprovar, sai nessa data)' : '',
       acoes: [btn('✓ Aprovar', 'azul', () => aprovar(p.id, true)), btn('🚀 Agora', '', () => publicarAgora(p.id)), btn('🗓 Programar', '', () => abrirAgenda(p.id)), btn('Editar', '', () => abrirEditor(p.id)), btn('Duplicar', '', () => duplicar(p.id)), btn('Excluir', 'perigo', () => excluir(p.id))]
     })));
     if (!rasc.length) { const v = document.createElement('div'); v.className = 'vazio'; v.textContent = 'Nenhum rascunho. Crie um post novo, gere com IA ou use o botão acima.'; c.appendChild(v); }
@@ -1040,24 +1073,224 @@ function render() {
     });
     if (!lista.length) c.innerHTML = '<div class="vazio">Ainda não há posts publicados pelo robô.</div>';
   } else if (tab === 'ideias') {
-    c.appendChild(barraGerar(novas.length));
-    if (novas.length) {
-      const topo = document.createElement('div'); topo.style.marginBottom = '14px';
-      topo.appendChild(btn(`Adicionar todas (${novas.length}) aos rascunhos`, 'azul', () => { novas.forEach(i => adicionarIdeia(i.id, true)); tab = 'rascunhos'; marcar(); toast(`${novas.length} posts adicionados aos rascunhos.`); }));
-      c.appendChild(topo);
-    }
-    novas.forEach(p => grid.appendChild(card(p, {
-      badge: p.geradoPorIA ? 'Ideia · IA' : 'Ideia', badgeCls: 'rasc', extra: p.avisos && p.avisos.length ? '⚠ Conferir: ' + p.avisos.join(' · ') : '',
-      acoes: [btn('＋ Adicionar aos rascunhos', 'azul', () => adicionarIdeia(p.id)), btn('Excluir', 'perigo', () => { if (confirm(`Tirar "${tituloTxt(p)}" do banco de ideias?`)) { ideias.splice(ideias.indexOf(p), 1); marcar(); } })]
-    })));
-    if (!novas.length) { const v = document.createElement('div'); v.className = 'vazio'; v.textContent = 'O banco de ideias está vazio. Crie posts novos em ✨ Criar com IA ou em ＋ Novo post.'; c.appendChild(v); }
+    renderBanco(c, grid, dispBanco);
   } else if (tab === 'ia') {
     renderIA(c);
+  } else if (tab === 'marca') {
+    renderMarca(c);
   }
   if (grid.children.length) c.appendChild(grid);
 
   renderRepeticao();
   $('#barra').classList.toggle('on', dirty);
+}
+
+
+// ---------- banco de conteúdo ----------
+// O ideias.json guarda tudo o que pode virar rascunho: ideias (posts prontos), frases e datas comemorativas,
+// além dos modelos de legenda. As regras de geração ficam em banco.js (as mesmas do robô).
+const TIPOS_DATA = ['capa', 'citacao', 'lista', 'passos', 'checklist', 'mito', 'comparativo'];
+const dataBR = iso => iso.split('-').reverse().join('/');
+function abrirEditorBanco(lista, item) {
+  const preset = item ? JSON.parse(JSON.stringify(item)) : { tipo: lista === 'datas' ? 'capa' : 'lista', kicker: '', titulo: [''], subtitulo: '', itens: lista === 'datas' ? [] : [{ titulo: '', texto: '' }], destaque: {}, legenda: '' };
+  abrirEditor(null, preset);
+  edBanco = { lista, item };
+  F('edTitulo').textContent = (item ? 'Editar ' : 'Nova ') + (lista === 'datas' ? `data comemorativa (${item ? item.data : 'nova'})` : 'ideia do banco');
+  const av = F('edAvisos');
+  av.innerHTML = `<div class="edavisos">Isto fica no Banco de conteúdo. ${lista === 'datas' ? 'Deixe a legenda vazia para o painel montar uma com os modelos de legenda.' : 'Vira rascunho quando você clicar em Gerar rascunhos (ou pelo robô).'}</div>`;
+}
+function aplicarNoBanco(novo) {
+  if (!novo.titulo.length) return toast('Preencha o título.', 'erro');
+  if (!TIPOS_SEM_ITENS.includes(novo.tipo) && !novo.itens.length) return toast('Adicione pelo menos um item.', 'erro');
+  if (novo.tipo === 'comparativo' && novo.itens.length !== 2) return toast('O comparativo precisa de exatamente 2 itens (uma coluna cada).', 'erro');
+  if (novo.legenda.length > 2200) return toast('A legenda passa de 2200 caracteres (limite do Instagram).', 'erro');
+  if (!novo.legenda.trim()) { if (edBanco.lista === 'posts') return toast('Escreva a legenda.', 'erro'); delete novo.legenda; }
+  if (!(novo.destaque.forte || novo.destaque.texto)) delete novo.destaque;
+  const { lista, item } = edBanco;
+  if (!Array.isArray(banco[lista])) banco[lista] = [];
+  if (item) {
+    const fixos = lista === 'datas' ? { id: item.id, data: item.data } : { id: item.id, ...(item.geradoPorIA ? { geradoPorIA: true } : {}) };
+    Object.keys(item).forEach(k => delete item[k]);
+    Object.assign(item, fixos, novo);
+  } else if (lista === 'datas') {
+    banco.datas.push({ id: 'data-' + Date.now().toString(36), data: edBanco.data, ...novo });
+  } else {
+    banco.posts.push({ id: proximoId(), ...novo, aprovado: false, postado: false });
+  }
+  F('dlgEditor').close(); marcar(); toast('Banco de conteúdo atualizado. Clique em Salvar no GitHub.', 'ok');
+}
+function linhaBanco(html) { const d = document.createElement('div'); d.className = 'bitem'; d.innerHTML = html; return d; }
+function renderBanco(c, grid, disp) {
+  const regras = regrasDe(banco);
+  c.appendChild(barraGerar(disp.datas.length + disp.ideias.length + disp.frases.length));
+  const intro = document.createElement('p'); intro.className = 'dica'; intro.style.margin = '-4px 0 14px';
+  intro.innerHTML = `Cada item vira rascunho <b>uma vez só</b>. Ordem: 📅 datas que estão chegando (até ${regras.diasAntecedencia} dias antes) → 💡 ideias, na ordem abaixo → 💬 uma frase a cada ${regras.frasesACada || '∞'} rascunhos (e as frases que sobrarem quando as ideias acabarem). Tudo fica no <code>ideias.json</code>.`;
+  c.appendChild(intro);
+  const duas = document.createElement('div'); duas.className = 'duas';
+
+  // datas comemorativas
+  const sD = secao('📅 Datas comemorativas', `Viram rascunho ${regras.diasAntecedencia} dias antes, já com a data marcada (no horário da agenda). Ao aprovar, o post sai nesse dia.`);
+  (banco.datas || []).forEach((d, i) => {
+    const prox = proximaOcorrencia(d);
+    const usado = prox && data.posts.find(p => p.fonte === `data:${d.id || i}:${prox.slice(0, 4)}`);
+    const pronta = disp.datas.find(x => x.fonte === `data:${d.id || i}:${(prox || '').slice(0, 4)}`);
+    const st = usado ? `✓ já virou rascunho (${esc(usado.id)})` : pronta ? '⏳ entra no próximo Gerar rascunhos' : prox ? `entra a partir de ${dataBR(new Date(Date.parse(prox) - regras.diasAntecedencia * 86400000).toISOString().slice(0, 10))}` : 'data inválida';
+    const l = linhaBanco(`<div class="bt"><b>${esc((d.data || '').split('-').reverse().join('/'))}</b> ${esc((d.titulo || []).join(' '))}<small>${esc(TIPOS[d.tipo] || d.tipo || '')} · ${st}</small></div>`);
+    l.append(btn('Editar', '', () => abrirEditorBanco('datas', d)), btn('✕', 'perigo', () => { if (confirm(`Tirar a data "${(d.titulo || []).join(' ')}" do banco?`)) { banco.datas.splice(i, 1); marcar(); } }));
+    sD.appendChild(l);
+  });
+  if (!(banco.datas || []).length) sD.insertAdjacentHTML('beforeend', '<p class="dica">Nenhuma data cadastrada.</p>');
+  sD.appendChild(btn('＋ Nova data', 'azul', () => {
+    const v = (prompt('Dia e mês da data comemorativa (DD/MM). Para uma data que só acontece uma vez, use DD/MM/AAAA:', '') || '').trim();
+    const m = /^(\d{1,2})\/(\d{1,2})(?:\/(\d{4}))?$/.exec(v); if (!m) return v && toast('Use o formato DD/MM, por exemplo 20/11.', 'erro');
+    abrirEditorBanco('datas', null); edBanco.data = (m[3] ? m[3] + '-' : '') + pad2(m[2]) + '-' + pad2(m[1]);
+  }));
+  duas.appendChild(sD);
+
+  // frases
+  const sF = secao('💬 Frases', 'Viram posts no modelo "Frase em destaque". A autoria é opcional.');
+  if (!Array.isArray(banco.frases)) banco.frases = [];
+  banco.frases.forEach((f, i) => {
+    if (typeof f === 'string') banco.frases[i] = f = { texto: f };
+    const usado = data.posts.find(p => p.fonte === `frase:${f.id || i}`);
+    const l = linhaBanco(''); l.classList.add('frase');
+    const t = document.createElement('textarea'); t.rows = 2; t.value = f.texto || ''; t.placeholder = 'Frase'; t.disabled = !!usado;
+    t.onchange = () => { f.texto = t.value.trim(); marcar(); };
+    const a = document.createElement('input'); a.value = f.autor || ''; a.placeholder = 'Autoria (opcional)'; a.className = 'curto'; a.disabled = !!usado;
+    a.onchange = () => { if (a.value.trim()) f.autor = a.value.trim(); else delete f.autor; marcar(); };
+    l.append(t, a);
+    if (usado) l.insertAdjacentHTML('beforeend', `<small class="usado">✓ ${esc(usado.id)}</small>`);
+    l.append(btn('✕', 'perigo', () => { if (confirm('Tirar esta frase do banco?')) { banco.frases.splice(i, 1); marcar(); } }));
+    sF.appendChild(l);
+  });
+  sF.appendChild(btn('＋ Nova frase', 'azul', () => { banco.frases.push({ id: 'frase-' + Date.now().toString(36), texto: '' }); marcar(); setTimeout(() => { const alvo = [...c.querySelectorAll('.bitem.frase textarea')].pop(); if (alvo) alvo.focus(); }, 50); }));
+  duas.appendChild(sF);
+
+  // legenda automática e regras
+  const sL = secao('✍️ Legenda automática', 'Usada nas frases e nas datas sem legenda própria (as ideias já vêm com legenda). Use {titulo}, {resumo}, {cta} e {hashtags}; o painel sorteia um modelo e um CTA para cada post.');
+  const L = banco.legenda = banco.legenda || {};
+  L.hashtags = L.hashtags || {};
+  const campo = (rotulo, el) => { const lb = document.createElement('label'); lb.textContent = rotulo; sL.append(lb, el); return el; };
+  const tm = campo('Modelos (separe um do outro com uma linha só com ---)', document.createElement('textarea'));
+  tm.rows = 6; tm.value = (L.modelos || []).join('\n---\n');
+  tm.onchange = () => { L.modelos = tm.value.split(/\n-{3,}\n/).map(x => x.trim()).filter(Boolean); marcar(); };
+  const tc = campo('Chamadas para ação (CTA), uma por linha', document.createElement('textarea'));
+  tc.rows = 3; tc.value = (L.ctas || []).join('\n');
+  tc.onchange = () => { L.ctas = tc.value.split('\n').map(x => x.trim()).filter(Boolean); marcar(); };
+  const hf = campo('Hashtags fixas (sempre entram)', document.createElement('input'));
+  hf.value = (L.hashtags.fixas || []).join(' ');
+  hf.onchange = () => { L.hashtags.fixas = hf.value.split(/[\s,]+/).filter(Boolean); marcar(); };
+  const hr = campo('Hashtags que vão se alternando', document.createElement('input'));
+  hr.value = (L.hashtags.rotativas || []).join(' ');
+  hr.onchange = () => { L.hashtags.rotativas = hr.value.split(/[\s,]+/).filter(Boolean); marcar(); };
+  const lr = document.createElement('div'); lr.className = 'linha'; lr.style.marginTop = '12px';
+  lr.innerHTML = 'Usar <input type="number" min="0" max="10" class="hq"> hashtag(s) que se alternam por post';
+  const hq = lr.querySelector('.hq'); hq.value = L.hashtags.quantidade ?? 1;
+  hq.onchange = () => { L.hashtags.quantidade = Math.max(0, Math.min(10, parseInt(hq.value, 10) || 0)); marcar(); };
+  sL.appendChild(lr);
+  const sR = secao('⚙ Regras', '');
+  const r1 = document.createElement('div'); r1.className = 'linha';
+  r1.innerHTML = '1 frase a cada <input type="number" min="0" max="20" class="fa"> rascunhos (0 = só quando as ideias acabarem)';
+  const r2 = document.createElement('div'); r2.className = 'linha'; r2.style.marginTop = '8px';
+  r2.innerHTML = 'Datas comemorativas entram <input type="number" min="0" max="90" class="da"> dias antes';
+  const fa = r1.querySelector('.fa'), da = r2.querySelector('.da'); fa.value = regras.frasesACada; da.value = regras.diasAntecedencia;
+  fa.onchange = () => { banco.regras = { ...regras, ...(banco.regras || {}), frasesACada: Math.max(0, Math.min(20, parseInt(fa.value, 10) || 0)) }; marcar(); };
+  da.onchange = () => { banco.regras = { ...regras, ...(banco.regras || {}), diasAntecedencia: Math.max(0, Math.min(90, parseInt(da.value, 10) || 0)) }; marcar(); };
+  sR.append(r1, r2);
+  const colL = document.createElement('div'); colL.append(sL, sR);
+  duas.appendChild(colL);
+  c.appendChild(duas);
+
+  // ideias (posts prontos)
+  const h = document.createElement('div'); h.className = 'selbar';
+  h.innerHTML = `<span class="sp"><b style="color:#fff">💡 Ideias (posts prontos)</b> · ${disp.ideias.length} ainda não usada(s). Viram rascunho na ordem em que aparecem.</span>`;
+  h.appendChild(btn('＋ Nova ideia', 'azul', () => abrirEditorBanco('posts', null)));
+  c.appendChild(h);
+  disp.ideias.forEach(p => grid.appendChild(card(p, {
+    badge: p.geradoPorIA ? 'Ideia · IA' : 'Ideia', badgeCls: 'rasc', extra: p.avisos && p.avisos.length ? '⚠ Conferir: ' + p.avisos.join(' · ') : '',
+    acoes: [btn('＋ Usar agora', 'azul', () => adicionarIdeia(p.id)), btn('Editar', '', () => abrirEditorBanco('posts', p)), btn('Excluir', 'perigo', () => { if (confirm(`Tirar "${tituloTxt(p)}" do banco?`)) { ideias.splice(ideias.indexOf(p), 1); marcar(); } })]
+  })));
+  if (!disp.ideias.length) { const v = document.createElement('div'); v.className = 'vazio'; v.textContent = 'Nenhuma ideia sobrando. Crie em ＋ Nova ideia, em ✨ Criar com IA ou ligue o banco de ideias automático (Agenda e controle).'; c.appendChild(v); }
+}
+// próxima vez que a data cai (AAAA-MM-DD), a partir de hoje
+function proximaOcorrencia(d) {
+  const s = String(d.data || '');
+  const hoje = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  if (!/^\d{2}-\d{2}$/.test(s)) return null;
+  const ano = Number(hoje.slice(0, 4));
+  return `${ano}-${s}` >= hoje ? `${ano}-${s}` : `${ano + 1}-${s}`;
+}
+
+// ---------- marca ----------
+const AMOSTRA_MARCA = { tipo: 'lista', kicker: 'Exemplo', titulo: ['Assim fica', 'o seu post'], itens: [{ emoji: '🎨', titulo: 'Cores da marca', texto: 'Escura, clara, primária e secundária' }, { emoji: '🔤', titulo: 'Fonte e logo', texto: 'Valem para todos os posts' }], destaque: { forte: 'Caixa de destaque', texto: 'Link na bio' } };
+const MIME_IMG = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', svg: 'image/svg+xml', webp: 'image/webp' };
+const pastaBot = () => cfg.path.split('/').slice(0, -1).join('/');
+async function carregarLogo() {
+  logoSrc = '';
+  const l = data && data.marca && data.marca.logo;
+  if (!l) return;
+  if (/^(https?:|data:)/.test(l)) { logoSrc = l; return; }
+  const mime = MIME_IMG[l.split('.').pop().toLowerCase()];
+  if (!mime || l.includes('..')) return;
+  try {
+    const r = await gh(`contents/${pastaBot() ? pastaBot() + '/' : ''}${l}?ref=${encodeURIComponent(cfg.branch)}`);
+    if (r.ok) logoSrc = `data:${mime};base64,${(await r.json()).content.replace(/\s/g, '')}`;
+  } catch (e) {}
+}
+async function enviarLogo(arquivo) {
+  if (!cfg.token) { abrirConfig(); return toast('Cole o token do GitHub para enviar o logo.', 'erro'); }
+  const ext = (arquivo.name.split('.').pop() || '').toLowerCase();
+  if (!MIME_IMG[ext]) return toast('Use uma imagem PNG, JPG, SVG ou WEBP.', 'erro');
+  if (arquivo.size > 900000) return toast('Imagem grande demais (máximo 900 KB). Use um logo quadrado de uns 300 px.', 'erro');
+  const b64 = await new Promise((ok, falha) => { const fr = new FileReader(); fr.onload = () => ok(String(fr.result).split(',')[1]); fr.onerror = falha; fr.readAsDataURL(arquivo); });
+  const nome = 'logo.' + ext, caminho = `${pastaBot() ? pastaBot() + '/' : ''}${nome}`;
+  let shaLogo;
+  const g = await gh(`contents/${caminho}?ref=${encodeURIComponent(cfg.branch)}`);
+  if (g.ok) shaLogo = (await g.json()).sha;
+  const r = await gh(`contents/${caminho}`, { method: 'PUT', body: JSON.stringify({ message: 'painel: logo da marca', content: b64, branch: cfg.branch, ...(shaLogo ? { sha: shaLogo } : {}) }) });
+  if (!r.ok) return toast(await erroDaApi(r), 'erro');
+  data.marca = { ...(data.marca || {}), logo: nome };
+  logoSrc = `data:${MIME_IMG[ext]};base64,${b64}`;
+  marcar(); toast('Logo enviado. Clique em Salvar no GitHub para usar nos posts.', 'ok');
+}
+function renderMarca(c) {
+  const m = data.marca = data.marca || {};
+  const cores = coresDe(m);
+  const duas = document.createElement('div'); duas.className = 'duas';
+  const sM = secao('🎨 Identidade dos posts', 'Vale para todos os posts (e para as imagens que o robô gera). Depois de mudar, clique em Salvar no GitHub.');
+  const campo = (rotulo, valor, onchange, ph = '') => {
+    const lb = document.createElement('label'); lb.textContent = rotulo;
+    const i = document.createElement('input'); i.value = valor || ''; i.placeholder = ph; i.onchange = () => onchange(i.value.trim());
+    sM.append(lb, i); return i;
+  };
+  campo('Nome (aparece no rodapé)', m.nome, v => { m.nome = v; marcar(); });
+  campo('@ do Instagram (rodapé)', m.rodape, v => { m.rodape = v; marcar(); }, '@usuario');
+  campo('Fonte (nome de uma fonte do Google Fonts)', m.fonte, v => { if (v && v !== 'Inter') m.fonte = v; else delete m.fonte; marcar(); }, 'Inter');
+  const lc = document.createElement('label'); lc.textContent = 'Cores'; sM.appendChild(lc);
+  const cx = document.createElement('div'); cx.className = 'cores';
+  [['escura', 'Escura (fundo do tema escuro)'], ['clara', 'Clara (fundo do tema claro)'], ['primaria', 'Primária (tema "azul")'], ['secundaria', 'Secundária (tema "rosa")']].forEach(([k, nome]) => {
+    const l = document.createElement('label'); l.className = 'cor';
+    const i = document.createElement('input'); i.type = 'color'; i.value = cores[k];
+    i.onchange = () => { m.cores = { ...coresDe(m), [k]: i.value }; if (Object.keys(CORES_PADRAO).every(x => m.cores[x].toLowerCase() === CORES_PADRAO[x].toLowerCase())) delete m.cores; marcar(); };
+    l.append(i, document.createTextNode(nome)); cx.appendChild(l);
+  });
+  sM.appendChild(cx);
+  campo('Faixa do topo (cores separadas por vírgula; vazio = padrão)', (m.faixa || []).join(', '), v => { const f = v.split(/[,\s]+/).filter(x => /^#[0-9a-f]{3,6}$/i.test(x)); if (f.length) m.faixa = f; else delete m.faixa; marcar(); }, FAIXA_PADRAO.join(', '));
+  campo('Logo (arquivo na pasta do robô, ex.: logo.png, ou URL; vazio = ícone com a faixa)', m.logo, async v => { if (v) m.logo = v; else delete m.logo; await carregarLogo(); marcar(); });
+  const up = document.createElement('div'); up.className = 'atalhos';
+  const fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'image/png,image/jpeg,image/svg+xml,image/webp'; fi.hidden = true;
+  fi.onchange = () => fi.files[0] && enviarLogo(fi.files[0]);
+  up.append(fi, btn('⬆ Enviar imagem do logo', '', () => fi.click()));
+  if (m.cores || m.faixa || m.fonte || m.logo) up.appendChild(btn('Voltar ao visual padrão', 'perigo', () => { if (confirm('Voltar cores, faixa, fonte e logo para o padrão?')) { delete m.cores; delete m.faixa; delete m.fonte; delete m.logo; logoSrc = ''; marcar(); } }));
+  sM.appendChild(up);
+  duas.appendChild(sM);
+  const sP = secao('Prévia dos 4 temas', 'Cada post escolhe um tema no editor. Os rascunhos do banco vão alternando entre eles.');
+  const g = document.createElement('div'); g.className = 'temas4';
+  Object.entries(temasDe(m)).forEach(([k, t]) => { const w = miniatura({ ...AMOSTRA_MARCA, tema: k, titulo: [t.nome.replace(' (padrão)', ''), 'o seu post'] }); g.appendChild(w); });
+  sP.appendChild(g);
+  duas.appendChild(sP);
+  c.appendChild(duas);
 }
 
 // ---------- criar com IA ----------
@@ -1115,7 +1348,7 @@ const DICAS_TIPO = {
   mito: 'Cada item é um mito (título) e a verdade (texto). Use de 2 a 3 itens.', comparativo: 'Exatamente 2 itens, um por coluna. Em cada um, escreva os pontos separados por | (barra vertical).',
   citacao: 'Frase grande. Escreva a frase no Título e, se quiser, a autoria no Subtítulo. Não usa itens.', capa: 'Título grande para avisos e novidades. Não usa itens.'
 };
-let edId = null, edItens = [];
+let edId = null, edItens = [], edBanco = null; // edBanco: { lista: 'posts' | 'datas', item } quando o editor mexe no banco de conteúdo
 function lerForm() {
   const tipo = F('fTipo').value;
   const p = {
@@ -1155,13 +1388,14 @@ function prever() {
     let f = box.querySelector('iframe');
     if (!f) { f = document.createElement('iframe'); f.setAttribute('sandbox', 'allow-scripts'); box.appendChild(f); }
     f.style.transform = `scale(${box.clientWidth / 1080})`;
-    f.srcdoc = postHtml(p, data.marca, FONT_CSS);
+    f.srcdoc = postHtml(p, marcaR(), fontCss());
   }, 250);
   const n = F('fLegenda').value.length, c = F('fCnt');
   c.textContent = `${n}/2200`; c.classList.toggle('erro', n > 2200);
 }
 function abrirEditor(id, preset = null, avisos = []) {
-  edId = id || null;
+  edId = id || null; edBanco = null;
+  F('fTema').innerHTML = Object.entries(temasDe(data.marca)).map(([k, v]) => `<option value="${k}">${esc(v.nome)}</option>`).join('');
   const p = id ? achar(id) : (preset || { tipo: 'passos', kicker: '', titulo: [''], subtitulo: '', itens: [{ titulo: '', texto: '' }], destaque: {}, legenda: '' });
   if (!p) return;
   F('edTitulo').textContent = id ? `Editar ${p.id}` : (preset ? 'Post gerado pela IA (rascunho)' : 'Novo post');
@@ -1185,6 +1419,7 @@ function abrirEditor(id, preset = null, avisos = []) {
 F('fAddItem').onclick = () => { edItens.push({ emoji: '', titulo: '', texto: '' }); desenharItens(); };
 F('fOk').onclick = () => {
   const novo = lerForm();
+  if (edBanco) return aplicarNoBanco(novo);
   if (!novo.titulo.length) return toast('Preencha o título.', 'erro');
   if (!TIPOS_SEM_ITENS.includes(novo.tipo) && !novo.itens.length) return toast('Adicione pelo menos um item.', 'erro');
   if (novo.tipo === 'comparativo' && novo.itens.length !== 2) return toast('O comparativo precisa de exatamente 2 itens (uma coluna cada).', 'erro');
@@ -1192,7 +1427,7 @@ F('fOk').onclick = () => {
   if (novo.legenda.length > 2200) return toast('A legenda passa de 2200 caracteres (limite do Instagram).', 'erro');
   const podeRepetir = F('fRepetir').checked;
   if (edId) {
-    const p = achar(edId), { id, aprovado, postado, publicadoEm, origem, instagramMediaId, imagemDe, agendarPara } = p;
+    const p = achar(edId), { id, aprovado, postado, publicadoEm, origem, instagramMediaId, imagemDe, agendarPara, fonte, criadoEm, geradoPorIA } = p;
     Object.keys(p).forEach(k => delete p[k]);
     Object.assign(p, { id, aprovado, postado }, novo);
     if (publicadoEm) p.publicadoEm = publicadoEm;
@@ -1200,6 +1435,9 @@ F('fOk').onclick = () => {
     if (instagramMediaId) p.instagramMediaId = instagramMediaId;
     if (imagemDe) p.imagemDe = imagemDe;
     if (agendarPara) p.agendarPara = agendarPara;
+    if (fonte) p.fonte = fonte;
+    if (criadoEm) p.criadoEm = criadoEm;
+    if (geradoPorIA) p.geradoPorIA = geradoPorIA;
     data.posts.filter(x => raizDe(x) === raizDe(p)).forEach(m => { if (podeRepetir) delete m.repetir; else m.repetir = false; });
   } else {
     const n = { id: proximoId(), aprovado: false, postado: false, ...novo };
@@ -1278,7 +1516,7 @@ function erroLogin(err) {
 }
 function mostrarLogin() {
   F('app').hidden = true; F('lock').hidden = false;
-  data = null; sha = null; ideias = []; dirty = false; jaCarregou = false;
+  data = null; sha = null; ideias = []; banco = { posts: [] }; logoSrc = ''; dirty = false; jaCarregou = false;
   lockErro(lockMsg); lockMsg = ''; F('lSenha').value = '';
 }
 function mostrarApp(user) {

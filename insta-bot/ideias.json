@@ -1,4 +1,101 @@
 {
+  "regras": {
+    "frasesACada": 5,
+    "diasAntecedencia": 21
+  },
+  "legenda": {
+    "modelos": [
+      "{titulo} 💙\n\n{resumo}\n\n{cta}\n\n🔗 Link na bio\n\n{hashtags}",
+      "{titulo}\n\n{resumo}\n\n{cta}\n\n🔗 Link na bio\n\n{hashtags}"
+    ],
+    "ctas": [
+      "Me segue aí, galera, e compartilha com quem precisa ver 💙",
+      "Salva pra consultar depois e manda pra um amigo 🏳️‍⚧️",
+      "Conta nos comentários: o que você acrescentaria?"
+    ],
+    "hashtags": {
+      "fixas": [
+        "#transmasc",
+        "#homemtrans",
+        "#transmasculino",
+        "#transbrasil"
+      ],
+      "rotativas": [
+        "#pessoastrans",
+        "#orgulhotrans",
+        "#visibilidadetrans",
+        "#comunidadetrans",
+        "#lgbtqia"
+      ],
+      "quantidade": 1
+    }
+  },
+  "datas": [
+    {
+      "id": "visibilidade-br",
+      "data": "01-29",
+      "tipo": "capa",
+      "kicker": "29 de janeiro",
+      "titulo": [
+        "Dia Nacional da",
+        "Visibilidade Trans"
+      ],
+      "subtitulo": "Existimos, resistimos e merecemos respeito.",
+      "legenda": "29 de janeiro é o Dia Nacional da Visibilidade Trans 🏳️‍⚧️\n\nA data lembra 2004, quando ativistas trans lançaram em Brasília uma campanha nacional contra a transfobia. Desde então, é dia de lembrar que a gente existe, resiste e merece respeito em todo lugar.\n\nMe segue aí, galera, e compartilha pra mais gente ver 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #visibilidadetrans"
+    },
+    {
+      "id": "visibilidade-int",
+      "data": "03-31",
+      "tipo": "capa",
+      "kicker": "31 de março",
+      "titulo": [
+        "Dia Internacional da",
+        "Visibilidade Trans"
+      ],
+      "subtitulo": "Visibilidade é direito.",
+      "legenda": "31 de março é o Dia Internacional da Visibilidade Trans 🏳️‍⚧️\n\nUm dia pra celebrar as vidas trans e lembrar que visibilidade é direito: no trabalho, na escola, na saúde e na família.\n\nCompartilha com quem caminha junto com a gente 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #visibilidadetrans"
+    },
+    {
+      "id": "orgulho",
+      "data": "06-28",
+      "tipo": "capa",
+      "kicker": "28 de junho",
+      "titulo": [
+        "Dia do",
+        "Orgulho LGBTQIA+"
+      ],
+      "subtitulo": "Orgulho de ser quem a gente é.",
+      "legenda": "28 de junho é o Dia do Orgulho LGBTQIA+ 🏳️‍🌈🏳️‍⚧️\n\nOrgulho de ser quem a gente é, e de tudo o que a comunidade construiu até aqui.\n\nMe segue aí, galera, e marca quem faz parte da sua rede de apoio 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #orgulholgbt"
+    },
+    {
+      "id": "memoria",
+      "data": "11-20",
+      "tipo": "citacao",
+      "kicker": "20 de novembro · Dia da Memória Trans",
+      "titulo": [
+        "Lembrar quem perdemos é lutar para que ninguém mais falte."
+      ],
+      "subtitulo": "",
+      "legenda": "20 de novembro é o Dia da Memória Trans.\n\nHoje a gente lembra das pessoas trans que perdemos para a violência e o preconceito. Lembrar é também lutar por respeito e por uma vida segura pra todo mundo.\n\nSe você está passando por um momento difícil, procure sua rede de apoio. O CVV atende 24 horas pelo 188 ou em cvv.org.br.\n\n🕯️\n\n#transmasc #homemtrans #transmasculino #transbrasil #memoriatrans"
+    }
+  ],
+  "frases": [
+    {
+      "id": "resistencia",
+      "texto": "Existir como a gente é já é resistência.",
+      "kicker": "Pra lembrar"
+    },
+    {
+      "id": "tempo",
+      "texto": "Cada corpo tem o seu tempo. Sem comparação.",
+      "kicker": "Pra lembrar"
+    },
+    {
+      "id": "comunidade",
+      "texto": "Você não está sozinho. Tem uma comunidade inteira com você.",
+      "kicker": "Recado"
+    }
+  ],
   "posts": [
     {
       "id": "post13",

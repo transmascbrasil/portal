@@ -3,6 +3,7 @@
 //
 // Modelo: cada publicação é um item de posts.json. Repostar = criar uma CÓPIA (id novo) com
 // "origem" apontando para o post original. Assim cada publicação tem sua própria data.
+import { criarDoBanco } from "./banco.js";
 
 export const raizDe = (p) => p.origem || p.id;
 
@@ -108,24 +109,20 @@ export function proximaCriacao(config) {
   if (!r.ativa) return null;
   return r.ultimaVez ? new Date(Date.parse(r.ultimaVez) + r.aCadaDias * 86400000) : new Date(0);
 }
-export function criarRascunhosAuto(config, ideias, agora = new Date()) {
+// banco: o ideias.json inteiro (ideias, frases, datas e modelos de legenda). Ver banco.js.
+export function criarRascunhosAuto(config, banco, agora = new Date()) {
   const r = rascunhosAutoDe(config);
   if (!r.ativa) return { criados: [], motivo: "desligado" };
   const quando = proximaCriacao(config);
   if (quando > agora) return { criados: [], motivo: "ainda não está na hora" };
-  const usados = new Set(config.posts.map((p) => p.id));
-  const criados = (ideias || [])
-    .filter((i) => !usados.has(i.id))
-    .slice(0, r.quantidade)
-    .map((i) => {
-      const c = JSON.parse(JSON.stringify(i));
-      delete c.avisos;
-      // posts escritos pela IA nunca vão direto para a fila sem revisão
-      return { ...c, aprovado: r.aprovar && !i.geradoPorIA, postado: false };
-    });
+  if (Array.isArray(banco)) banco = { posts: banco };
+  const ag = agendaDe(config);
+  const criados = criarDoBanco(config, banco, r.quantidade, {
+    agora, proximoId, hora: `${String(ag.hora).padStart(2, "0")}:${String(ag.minuto).padStart(2, "0")}`,
+  }).map((c) => ({ ...c, aprovado: r.aprovar && !c.geradoPorIA })); // posts escritos pela IA nunca vão direto para a fila sem revisão
   config.posts.push(...criados);
   config.rascunhosAuto = { ...(config.rascunhosAuto || {}), ultimaVez: agora.toISOString() };
-  return { criados, motivo: criados.length ? "" : "banco de ideias vazio" };
+  return { criados, motivo: criados.length ? "" : "banco de conteúdo vazio" };
 }
 
 export function partesBRT(d) {

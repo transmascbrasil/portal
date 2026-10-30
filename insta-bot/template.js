@@ -13,6 +13,72 @@ export const TEMAS = {
   rosa: { nome: "Rosa", bg: "#F5A9B8", txt: "#14254F", mut: "#3a3057", card: "#FBD2DB", kick: "#14254F", acc2: "#14254F", hl: "#5BCEFA", num: "#14254F", numtxt: "#fff", c1: "#f8bcc8", c2: "#f29db0", dbg: "#14254F", dtxt: "#fff", user: "#14254F", tmb: "#14254F", tmt: "#fff", tvb: "#fff", tvt: "#14254F", h1b: "#14254F", h1t: "#fff", h2b: "#fff", h2t: "#14254F" },
   azul: { nome: "Azul", bg: "#5BCEFA", txt: "#14254F", mut: "#1d3a66", card: "#A8E3FB", kick: "#14254F", acc2: "#14254F", hl: "#F5A9B8", num: "#14254F", numtxt: "#fff", c1: "#74d6fb", c2: "#42c0ee", dbg: "#14254F", dtxt: "#fff", user: "#14254F", tmb: "#14254F", tmt: "#fff", tvb: "#fff", tvt: "#14254F", h1b: "#14254F", h1t: "#fff", h2b: "#fff", h2t: "#14254F" },
 };
+// ---------- marca (cores, faixa, fonte e logo) ----------
+// Sem "cores" no posts.json -> marca.cores, os temas acima são usados como estão.
+export const CORES_PADRAO = { escura: "#14254F", clara: "#F7FAFF", primaria: "#5BCEFA", secundaria: "#F5A9B8" };
+export const FAIXA_PADRAO = ["#5BCEFA", "#F5A9B8", "#FFFFFF", "#F5A9B8", "#5BCEFA"];
+const rgb = (c) => {
+  let h = String(c || "").replace("#", "").trim();
+  if (h.length === 3) h = h.split("").map((x) => x + x).join("");
+  const n = parseInt(h, 16);
+  return isNaN(n) || h.length !== 6 ? [0, 0, 0] : [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+};
+const hex = (v) => "#" + v.map((x) => Math.round(Math.max(0, Math.min(255, x))).toString(16).padStart(2, "0")).join("");
+export const mix = (a, b, t) => { const x = rgb(a), y = rgb(b); return hex(x.map((v, i) => v + (y[i] - v) * t)); };
+const lum = (c) => {
+  const [r, g, b] = rgb(c).map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const contraste = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+const sobre = (bg, escura) => (contraste(bg, escura) >= contraste(bg, "#ffffff") ? escura : "#ffffff");
+
+export const coresDe = (marca) => ({ ...CORES_PADRAO, ...((marca && marca.cores) || {}) });
+const coresPadrao = (marca) => { const c = coresDe(marca); return Object.keys(CORES_PADRAO).every((k) => String(c[k]).toLowerCase() === CORES_PADRAO[k].toLowerCase()); };
+
+// Os 4 temas com as cores da marca. "azul" = cor primária e "rosa" = cor secundária.
+export function temasDe(marca) {
+  if (coresPadrao(marca)) return TEMAS;
+  const { escura, clara, primaria, secundaria } = coresDe(marca);
+  const solido = (bg, outra, nome) => {
+    const t = sobre(bg, escura), inv = t === "#ffffff" ? escura : "#ffffff";
+    return {
+      nome, bg, txt: t, mut: mix(t, bg, 0.3), card: mix(bg, "#ffffff", 0.35), kick: t, acc2: t, hl: outra, hlTxt: sobre(outra, escura),
+      num: t, numtxt: inv, c1: mix(bg, "#ffffff", 0.15), c2: mix(bg, escura, 0.08), dbg: t, dtxt: inv, user: t,
+      tmb: t, tmt: inv, tvb: inv, tvt: t, h1b: t, h1t: inv, h2b: inv, h2t: t,
+    };
+  };
+  return {
+    escuro: {
+      nome: "Escuro (padrão)", bg: escura, txt: "#fff", mut: mix("#ffffff", escura, 0.25), card: mix(escura, "#ffffff", 0.1), kick: primaria, acc2: secundaria, hl: "",
+      num: primaria, numtxt: sobre(primaria, escura), c1: mix(escura, primaria, 0.15), c2: mix(escura, secundaria, 0.1), dbg: secundaria, dtxt: sobre(secundaria, escura), user: primaria,
+      tmb: secundaria, tmt: sobre(secundaria, escura), tvb: primaria, tvt: sobre(primaria, escura), h1b: primaria, h1t: sobre(primaria, escura), h2b: secundaria, h2t: sobre(secundaria, escura),
+    },
+    claro: {
+      nome: "Claro", bg: clara, txt: escura, mut: mix(escura, clara, 0.3), card: mix(clara, primaria, 0.16), kick: mix(primaria, escura, 0.35), acc2: mix(secundaria, escura, 0.3), hl: "",
+      num: escura, numtxt: "#fff", c1: mix(clara, primaria, 0.2), c2: mix(clara, secundaria, 0.2), dbg: escura, dtxt: "#fff", user: mix(primaria, escura, 0.35),
+      tmb: secundaria, tmt: sobre(secundaria, escura), tvb: primaria, tvt: sobre(primaria, escura), h1b: primaria, h1t: sobre(primaria, escura), h2b: secundaria, h2t: sobre(secundaria, escura),
+    },
+    rosa: solido(secundaria, primaria, "Cor secundária"),
+    azul: solido(primaria, secundaria, "Cor primária"),
+  };
+}
+const faixaDe = (marca) => (marca && Array.isArray(marca.faixa) && marca.faixa.length ? marca.faixa : coresPadrao(marca) ? FAIXA_PADRAO : [coresDe(marca).primaria, coresDe(marca).secundaria]);
+function iconeDe(marca) {
+  if (marca && marca.logoSrc) return `<img class="logo" src="${esc(marca.logoSrc)}" alt="">`;
+  const f = faixaDe(marca);
+  if (f === FAIXA_PADRAO) return ICONE;
+  const h = 56 / f.length;
+  return `<svg width="56" height="56" viewBox="0 0 56 56"><defs><clipPath id="c"><rect width="56" height="56" rx="14"/></clipPath></defs><g clip-path="url(#c)">${f
+    .map((c, i) => `<rect y="${(i * h).toFixed(2)}" width="56" height="${(h + 0.5).toFixed(2)}" fill="${esc(c)}"/>`).join("")}</g></svg>`;
+}
+// CSS da fonte da marca para o painel (Google Fonts)
+export function fonteCssGoogle(marca) {
+  const fams = ["Inter:wght@500;600;700;800;900"];
+  const f = marca && marca.fonte && marca.fonte !== "Inter" ? marca.fonte : "";
+  if (f) fams.push(`${encodeURIComponent(f)}:wght@500;600;700;800;900`);
+  return `@import url('https://fonts.googleapis.com/css2?${fams.map((x) => "family=" + x).join("&")}&display=swap');`;
+}
+
 export const TIPOS = {
   passos: "Passos (lista numerada)",
   lista: "Lista (com emoji)",
@@ -32,7 +98,11 @@ export function postHtml(p, marca, fontCss = "") {
     .map((l, i) => `<span class="${i === linhas.length - 1 && linhas.length > 1 ? "rosa" : ""}">${esc(l)}</span>`)
     .join("<br>");
 
-  const T = TEMAS[p.tema] || TEMAS.escuro;
+  marca = marca || {};
+  const temas = temasDe(marca);
+  const T = temas[p.tema] || temas.escuro;
+  const fonte = String(marca.fonte || "Inter").replace(/['";]/g, "");
+  const faixa = faixaDe(marca);
   const tipo = TIPOS[p.tipo] ? p.tipo : "passos";
   const itens = p.itens || [];
   const centrado = tipo === "capa" || tipo === "citacao";
@@ -93,15 +163,15 @@ export function postHtml(p, marca, fontCss = "") {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 ${fontCss}
 *{box-sizing:border-box;margin:0;padding:0}
-body{width:1080px;height:1350px;background:${T.bg};font-family:'Inter',sans-serif;color:${T.txt};position:relative;overflow:hidden}
+body{width:1080px;height:1350px;background:${T.bg};font-family:'${fonte}','Inter',sans-serif;color:${T.txt};position:relative;overflow:hidden}
 .faixa{position:absolute;top:0;left:0;width:1080px;height:14px;display:flex;z-index:5}
-.faixa i{flex:1}.faixa i:nth-child(1),.faixa i:nth-child(5){background:#5BCEFA}.faixa i:nth-child(2),.faixa i:nth-child(4){background:#F5A9B8}.faixa i:nth-child(3){background:#fff}
+.faixa i{flex:1}
 .c1{position:absolute;right:-400px;top:-320px;width:800px;height:800px;border-radius:50%;background:${T.c1};opacity:.7}
 .c2{position:absolute;left:-300px;bottom:-420px;width:660px;height:660px;border-radius:50%;background:${T.c2};opacity:.8}
 .wrap{position:absolute;inset:0;padding:108px 80px 0 80px;${centrado ? "padding-bottom:230px;display:flex;flex-direction:column;justify-content:center;" : ""}}
 .kicker{font-size:34px;font-weight:800;letter-spacing:.22em;color:${T.kick};text-transform:uppercase;margin-bottom:14px}
 h1{font-size:${Number(p.tamanhoTitulo) || tamPadrao}px;line-height:${tipo === "citacao" ? 1.16 : 1.06};font-weight:900;letter-spacing:-.02em}
-h1 .rosa{color:${T.acc2};${T.hl ? `background:${T.hl};color:${T.txt};padding:0 .16em;border-radius:14px;-webkit-box-decoration-break:clone;box-decoration-break:clone;` : ""}}
+h1 .rosa{color:${T.acc2};${T.hl ? `background:${T.hl};color:${T.hlTxt || T.txt};padding:0 .16em;border-radius:14px;-webkit-box-decoration-break:clone;box-decoration-break:clone;` : ""}}
 .aspas{font-size:300px;line-height:.6;font-weight:900;color:${T.hl || T.kick};height:150px;margin-left:-8px}
 .sub{margin-top:22px;font-size:${tipo === "capa" ? 44 : 36}px;line-height:1.25;font-weight:700;color:${tipo === "citacao" ? T.kick : T.txt}}
 .corpo{margin-top:${tipo === "passos" ? 52 : 46}px;display:flex;flex-direction:column;gap:${tipo === "passos" ? 36 : tipo === "mito" ? 22 : 18}px}
@@ -130,10 +200,11 @@ h1 .rosa{color:${T.acc2};${T.hl ? `background:${T.hl};color:${T.txt};padding:0 .
 .destaque b{display:block;font-size:38px;font-weight:900;line-height:1.2}
 .destaque span{display:block;font-size:29px;font-weight:700;margin-top:8px;line-height:1.25}
 .rodape{position:absolute;left:80px;bottom:56px;display:flex;align-items:center;gap:22px}
+.rodape .logo{width:56px;height:56px;border-radius:14px;object-fit:cover}
 .rodape .n{font-size:30px;font-weight:800}
 .rodape .u{font-size:28px;font-weight:600;color:${T.user};margin-top:2px}
 </style></head><body>
-<div class="faixa"><i></i><i></i><i></i><i></i><i></i></div><div class="c1"></div><div class="c2"></div>
+<div class="faixa">${faixa.map((c) => `<i style="background:${esc(c)}"></i>`).join("")}</div><div class="c1"></div><div class="c2"></div>
 <div class="wrap"><div class="inner">
   ${p.kicker ? `<div class="kicker">${esc(p.kicker)}</div>` : ""}
   ${tipo === "citacao" ? '<div class="aspas">“</div>' : ""}
@@ -142,7 +213,7 @@ h1 .rosa{color:${T.acc2};${T.hl ? `background:${T.hl};color:${T.txt};padding:0 .
   ${corpo ? `<div class="corpo">${corpo}</div>` : ""}
 </div></div>
 ${destaque}
-<div class="rodape">${ICONE}<div><div class="n">${esc(marca.nome)}</div><div class="u">${esc(marca.rodape)}</div></div></div>
+<div class="rodape">${iconeDe(marca)}<div><div class="n">${esc(marca.nome)}</div><div class="u">${esc(marca.rodape)}</div></div></div>
 <script>
 // encolhe o conteúdo até caber acima da caixa rosa / rodapé
 window.__fitDone = (async () => {
