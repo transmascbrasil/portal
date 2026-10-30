@@ -131,7 +131,7 @@ select.input{appearance:auto}
 <div id="toasts" aria-live="polite"></div>
 
 <script type="module">
-import { carregarFirebase, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, quando, avatar, avatarDe, nomeDe,
+import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, quando, avatar, avatarDe, nomeDe,
   hidratarAvatares, perfilDe, midiaHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js';
 
 let pend = [], recus = [], pubs = [], membros = [], suspensos = new Set();
@@ -146,7 +146,7 @@ async function iniciar(){
     $('h-sair').hidden = !user;
     if (!user) return mostrar('login');
     mostrar('carregando');
-    const adm = await fb.getDoc(fb.doc(db, 'admins', user.uid)).then(s => s.exists()).catch(() => false);
+    const adm = await ehModeracao();
     if (!adm) return mostrar('negado');
     mostrar('painel'); ouvir();
   });

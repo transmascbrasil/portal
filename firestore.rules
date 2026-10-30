@@ -1,14 +1,78 @@
-// Regras da Área de Membros (comunidade.html, perfil.html e comunidade-admin.html).
-//
-// Como usar: no console do Firebase → Firestore Database → Regras,
-// cole TUDO o que está entre "INÍCIO" e "FIM" logo dentro do bloco
-//   match /databases/{database}/documents { ... }
-// que já existe (junto das regras atuais do portal e do painel admin) e clique em Publicar.
-// Não apague as regras que já estão lá.
+// Regras completas do Firestore (portal + painel admin + comunidade).
+// Para usar: Firebase → Firestore Database → Regras → apague tudo, cole este arquivo inteiro e clique em Publicar.
 
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Esta conta é a "dona": sempre tem acesso, mesmo que a lista de admins seja apagada.
+    function isOwner() {
+      return request.auth != null && request.auth.uid == 'vHc97ANBlBY5YgFuqWvzXDWX2Mv2';
+    }
+
+    // Admins = dona + quem estiver na coleção "admins" (gerenciada pelo painel)
+    function isAdmin() {
+      return isOwner() || (request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    }
+
+    // ---------- Lista de administradores ----------
+    match /admins/{uid} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['email', 'criadoPor', 'criadoEm']);
+      // ninguém remove a si mesmo (evita ficar sem nenhum admin por engano)
+      allow delete: if isAdmin() && uid != request.auth.uid;
+    }
+
+    // ---------- Categorias (abas do site) ----------
+    match /categorias/{cat} {
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['nome', 'ordem'])
+        && request.resource.data.nome is string
+        && request.resource.data.nome.size() > 0 && request.resource.data.nome.size() <= 40;
+      allow delete: if isAdmin();
+    }
+
+    // ---------- Lojinha (listas de afiliado) ----------
+    match /loja/{item} {
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['titulo','tag','texto','link','icone','cor','ordem'])
+        && request.resource.data.titulo is string && request.resource.data.titulo.size() <= 50
+        && (request.resource.data.link == '' || request.resource.data.link.matches('^https://.*'));
+      allow delete: if isAdmin();
+    }
+
+    // ---------- Indicações ----------
+    match /artifacts/{appId}/public/data/profissionais/{id} {
+
+      function texto(campo, limite) {
+        return request.resource.data[campo] is string
+          && request.resource.data[campo].size() <= limite;
+      }
+
+      // Indicação enviada por visitante (sem login): entra sempre como "pendente"
+      function indicacaoPublicaValida() {
+        return request.resource.data.keys().hasOnly(['categoria','nome','estado','cidade','convenio','contato','status','timestamp'])
+          && request.resource.data.status == 'pendente'
+          && request.resource.data.categoria is string
+          && (request.resource.data.categoria == 'outros'
+              || exists(/databases/$(database)/documents/categorias/$(request.resource.data.categoria)))
+          && texto('nome', 120) && request.resource.data.nome.size() > 1
+          && texto('estado', 2) && request.resource.data.estado.matches('^[A-Z]{2}$')
+          && texto('cidade', 80) && request.resource.data.cidade.size() > 1
+          && texto('convenio', 120)
+          && texto('contato', 120)
+          && texto('timestamp', 40);
+      }
+
+      // Público só enxerga o que foi aprovado; admins enxergam tudo
+      allow read: if resource.data.status == 'aprovado' || isAdmin();
+      allow create: if isAdmin() || indicacaoPublicaValida();
+      allow update, delete: if isAdmin();
+    }
 
     // ================= INÍCIO — Comunidade =================
 
@@ -19,7 +83,8 @@ service cloud.firestore {
       return cmLogado() && request.auth.token.email_verified == true
         && !exists(/databases/$(database)/documents/bloqueados/$(request.auth.uid));
     }
-    function cmAdmin() { return cmLogado() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+    // moderação = mesmos administradores do portal (inclui a conta dona)
+    function cmAdmin() { return isAdmin(); }
     function cmDoc(p) { return path('/databases/' + database + '/documents/' + p); }
     function cmNome() { return get(/databases/$(database)/documents/membros/$(request.auth.uid)).data.nome; }
     // Quem escreveu cada post/comentário fica guardado em forum_autoria, que só a pessoa e a moderação leem.
@@ -179,5 +244,10 @@ service cloud.firestore {
     }
 
     // ================= FIM — Comunidade =================
+
+    // Todo o resto do banco fica fechado
+    match /{document=**} {
+      allow read, write: if false;
+    }
   }
 }
