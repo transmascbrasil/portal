@@ -1,0 +1,183 @@
+// Regras da Área de Membros (comunidade.html, perfil.html e comunidade-admin.html).
+//
+// Como usar: no console do Firebase → Firestore Database → Regras,
+// cole TUDO o que está entre "INÍCIO" e "FIM" logo dentro do bloco
+//   match /databases/{database}/documents { ... }
+// que já existe (junto das regras atuais do portal e do painel admin) e clique em Publicar.
+// Não apague as regras que já estão lá.
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ================= INÍCIO — Comunidade =================
+
+    function cmLogado() { return request.auth != null; }
+    // Para escrever é preciso ter confirmado o e-mail (barra contas falsas em massa)
+    // e não estar suspenso pela moderação
+    function cmVerificado() {
+      return cmLogado() && request.auth.token.email_verified == true
+        && !exists(/databases/$(database)/documents/bloqueados/$(request.auth.uid));
+    }
+    function cmAdmin() { return cmLogado() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+    function cmDoc(p) { return path('/databases/' + database + '/documents/' + p); }
+    function cmNome() { return get(/databases/$(database)/documents/membros/$(request.auth.uid)).data.nome; }
+    // Quem escreveu cada post/comentário fica guardado em forum_autoria, que só a pessoa e a moderação leem.
+    // Assim posts anônimos não carregam o uid de quem escreveu.
+    function cmAutorDe(id) { return get(/databases/$(database)/documents/forum_autoria/$(id)).data.uid == request.auth.uid; }
+
+    // Assinatura pública: anônimo não tem autorUid nem autorNome; identificado tem os dois, conferidos.
+    function cmAssinatura(d) {
+      return d.anonimo is bool && (d.anonimo
+        ? !('autorUid' in d) && !('autorNome' in d)
+        : d.autorUid == request.auth.uid && d.autorNome == cmNome());
+    }
+    function cmReacao() {
+      let novo = request.resource.data.reacoes;
+      let velho = resource.data.reacoes;
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reacoes'])
+        && novo.diff(velho).affectedKeys().hasOnly([request.auth.uid])
+        && (!(request.auth.uid in novo) || novo[request.auth.uid] in ['curtir','amei','forca','haha','uau','triste','grr']);
+    }
+    function cmZeros(n) {
+      return n == 2 ? {'0':0,'1':0}
+        : n == 3 ? {'0':0,'1':0,'2':0}
+        : n == 4 ? {'0':0,'1':0,'2':0,'3':0}
+        : n == 5 ? {'0':0,'1':0,'2':0,'3':0,'4':0}
+        : {'0':0,'1':0,'2':0,'3':0,'4':0,'5':0};
+    }
+
+    // Voto secreto: cada pessoa vota uma vez; só ela vê em que votou, o post guarda só a contagem.
+    function cmVoto(postId) {
+      let voto = cmDoc('forum_posts/' + postId + '/votos/' + request.auth.uid);
+      let op = getAfter(voto).data.opcao;
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['contagem'])
+        && !exists(voto) && existsAfter(voto)
+        && request.resource.data.contagem.diff(resource.data.contagem).affectedKeys().hasOnly([op])
+        && request.resource.data.contagem[op] == resource.data.contagem[op] + 1;
+    }
+
+    function cmTexto(d, k, max) { return !(k in d) || (d[k] is string && d[k].size() <= max); }
+    function cmPerfil(d) {
+      return d.keys().hasOnly(['nome','criadoEm','pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto'])
+        && d.nome is string && d.nome.size() >= 2 && d.nome.size() <= 40
+        && !(d.nome.lower() in ['anônimo','anonimo'])
+        && cmTexto(d, 'pronomes', 30) && cmTexto(d, 'cidade', 60) && cmTexto(d, 'estado', 2)
+        && cmTexto(d, 'emTdesde', 10) && cmTexto(d, 'bio', 600) && cmTexto(d, 'instagram', 40)
+        && cmTexto(d, 'foto', 90000)
+        && (!('curiosidades' in d) || (d.curiosidades is map
+          && d.curiosidades.keys().hasOnly(['musica','hobby','marco','orgulho','dica'])
+          && cmTexto(d.curiosidades, 'musica', 200) && cmTexto(d.curiosidades, 'hobby', 200)
+          && cmTexto(d.curiosidades, 'marco', 200) && cmTexto(d.curiosidades, 'orgulho', 200)
+          && cmTexto(d.curiosidades, 'dica', 200)));
+    }
+
+    // Perfil público: membros logados leem; só a própria pessoa edita
+    match /membros/{uid} {
+      allow read: if cmLogado();
+      allow create: if cmLogado() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['nome','criadoEm']) && cmPerfil(request.resource.data);
+      allow update: if cmLogado() && request.auth.uid == uid
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['criadoEm'])
+        && cmPerfil(request.resource.data);
+    }
+
+    // Contas suspensas: só a moderação cria/remove; a pessoa consegue saber que está suspensa
+    match /bloqueados/{uid} {
+      allow read: if cmLogado() && (request.auth.uid == uid || cmAdmin());
+      allow write: if cmAdmin();
+    }
+
+    // Hormonização, exames e marcos: privados de verdade, nem a moderação lê
+    match /privado/{uid}/{doc=**} {
+      allow read, write: if cmLogado() && request.auth.uid == uid;
+    }
+
+    match /forum_autoria/{id} {
+      allow read: if cmLogado() && (resource.data.uid == request.auth.uid || cmAdmin());
+      // Só pode ser criada no mesmo envio (batch) do post/comentário a que se refere
+      allow create: if cmVerificado()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid','post'])
+        && ('post' in request.resource.data
+          ? !exists(cmDoc('forum_posts/' + request.resource.data.post + '/comentarios/' + id))
+            && existsAfter(cmDoc('forum_posts/' + request.resource.data.post + '/comentarios/' + id))
+          : !exists(cmDoc('forum_pendentes/' + id)) && existsAfter(cmDoc('forum_pendentes/' + id)));
+      allow delete: if cmLogado() && (resource.data.uid == request.auth.uid || cmAdmin());
+    }
+
+    function cmPostValido(d) {
+      return d.tipo in ['post','pergunta','enquete']
+        && d.texto is string && d.texto.size() <= 5000
+        && d.reacoes == {}
+        && (!('imagens' in d) || (d.imagens is list && d.imagens.size() <= 4))
+        && (!('video' in d) || (d.video is string && d.video.size() <= 500))
+        && (d.tipo == 'enquete'
+          ? d.opcoes is list && d.opcoes.size() >= 2 && d.opcoes.size() <= 6 && d.contagem == cmZeros(d.opcoes.size())
+          : !('opcoes' in d) && !('contagem' in d));
+    }
+
+    // Toda publicação nasce aqui e só vai para forum_posts quando a moderação aprova
+    match /forum_pendentes/{postId} {
+      allow read: if cmLogado() && (cmAutorDe(postId) || cmAdmin());
+      allow create: if cmVerificado()
+        && getAfter(cmDoc('forum_autoria/' + postId)).data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['tipo','texto','imagens','video','anonimo','autorUid','autorNome','criadoEm','reacoes','opcoes','contagem','status'])
+        && request.resource.data.status == 'pendente'
+        && request.resource.data.criadoEm == request.time
+        && cmAssinatura(request.resource.data)
+        && cmPostValido(request.resource.data);
+      // moderação recusa (com motivo) ou volta para análise
+      allow update: if cmAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','motivo'])
+        && request.resource.data.status in ['pendente','recusado']
+        && cmTexto(request.resource.data, 'motivo', 300);
+      allow delete: if cmLogado() && (cmAutorDe(postId) || cmAdmin());
+    }
+
+    match /forum_posts/{postId} {
+      allow read: if cmLogado();
+      // só a moderação publica, no mesmo lote em que apaga o pendente
+      allow create: if cmAdmin()
+        && exists(cmDoc('forum_pendentes/' + postId)) && !existsAfter(cmDoc('forum_pendentes/' + postId))
+        && request.resource.data.keys().hasOnly(['tipo','texto','imagens','video','anonimo','autorUid','autorNome','criadoEm','reacoes','opcoes','contagem','publicadoEm'])
+        && request.resource.data.publicadoEm == request.time
+        && request.resource.data.anonimo is bool
+        && cmPostValido(request.resource.data);
+      allow update: if cmVerificado() && (cmReacao() || cmVoto(postId));
+      allow delete: if cmLogado() && (cmAutorDe(postId) || cmAdmin());
+
+      match /votos/{uid} {
+        allow read: if request.auth != null && request.auth.uid == uid;
+        allow create: if cmVerificado() && request.auth.uid == uid
+          && request.resource.data.keys().hasOnly(['opcao'])
+          && request.resource.data.opcao in get(cmDoc('forum_posts/' + postId)).data.contagem
+          && getAfter(cmDoc('forum_posts/' + postId)).data.contagem[request.resource.data.opcao]
+             == get(cmDoc('forum_posts/' + postId)).data.contagem[request.resource.data.opcao] + 1;
+      }
+
+      match /comentarios/{cId} {
+        allow read: if cmLogado();
+        allow create: if cmVerificado()
+          && exists(cmDoc('forum_posts/' + postId))
+          && getAfter(cmDoc('forum_autoria/' + cId)).data.uid == request.auth.uid
+          && getAfter(cmDoc('forum_autoria/' + cId)).data.post == postId
+          && request.resource.data.keys().hasOnly(['texto','imagem','anonimo','autorUid','autorNome','criadoEm','reacoes','pai','doAutor'])
+          && request.resource.data.texto is string && request.resource.data.texto.size() <= 3000
+          && request.resource.data.criadoEm == request.time
+          && request.resource.data.reacoes == {}
+          && cmAssinatura(request.resource.data)
+          && (!('imagem' in request.resource.data) || (request.resource.data.imagem is string && request.resource.data.imagem.size() <= 400000))
+          && (!('pai' in request.resource.data) || request.resource.data.pai is string)
+          // selo "autor(a) da publicação": só quem escreveu o post pode usar
+          && (!('doAutor' in request.resource.data) || (request.resource.data.doAutor == true && cmAutorDe(postId)));
+        allow update: if cmVerificado() && cmReacao();
+        // apaga: quem escreveu o comentário, quem escreveu o post ou a moderação
+        // (ordem importa: num lote que apaga vários comentários, as duas primeiras leem sempre os mesmos documentos)
+        allow delete: if cmLogado() && (cmAutorDe(postId) || cmAdmin() || cmAutorDe(cId));
+      }
+    }
+
+    // ================= FIM — Comunidade =================
+  }
+}

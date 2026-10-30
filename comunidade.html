@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TF1N276WZT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TF1N276WZT');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunidade · Transmasc Brasil</title>
+<meta name="theme-color" content="#14254F">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Portal Transmasc Brasil">
+<meta property="og:title" content="Comunidade Transmasc Brasil">
+<meta property="og:description" content="Área de membros: tire dúvidas, compartilhe experiências e participe de enquetes, com a opção de postar anonimamente.">
+<meta property="og:url" content="https://transmascbrasil.github.io/portal/comunidade.html">
+<meta property="og:image" content="https://transmascbrasil.github.io/portal/img/og-image.png">
+<meta property="og:locale" content="pt_BR">
+<meta name="robots" content="noindex, nofollow"><!-- tirar quando a comunidade for lançada -->
+<meta name="description" content="Área de membros do Portal Transmasc Brasil: perguntas, respostas, publicações e enquetes, com opção de anonimato.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comunidade.css">
+</head>
+<body>
+
+<div class="flag" aria-hidden="true"><span class="b"></span><span class="p"></span><span class="w"></span><span class="p"></span><span class="b"></span></div>
+
+<header>
+  <div class="wrap bar">
+    <a href="index.html" class="brand">
+      <img src="img/favicon.svg" alt="" width="32" height="32">
+      <span>Transmasc Brasil<small>Comunidade</small></span>
+    </a>
+    <div class="hlinks">
+      <a href="index.html" class="voltar">← Portal</a>
+      <a href="comunidade-admin.html" id="h-admin" hidden>🛡️ Moderação</a>
+      <a class="eu" id="h-eu" hidden href="perfil.html" title="Meu perfil"><span id="h-av"></span><b id="h-nome"></b></a>
+      <button id="h-sair" hidden onclick="sair()">Sair</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div id="tela-carregando" class="carregando">Carregando…</div>
+
+  <!-- Entrar / criar conta -->
+  <section id="tela-entrar" class="entrada" hidden>
+    <div class="intro">
+      <span class="eyebrow">Área de membros</span>
+      <h1>Um espaço seguro para <em>perguntar, trocar e se apoiar</em>.</h1>
+      <p>Crie sua conta gratuita para participar da comunidade do Portal Transmasc Brasil.</p>
+      <ul>
+        <li><span>💬</span>Faça perguntas e responda as de outras pessoas</li>
+        <li><span>🎭</span>Publique ou comente de forma anônima quando quiser</li>
+        <li><span>📷</span>Compartilhe fotos, vídeos e links</li>
+        <li><span>📊</span>Crie enquetes com voto secreto</li>
+      </ul>
+    </div>
+    <div class="cartao">
+      <div class="abas" role="tablist">
+        <button role="tab" id="aba-entrar" aria-selected="true" onclick="mudarAba('entrar')">Entrar</button>
+        <button role="tab" id="aba-criar" aria-selected="false" onclick="mudarAba('criar')">Criar conta</button>
+      </div>
+      <form id="f-entrar" class="stack" onsubmit="entrar(event)">
+        <div class="field"><label for="e-email">E-mail</label><input class="input" id="e-email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="e-senha">Senha</label><input class="input" id="e-senha" type="password" autocomplete="current-password" required></div>
+        <p class="err" id="e-err" hidden></p>
+        <p class="ok" id="e-ok" hidden></p>
+        <button class="btn btn-navy" id="b-entrar">Entrar</button>
+        <button type="button" class="link" onclick="esqueciSenha()">Esqueci minha senha</button>
+      </form>
+      <form id="f-criar" class="stack" onsubmit="criarConta(event)" hidden>
+        <div class="field"><label for="c-nome">Como quer ser chamado(a)?</label><input class="input" id="c-nome" maxlength="40" minlength="2" autocomplete="nickname" required placeholder="Pode ser apelido"></div>
+        <div class="field"><label for="c-email">E-mail</label><input class="input" id="c-email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="c-senha">Senha (mínimo 8 caracteres)</label><input class="input" id="c-senha" type="password" minlength="8" autocomplete="new-password" required></div>
+        <div class="field"><label for="c-senha2">Repita a senha</label><input class="input" id="c-senha2" type="password" minlength="8" autocomplete="new-password" required></div>
+        <label class="chk"><input type="checkbox" id="c-regras" required><span>Li e concordo com as <a href="#regras" onclick="document.getElementById('regras-entrada').hidden=false">regras da comunidade</a>.</span></label>
+        <div class="small" id="regras-entrada" hidden></div>
+        <p class="err" id="c-err" hidden></p>
+        <button class="btn btn-navy" id="b-criar">Criar conta</button>
+        <p class="small">Vamos enviar um link para confirmar seu e-mail. Seu e-mail nunca aparece para outros membros.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Primeiro acesso: escolher nome -->
+  <section id="tela-perfil" hidden>
+    <div class="cartao" style="max-width:440px;margin:60px auto">
+      <h2 style="font-size:26px;margin-bottom:6px">Boas-vindas! 💙</h2>
+      <p class="small" style="margin-bottom:16px">Escolha o nome que vai aparecer nas suas publicações não anônimas.</p>
+      <form class="stack" onsubmit="salvarPerfil(event)">
+        <div class="field"><label for="p-nome">Nome ou apelido</label><input class="input" id="p-nome" maxlength="40" minlength="2" required></div>
+        <p class="err" id="p-err" hidden></p>
+        <button class="btn btn-navy">Continuar</button>
+        <button type="button" class="link" onclick="sair()">Sair</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Fórum -->
+  <section id="tela-forum" class="forum" hidden>
+    <div>
+      <div class="aviso" id="aviso-verificar" hidden>
+        <p>📧 <b>Confirme seu e-mail</b> para publicar, comentar, reagir e votar. O link foi enviado para <b id="v-email"></b> (confira o spam).</p>
+        <button class="btn btn-line btn-sm" onclick="reenviarVerificacao()">Reenviar</button>
+        <button class="btn btn-navy btn-sm" onclick="jaConfirmei()">Já confirmei</button>
+      </div>
+
+      <div class="aviso" id="aviso-bloqueado" hidden>
+        <p>🚫 <b>Sua conta está suspensa</b> pela moderação. Você ainda pode ler, mas não pode publicar, comentar nem reagir. Dúvidas: transmascbrasil@gmail.com</p>
+      </div>
+      <div class="aviso" id="aviso-hormonio" hidden></div>
+      <div id="pendentes"></div>
+
+      <div class="box criar">
+        <div class="linha"><span id="criar-av"></span><button class="abrir" onclick="abrirNovo('post')">No que você está pensando?</button></div>
+        <div class="atalhos">
+          <button onclick="abrirNovo('pergunta')">❓ Pergunta</button>
+          <button onclick="abrirNovo('post',true)">📷 Foto/vídeo</button>
+          <button onclick="abrirNovo('enquete')">📊 Enquete</button>
+        </div>
+      </div>
+
+      <div class="filtros" role="group" aria-label="Filtrar">
+        <button aria-pressed="true" data-filtro="tudo">Tudo</button>
+        <button aria-pressed="false" data-filtro="pergunta">Perguntas</button>
+        <button aria-pressed="false" data-filtro="post">Publicações</button>
+        <button aria-pressed="false" data-filtro="enquete">Enquetes</button>
+        <button aria-pressed="false" data-filtro="meus">Minhas</button>
+      </div>
+
+      <div id="feed"></div>
+      <div class="vazio box" id="vazio" hidden></div>
+      <div class="mais"><button class="btn btn-line" id="b-mais" hidden onclick="carregarMais()">Carregar mais</button></div>
+    </div>
+
+    <aside class="lado">
+      <a class="box" id="lado-perfil" href="perfil.html" style="padding:16px 18px;text-decoration:none;display:flex;gap:12px;align-items:center">
+        <span style="font-size:28px">👤</span><span><b style="display:block">Meu perfil</b><span class="small">Perfil, hormonização, jornada e lojinha</span></span></a>
+      <div class="box">
+        <h3>Regras da comunidade</h3>
+        <ol id="regras">
+          <li>Respeito sempre. Nada de transfobia, racismo, gordofobia, capacitismo ou ataques pessoais.</li>
+          <li>Não publique dados pessoais (seus ou de outras pessoas): endereço, documentos, telefone, nome de registro.</li>
+          <li>Relatos de saúde são experiências, não receitas. Hormônio só com acompanhamento médico.</li>
+          <li>Sem venda, propaganda ou golpes.</li>
+          <li>Viu algo errado? Use “Denunciar” no menu ⋯ da publicação.</li>
+        </ol>
+      </div>
+      <div class="box">
+        <h3>🎭 Como funciona o anonimato</h3>
+        <p>Publicações e comentários anônimos não mostram seu nome para outros membros. Só a equipe de moderação consegue ver a autoria, e apenas para lidar com abusos.</p>
+        <p style="margin-top:8px">As <b>reações</b> não são anônimas. Os <b>votos</b> em enquetes são sempre secretos.</p>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<!-- Nova publicação -->
+<div class="overlay" id="m-novo" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-novo-t">
+    <div class="mhead"><h3 id="m-novo-t">Criar publicação</h3><button class="x" data-fechar aria-label="Fechar">✕</button></div>
+    <form id="f-novo" onsubmit="publicar(event)">
+      <div class="seg" role="radiogroup" aria-label="Tipo">
+        <label><input type="radio" name="tipo" value="post" checked>📝 Publicação</label>
+        <label><input type="radio" name="tipo" value="pergunta">❓ Pergunta</label>
+        <label><input type="radio" name="tipo" value="enquete">📊 Enquete</label>
+      </div>
+      <div class="quem" id="n-quem"></div>
+      <textarea id="n-texto" maxlength="5000" aria-label="Texto da publicação"></textarea>
+      <div class="opcoes" id="n-opcoes" hidden></div>
+      <div class="prev" id="n-prev"></div>
+      <div class="field" id="n-video-box" hidden>
+        <label for="n-video">Link do vídeo</label>
+        <input class="input" id="n-video" type="url" placeholder="YouTube, Vimeo ou link direto .mp4" maxlength="500">
+        <span class="small" id="n-video-aviso"></span>
+      </div>
+      <div class="addbar">
+        <span>Adicionar</span>
+        <label>📷 Fotos<input type="file" id="n-fotos" accept="image/*" multiple hidden></label>
+        <button type="button" onclick="mostrarVideo()">🎬 Vídeo</button>
+      </div>
+      <label class="anonop"><input type="checkbox" id="n-anon"><span><b>Publicar como anônimo</b><small>Seu nome não aparece para os outros membros.</small></span></label>
+      <p class="err" id="n-err" hidden></p>
+      <p class="small">Toda publicação passa pela moderação antes de aparecer no feed.</p>
+      <button class="btn btn-navy" id="b-publicar">Enviar para moderação</button>
+    </form>
+  </div>
+</div>
+
+<!-- Quem reagiu -->
+<div class="overlay" id="m-quem" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-quem-t" style="max-width:440px">
+    <div class="mhead"><h3 id="m-quem-t">Reações</h3><button class="x" data-fechar aria-label="Fechar">✕</button></div>
+    <div class="mbody"><div class="abas-r" id="q-abas" role="tablist"></div><div class="lista-quem" id="q-lista"></div></div>
+  </div>
+</div>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script type="module">
+import { carregarFirebase, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
+  hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
+  REACOES, TIPOS, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
+
+const DICAS = { post:'No que você está pensando?', pergunta:'Qual é a sua dúvida? Conte um pouco do contexto…', enquete:'Qual é a pergunta da enquete?' };
+const POR_PAGINA = 15;
+
+let eu = null, meuNome = '', souAdmin = false, verificado = false, criandoConta = false;
+const meus = new Set();          // ids de posts/comentários que eu escrevi (inclusive anônimos)
+const posts = new Map();         // id -> { d, cs, el, todos, voto, verRes }
+const nomes = new Map();
+const meusPosts = new Map();     // id -> listener das minhas publicações ainda em moderação
+let unsubFeed = null, unsubMeus = null, limiteFeed = POR_PAGINA, filtro = 'tudo', primeiraCarga = true;
+let fotosNovo = [];
+
+function tela(nome){ for (const t of ['carregando','entrar','perfil','forum']) $('tela-'+t).hidden = t !== nome; }
+const traduzErro = err => traduz(err, verificado);
+
+/* ---------- Firebase e login ---------- */
+async function iniciar(){
+  try {
+    await carregarFirebase();
+    fb.onAuthStateChanged(auth, user => { if (!criandoConta) aoMudarLogin(user); });
+  } catch (err) {
+    console.error(err);
+    tela('entrar');
+    mostrarErro('e-err', 'Não foi possível carregar a comunidade. Verifique a internet ou se algum bloqueador está impedindo o acesso a gstatic.com.');
+  }
+}
+
+async function aoMudarLogin(user){
+  pararTudo();
+  eu = user;
+  ['h-eu','h-sair'].forEach(id => $(id).hidden = !user);
+  if (!user) { tela('entrar'); return; }
+  tela('carregando');
+  verificado = user.emailVerified;
+  try {
+    const m = await fb.getDoc(fb.doc(db, 'membros', user.uid));
+    if (!m.exists()) { $('p-nome').value = user.displayName || ''; tela('perfil'); return; }
+    meuNome = m.data().nome;
+  } catch (err) {
+    console.error(err); tela('entrar'); mostrarErro('e-err', traduzErro(err)); return;
+  }
+  souAdmin = await fb.getDoc(fb.doc(db, 'admins', user.uid)).then(s => s.exists()).catch(() => false);
+  const bloqueado = await fb.getDoc(fb.doc(db, 'bloqueados', user.uid)).then(s => s.exists()).catch(() => false);
+  if (bloqueado) verificado = false;
+  abrirForum(bloqueado);
+}
+
+window.mudarAba = aba => {
+  $('aba-entrar').setAttribute('aria-selected', aba === 'entrar');
+  $('aba-criar').setAttribute('aria-selected', aba === 'criar');
+  $('f-entrar').hidden = aba !== 'entrar'; $('f-criar').hidden = aba !== 'criar';
+};
+$('regras-entrada').innerHTML = '<ol style="padding-left:18px;display:flex;flex-direction:column;gap:4px">' + $('regras').innerHTML + '</ol>';
+
+window.entrar = async e => {
+  e.preventDefault(); if (!fb) return;
+  const b = $('b-entrar'); b.disabled = true; b.textContent = 'Entrando…';
+  mostrarErro('e-err', ''); $('e-ok').hidden = true;
+  try { await fb.signInWithEmailAndPassword(auth, $('e-email').value.trim(), $('e-senha').value); }
+  catch (err) { mostrarErro('e-err', traduzErro(err)); }
+  finally { b.disabled = false; b.textContent = 'Entrar'; }
+};
+
+window.esqueciSenha = async () => {
+  if (!fb) return;
+  mostrarErro('e-err', ''); $('e-ok').hidden = true;
+  const email = $('e-email').value.trim();
+  if (!email) { mostrarErro('e-err', 'Digite seu e-mail no campo acima primeiro.'); return; }
+  try { await fb.sendPasswordResetEmail(auth, email); }
+  catch (err) { if (!String(err.code).includes('user-not-found')) { mostrarErro('e-err', traduzErro(err)); return; } }
+  $('e-ok').textContent = 'Se existir uma conta com esse e-mail, você vai receber um link para criar uma nova senha. Confira também o spam.';
+  $('e-ok').hidden = false;
+};
+
+function linkVolta(){ return { url: location.origin + location.pathname }; }
+async function enviarVerificacao(user){
+  try { await fb.sendEmailVerification(user, linkVolta()); }
+  catch (err) {
+    /* domínio não autorizado (ex.: testes locais): manda sem o link de volta */
+    if (String(err.code).includes('unauthorized-continue-uri') || String(err.code).includes('invalid-continue-uri')) await fb.sendEmailVerification(user);
+    else throw err;
+  }
+}
+
+window.criarConta = async e => {
+  e.preventDefault(); if (!fb) return;
+  mostrarErro('c-err', '');
+  const nome = $('c-nome').value.trim().replace(/\s+/g, ' ');
+  if (nome.length < 2) return mostrarErro('c-err', 'Escolha um nome com pelo menos 2 letras.');
+  if (/^an[oô]nimo$/i.test(nome)) return mostrarErro('c-err', 'Escolha outro nome: “Anônimo” é usado nas publicações anônimas.');
+  if ($('c-senha').value !== $('c-senha2').value) return mostrarErro('c-err', 'As senhas não são iguais.');
+  const b = $('b-criar'); b.disabled = true; b.textContent = 'Criando…';
+  criandoConta = true;
+  try {
+    const cred = await fb.createUserWithEmailAndPassword(auth, $('c-email').value.trim(), $('c-senha').value);
+    await fb.setDoc(fb.doc(db, 'membros', cred.user.uid), { nome, criadoEm: fb.serverTimestamp() });
+    await fb.updateProfile(cred.user, { displayName: nome }).catch(() => {});
+    await enviarVerificacao(cred.user).catch(err => console.error(err));
+    criandoConta = false;
+    await aoMudarLogin(cred.user);
+    toast('Conta criada! Confirme seu e-mail pelo link que enviamos.');
+  } catch (err) {
+    criandoConta = false;
+    mostrarErro('c-err', traduzErro(err));
+    if (auth.currentUser) aoMudarLogin(auth.currentUser);
+  } finally { b.disabled = false; b.textContent = 'Criar conta'; }
+};
+
+window.salvarPerfil = async e => {
+  e.preventDefault();
+  const nome = $('p-nome').value.trim().replace(/\s+/g, ' ');
+  if (/^an[oô]nimo$/i.test(nome)) return mostrarErro('p-err', 'Escolha outro nome: “Anônimo” é usado nas publicações anônimas.');
+  try {
+    await fb.setDoc(fb.doc(db, 'membros', eu.uid), { nome, criadoEm: fb.serverTimestamp() });
+    aoMudarLogin(eu);
+  } catch (err) { mostrarErro('p-err', traduzErro(err)); }
+};
+
+window.sair = () => fb && fb.signOut(auth);
+window.reenviarVerificacao = async () => {
+  try { await enviarVerificacao(auth.currentUser); toast('Enviamos um novo link. Confira também o spam.'); }
+  catch (err) { toast(traduzErro(err)); }
+};
+window.jaConfirmei = async () => {
+  await auth.currentUser.reload();
+  if (auth.currentUser.emailVerified) { await auth.currentUser.getIdToken(true); location.reload(); }
+  else toast('Ainda não aparece como confirmado. Abra o link do e-mail e tente de novo.');
+};
+function precisaVerificar(){ if (verificado) return false; toast($('aviso-bloqueado').hidden ? 'Confirme seu e-mail para participar.' : 'Sua conta está suspensa.'); if (!$('aviso-bloqueado').hidden) return true; $('aviso-verificar').scrollIntoView({ behavior:'smooth', block:'center' }); return true; }
+
+/* ---------- Fórum ---------- */
+function atualizarCabecalho(){
+  $('h-nome').textContent = meuNome;
+  $('h-av').innerHTML = avatarDe(meuNome, eu.uid, true);
+  $('criar-av').innerHTML = avatarDe(meuNome, eu.uid);
+  $('h-eu').href = url('perfil.html'); $('lado-perfil').href = url('perfil.html');
+  hidratarAvatares(document.querySelector('header')); hidratarAvatares($('tela-forum'));
+}
+function abrirForum(bloqueado){
+  tela('forum');
+  atualizarCabecalho();
+  $('aviso-verificar').hidden = verificado || bloqueado;
+  $('aviso-bloqueado').hidden = !bloqueado;
+  if (souAdmin) { $('h-admin').hidden = false; $('h-admin').href = url('comunidade-admin.html'); }
+  $('v-email').textContent = eu.email;
+  primeiraCarga = true;
+  lembreteHormonio();
+  unsubMeus = fb.onSnapshot(fb.query(fb.collection(db, 'forum_autoria'), fb.where('uid', '==', eu.uid)), snap => {
+    meus.clear(); snap.docs.forEach(d => meus.add(d.id));
+    /* autoria sem campo "post" = publicação; as que não estão no feed podem estar em moderação */
+    snap.docs.filter(d => !d.metadata.hasPendingWrites && !('post' in d.data())).forEach(d => acompanharPendente(d.id));
+    for (const id of posts.keys()) { renderCab(id); renderComs(id); }
+    aplicarFiltro();
+  }, err => console.error(err));
+  ouvirFeed();
+}
+function pararTudo(){
+  unsubFeed && unsubFeed(); unsubMeus && unsubMeus(); unsubFeed = unsubMeus = null;
+  for (const p of posts.values()) p.unsub && p.unsub();
+  for (const u of meusPosts.values()) u && u();
+  posts.clear(); meus.clear(); meusPosts.clear(); $('feed').innerHTML = ''; $('pendentes').innerHTML = ''; limiteFeed = POR_PAGINA;
+}
+
+/* Aviso da próxima aplicação (dados privados da aba Hormonização do perfil) */
+async function lembreteHormonio(){
+  try {
+    const p = await fb.getDoc(fb.doc(db, 'privado', eu.uid));
+    const n = p.exists() && Number(p.data().intervalo); if (!n) return;
+    const q = await fb.getDocs(fb.query(fb.collection(db, 'privado', eu.uid, 'aplicacoes'), fb.orderBy('data', 'desc'), fb.limit(1)));
+    if (q.empty) return;
+    const d = dataLocal(q.docs[0].data().data); d.setDate(d.getDate() + n);
+    const f = diasEntre(new Date(), d); if (f > 1) return;
+    $('aviso-hormonio').innerHTML = `<p>💉 ${f === 1 ? 'Sua próxima aplicação é <b>amanhã</b>' : f === 0 ? 'Hoje é dia de <b>aplicação</b>' : `Sua aplicação estava marcada para <b>${dataBonita(isoDe(d), false)}</b>`}. Só você vê este aviso.</p><a class="btn btn-navy btn-sm" href="${url('perfil.html')}#hormonizacao">Registrar</a>`;
+    $('aviso-hormonio').hidden = false;
+  } catch (err) { console.error(err); }
+}
+
+/* Minhas publicações em moderação: só a própria pessoa (e a moderação) consegue ler forum_pendentes */
+const pendentes = new Map();
+function acompanharPendente(id, tentativa = 0){
+  if (meusPosts.has(id) && !tentativa) return;
+  meusPosts.set(id, null);
+  const u = fb.onSnapshot(fb.doc(db, 'forum_pendentes', id), s => {
+    if (s.exists()) pendentes.set(id, s.data({ serverTimestamps:'estimate' }));
+    else { pendentes.delete(id); u(); meusPosts.set(id, () => {}); }
+    renderPendentes();
+  }, err => {
+    /* a autoria pode ainda não ter chegado ao servidor: tenta de novo algumas vezes */
+    meusPosts.set(id, () => {});
+    if (tentativa < 3 && eu) setTimeout(() => acompanharPendente(id, tentativa + 1), 1500);
+    else console.error(err);
+  });
+  meusPosts.set(id, u);
+}
+function renderPendentes(){
+  const lista = [...pendentes.entries()].sort((a, b) => (b[1].criadoEm?.toMillis?.() || 0) - (a[1].criadoEm?.toMillis?.() || 0));
+  $('pendentes').innerHTML = lista.map(([id, d]) => `<div class="box pend ${d.status}">
+    <div class="pend-top"><span class="tag ${d.status === 'recusado' ? 'recusado' : 'analise'}">${d.status === 'recusado' ? 'Não aprovada' : '⏳ Em análise'}</span>
+      <span class="small">${TIPOS[d.tipo] || ''}${d.anonimo ? ' · anônima' : ''} · enviada ${quando(d.criadoEm)}</span>
+      <button class="link" data-apagar-pend="${id}">${d.status === 'recusado' ? 'Apagar' : 'Cancelar envio'}</button></div>
+    <p class="pend-txt">${esc((d.texto || '(sem texto)').slice(0, 220))}${(d.texto || '').length > 220 ? '…' : ''}</p>
+    ${d.status === 'recusado' ? `<p class="small"><b>Motivo:</b> ${esc(d.motivo || 'não informado')}. Se quiser, ajuste e envie de novo.</p>` : '<p class="small">A moderação revisa todas as publicações antes de irem para o feed. Comentários aparecem na hora.</p>'}
+  </div>`).join('');
+}
+
+function ouvirFeed(){
+  unsubFeed && unsubFeed();
+  const q = fb.query(fb.collection(db, 'forum_posts'), fb.orderBy('publicadoEm', 'desc'), fb.limit(limiteFeed));
+  unsubFeed = fb.onSnapshot(q, snap => {
+    const ids = [];
+    snap.docs.forEach(s => {
+      const d = s.data({ serverTimestamps:'estimate' });
+      ids.push(s.id);
+      let p = posts.get(s.id);
+      if (!p) {
+        p = { d, cs:[], todos:false, voto:undefined, verRes:false };
+        posts.set(s.id, p);
+        criarPost(s.id);
+        ouvirComentarios(s.id);
+        if (d.tipo === 'enquete') carregarVoto(s.id);
+      } else p.d = d;
+      renderVar(s.id);
+    });
+    for (const [id, p] of posts) if (!ids.includes(id)) { p.unsub && p.unsub(); p.el.remove(); posts.delete(id); }
+    const feed = $('feed');
+    ids.forEach((id, i) => { const el = posts.get(id).el; if (feed.children[i] !== el) feed.insertBefore(el, feed.children[i] || null); });
+    $('b-mais').hidden = snap.size < limiteFeed;
+    aplicarFiltro();
+    if (primeiraCarga) { primeiraCarga = false; irParaHash(); }
+  }, err => { console.error(err); toast(traduzErro(err)); });
+}
+window.carregarMais = () => { limiteFeed += POR_PAGINA; ouvirFeed(); };
+
+function irParaHash(){
+  const m = location.hash.match(/^#p-([\w-]+)$/); if (!m) return;
+  const el = $('p-' + m[1]); if (!el) { toast('Essa publicação não foi encontrada (pode ter sido excluída ou ser mais antiga).'); return; }
+  el.scrollIntoView({ behavior:'smooth', block:'start' }); el.classList.add('destaque');
+  setTimeout(() => el.classList.remove('destaque'), 2500);
+}
+
+function aplicarFiltro(){
+  let n = 0;
+  for (const [id, p] of posts) {
+    const ok = filtro === 'tudo' || (filtro === 'meus' ? meus.has(id) : p.d.tipo === filtro);
+    p.el.hidden = !ok; if (ok) n++;
+  }
+  const v = $('vazio');
+  v.hidden = n > 0;
+  if (!n) v.innerHTML = posts.size
+    ? '<b>Nada por aqui</b>Nenhuma publicação desse tipo entre as mais recentes.'
+    : '<b>A comunidade está começando 💙</b>Seja a primeira pessoa a publicar: faça uma pergunta ou conte como você está.';
+}
+document.querySelectorAll('[data-filtro]').forEach(b => b.addEventListener('click', () => {
+  filtro = b.dataset.filtro;
+  document.querySelectorAll('[data-filtro]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  aplicarFiltro();
+}));
+
+/* Cada post tem partes que mudam em momentos diferentes, para não recarregar vídeos a cada reação */
+function criarPost(id){
+  const el = document.createElement('article');
+  el.className = 'post'; el.id = 'p-' + id;
+  el.innerHTML = `<div class="pcab"></div><div class="pmidia"></div><div class="pvar"></div><div class="pcoms"></div>${verificado ? caixaComentario(id) : '<p class="semacesso">Confirme seu e-mail para comentar.</p>'}`;
+  posts.get(id).el = el;
+  renderCab(id); renderMidia(id);
+  return el;
+}
+function renderCab(id){
+  const p = posts.get(id), d = p.d;
+  const pode = meus.has(id) || souAdmin;
+  const linkDenuncia = `mailto:${EMAIL_CONTATO}?subject=${encodeURIComponent('Denúncia na comunidade')}&body=${encodeURIComponent('Publicação: ' + linkPost(id) + '\n\nMotivo: ')}`;
+  const cab = p.el.querySelector('.pcab');
+  cab.innerHTML = `<div class="phead">${avatar(d)}
+    <div class="pmeta"><b>${nomeLink(d)}</b><span><span class="tag ${d.tipo}">${TIPOS[d.tipo] || 'Publicação'}</span>·<a href="#p-${id}" title="${d.publicadoEm && d.publicadoEm.toDate ? esc(d.publicadoEm.toDate().toLocaleString('pt-BR')) : ''}">${quando(d.publicadoEm)}</a>${d.anonimo && meus.has(id) ? '· <span title="Só você vê isto">(você)</span>' : ''}</span></div>
+    <div class="pmenu"><button class="dots" data-menu aria-label="Mais opções" aria-expanded="false">⋯</button>
+      <div class="mlist" hidden>
+        <button data-compartilhar="${id}">🔗 Copiar link</button>
+        <a href="${esc(linkDenuncia)}">🚩 Denunciar</a>
+        ${pode ? `<button class="perigo" data-apagar-post="${id}">🗑️ Excluir publicação</button>` : ''}
+      </div></div></div>`;
+  hidratarAvatares(cab);
+}
+function renderMidia(id){
+  posts.get(id).el.querySelector('.pmidia').innerHTML = midiaHtml(posts.get(id).d);
+}
+function resumoReacoes(r){
+  const vals = Object.values(r || {}).filter(v => REACOES[v]);
+  if (!vals.length) return null;
+  const cont = {}; vals.forEach(v => cont[v] = (cont[v] || 0) + 1);
+  const top = Object.entries(cont).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k]) => `<span>${REACOES[k][0]}</span>`).join('');
+  return { top, n: vals.length, minha: !!(r && r[eu.uid]) };
+}
+const SVG_CURTIR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3zm0 0 4-7a2.5 2.5 0 0 1 2.5 2.5V9h5.2a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 17.3 21H7"/></svg>';
+function botaoReagir(alvo, r, mini){
+  const minha = r && REACOES[r[eu.uid]] ? r[eu.uid] : null;
+  const [emj, lab, cor] = minha ? REACOES[minha] : [null, 'Curtir', ''];
+  const icone = mini ? '' : (minha ? `<span class="emj">${emj}</span>` : SVG_CURTIR);
+  return `<div class="reagir" data-alvo="${alvo}">
+    <button class="acao" data-reagir="${minha ? '' : 'curtir'}" ${minha ? `style="color:${cor}" aria-pressed="true"` : 'aria-pressed="false"'} aria-label="${minha ? `Sua reação: ${lab}. Clique para remover` : 'Curtir'}">${icone}${lab}</button>
+    <div class="rbar" role="group" aria-label="Escolher reação">${Object.entries(REACOES).map(([k, [e, l]]) => `<button data-reagir="${k}" data-label="${l}" aria-label="${l}">${e}</button>`).join('')}</div>
+  </div>`;
+}
+function renderVar(id){
+  const p = posts.get(id); if (!p) return;
+  const d = p.d, nC = p.cs.length, r = resumoReacoes(d.reacoes);
+  let h = d.tipo === 'enquete' ? enqueteHtml(id, p) : '';
+  const txtR = r ? (r.minha ? (r.n > 1 ? `Você e mais ${r.n - 1}` : 'Você') : r.n) : '';
+  h += `<div class="pstats">${r ? `<button class="rsum" data-quem="p:${id}"><span class="remj">${r.top}</span>${txtR}</button>` : '<span></span>'}${nC ? `<button data-focar="${id}">${nC} comentário${nC > 1 ? 's' : ''}</button>` : ''}</div>`;
+  h += `<div class="pacoes">${botaoReagir('p:' + id, d.reacoes)}<button class="acao" data-focar="${id}">💬 ${d.tipo === 'pergunta' ? 'Responder' : 'Comentar'}</button><button class="acao" data-compartilhar="${id}">↗ Compartilhar</button></div>`;
+  p.el.querySelector('.pvar').innerHTML = h;
+}
+function enqueteHtml(id, p){
+  const d = p.d, ops = d.opcoes || [], cont = d.contagem || {};
+  const total = ops.reduce((s, _, i) => s + (cont[i] || 0), 0);
+  const mostra = p.voto || p.verRes || !verificado;
+  let h = '<div class="enq">';
+  if (mostra) {
+    h += ops.map((o, i) => {
+      const n = cont[i] || 0, pct = total ? Math.round(n * 100 / total) : 0, meu = p.voto === String(i);
+      return `<div class="res${meu ? ' meu' : ''}"><i style="width:${pct}%"></i><span>${esc(o)}${meu ? ' ✓' : ''}</span><b>${pct}%</b></div>`;
+    }).join('');
+  } else {
+    h += ops.map((o, i) => `<label class="op"><input type="radio" name="v-${id}" value="${i}">${esc(o)}</label>`).join('');
+  }
+  h += `<div class="rodape">${!mostra ? `<button class="btn btn-navy btn-sm" data-votar="${id}">Votar</button><button class="link" data-resultados="${id}">Ver resultados</button>` : ''}${p.verRes && !p.voto && verificado ? `<button class="link" data-resultados="${id}">Votar</button>` : ''}<span>${total} voto${total === 1 ? '' : 's'} · voto secreto${p.voto ? ' · você já votou' : ''}</span></div></div>`;
+  return h;
+}
+
+/* Comentários */
+function ouvirComentarios(id){
+  const p = posts.get(id);
+  p.unsub = fb.onSnapshot(fb.query(fb.collection(db, 'forum_posts', id, 'comentarios'), fb.orderBy('criadoEm')), snap => {
+    if (!posts.has(id)) return;
+    p.cs = snap.docs.map(s => ({ id: s.id, ...s.data({ serverTimestamps:'estimate' }) }));
+    renderComs(id); renderVar(id);
+  }, err => console.error(err));
+}
+function renderComs(id){
+  const p = posts.get(id); if (!p) return;
+  const cs = p.cs, ids = new Set(cs.map(c => c.id));
+  const raiz = cs.filter(c => !c.pai || !ids.has(c.pai));
+  let vis = raiz, ocultos = 0;
+  if (!p.todos && raiz.length > 2) { ocultos = raiz.length - 2; vis = raiz.slice(-2); }
+  p.el.querySelector('.pcoms').innerHTML =
+    (ocultos ? `<button class="vertodos" data-todos="${id}">Ver mais ${ocultos} comentário${ocultos > 1 ? 's' : ''}</button>` : '') +
+    vis.map(c => umComentario(id, c, null) + cs.filter(f => f.pai === c.id).map(f => umComentario(id, f, c.id)).join('')).join('');
+  hidratarAvatares(p.el.querySelector('.pcoms'));
+}
+function umComentario(pid, c, pai){
+  const pode = meus.has(c.id) || meus.has(pid) || souAdmin;
+  const r = resumoReacoes(c.reacoes);
+  const img = c.imagem && IMG_RE.test(c.imagem) ? `<button class="cimg" aria-label="Ampliar imagem"><img src="${c.imagem}" alt="" data-zoom loading="lazy"></button>` : '';
+  return `<div class="com${pai ? ' resp' : ''}" id="c-${c.id}">${avatar(c, true)}<div class="cbox">
+    ${c.texto || !img ? `<div class="bolha"><b>${nomeLink(c)}</b>${c.doAutor ? '<span class="selo">quem publicou</span>' : ''}${c.anonimo && meus.has(c.id) ? ' <span class="small">(você)</span>' : ''}<div class="ctexto">${textoHtml(c.texto)}</div>
+      ${r ? `<button class="creac" data-quem="c:${pid}:${c.id}" aria-label="Ver reações"><span class="remj">${r.top}</span>${r.n > 1 ? r.n : ''}</button>` : ''}</div>` : `<b style="font-size:13.5px;padding:0 10px">${esc(nomeDe(c))}</b>`}
+    ${img}
+    <div class="cacoes">${botaoReagir(`c:${pid}:${c.id}`, c.reacoes, true)}<button data-responder="${pid}" data-cid="${pai || c.id}" data-nome="${esc(nomeDe(c))}">Responder</button><span>${quando(c.criadoEm)}</span>${pode ? `<button data-apagar-com="${pid}" data-cid="${c.id}">Excluir</button>` : ''}</div>
+  </div></div>`;
+}
+function caixaComentario(id){
+  return `<form class="ccomp" data-pid="${id}">
+    <div class="resp-info" hidden><span>Respondendo a <b></b></span><button type="button" data-cancelar-resp>Cancelar</button></div>
+    <div class="cl"><span class="meu-av">${avatarDe(meuNome, eu.uid, true)}</span><div class="cfield">
+      <textarea rows="1" maxlength="3000" placeholder="Escreva um comentário…" aria-label="Escreva um comentário"></textarea>
+      <div class="prev" hidden></div>
+      <div class="cbar">
+        <label class="anonchk" title="Seu nome não aparece para outros membros"><input type="checkbox" name="anon">🎭 Anônimo</label>
+        <label class="ico" title="Adicionar foto" aria-label="Adicionar foto"><input type="file" accept="image/*" hidden>📷</label>
+        <button class="enviar">Enviar</button>
+      </div>
+    </div></div>
+  </form>`;
+}
+
+/* ---------- ações ---------- */
+function linkPost(id){ return location.origin + location.pathname + '#p-' + id; }
+async function compartilhar(id){
+  const url = linkPost(id);
+  if (navigator.share && matchMedia('(hover:none)').matches) { try { await navigator.share({ title:'Comunidade Transmasc Brasil', url }); return; } catch {} }
+  try { await navigator.clipboard.writeText(url); toast('Link copiado! Só membros conseguem abrir.'); }
+  catch { prompt('Copie o link:', url); }
+}
+
+function reagir(alvo, tipo){
+  if (precisaVerificar()) return;
+  const [k, pid, cid] = alvo.split(':');
+  const ref = k === 'p' ? fb.doc(db, 'forum_posts', pid) : fb.doc(db, 'forum_posts', pid, 'comentarios', cid);
+  fb.updateDoc(ref, { ['reacoes.' + eu.uid]: tipo ? tipo : fb.deleteField() }).catch(err => toast(traduzErro(err)));
+}
+
+async function quemReagiu(alvo){
+  const [k, pid, cid] = alvo.split(':');
+  const p = posts.get(pid); if (!p) return;
+  const r = (k === 'p' ? p.d.reacoes : (p.cs.find(c => c.id === cid) || {}).reacoes) || {};
+  const lista = Object.entries(r).filter(([, v]) => REACOES[v]);
+  await Promise.all(lista.map(async ([uid]) => {
+    const p = await perfilDe(uid); nomes.set(uid, p ? p.nome : 'Membro');
+  }));
+  const cont = {}; lista.forEach(([, v]) => cont[v] = (cont[v] || 0) + 1);
+  const abas = [['', `Todas ${lista.length}`], ...Object.entries(cont).sort((a, b) => b[1] - a[1]).map(([t, n]) => [t, `${REACOES[t][0]} ${n}`])];
+  const mostrar = t => {
+    $('q-abas').querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', b.dataset.t === t));
+    $('q-lista').innerHTML = lista.filter(([, v]) => !t || v === t)
+      .map(([uid, v]) => `<div>${avatarDe(nomes.get(uid), uid, true)}<a class="nome" href="${url('perfil.html?u=' + uid)}">${esc(uid === eu.uid ? 'Você' : nomes.get(uid))}</a><span>${REACOES[v][0]}</span></div>`).join('');
+    hidratarAvatares($('q-lista'));
+  };
+  $('q-abas').innerHTML = abas.map(([t, l]) => `<button role="tab" data-t="${t}">${l}</button>`).join('');
+  $('q-abas').querySelectorAll('button').forEach(b => b.onclick = () => mostrar(b.dataset.t));
+  mostrar('');
+  abrirModal('m-quem');
+}
+
+async function carregarVoto(id){
+  try {
+    const s = await fb.getDoc(fb.doc(db, 'forum_posts', id, 'votos', eu.uid));
+    const p = posts.get(id); if (!p) return;
+    p.voto = s.exists() ? s.data().opcao : null; renderVar(id);
+  } catch (err) { console.error(err); }
+}
+async function votar(id){
+  if (precisaVerificar()) return;
+  const p = posts.get(id);
+  const marc = p.el.querySelector(`input[name="v-${id}"]:checked`);
+  if (!marc) { toast('Escolha uma opção primeiro.'); return; }
+  const op = String(marc.value);
+  const b = fb.writeBatch(db);
+  b.set(fb.doc(db, 'forum_posts', id, 'votos', eu.uid), { opcao: op });
+  b.update(fb.doc(db, 'forum_posts', id), { ['contagem.' + op]: fb.increment(1) });
+  try { await b.commit(); p.voto = op; renderVar(id); toast('Voto registrado. Ele é secreto.'); }
+  catch (err) { toast(String(err.code).includes('permission') && verificado ? 'Você já votou nesta enquete.' : traduzErro(err)); carregarVoto(id); }
+}
+
+async function apagarPost(id){
+  if (!confirm('Excluir esta publicação e os comentários dela? Isso não pode ser desfeito.')) return;
+  const p = posts.get(id); if (!p) return;
+  const b = fb.writeBatch(db);
+  p.cs.slice(0, 450).forEach(c => {
+    b.delete(fb.doc(db, 'forum_posts', id, 'comentarios', c.id));
+    if (meus.has(c.id) || souAdmin) b.delete(fb.doc(db, 'forum_autoria', c.id));
+  });
+  b.delete(fb.doc(db, 'forum_posts', id));
+  if (meus.has(id) || souAdmin) b.delete(fb.doc(db, 'forum_autoria', id));
+  try { await b.commit(); toast('Publicação excluída.'); } catch (err) { toast(traduzErro(err)); }
+}
+async function apagarPendente(id){
+  if (!confirm('Apagar esta publicação que ainda não foi para o feed?')) return;
+  const b = fb.writeBatch(db);
+  b.delete(fb.doc(db, 'forum_pendentes', id)); b.delete(fb.doc(db, 'forum_autoria', id));
+  try { await b.commit(); toast('Apagada.'); } catch (err) { toast(traduzErro(err)); }
+}
+async function apagarComentario(pid, cid){
+  if (!confirm('Excluir este comentário?')) return;
+  const b = fb.writeBatch(db);
+  b.delete(fb.doc(db, 'forum_posts', pid, 'comentarios', cid));
+  if (meus.has(cid) || souAdmin) b.delete(fb.doc(db, 'forum_autoria', cid));
+  try { await b.commit(); } catch (err) { toast(traduzErro(err)); }
+}
+
+async function enviarComentario(form){
+  if (precisaVerificar()) return;
+  const pid = form.dataset.pid, p = posts.get(pid); if (!p) return;
+  const ta = form.querySelector('textarea'), texto = ta.value.trim(), img = form._img;
+  if (!texto && !img) return;
+  const anon = form.querySelector('[name=anon]').checked;
+  const ref = fb.doc(fb.collection(db, 'forum_posts', pid, 'comentarios'));
+  const dados = { texto, anonimo: anon, criadoEm: fb.serverTimestamp(), reacoes: {} };
+  if (!anon) { dados.autorUid = eu.uid; dados.autorNome = meuNome; }
+  if (img) dados.imagem = img;
+  if (form._pai) dados.pai = form._pai;
+  /* selo "quem publicou" só quando não revela a autoria de um post anônimo */
+  if (meus.has(pid) && (!p.d.anonimo || anon)) dados.doAutor = true;
+  const b = fb.writeBatch(db);
+  b.set(ref, dados);
+  b.set(fb.doc(db, 'forum_autoria', ref.id), { uid: eu.uid, post: pid });
+  const btn = form.querySelector('.enviar'); btn.disabled = true;
+  try {
+    await b.commit();
+    ta.value = ''; ta.style.height = ''; limparFotoComentario(form); cancelarResposta(form);
+  } catch (err) { toast(traduzErro(err)); }
+  finally { btn.disabled = false; }
+}
+function limparFotoComentario(form){ form._img = null; const pv = form.querySelector('.prev'); pv.innerHTML = ''; pv.hidden = true; }
+function cancelarResposta(form){ form._pai = null; form.querySelector('.resp-info').hidden = true; }
+
+/* Cliques: um único ouvinte para todo o feed */
+let longPress = null, abriuPorToque = false;
+function fecharFlutuantes(exceto){
+  document.querySelectorAll('.reagir.aberto').forEach(r => r !== exceto && r.classList.remove('aberto'));
+  document.querySelectorAll('.mlist:not([hidden])').forEach(m => { if (!exceto || !m.parentElement.contains(exceto)) { m.hidden = true; m.previousElementSibling.setAttribute('aria-expanded', 'false'); } });
+}
+document.addEventListener('click', e => {
+  const t = e.target;
+  const zoom = t.closest('[data-zoom]') || (t.closest('.pimg,.cimg') && t.closest('.pimg,.cimg').querySelector('img'));
+  if (zoom) { abrirLightbox(zoom.src); return; }
+  const rb = t.closest('[data-reagir]');
+  if (rb) {
+    const caixa = rb.closest('.reagir');
+    if (abriuPorToque && rb.classList.contains('acao')) { abriuPorToque = false; return; }
+    reagir(caixa.dataset.alvo, rb.dataset.reagir);
+    caixa.classList.remove('aberto'); rb.blur();
+    return;
+  }
+  const menu = t.closest('[data-menu]');
+  if (menu) { const l = menu.nextElementSibling; const abrir = l.hidden; fecharFlutuantes(); l.hidden = !abrir; menu.setAttribute('aria-expanded', abrir); return; }
+  fecharFlutuantes();
+  let x;
+  if ((x = t.closest('[data-compartilhar]'))) return compartilhar(x.dataset.compartilhar);
+  if ((x = t.closest('[data-apagar-post]'))) return apagarPost(x.dataset.apagarPost);
+  if ((x = t.closest('[data-apagar-pend]'))) return apagarPendente(x.dataset.apagarPend);
+  if ((x = t.closest('[data-apagar-com]'))) return apagarComentario(x.dataset.apagarCom, x.dataset.cid);
+  if ((x = t.closest('[data-quem]'))) return quemReagiu(x.dataset.quem);
+  if ((x = t.closest('[data-votar]'))) return votar(x.dataset.votar);
+  if ((x = t.closest('[data-resultados]'))) { const p = posts.get(x.dataset.resultados); p.verRes = !p.verRes; return renderVar(x.dataset.resultados); }
+  if ((x = t.closest('[data-todos]'))) { posts.get(x.dataset.todos).todos = true; return renderComs(x.dataset.todos); }
+  if ((x = t.closest('[data-focar]'))) {
+    const p = posts.get(x.dataset.focar); p.todos = true; renderComs(x.dataset.focar);
+    const ta = p.el.querySelector('.ccomp textarea'); if (ta) ta.focus(); else precisaVerificar();
+    return;
+  }
+  if ((x = t.closest('[data-responder]'))) {
+    if (precisaVerificar()) return;
+    const p = posts.get(x.dataset.responder), form = p.el.querySelector('.ccomp');
+    form._pai = x.dataset.cid;
+    const info = form.querySelector('.resp-info'); info.querySelector('b').textContent = x.dataset.nome; info.hidden = false;
+    const ta = form.querySelector('textarea'); ta.focus(); form.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    return;
+  }
+  if ((x = t.closest('[data-cancelar-resp]'))) return cancelarResposta(x.closest('form'));
+  if (t.closest('[data-fechar]') || t.classList.contains('overlay')) { const o = t.closest('.overlay'); if (o) fecharModal(o.id); }
+});
+/* Celular: segurar o botão Curtir abre as reações */
+document.addEventListener('touchstart', e => {
+  const b = e.target.closest('.reagir > .acao'); if (!b) return;
+  abriuPorToque = false;
+  longPress = setTimeout(() => { abriuPorToque = true; fecharFlutuantes(); b.parentElement.classList.add('aberto'); navigator.vibrate && navigator.vibrate(12); }, 420);
+}, { passive:true });
+['touchend','touchmove','touchcancel'].forEach(ev => document.addEventListener(ev, () => clearTimeout(longPress), { passive:true }));
+document.addEventListener('contextmenu', e => { if (e.target.closest('.reagir')) e.preventDefault(); });
+
+document.addEventListener('submit', e => { const f = e.target.closest('.ccomp'); if (f) { e.preventDefault(); enviarComentario(f); } });
+document.addEventListener('input', e => {
+  const ta = e.target.closest('.ccomp textarea'); if (!ta) return;
+  ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px';
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { document.querySelectorAll('.lightbox').forEach(l => l.remove()); document.querySelectorAll('.overlay:not([hidden])').forEach(o => fecharModal(o.id)); fecharFlutuantes(); }
+  const ta = e.target.closest && e.target.closest('.ccomp textarea');
+  if (ta && e.key === 'Enter' && !e.shiftKey && !e.isComposing && matchMedia('(hover:hover)').matches) { e.preventDefault(); ta.form.requestSubmit(); }
+});
+document.addEventListener('change', async e => {
+  const inp = e.target.closest('.ccomp input[type=file]'); if (!inp || !inp.files[0]) return;
+  const form = inp.closest('form');
+  try {
+    form._img = await comprimir(inp.files[0], 1000, 300000);
+    const pv = form.querySelector('.prev');
+    pv.innerHTML = `<div><img src="${form._img}" alt="Foto escolhida"><button type="button" aria-label="Remover foto">✕</button></div>`;
+    pv.hidden = false; pv.querySelector('button').onclick = () => limparFotoComentario(form);
+  } catch { toast('Não foi possível abrir essa imagem. Tente JPG ou PNG.'); }
+  inp.value = '';
+});
+
+/* ---------- nova publicação ---------- */
+const tipoNovo = () => document.querySelector('#f-novo [name=tipo]:checked').value;
+function atualizarNovo(){
+  const tipo = tipoNovo(), anon = $('n-anon').checked;
+  $('n-texto').placeholder = DICAS[tipo];
+  $('n-opcoes').hidden = tipo !== 'enquete';
+  $('n-quem').innerHTML = anon
+    ? `${avatarDe('', '', false, true)}<div><b>Anônimo</b><small>Seu nome não vai aparecer</small></div>`
+    : `${avatarDe(meuNome, eu.uid)}<div><b>${esc(meuNome)}</b><small>Publicando com seu nome</small></div>`;
+  $('m-novo-t').textContent = { post:'Criar publicação', pergunta:'Fazer uma pergunta', enquete:'Criar enquete' }[tipo];
+}
+function linhaOpcao(valor = ''){
+  const d = document.createElement('div'); d.className = 'lin';
+  d.innerHTML = `<input class="input" maxlength="120" placeholder="Opção" value="${esc(valor)}"><button type="button" aria-label="Remover opção">✕</button>`;
+  d.querySelector('button').onclick = () => { if ($('n-opcoes').querySelectorAll('.lin').length > 2) { d.remove(); botaoAddOpcao(); } };
+  return d;
+}
+function botaoAddOpcao(){
+  const box = $('n-opcoes'), n = box.querySelectorAll('.lin').length;
+  let add = box.querySelector('.addop');
+  if (!add) { add = document.createElement('button'); add.type = 'button'; add.className = 'btn btn-line btn-sm addop'; add.textContent = '+ Adicionar opção'; add.onclick = () => { box.insertBefore(linhaOpcao(), add); botaoAddOpcao(); box.querySelectorAll('.lin input')[n].focus(); }; box.appendChild(add); }
+  add.hidden = n >= 6;
+  box.querySelectorAll('.lin input').forEach((inp, i) => inp.placeholder = `Opção ${i + 1}`);
+}
+function resetNovo(){
+  $('f-novo').reset(); fotosNovo = []; renderFotosNovo();
+  $('n-opcoes').innerHTML = ''; $('n-opcoes').append(linhaOpcao(), linhaOpcao()); botaoAddOpcao();
+  $('n-video-box').hidden = true; $('n-video-aviso').textContent = ''; mostrarErro('n-err', '');
+}
+window.abrirNovo = (tipo, midia) => {
+  if (precisaVerificar()) return;
+  if (!$('f-novo').dataset.pronto) { resetNovo(); $('f-novo').dataset.pronto = 1; }
+  document.querySelector(`#f-novo [name=tipo][value=${tipo}]`).checked = true;
+  atualizarNovo(); abrirModal('m-novo');
+  if (midia) $('n-fotos').click();
+};
+window.mostrarVideo = () => { $('n-video-box').hidden = false; $('n-video').focus(); };
+document.querySelectorAll('#f-novo [name=tipo]').forEach(r => r.addEventListener('change', atualizarNovo));
+$('n-anon').addEventListener('change', atualizarNovo);
+$('n-video').addEventListener('input', () => {
+  const v = $('n-video').value.trim();
+  $('n-video-aviso').textContent = !v ? '' : video(v) ? '✓ O vídeo vai aparecer na publicação.' : 'Link não reconhecido como vídeo: ele vai aparecer como link.';
+});
+function renderFotosNovo(){
+  const pv = $('n-prev');
+  pv.innerHTML = fotosNovo.map((s, i) => `<div><img src="${s}" alt="Foto ${i + 1}"><button type="button" data-i="${i}" aria-label="Remover foto ${i + 1}">✕</button></div>`).join('');
+  pv.querySelectorAll('button').forEach(b => b.onclick = () => { fotosNovo.splice(+b.dataset.i, 1); renderFotosNovo(); });
+}
+$('n-fotos').addEventListener('change', async e => {
+  const files = [...e.target.files]; e.target.value = '';
+  if (fotosNovo.length + files.length > 4) toast('Até 4 fotos por publicação.');
+  for (const f of files.slice(0, 4 - fotosNovo.length)) {
+    try { fotosNovo.push(await comprimir(f, 1280, 210000)); renderFotosNovo(); }
+    catch { toast('Não foi possível abrir “' + f.name + '”. Tente JPG ou PNG.'); }
+  }
+});
+
+window.publicar = async e => {
+  e.preventDefault();
+  if (precisaVerificar()) return;
+  mostrarErro('n-err', '');
+  const tipo = tipoNovo(), texto = $('n-texto').value.trim(), anon = $('n-anon').checked;
+  const vid = $('n-video').value.trim();
+  const opcoes = [...$('n-opcoes').querySelectorAll('.lin input')].map(i => i.value.trim()).filter(Boolean);
+  if (tipo === 'enquete') {
+    if (!texto) return mostrarErro('n-err', 'Escreva a pergunta da enquete.');
+    if (opcoes.length < 2) return mostrarErro('n-err', 'A enquete precisa de pelo menos 2 opções.');
+  } else if (!texto && !fotosNovo.length && !vid) return mostrarErro('n-err', 'Escreva algo ou adicione uma foto ou vídeo.');
+  if (vid && !/^https?:\/\/\S+$/.test(vid)) return mostrarErro('n-err', 'O link do vídeo precisa começar com https://');
+  const dados = { tipo, texto, anonimo: anon, criadoEm: fb.serverTimestamp(), reacoes: {}, status: 'pendente' };
+  if (!anon) { dados.autorUid = eu.uid; dados.autorNome = meuNome; }
+  if (fotosNovo.length) dados.imagens = fotosNovo.slice();
+  if (vid) dados.video = vid;
+  if (tipo === 'enquete') { dados.opcoes = opcoes.slice(0, 6); dados.contagem = Object.fromEntries(dados.opcoes.map((_, i) => [String(i), 0])); }
+  if (JSON.stringify(dados).length > 950000) return mostrarErro('n-err', 'As fotos ficaram grandes demais juntas. Remova uma e tente de novo.');
+  const ref = fb.doc(fb.collection(db, 'forum_pendentes'));
+  const b = fb.writeBatch(db);
+  b.set(ref, dados);
+  b.set(fb.doc(db, 'forum_autoria', ref.id), { uid: eu.uid });
+  const btn = $('b-publicar'); btn.disabled = true; btn.textContent = 'Enviando…';
+  try {
+    await b.commit();
+    acompanharPendente(ref.id);
+    fecharModal('m-novo'); resetNovo(); atualizarNovo();
+    toast('Enviado! Sua publicação aparece no feed assim que a moderação aprovar.');
+    window.scrollTo({ top: 0, behavior:'smooth' });
+  } catch (err) { mostrarErro('n-err', traduzErro(err)); }
+  finally { btn.disabled = false; btn.textContent = 'Enviar para moderação'; }
+};
+
+/* Atualiza os "há X min" de vez em quando */
+setInterval(() => { for (const id of posts.keys()) { renderCab(id); renderComs(id); } }, 60000);
+
+iniciar();
+</script>
+</body>
+</html>
