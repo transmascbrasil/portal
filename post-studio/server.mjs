@@ -9,13 +9,13 @@ import { readFileSync, existsSync } from "node:fs";
 import { join, resolve, extname, sep } from "node:path";
 import { execFile } from "node:child_process";
 import { timingSafeEqual } from "node:crypto";
-import { RAIZ, listarEmpresas, carregar, gravarPosts, gravarBanco, gravarEmpresa, marcaParaTemplate } from "./lib/dados.mjs";
+import { RAIZ, listarEmpresas, criarEmpresa, carregar, gravarPosts, gravarBanco, gravarEmpresa, marcaParaTemplate } from "./lib/dados.mjs";
 import { resumoBanco, geracaoDe } from "./lib/gerador.js";
 import { renderJpg, fechar } from "./lib/render.mjs";
+import { atualizarPost, mudarStatus, excluirPost } from "./lib/operacoes.js";
 
 const PORT = Number(process.env.PORT) || 3333;
 const SENHA = process.env.PAINEL_SENHA || "";
-const STATUS = ["rascunho", "aprovado", "publicado", "rejeitado"];
 const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png" };
 
 // uma operação por empresa de cada vez (evita duas gravações ao mesmo tempo no mesmo arquivo)
@@ -80,6 +80,11 @@ function estado(slug) {
 
 async function api(req, res, partes) {
   const [, , recurso, slug, sub, id, acao] = partes; // /api/e/<slug>/posts/<id>/<acao>
+  if (recurso === "empresas" && req.method === "POST") {
+    const c = await lerCorpo(req);
+    criarEmpresa(c.slug, c.nome, c.arroba);
+    return enviar(res, 200, listarEmpresas());
+  }
   if (recurso === "empresas") return enviar(res, 200, listarEmpresas());
   if (recurso !== "e" || !slug) throw new ErroHttp(404, "Rota não encontrada.");
   const m = req.method;
@@ -122,19 +127,10 @@ async function api(req, res, partes) {
     return emSequencia(slug, async () => {
       const corpo = m === "GET" ? {} : await lerCorpo(req);
       const { posts } = carregar(slug);
-      const i = posts.findIndex((x) => x.id === idLimpo);
-      if (i < 0) throw new ErroHttp(404, "Post não encontrado.");
-      if (m === "DELETE") posts.splice(i, 1);
-      else if (m === "PUT" && !acao) posts[i] = { ...corpo, id: posts[i].id, fonte: posts[i].fonte, criadoEm: posts[i].criadoEm, status: STATUS.includes(corpo.status) ? corpo.status : posts[i].status };
-      else if (m === "POST" && acao === "status") {
-        if (!STATUS.includes(corpo.status)) throw new ErroHttp(400, "Status inválido.");
-        posts[i].status = corpo.status;
-        if (corpo.status === "publicado") posts[i].publicadoEm = new Date().toISOString();
-        else delete posts[i].publicadoEm;
-      } else if (m === "POST" && acao === "mover") {
-        const j = Math.max(0, Math.min(posts.length - 1, i + (corpo.direcao < 0 ? -1 : 1)));
-        [posts[i], posts[j]] = [posts[j], posts[i]];
-      } else throw new ErroHttp(405, "Ação não suportada.");
+      if (m === "DELETE") excluirPost(posts, idLimpo);
+      else if (m === "PUT" && !acao) atualizarPost(posts, idLimpo, corpo);
+      else if (m === "POST" && acao === "status") mudarStatus(posts, idLimpo, corpo.status);
+      else throw new ErroHttp(405, "Ação não suportada.");
       gravarPosts(slug, posts);
       return enviar(res, 200, estado(slug));
     });
@@ -143,9 +139,10 @@ async function api(req, res, partes) {
 }
 
 function estatico(req, res, caminho) {
-  if (caminho === "/" || caminho === "") caminho = "/painel/index.html";
-  // só serve o painel e o template (o resto do projeto não fica exposto)
-  const permitido = caminho.startsWith("/painel/") || caminho === "/lib/template.js";
+  if (caminho === "/" || caminho === "/index.html" || caminho === "/painel") { res.writeHead(302, { Location: "/painel/" }); return res.end(); }
+  if (caminho.endsWith("/")) caminho += "index.html";
+  // só serve o painel e os módulos do navegador (o resto do projeto não fica exposto)
+  const permitido = caminho.startsWith("/painel/") || /^\/lib\/[\w-]+\.js$/.test(caminho);
   const arq = resolve(RAIZ, "." + caminho);
   if (!permitido || !arq.startsWith(RAIZ + sep) || !existsSync(arq)) return enviar(res, 404, "Não encontrado", "text/plain; charset=utf-8");
   enviar(res, 200, readFileSync(arq), MIME[extname(arq)] || "application/octet-stream");

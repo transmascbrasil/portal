@@ -6,24 +6,40 @@ Painel para gerar **rascunhos de posts do Instagram** (imagem 1080x1350 + legend
 - **Sem IA e sem chamada de API externa.** Tudo sai dos arquivos JSON da empresa.
 - **Várias empresas** no mesmo painel: cada uma tem a sua pasta em `empresas/` com marca, cores, banco de conteúdo e posts.
 
-## Rodar
+## Dois jeitos de usar
 
-Precisa só do Node 18+.
+### 1. Página HTML no GitHub Pages (igual ao painel do insta-bot)
+
+Não precisa instalar nada. Depois que esta pasta estiver na branch publicada pelo GitHub Pages, abra:
+
+**https://transmascbrasil.github.io/portal/post-studio/**
+
+1. Na primeira vez, clique em **⚙** e cole um token do GitHub. Crie em *GitHub → Settings → Developer settings → Fine-grained tokens*: escolha só este repositório e dê a permissão **Contents: Read and write**. O token fica guardado só no seu navegador.
+2. Escolha a empresa e clique em **⚡ Gerar rascunhos**. A regra de geração (`lib/gerador.js`, a mesma do script) roda no navegador, na hora, e o resultado é salvo no `posts.json` da empresa no repositório.
+3. Aprovar, editar, rejeitar, mudar a marca e o banco: cada ação vira um commit no repositório.
+4. **⬇ JPG** gera a imagem 1080x1350 no próprio navegador.
+5. **📤 Enviar p/ insta-bot** (nos aprovados): coloca o post na fila do `insta-bot/posts.json`, e o robô do GitHub Actions publica no próximo horário da agenda. Só aparece para empresas com `"instaBot"` no `empresa.json` (a `transmasc` já vem ligada).
+
+Sem token, a página abre só para leitura.
+
+### 2. Servidor Node (no computador ou num servidor)
+
+Precisa do Node 18+.
 
 ```bash
 cd post-studio
 node server.mjs
 ```
 
-Abra http://localhost:3333.
+Abra http://localhost:3333. Nesse modo, o botão **⚡ Gerar rascunhos** executa o script `scripts/gerar-rascunhos.mjs` e os arquivos são gravados no disco (sem commit no GitHub).
 
-Para o botão **⬇ JPG** gerar a imagem final no servidor, instale uma vez:
+Para o JPG sair pelo servidor, instale uma vez:
 
 ```bash
 npm install && npx playwright install chromium
 ```
 
-Sem isso, o painel funciona igual (prévia, edição, aprovação e legendas); só o download do JPG fica desligado.
+Sem isso, o JPG é gerado no navegador, como no modo GitHub Pages.
 
 ## Como funciona
 
@@ -33,10 +49,11 @@ empresas/<empresa>/
   banco.json     o conteúdo: pautas, frases, datas comemorativas e modelos de legenda
   posts.json     os posts gerados (rascunho → aprovado → publicado / rejeitado)
 lib/template.js  os 7 templates visuais, coloridos com as cores da marca
-lib/gerador.js   as regras que transformam o banco em rascunhos
-scripts/gerar-rascunhos.mjs   o script que o botão executa
+lib/gerador.js   as regras que transformam o banco em rascunhos (Node e navegador)
+lib/operacoes.js aprovar, editar, excluir e ponte com o insta-bot (Node e navegador)
+scripts/gerar-rascunhos.mjs   o script que o botão executa no modo servidor
 server.mjs       servidor do painel (sem dependências)
-painel/          a interface
+painel/          a interface (detecta sozinha se está no GitHub Pages ou no servidor)
 ```
 
 O script escolhe o conteúdo nesta ordem:
@@ -67,15 +84,15 @@ O `--teste` mostra o que seria criado sem gravar nada.
 node nova-empresa.mjs padaria-sol "Padaria Sol" @padariasol
 ```
 
-Isso copia `empresas/_modelo` (com pautas de exemplo para pequenos negócios). Depois, no painel:
+Ou, no painel, escolha **+ Nova empresa…** no seletor de empresas (funciona nos dois modos). Isso copia `empresas/_modelo` (com pautas de exemplo para pequenos negócios). Depois, no painel:
 
 1. **Marca**: cores, fonte (qualquer uma do Google Fonts), logo (ponha `logo.png` na pasta da empresa e escreva `logo.png`) e variáveis como `whatsapp` e `cidade`.
 2. **Banco de conteúdo**: troque as pautas de exemplo pelas da empresa. Os textos aceitam variáveis: `{marca}`, `{arroba}`, `{site}` e as que você criou.
 3. **⚡ Gerar rascunhos**.
 
-Para levar o sistema para outro repositório, copie a pasta `post-studio/` inteira. Ela não depende de nada fora dela.
+Para levar o sistema para outro repositório, copie a pasta `post-studio/` inteira e ligue o GitHub Pages nele. A página descobre sozinha o dono e o repositório pelo endereço `dono.github.io/repositorio/`; em outro domínio, preencha em **⚙**.
 
-### Script próprio por empresa
+### Script próprio por empresa (modo servidor)
 
 Se uma empresa precisar de outra lógica, crie outro script em `scripts/` e aponte em `empresa.json`:
 
@@ -117,4 +134,10 @@ Campos opcionais em qualquer post: `kicker`, `subtitulo`, `destaque` (`forte` e 
 
 ## Relação com o `insta-bot`
 
-O `insta-bot/` continua como está: ele publica no Instagram pelo GitHub Actions. O Estúdio de Posts cuida de **criar, revisar e aprovar** os posts. A empresa `transmasc` já vem com as ideias do `insta-bot/ideias.json` no banco. Os posts têm os mesmos campos nos dois sistemas, então dá para levar um post aprovado daqui para a fila do bot.
+O `insta-bot/` continua como está: ele publica no Instagram pelo GitHub Actions. O Estúdio de Posts cuida de **criar, revisar e aprovar**, e o botão **📤 Enviar p/ insta-bot** passa o post aprovado para a fila do bot. A empresa `transmasc` já vem com as ideias do `insta-bot/ideias.json` no banco; quando um post vem de uma dessas ideias, ele entra no bot com o mesmo id, para o bot não usar a mesma ideia de novo.
+
+Para ligar outra empresa a um insta-bot no mesmo repositório, ponha no `empresa.json`:
+
+```json
+"instaBot": { "posts": "insta-bot/posts.json", "ideias": "insta-bot/ideias.json" }
+```

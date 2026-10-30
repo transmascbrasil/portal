@@ -1,5 +1,5 @@
 // Leitura e gravação dos arquivos de cada empresa: empresas/<slug>/{empresa,banco,posts}.json
-import { readFileSync, writeFileSync, renameSync, existsSync, readdirSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, renameSync, existsSync, readdirSync, mkdirSync, cpSync } from "node:fs";
 import { join, resolve, dirname, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -67,4 +67,19 @@ export function marcaParaTemplate(slug, empresa) {
     }
   }
   return m;
+}
+
+// Cria a pasta de uma empresa nova copiando empresas/_modelo
+export function criarEmpresa(slug, nome, arroba) {
+  if (!slugValido(slug)) throw Object.assign(new Error("Nome de pasta inválido: use letras minúsculas, números e hífen (ex.: padaria-sol)."), { status: 400 });
+  const destino = join(EMPRESAS_DIR, slug);
+  if (existsSync(destino)) throw Object.assign(new Error(`Já existe uma empresa "${slug}".`), { status: 409 });
+  const modelo = existsSync(join(EMPRESAS_DIR, "_modelo")) ? join(EMPRESAS_DIR, "_modelo") : join(RAIZ, "empresas", "_modelo");
+  cpSync(modelo, destino, { recursive: true });
+  const e = lerJson(join(destino, "empresa.json"));
+  e.marca.nome = nome || slug;
+  if (arroba) e.marca.rodape = arroba.startsWith("@") ? arroba : "@" + arroba;
+  gravarJson(join(destino, "empresa.json"), e);
+  gravarJson(join(destino, "posts.json"), { posts: [] });
+  return destino;
 }
