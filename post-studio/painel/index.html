@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Estúdio de Posts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/painel/estilo.css">
+</head>
+<body>
+<header class="topo">
+  <div class="topo-in">
+    <div class="marca-app">
+      <span class="logo-app" aria-hidden="true"></span>
+      <div><b>Estúdio de Posts</b><small id="nomeEmpresa">carregando…</small></div>
+    </div>
+    <label class="sel-empresa">
+      <span class="sr">Empresa</span>
+      <select id="empresa"></select>
+    </label>
+    <div class="gerar">
+      <label class="sr" for="qtd">Quantidade</label>
+      <input id="qtd" type="number" min="1" max="30" value="3" title="Quantos rascunhos gerar">
+      <button id="btnGerar" class="btn primario">⚡ Gerar rascunhos</button>
+    </div>
+  </div>
+  <nav class="abas" id="abas">
+    <button data-aba="rascunho">Rascunhos <i id="n-rascunho"></i></button>
+    <button data-aba="aprovado">Aprovados <i id="n-aprovado"></i></button>
+    <button data-aba="publicado">Publicados <i id="n-publicado"></i></button>
+    <button data-aba="rejeitado">Rejeitados <i id="n-rejeitado"></i></button>
+    <button data-aba="banco">Banco de conteúdo</button>
+    <button data-aba="marca">Marca</button>
+  </nav>
+</header>
+
+<main>
+  <div id="erroGeral" class="aviso erro" hidden></div>
+  <section id="resumo" class="resumo"></section>
+  <details id="log" class="log" hidden>
+    <summary>Saída do script</summary>
+    <pre id="logTxt"></pre>
+  </details>
+
+  <section id="vPosts">
+    <div id="grade" class="grade"></div>
+    <div id="vazio" class="vazio" hidden></div>
+  </section>
+
+  <section id="vBanco" hidden>
+    <div class="painel-box">
+      <h2>Banco de conteúdo</h2>
+      <p class="mut">É daqui que o script tira os rascunhos. Cada item vira um post uma única vez.
+        <b>datas</b> (comemorativas, entram com antecedência) têm prioridade, depois <b>pautas</b> (posts prontos) e <b>frases</b> (viram "Frase em destaque").
+        Use variáveis como <code>{marca}</code>, <code>{arroba}</code>, <code>{site}</code> e as que você criar em empresa.json → <code>variaveis</code>.</p>
+      <div class="acoes-linha">
+        <button class="btn" id="bancoAddPauta">+ Pauta de exemplo</button>
+        <button class="btn" id="bancoAddFrase">+ Frase</button>
+        <button class="btn" id="bancoAddData">+ Data comemorativa</button>
+        <span class="sp"></span>
+        <button class="btn primario" id="bancoSalvar">Salvar banco</button>
+      </div>
+      <textarea id="bancoTxt" class="codigo" spellcheck="false"></textarea>
+      <p id="bancoErro" class="aviso erro" hidden></p>
+      <details class="ajuda">
+        <summary>Formato de cada tipo de template</summary>
+        <pre>passos / lista / checklist / mito:  "itens": [{ "emoji": "✨", "titulo": "...", "texto": "..." }]
+  (emoji só em "lista"; em "mito", titulo = mito e texto = verdade)
+comparativo:  2 itens; o "texto" de cada coluna separa linhas com |
+capa / citacao:  só "titulo" (lista de linhas) e "subtitulo"
+Opcional em qualquer um: "kicker", "subtitulo", "destaque": { "forte": "...", "texto": "..." },
+  "tema" (escuro | claro | primaria | secundaria), "tamanhoTitulo" (px), "legenda" (senão é montada pelos modelos)
+datas: "data": "MM-DD" (todo ano) ou "AAAA-MM-DD" (uma vez)</pre>
+      </details>
+    </div>
+  </section>
+
+  <section id="vMarca" hidden>
+    <div class="marca-grid">
+      <form id="fMarca" class="painel-box">
+        <h2>Marca</h2>
+        <div class="campos2">
+          <label>Nome<input name="nome"></label>
+          <label>Rodapé (@ do Instagram)<input name="rodape"></label>
+          <label>Site<input name="site"></label>
+          <label>Fonte (Google Fonts)<input name="fonte" placeholder="Inter"></label>
+        </div>
+        <label>Logo (arquivo na pasta da empresa, ex.: logo.png, ou URL)<input name="logo" placeholder="vazio = ícone com as cores da faixa"></label>
+        <fieldset class="cores">
+          <legend>Cores</legend>
+          <label><input type="color" name="escura"> Escura</label>
+          <label><input type="color" name="clara"> Clara</label>
+          <label><input type="color" name="primaria"> Primária</label>
+          <label><input type="color" name="secundaria"> Secundária</label>
+        </fieldset>
+        <label>Faixa do topo (cores separadas por vírgula, vazio = primária e secundária)<input name="faixa" placeholder="#5BCEFA, #F5A9B8, #FFFFFF"></label>
+        <h3>Geração</h3>
+        <div class="campos2">
+          <label>Quantidade padrão<input name="quantidadePadrao" type="number" min="1" max="30"></label>
+          <label>Antecedência das datas (dias)<input name="diasAntecedencia" type="number" min="0" max="90"></label>
+          <label>1 frase a cada N posts (0 = nunca)<input name="frasesACada" type="number" min="0" max="20"></label>
+          <label>Horário sugerido<input name="hora" type="time"></label>
+        </div>
+        <label class="check"><input type="checkbox" name="reciclar"> Quando o banco acabar, reaproveitar as pautas usadas há mais tempo</label>
+        <label>Variáveis (uma por linha: nome = valor)<textarea name="variaveis" rows="4" placeholder="whatsapp = (11) 99999-9999"></textarea></label>
+        <div class="acoes-linha"><span class="sp"></span><button class="btn primario">Salvar marca</button></div>
+      </form>
+      <div class="painel-box">
+        <h3>Prévia dos 4 temas</h3>
+        <div id="previaTemas" class="previa-temas"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog id="dlg" class="dlg">
+  <form id="fPost" method="dialog">
+    <div class="dlg-cab">
+      <h2 id="dlgTitulo">Editar post</h2>
+      <button type="button" class="btn fantasma" id="dlgFechar" aria-label="Fechar">✕</button>
+    </div>
+    <div class="dlg-corpo">
+      <div class="dlg-form">
+        <div class="campos2">
+          <label>Template<select name="tipo" id="eTipo"></select></label>
+          <label>Tema<select name="tema" id="eTema"></select></label>
+        </div>
+        <label>Chamada (kicker)<input name="kicker"></label>
+        <label>Título (uma linha por linha; a última ganha destaque)<textarea name="titulo" rows="2"></textarea></label>
+        <div class="campos2">
+          <label>Subtítulo<input name="subtitulo"></label>
+          <label>Tamanho do título (px, vazio = automático)<input name="tamanhoTitulo" type="number" min="40" max="160"></label>
+        </div>
+        <div id="eItensBox">
+          <div class="itens-cab"><b>Itens</b><span id="eItensDica" class="mut"></span><button type="button" class="btn peq" id="eAddItem">+ item</button></div>
+          <div id="eItens" class="itens"></div>
+        </div>
+        <div class="campos2">
+          <label>Caixa de destaque (forte)<input name="dForte"></label>
+          <label>Caixa de destaque (texto)<input name="dTexto"></label>
+        </div>
+        <label>Legenda<textarea name="legenda" rows="8"></textarea></label>
+        <label>Data sugerida para postar<input name="agendarPara" type="datetime-local"></label>
+      </div>
+      <div class="dlg-previa">
+        <div class="quadro" id="ePrevia"></div>
+      </div>
+    </div>
+    <div class="dlg-rodape">
+      <span class="mut" id="dlgInfo"></span>
+      <span class="sp"></span>
+      <button type="button" class="btn" id="dlgCancelar">Cancelar</button>
+      <button type="button" class="btn primario" id="dlgSalvar">Salvar</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script type="module" src="/painel/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "marca": {
+    "nome": "Minha Empresa",
+    "rodape": "@minhaempresa",
+    "site": "minhaempresa.com.br",
+    "cores": {
+      "escura": "#1F2937",
+      "clara": "#FAFAF7",
+      "primaria": "#F59E0B",
+      "secundaria": "#34D399"
+    },
+    "faixa": [],
+    "fonte": "Inter",
+    "logo": ""
+  },
+  "variaveis": {
+    "cidade": "sua cidade",
+    "whatsapp": "(00) 00000-0000"
+  },
+  "geracao": {
+    "quantidadePadrao": 3,
+    "diasAntecedencia": 14,
+    "frasesACada": 4,
+    "reciclar": false,
+    "temas": ["escuro", "claro", "primaria", "secundaria"],
+    "hora": "12:00",
+    "script": "scripts/gerar-rascunhos.mjs"
+  }
+}

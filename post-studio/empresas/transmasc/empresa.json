@@ -1,0 +1,37 @@
+{
+  "marca": {
+    "nome": "Portal Transmasc Brasil",
+    "rodape": "@transmascbrasil",
+    "site": "",
+    "cores": {
+      "escura": "#14254F",
+      "clara": "#F7FAFF",
+      "primaria": "#5BCEFA",
+      "secundaria": "#F5A9B8"
+    },
+    "faixa": [
+      "#5BCEFA",
+      "#F5A9B8",
+      "#FFFFFF",
+      "#F5A9B8",
+      "#5BCEFA"
+    ],
+    "fonte": "Inter",
+    "logo": ""
+  },
+  "variaveis": {},
+  "geracao": {
+    "quantidadePadrao": 3,
+    "diasAntecedencia": 21,
+    "frasesACada": 5,
+    "reciclar": false,
+    "temas": [
+      "escuro",
+      "claro",
+      "secundaria",
+      "primaria"
+    ],
+    "hora": "12:00",
+    "script": "scripts/gerar-rascunhos.mjs"
+  }
+}

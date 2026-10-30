@@ -1,0 +1,16 @@
+{
+  "name": "post-studio",
+  "private": true,
+  "type": "module",
+  "description": "Painel para gerar rascunhos de posts do Instagram a partir de templates e de um banco de conteúdo, sem IA.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.mjs",
+    "gerar": "node scripts/gerar-rascunhos.mjs",
+    "nova-empresa": "node nova-empresa.mjs"
+  },
+  "optionalDependencies": {
+    "@fontsource/inter": "^5.0.0",
+    "playwright": "1.48.2"
+  }
+}
