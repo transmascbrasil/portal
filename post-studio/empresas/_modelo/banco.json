@@ -1,0 +1,96 @@
+{
+  "legenda": {
+    "modelos": [
+      "{gancho}\n\n{resumo}\n\n{cta}\n\n{hashtags}",
+      "{gancho} 👇\n\n{resumo}\n\n{cta}\n\n📍 {cidade} · {site}\n\n{hashtags}"
+    ],
+    "ganchos": ["{titulo}", "Salva esse post: {titulo}", "Você sabia? {titulo}"],
+    "ctas": [
+      "Salva pra não esquecer e compartilha com quem precisa ver 💛",
+      "Ficou com dúvida? Chama no WhatsApp {whatsapp}.",
+      "Conta nos comentários o que você achou!",
+      "Segue o {arroba} pra ver mais conteúdos assim."
+    ],
+    "hashtags": {
+      "fixas": ["#minhaempresa"],
+      "rotativas": ["#empreendedorismo", "#pequenosnegocios", "#dicas", "#qualidade", "#atendimento", "#compreslocal", "#novidade", "#bastidores"],
+      "quantidade": 4
+    }
+  },
+  "pautas": [
+    {
+      "id": "motivos",
+      "tipo": "lista",
+      "kicker": "Por que a {marca}?",
+      "titulo": ["3 motivos para", "escolher a gente"],
+      "itens": [
+        { "emoji": "⭐", "titulo": "Qualidade em primeiro lugar", "texto": "Escreva aqui o seu diferencial" },
+        { "emoji": "🤝", "titulo": "Atendimento de verdade", "texto": "Gente que conhece o que vende" },
+        { "emoji": "📍", "titulo": "Pertinho de você", "texto": "Atendemos {cidade} e região" }
+      ],
+      "destaque": { "forte": "Fale com a gente", "texto": "WhatsApp {whatsapp}" }
+    },
+    {
+      "id": "como-comprar",
+      "tipo": "passos",
+      "kicker": "Passo a passo",
+      "titulo": ["Como fazer", "seu pedido"],
+      "itens": [
+        { "titulo": "Escolha o produto", "texto": "Veja o catálogo em {site}" },
+        { "titulo": "Chame no WhatsApp", "texto": "{whatsapp}" },
+        { "titulo": "Confirme o pagamento", "texto": "Pix, cartão ou dinheiro" },
+        { "titulo": "Receba em casa", "texto": "Ou retire na loja" }
+      ]
+    },
+    {
+      "id": "mitos",
+      "tipo": "mito",
+      "kicker": "Mito ou verdade",
+      "titulo": ["Será que", "é verdade?"],
+      "itens": [
+        { "titulo": "Um mito comum sobre o seu produto", "texto": "A explicação que desfaz o mito" },
+        { "titulo": "Outro mito que você escuta muito", "texto": "O que é verdade de fato" }
+      ]
+    },
+    {
+      "id": "checklist",
+      "tipo": "checklist",
+      "kicker": "Checklist",
+      "titulo": ["Antes de comprar,", "confira"],
+      "itens": [
+        { "titulo": "Item 1 para conferir" },
+        { "titulo": "Item 2 para conferir" },
+        { "titulo": "Item 3 para conferir" },
+        { "titulo": "Item 4 para conferir" }
+      ]
+    },
+    {
+      "id": "antes-depois",
+      "tipo": "comparativo",
+      "kicker": "Comparativo",
+      "titulo": ["Sem a {marca}", "x com a {marca}"],
+      "itens": [
+        { "emoji": "😩", "titulo": "Sem", "texto": "Problema 1 | Problema 2 | Problema 3" },
+        { "emoji": "😍", "titulo": "Com", "texto": "Solução 1 | Solução 2 | Solução 3" }
+      ]
+    },
+    {
+      "id": "aviso-horario",
+      "tipo": "capa",
+      "kicker": "Aviso",
+      "titulo": ["Novo horário", "de atendimento"],
+      "subtitulo": "Seg a sex, das 9h às 18h"
+    }
+  ],
+  "frases": [
+    { "texto": "Feito com cuidado, do começo ao fim.", "autor": "{marca}" },
+    "Quem compra local fortalece a cidade inteira.",
+    { "texto": "O melhor atendimento é aquele que você indica para um amigo.", "kicker": "Para pensar" }
+  ],
+  "datas": [
+    { "id": "ano-novo", "data": "01-01", "tipo": "capa", "kicker": "Feliz ano novo", "titulo": ["Que venha", "um ano incrível"], "subtitulo": "Obrigado por estar com a {marca}" },
+    { "id": "consumidor", "data": "03-15", "tipo": "lista", "kicker": "Dia do Consumidor", "titulo": ["Hoje o dia", "é seu"], "itens": [{ "emoji": "🎁", "titulo": "Condições especiais", "texto": "Só hoje" }, { "emoji": "💬", "titulo": "Chama no WhatsApp", "texto": "{whatsapp}" }] },
+    { "id": "cliente", "data": "09-15", "tipo": "capa", "kicker": "Dia do Cliente", "titulo": ["Obrigado por", "escolher a gente"], "subtitulo": "Você é o motivo de tudo isso" },
+    { "id": "natal", "data": "12-25", "tipo": "capa", "kicker": "Feliz Natal", "titulo": ["Boas festas", "de toda a equipe"], "subtitulo": "{marca}" }
+  ]
+}
