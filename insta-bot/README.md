@@ -40,6 +40,11 @@ Cada item vira rascunho uma vez só. O botão **📥 Gerar rascunhos** (painel) 
 No painel: **🎨 Marca**. Fica em `posts.json` → `marca`:
 `nome`, `rodape`, `cores` (`escura`, `clara`, `primaria`, `secundaria`), `faixa` (cores da faixa do topo), `fonte` (Google Fonts) e `logo` (arquivo nesta pasta, como `logo.png`, ou URL). Sem `cores`, os posts usam o visual padrão do portal.
 
+## Painel: conta e usuários
+- **👤 Meu perfil**: nome, senha, e-mail e aparência do painel (escuro, claro ou automático).
+- **👥 Usuários** (só administradores): criar acesso com senha provisória, editar nome e papel, mandar link de nova senha e remover acesso. Os usuários ficam na coleção `admins` do Firestore, a mesma do painel de indicações. Papel `editor` usa o painel mas não vê a página de usuários (é um controle do painel, não uma regra de segurança do Firebase).
+- **📅 Calendário** (Agenda e controle): mostra agendados, previstos da fila, publicados e rascunhos com data sugerida. Clique num post para ver, editar, mudar a data ou publicar.
+
 ## Configurar a Meta (uma vez)
 1. Instagram profissional (já está) e, se for pelo fluxo clássico, ligado a uma Página do Facebook.
 2. Em developers.facebook.com, criar um app e adicionar o produto de API do Instagram com a permissão `instagram_content_publish`.

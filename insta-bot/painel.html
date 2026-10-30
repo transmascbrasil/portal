@@ -5,31 +5,44 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Gerenciador Instagram</title>
+<script>
+// tema do painel (Meu perfil): escuro, claro ou automático (segue o sistema)
+(function () {
+  var t = 'escuro';
+  try { t = localStorage.getItem('igbot_tema') || 'escuro'; } catch (e) {}
+  if (t === 'auto') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'escuro';
+  document.documentElement.dataset.tema = t === 'claro' ? 'claro' : 'escuro';
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0e1a3a;--bg2:#14254F;--card:#1b2d5e;--card2:#233669;--azul:#5BCEFA;--rosa:#F5A9B8;--txt:#fff;--mut:#9fb0d6;--ok:#6ee7a8;--erro:#ff8a8a;--aviso:#ffd37a}
+:root{--bg:#0e1a3a;--bg2:#14254F;--card:#1b2d5e;--card2:#233669;--azul:#5BCEFA;--rosa:#F5A9B8;--txt:#fff;--mut:#9fb0d6;--ok:#6ee7a8;--erro:#ff8a8a;--aviso:#ffd37a;
+  --campo:#0e1a3a;--side:#0a1330;--sobre-azul:#0e1a3a;--nav:#dbe4ff;--perigo-bg:#5b2431;--perigo-txt:#ffd5db;--aviso-bg:#3a2f12;--erro-bg:#4a1f27;--info-bg:#173a52;--info-txt:#a7dcf7;--ok-bg:#12452f;--rep-bg:#3b2a5c;--rep-txt:#d9c2ff;--sombra:#0008;--leve:#ffffff22;color-scheme:dark}
+html[data-tema=claro]{--bg:#F3F6FB;--bg2:#FFFFFF;--card:#FFFFFF;--card2:#DDE4F0;--azul:#1F8FC9;--rosa:#E07A93;--txt:#14254F;--mut:#5B6785;--ok:#1F8A5B;--erro:#B42318;--aviso:#9A5B0B;
+  --campo:#FFFFFF;--side:#FFFFFF;--sobre-azul:#FFFFFF;--nav:#14254F;--perigo-bg:#FDECEA;--perigo-txt:#B42318;--aviso-bg:#FFF3DF;--erro-bg:#FDECEA;--info-bg:#E6F4FB;--info-txt:#14527A;--ok-bg:#E3F5EC;--rep-bg:#EFE7FF;--rep-txt:#5B3B99;--sombra:#14254F22;--leve:#14254F14;color-scheme:light}
+html[data-tema=claro] .card,html[data-tema=claro] .lado,html[data-tema=claro] .res,html[data-tema=claro] .selbar,html[data-tema=claro] .vazio,html[data-tema=claro] .ia{box-shadow:0 1px 2px #14254F0f,0 4px 14px #14254F0f}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--txt);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.4;padding-bottom:90px}
 button{font:inherit;cursor:pointer}
-.faixa{height:8px;display:flex}.faixa i{flex:1}.faixa i:nth-child(1),.faixa i:nth-child(5){background:var(--azul)}.faixa i:nth-child(2),.faixa i:nth-child(4){background:var(--rosa)}.faixa i:nth-child(3){background:#fff}
+.faixa{height:8px;display:flex}.faixa i{flex:1}.faixa i:nth-child(1),.faixa i:nth-child(5){background:#5BCEFA}.faixa i:nth-child(2),.faixa i:nth-child(4){background:#F5A9B8}.faixa i:nth-child(3){background:#fff}
 header{display:flex;align-items:center;gap:14px;padding:18px 24px;flex-wrap:wrap}
 header h1{font-size:22px;font-weight:900;margin:0;letter-spacing:-.01em}
 header .repo{color:var(--mut);font-size:13px}
 header .sp{flex:1}
-.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:700;background:var(--card2);color:#fff}
+.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:700;background:var(--card2);color:var(--txt)}
 .btn:hover{filter:brightness(1.15)}
-.btn.azul{background:var(--azul);color:#0e1a3a}
-.btn.rosa{background:var(--rosa);color:#0e1a3a}
-.btn.perigo{background:#5b2431;color:#ffd5db}
+.btn.azul{background:var(--azul);color:var(--sobre-azul)}
+.btn.rosa{background:var(--rosa);color:#14254F}
+.btn.perigo{background:var(--perigo-bg);color:var(--perigo-txt)}
 .btn.peq{padding:6px 10px;font-size:13px;border-radius:8px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 main{max-width:1280px;margin:0 auto;padding:0 24px}
 .avisos{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-.aviso{border-radius:12px;padding:12px 16px;background:#3a2f12;color:var(--aviso);font-weight:600}
-.aviso.erro{background:#4a1f27;color:var(--erro)}
-.aviso.info{background:#173a52;color:#a7dcf7}
+.aviso{border-radius:12px;padding:12px 16px;background:var(--aviso-bg);color:var(--aviso);font-weight:600}
+.aviso.erro{background:var(--erro-bg);color:var(--erro)}
+.aviso.info{background:var(--info-bg);color:var(--info-txt)}
 .resumo{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px}
 .res{background:var(--card);border-radius:14px;padding:14px 16px}
 .res small{display:block;color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
@@ -39,7 +52,7 @@ main{max-width:1280px;margin:0 auto;padding:0 24px}
 @media(max-width:1000px){.layout{grid-template-columns:1fr}}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .tab{background:transparent;border:2px solid var(--card2);color:var(--mut);border-radius:999px;padding:8px 16px;font-weight:700}
-.tab.on{background:var(--azul);border-color:var(--azul);color:#0e1a3a}
+.tab.on{background:var(--azul);border-color:var(--azul);color:var(--sobre-azul)}
 .tab em{font-style:normal;opacity:.8;margin-left:6px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
 .card{background:var(--card);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
@@ -47,10 +60,10 @@ main{max-width:1280px;margin:0 auto;padding:0 24px}
 .thumb{width:100%;aspect-ratio:1080/1350;position:relative;overflow:hidden;background:var(--bg2)}
 .thumb iframe{position:absolute;top:0;left:0;width:1080px;height:1350px;border:0;transform-origin:0 0;pointer-events:none}
 .badge{position:absolute;top:10px;right:10px;z-index:2;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:800;background:#0e1a3acc;color:#fff;backdrop-filter:blur(4px)}
-.badge.ok{background:#12452f;color:var(--ok)}
-.badge.fila{background:#173a52;color:#a7dcf7}
-.badge.rasc{background:#3a2f12;color:var(--aviso)}
-.badge.rep{background:#3b2a5c;color:#d9c2ff}
+.badge.ok{background:var(--ok-bg);color:var(--ok)}
+.badge.fila{background:var(--info-bg);color:var(--info-txt)}
+.badge.rasc{background:var(--aviso-bg);color:var(--aviso)}
+.badge.rep{background:var(--rep-bg);color:var(--rep-txt)}
 .marca{position:absolute;top:8px;left:8px;z-index:3;width:26px;height:26px;accent-color:var(--azul);cursor:pointer}
 .info{padding:12px 14px 6px;flex:1}
 .info .tit{font-weight:800;font-size:15px}
@@ -68,7 +81,7 @@ main{max-width:1280px;margin:0 auto;padding:0 24px}
 .exec a{color:var(--azul);text-decoration:none;font-weight:600}
 .exec small{color:var(--mut);display:block}
 .robo{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-label.chk{display:flex;gap:10px;align-items:flex-start;color:#fff;font-size:14px;margin:0 0 8px}
+label.chk{display:flex;gap:10px;align-items:flex-start;color:var(--txt);font-size:14px;margin:0 0 8px}
 label.chk input{width:auto;margin-top:3px;accent-color:var(--azul)}
 .linha{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mut);flex-wrap:wrap}
 .linha input{width:72px}
@@ -76,13 +89,13 @@ label.chk input{width:auto;margin-top:3px;accent-color:var(--azul)}
 .ia h2{margin:0 0 6px;font-size:20px}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
 .chip{border:1.5px solid var(--card2);background:transparent;color:var(--mut);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
-.chip:hover{border-color:var(--azul);color:#fff}
+.chip:hover{border-color:var(--azul);color:var(--txt)}
 .ia .linha2{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-top:12px}
 .ia .linha2 > div{flex:1;min-width:180px}
-.barra{position:fixed;left:0;right:0;bottom:0;background:#0a1330;border-top:2px solid var(--rosa);padding:12px 24px;display:none;align-items:center;gap:12px;z-index:20;flex-wrap:wrap}
+.barra{position:fixed;left:0;right:0;bottom:0;background:var(--side);border-top:2px solid var(--rosa);padding:12px 24px;display:none;align-items:center;gap:12px;z-index:20;flex-wrap:wrap}
 .barra.on{display:flex}
 .barra .t{flex:1;font-weight:700}
-dialog{border:0;border-radius:18px;background:var(--bg2);color:#fff;padding:0;max-width:96vw;width:520px}
+dialog{border:0;border-radius:18px;background:var(--bg2);color:var(--txt);padding:0;max-width:96vw;width:520px}
 dialog::backdrop{background:#000a}
 dialog.largo{width:1080px}
 .dh{padding:18px 22px;font-weight:900;font-size:18px;border-bottom:1px solid var(--card2);display:flex;align-items:center}
@@ -90,7 +103,7 @@ dialog.largo{width:1080px}
 .db{padding:18px 22px}
 .df{padding:14px 22px;border-top:1px solid var(--card2);display:flex;gap:8px;justify-content:flex-end}
 label{display:block;font-weight:700;font-size:13px;color:var(--mut);margin:12px 0 4px}
-input,select,textarea{width:100%;background:#0e1a3a;border:1.5px solid var(--card2);color:#fff;border-radius:10px;padding:9px 11px;font:inherit}
+input,select,textarea{width:100%;background:var(--campo);border:1.5px solid var(--card2);color:var(--txt);border-radius:10px;padding:9px 11px;font:inherit}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--azul);border-color:transparent}
 textarea{resize:vertical}
 .dica{color:var(--mut);font-size:12px;margin-top:4px}
@@ -100,35 +113,35 @@ textarea{resize:vertical}
 .prev iframe{position:absolute;top:0;left:0;width:1080px;height:1350px;border:0;transform-origin:0 0;pointer-events:none}
 .item{display:grid;grid-template-columns:60px 1fr 1.3fr 34px;gap:6px;margin-bottom:6px}
 .item.sem-emoji{grid-template-columns:1fr 1.3fr 34px}
-.item button{background:#5b2431;border:0;color:#fff;border-radius:8px}
+.item button{background:var(--perigo-bg);border:0;color:var(--perigo-txt);border-radius:8px}
 .cnt{float:right;font-weight:600}
 .cnt.erro{color:var(--erro)}
-.edavisos{background:#3a2f12;color:var(--aviso);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:13px;font-weight:600}
+.edavisos{background:var(--aviso-bg);color:var(--aviso);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:13px;font-weight:600}
 .edavisos ul{margin:6px 0 0;padding-left:18px}
 .toast{position:fixed;right:20px;top:20px;z-index:50;display:flex;flex-direction:column;gap:8px}
-.toast div{background:#0a1330;border-left:5px solid var(--azul);border-radius:10px;padding:12px 16px;font-weight:600;max-width:360px;box-shadow:0 8px 24px #0008}
+.toast div{background:var(--side);color:var(--txt);border-left:5px solid var(--azul);border-radius:10px;padding:12px 16px;font-weight:600;max-width:360px;box-shadow:0 8px 24px var(--sombra)}
 .toast div.erro{border-color:var(--erro)}
 .toast div.ok{border-color:var(--ok)}
 
 /* ===== layout com menu lateral ===== */
 #app{display:grid;grid-template-columns:268px 1fr;min-height:100vh}
-.side{position:sticky;top:0;height:100vh;background:#0a1330;border-right:1px solid var(--card2);display:flex;flex-direction:column;overflow-y:auto;z-index:30}
+.side{position:sticky;top:0;height:100vh;background:var(--side);border-right:1px solid var(--card2);display:flex;flex-direction:column;overflow-y:auto;z-index:30}
 .side .faixa{flex:none}
 .brand{display:flex;gap:12px;align-items:center;padding:18px 20px 10px}
-.brand .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(180deg,var(--azul) 0 20%,var(--rosa) 20% 40%,#fff 40% 60%,var(--rosa) 60% 80%,var(--azul) 80%);flex:none}
+.brand .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(180deg,#5BCEFA 0 20%,#F5A9B8 20% 40%,#fff 40% 60%,#F5A9B8 60% 80%,#5BCEFA 80%);flex:none}
 .brand b{display:block;font-size:17px;font-weight:900;line-height:1.1}
 .brand small{color:var(--mut);font-weight:600}
 nav#nav{padding:6px 12px;flex:1}
 nav .grp{margin:16px 8px 6px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
-nav .it{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:0;color:#dbe4ff;border-radius:11px;padding:10px 12px;font-weight:700;font-size:15px}
+nav .it{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:0;color:var(--nav);border-radius:11px;padding:10px 12px;font-weight:700;font-size:15px}
 nav .it:hover{background:var(--card)}
-nav .it.on{background:var(--azul);color:#0e1a3a}
+nav .it.on{background:var(--azul);color:var(--sobre-azul)}
 nav .it .ic{width:22px;text-align:center;flex:none}
 nav .it .tx{flex:1}
-nav .it em{font-style:normal;font-size:12px;font-weight:800;background:#ffffff22;border-radius:999px;padding:2px 8px}
+nav .it em{font-style:normal;font-size:12px;font-weight:800;background:var(--leve);border-radius:999px;padding:2px 8px}
 nav .it.on em{background:#0e1a3a22}
 .sidefoot{padding:12px;border-top:1px solid var(--card2);display:flex;flex-direction:column;gap:2px}
-.sidefoot a,.sidefoot button{display:flex;gap:12px;align-items:center;color:#dbe4ff;text-decoration:none;background:transparent;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px;text-align:left}
+.sidefoot a,.sidefoot button{display:flex;gap:12px;align-items:center;color:var(--nav);text-decoration:none;background:transparent;border:0;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px;text-align:left}
 .sidefoot a:hover,.sidefoot button:hover{background:var(--card)}
 .sidefoot .who{color:var(--mut);font-size:12px;padding:6px 12px;word-break:break-all}
 .content{min-width:0}
@@ -150,7 +163,7 @@ nav .it.on em{background:#0e1a3a22}
 @media(max-width:900px){
   #app{grid-template-columns:1fr}
   .side{position:fixed;left:0;top:0;bottom:0;width:280px;transform:translateX(-100%);transition:transform .2s}
-  .side.open{transform:none;box-shadow:0 0 40px #000a}
+  .side.open{transform:none;box-shadow:0 0 40px var(--sombra)}
   .veu.on{display:block;position:fixed;inset:0;background:#0008;z-index:25}
   #btnMenu{display:inline-block}
   .topbar{padding:10px 14px;gap:8px}
@@ -173,14 +186,14 @@ nav .it.on em{background:#0e1a3a22}
 .fl .q{width:132px;flex:none;color:var(--rosa);font-weight:800;font-size:13px}
 .fl .t{flex:1;min-width:0;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fl .t small{display:block;color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-.fl .t .rp{font-style:normal;font-size:11px;background:#3b2a5c;color:#d9c2ff;border-radius:999px;padding:2px 8px;margin-left:6px}
+.fl .t .rp{font-style:normal;font-size:11px;background:var(--rep-bg);color:var(--rep-txt);border-radius:999px;padding:2px 8px;margin-left:6px}
 .fl .ac{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
 .fl .ac .btn{padding:5px 9px;font-size:12px}
 .sub2{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:14px 0 8px}
 .dias{display:flex;gap:6px;flex-wrap:wrap}
 .dia{display:flex;align-items:center;justify-content:center;margin:0;min-width:52px;padding:9px 10px;border-radius:10px;border:2px solid var(--card2);color:var(--mut);font-weight:800;cursor:pointer;text-transform:capitalize}
 .dia input{display:none}
-.dia.on{background:var(--azul);border-color:var(--azul);color:#0e1a3a}
+.dia.on{background:var(--azul);border-color:var(--azul);color:var(--sobre-azul)}
 .lado .linha input[type=number]{width:70px}
 .bitem{display:flex;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--card2)}
 .bitem:first-of-type{border-top:0}
@@ -197,6 +210,46 @@ label.cor{display:flex;gap:8px;align-items:center;margin:0;font-weight:600}
 label.cor input{width:44px;height:34px;padding:2px;flex:none}
 .temas4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .temas4 .thumb{border-radius:10px}
+.calhead{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.calhead b{font-size:17px;min-width:150px}
+.calhead .sp{flex:1}
+.calleg{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-bottom:10px}
+.calleg i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-right:5px}
+.calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.caldow{font-size:11px;color:var(--mut);text-align:center;font-weight:800;text-transform:uppercase;padding:2px 0}
+.caldia{min-height:96px;background:var(--campo);border:1px solid var(--card2);border-radius:10px;padding:4px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.caldia.fora{opacity:.35}
+.caldia.hoje{border:2px solid var(--azul)}
+.caldia .n{font-size:12px;font-weight:800;color:var(--mut);display:flex;justify-content:space-between}
+.caldia.slot .n::after{content:'';width:7px;height:7px;border-radius:50%;border:1.5px solid var(--azul);margin:3px 2px 0 0}
+.ev{display:block;width:100%;text-align:left;border:0;border-radius:6px;padding:3px 6px;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;font-family:inherit}
+.ev:hover{filter:brightness(1.08);outline:2px solid var(--txt);outline-offset:-2px}
+.ev.agendado,.calleg i.agendado{background:#F5A9B8;color:#14254F}
+.ev.fila,.calleg i.fila{background:#5BCEFA;color:#0e1a3a}
+.ev.publicado,.calleg i.publicado{background:var(--ok-bg);color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok)}
+.ev.sugerido,.calleg i.sugerido{background:var(--aviso-bg);color:var(--aviso);box-shadow:inset 0 0 0 1px var(--aviso)}
+.calleg i.slot{border:1.5px solid var(--azul);border-radius:50%}
+.ev.mais{background:transparent;color:var(--mut);padding:0 6px}
+@media(max-width:700px){.caldia{min-height:58px;padding:3px}.ev{font-size:0;height:7px;padding:0;border-radius:4px}.ev.mais{font-size:10px;height:auto}.caldow{font-size:10px}}
+.calpost{display:grid;grid-template-columns:200px 1fr;gap:16px}
+.calpost .thumb{border-radius:10px}
+.calst{font-weight:800;margin-bottom:8px}
+.calpost .calleg{display:block;white-space:pre-wrap;max-height:260px;overflow:auto;font-size:13px}
+@media(max-width:600px){.calpost{grid-template-columns:1fr}.calpost .thumb{max-width:220px}}
+.urow{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--card2);flex-wrap:wrap}
+.urow:first-of-type{border-top:0}
+.urow .ui{flex:1;min-width:200px}
+.urow .ui b{display:block}
+.urow .ui small{color:var(--mut);font-size:12px}
+.pill{display:inline-block;font-size:11px;font-weight:800;border-radius:999px;padding:2px 8px;margin-left:6px;background:var(--info-bg);color:var(--info-txt);vertical-align:1px}
+.pill.ed{background:var(--rep-bg);color:var(--rep-txt)}
+.pill.eu{background:var(--ok-bg);color:var(--ok)}
+.temaopts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.temaopt{border:2px solid var(--card2);border-radius:14px;padding:10px;cursor:pointer;background:var(--campo);color:var(--txt);font-weight:700;text-align:left;font-family:inherit}
+.temaopt.on{border-color:var(--azul)}
+.temaopt .amostra{height:54px;border-radius:9px;margin-bottom:8px;display:flex;gap:6px;padding:8px}
+.temaopt .amostra i{flex:1;border-radius:5px}
+@media(max-width:600px){.temaopts{grid-template-columns:1fr}}
 @media(max-width:600px){.bitem{flex-wrap:wrap}.cores{grid-template-columns:1fr}}
 @media(max-width:700px){
   .fl{flex-wrap:wrap}
@@ -207,13 +260,13 @@ label.cor input{width:44px;height:34px;padding:2px;flex:none}
 /* ===== tela de login ===== */
 [hidden]{display:none!important}
 .lock{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:60;overflow:auto}
-.lockcard{margin:auto;width:min(420px,calc(100vw - 32px));background:var(--card);border-radius:20px;padding:28px 26px;box-shadow:0 20px 60px #0008}
-.lockcard .logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(180deg,var(--azul) 0 20%,var(--rosa) 20% 40%,#fff 40% 60%,var(--rosa) 60% 80%,var(--azul) 80%);margin-bottom:14px}
+.lockcard{margin:auto;width:min(420px,calc(100vw - 32px));background:var(--card);border-radius:20px;padding:28px 26px;box-shadow:0 20px 60px var(--sombra)}
+.lockcard .logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(180deg,#5BCEFA 0 20%,#F5A9B8 20% 40%,#fff 40% 60%,#F5A9B8 60% 80%,#5BCEFA 80%);margin-bottom:14px}
 .lockcard h1{margin:0 0 6px;font-size:24px;font-weight:900}
 .lockcard p{color:var(--mut);margin:0 0 6px}
 .lockcard .msg{border-radius:10px;padding:10px 12px;font-weight:600;font-size:14px;margin-top:12px}
-.lockcard .msg.erro{background:#4a1f27;color:var(--erro)}
-.lockcard .msg.ok{background:#12452f;color:var(--ok)}
+.lockcard .msg.erro{background:var(--erro-bg);color:var(--erro)}
+.lockcard .msg.ok{background:var(--ok-bg);color:var(--ok)}
 .lockcard .btn{width:100%;padding:12px;margin-top:14px}
 .lockcard .link{background:none;border:0;color:var(--azul);font-weight:600;margin-top:10px;padding:4px;width:100%;text-align:center}
 </style>
@@ -407,6 +460,32 @@ label.cor input{width:44px;height:34px;padding:2px;flex:none}
   </div>
 </dialog>
 
+<dialog id="dlgCal">
+  <div class="dh"><span id="calTit">Publicação</span><button class="btn peq" data-fechar>✕</button></div>
+  <div class="db calpost">
+    <div id="calThumb"></div>
+    <div><div class="calst" id="calSt"></div><div class="calleg" id="calLeg"></div></div>
+  </div>
+  <div class="df" id="calAcoes"></div>
+</dialog>
+
+<dialog id="dlgUsuario">
+  <div class="dh"><span id="usTit">Editar usuário</span><button class="btn peq" data-fechar>✕</button></div>
+  <div class="db">
+    <label>E-mail</label><input id="usEmail" disabled>
+    <label>Nome</label><input id="usNome" placeholder="Como aparece no painel">
+    <label>Papel</label>
+    <select id="usPapel"><option value="admin">Administrador (usa o painel e gerencia usuários)</option><option value="editor">Editor (usa o painel, não gerencia usuários)</option></select>
+    <p class="dica">Para trocar o e-mail ou a senha, a própria pessoa faz isso em 👤 Meu perfil. Você pode mandar um link de nova senha.</p>
+  </div>
+  <div class="df">
+    <button class="btn" id="usReset">✉️ Enviar link de nova senha</button>
+    <span style="flex:1"></span>
+    <button class="btn" data-fechar>Cancelar</button>
+    <button class="btn azul" id="usOk">Salvar</button>
+  </div>
+</dialog>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -420,7 +499,7 @@ function falhaFatal(msg) {
 }
 let SYSTEM_IA, extrairJson, NOME_PROV, temChaveDe, chamarIADe, normalizarPost, postCompleto, pedirJsonDe, postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, temasDe, coresDe, CORES_PADRAO, FAIXA_PADRAO, fonteCssGoogle, criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO, raizDe, proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT, agendaDe, descreverAgenda, rascunhosAutoDe, proximaCriacao, NOMES_DIAS, JANELA_HORAS, ideiasAutoDe, MODELO_PADRAO, SECRET_DA_IA;
 try {
-  const VER = '?v=20261030a'; // evita usar uma cópia antiga em cache
+  const VER = '?v=20261030b'; // evita usar uma cópia antiga em cache
   const [T, Fm, IA, B] = await Promise.all([import('./template.js' + VER), import('./fila.js' + VER), import('./ia.js' + VER), import('./banco.js' + VER)]);
   ({ criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO } = B);
   ({ SYSTEM_IA, extrairJson, NOME_PROV, temChave: temChaveDe, chamarIA: chamarIADe, normalizarPost, postCompleto, pedirJson: pedirJsonDe } = IA);
@@ -449,7 +528,8 @@ let cfg = { ...DEFAULTS };
 try { cfg = { ...DEFAULTS, ...JSON.parse(localStorage.getItem(CFG_KEY) || '{}') }; } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch (e) {} };
 
-const PAGINAS = ['inicio', 'agenda', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'marca', 'robo', 'repeticao'];
+const PAGINAS = ['inicio', 'agenda', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'marca', 'robo', 'repeticao', 'perfil', 'usuarios'];
+let calMes = null; // mês aberto no calendário (AAAA-MM)
 let data = null, sha = null, ideiasSha = null, snapPosts = '', snapIdeias = '', ideias = [], banco = { posts: [] }, dirty = false, tab = PAGINAS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio', loadError = '';
 const selecionados = new Set();
 let iaPrompt = '', iaTipo = 'auto', iaCarregando = false;
@@ -826,6 +906,8 @@ function linhaFila(p, { q, n, arrastavel, acoes }) {
   return r;
 }
 function renderAgenda(c, fila, agend, datas, novas) {
+  // 0) calendário
+  c.appendChild(calendario(fila, agend, datas));
   // 1) fila
   const s1 = secao('📋 Fila de publicação', 'Arraste pelo ⠿ (ou use as setas) para mudar a ordem. Os agendados saem na data marcada e não entram na ordem. Depois de mexer, clique em Salvar no GitHub.');
   if (!fila.length && !agend.length) s1.insertAdjacentHTML('beforeend', '<p class="vazio" style="padding:18px">Nenhum post aprovado. Aprove rascunhos ou reposte posts antigos.</p>');
@@ -956,7 +1038,7 @@ function renderRepeticao() {
     ? `Se a fila acabasse agora, o robô repostaria: "${tituloTxt(alvo)}".`
     : 'Nenhum post elegível agora (todos foram publicados há pouco tempo, ou estão marcados para não repetir).';
 }
-const TITULOS = { inicio: 'Visão geral', agenda: '🗓 Agenda e controle', fila: 'Fila', rascunhos: 'Rascunhos', postados: 'Postados', ia: '✨ Criar com IA', marca: '🎨 Marca', ideias: '💡 Banco de conteúdo', robo: 'Robô e execuções', repeticao: 'Repetição automática' };
+const TITULOS = { inicio: 'Visão geral', agenda: '🗓 Agenda e controle', fila: 'Fila', rascunhos: 'Rascunhos', postados: 'Postados', ia: '✨ Criar com IA', marca: '🎨 Marca', perfil: '👤 Meu perfil', usuarios: '👥 Usuários', ideias: '💡 Banco de conteúdo', robo: 'Robô e execuções', repeticao: 'Repetição automática' };
 function ir(p) { tab = p; F('side').classList.remove('open'); F('veu').classList.remove('on'); render(); window.scrollTo(0, 0); }
 function render() {
   F('stash').append(F('resumo'), F('boxRobo'), F('boxExec'), F('boxRep'));
@@ -993,7 +1075,8 @@ function render() {
     ['Geral', [['inicio', '🏠', 'Visão geral', null]]],
     ['Publicações', [['agenda', '🗓', 'Agenda e controle', fila.length + agend.length], ['fila', '🖼', 'Fila', null], ['rascunhos', '📝', 'Rascunhos', rasc.length], ['postados', '✅', 'Postados', done.length]]],
     ['Criar', [['ia', '✨', 'Criar com IA', null], ['ideias', '💡', 'Banco de conteúdo', novas.length], ['marca', '🎨', 'Marca', null]]],
-    ['Automação', [['robo', '🤖', 'Robô e execuções', null], ['repeticao', '🔁', 'Repetição automática', null]]]
+    ['Automação', [['robo', '🤖', 'Robô e execuções', null], ['repeticao', '🔁', 'Repetição automática', null]]],
+    ['Conta', [['perfil', '👤', 'Meu perfil', null], ...(souAdmin() ? [['usuarios', '👥', 'Usuários', null]] : [])]]
   ];
   const nav = $('#nav'); nav.innerHTML = '';
   for (const [grupo, itens] of NAV) {
@@ -1078,6 +1161,10 @@ function render() {
     renderIA(c);
   } else if (tab === 'marca') {
     renderMarca(c);
+  } else if (tab === 'perfil') {
+    renderPerfil(c);
+  } else if (tab === 'usuarios') {
+    renderUsuarios(c);
   }
   if (grid.children.length) c.appendChild(grid);
 
@@ -1203,7 +1290,7 @@ function renderBanco(c, grid, disp) {
 
   // ideias (posts prontos)
   const h = document.createElement('div'); h.className = 'selbar';
-  h.innerHTML = `<span class="sp"><b style="color:#fff">💡 Ideias (posts prontos)</b> · ${disp.ideias.length} ainda não usada(s). Viram rascunho na ordem em que aparecem.</span>`;
+  h.innerHTML = `<span class="sp"><b style="color:var(--txt)">💡 Ideias (posts prontos)</b> · ${disp.ideias.length} ainda não usada(s). Viram rascunho na ordem em que aparecem.</span>`;
   h.appendChild(btn('＋ Nova ideia', 'azul', () => abrirEditorBanco('posts', null)));
   c.appendChild(h);
   disp.ideias.forEach(p => grid.appendChild(card(p, {
@@ -1291,6 +1378,285 @@ function renderMarca(c) {
   sP.appendChild(g);
   duas.appendChild(sP);
   c.appendChild(duas);
+}
+
+
+// ---------- calendário (Agenda e controle) ----------
+const CAL_TIPOS = { agendado: '🗓 Agendado (data marcada)', fila: '📋 Na fila (data prevista)', publicado: '✅ Publicado', sugerido: '📝 Rascunho com data sugerida' };
+function eventosCalendario(fila, agend, datas) {
+  const ev = [];
+  agend.forEach(p => ev.push({ p, tipo: 'agendado', quando: new Date(p.agendarPara) }));
+  fila.forEach((p, i) => datas[i] && ev.push({ p, tipo: 'fila', quando: datas[i] }));
+  postadosDe().forEach(p => p.publicadoEm && ev.push({ p, tipo: 'publicado', quando: new Date(p.publicadoEm) }));
+  rascunhosDe().forEach(p => p.agendarPara && ev.push({ p, tipo: 'sugerido', quando: new Date(p.agendarPara) }));
+  return ev.sort((a, b) => a.quando - b.quando);
+}
+function calendario(fila, agend, datas) {
+  const box = secao('📅 Calendário', '');
+  const hoje = partesBRT(new Date()).dia;
+  if (!calMes) calMes = hoje.slice(0, 7);
+  const [ano, mes] = calMes.split('-').map(Number);
+  const nomeMes = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(Date.UTC(ano, mes - 1, 15)));
+  const head = document.createElement('div'); head.className = 'calhead';
+  const mudar = n => { const d = new Date(Date.UTC(ano, mes - 1 + n, 1)); calMes = `${d.getUTCFullYear()}-${pad2(d.getUTCMonth() + 1)}`; render(); };
+  const tit = document.createElement('b'); tit.textContent = nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1);
+  const sp = document.createElement('span'); sp.className = 'sp';
+  head.append(btn('◀', '', () => mudar(-1)), tit, btn('▶', '', () => mudar(1)), sp, btn('Hoje', '', () => { calMes = hoje.slice(0, 7); render(); }));
+  box.appendChild(head);
+  const leg = document.createElement('div'); leg.className = 'calleg';
+  leg.innerHTML = Object.entries(CAL_TIPOS).map(([k, v]) => `<span><i class="${k}"></i>${esc(v.replace(/^\S+ /, ''))}</span>`).join('') + '<span><i class="slot"></i>Dia da agenda regular</span>';
+  box.appendChild(leg);
+
+  const porDia = new Map();
+  for (const e of eventosCalendario(fila, agend, datas)) {
+    const d = partesBRT(e.quando).dia;
+    if (!porDia.has(d)) porDia.set(d, []);
+    porDia.get(d).push(e);
+  }
+  const ag = agendaDe(data);
+  const grid = document.createElement('div'); grid.className = 'calgrid';
+  ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'].forEach(d => grid.insertAdjacentHTML('beforeend', `<div class="caldow">${d}</div>`));
+  const primeiro = new Date(Date.UTC(ano, mes - 1, 1));
+  const inicio = new Date(primeiro.getTime() - primeiro.getUTCDay() * 86400000);
+  const semanas = Math.ceil((primeiro.getUTCDay() + new Date(Date.UTC(ano, mes, 0)).getUTCDate()) / 7);
+  for (let i = 0; i < semanas * 7; i++) {
+    const dt = new Date(inicio.getTime() + i * 86400000);
+    const dia = dt.toISOString().slice(0, 10);
+    const evs = porDia.get(dia) || [];
+    const cel = document.createElement('div');
+    cel.className = 'caldia' + (dt.getUTCMonth() !== mes - 1 ? ' fora' : '') + (dia === hoje ? ' hoje' : '') + (dia >= hoje && ag.dias.includes(dt.getUTCDay()) && !evs.length ? ' slot' : '');
+    cel.innerHTML = `<div class="n">${dt.getUTCDate()}</div>`;
+    const max = 3;
+    evs.slice(0, evs.length > max ? max - 1 : max).forEach(e => {
+      const b = document.createElement('button'); b.className = 'ev ' + e.tipo;
+      b.textContent = `${new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }).format(e.quando)} ${tituloTxt(e.p)}`;
+      b.title = `${CAL_TIPOS[e.tipo]}: ${tituloTxt(e.p)}`;
+      b.onclick = () => abrirCalPost(e);
+      cel.appendChild(b);
+    });
+    if (evs.length > max) {
+      const b = document.createElement('button'); b.className = 'ev mais'; b.textContent = `+${evs.length - max + 1} mais`;
+      b.onclick = () => abrirCalPost(evs[max - 1], evs.slice(max - 1));
+      cel.appendChild(b);
+    }
+    grid.appendChild(cel);
+  }
+  box.appendChild(grid);
+  return box;
+}
+// janela com a prévia do post do calendário e as ações possíveis
+function abrirCalPost(e, outros = []) {
+  const { p, tipo, quando } = e;
+  F('calTit').textContent = tituloTxt(p) || p.id;
+  const th = F('calThumb'); th.innerHTML = ''; th.appendChild(miniatura(p));
+  F('calSt').textContent = `${CAL_TIPOS[tipo]} · ${fmtData(quando)}`;
+  F('calLeg').textContent = p.legenda || '';
+  const ac = F('calAcoes'); ac.innerHTML = '';
+  const fechar = fn => () => { F('dlgCal').close(); fn(); };
+  if (outros.length > 1) {
+    const sel = document.createElement('select'); sel.style.width = 'auto'; sel.style.marginRight = 'auto';
+    outros.forEach((o, i) => sel.insertAdjacentHTML('beforeend', `<option value="${i}" ${o === e ? 'selected' : ''}>${esc(fmtData(o.quando) + ' · ' + tituloTxt(o.p))}</option>`));
+    sel.onchange = () => abrirCalPost(outros[sel.value], outros);
+    ac.appendChild(sel);
+  }
+  if (tipo === 'sugerido') ac.appendChild(btn('✓ Aprovar (sai nessa data)', 'azul', fechar(() => aprovar(p.id, true))));
+  if (tipo !== 'publicado') {
+    ac.appendChild(btn('🗓 Mudar data', '', fechar(() => abrirAgenda(p.id))));
+    if (tipo === 'agendado') ac.appendChild(btn('Tirar data', '', fechar(() => { delete p.agendarPara; marcar(); toast('Voltou para a fila regular.'); })));
+    ac.appendChild(btn('🚀 Publicar agora', '', fechar(() => publicarAgora(p.id))));
+  } else {
+    ac.appendChild(btn('🔁 Repostar', '', fechar(() => abrirRepost([p.id]))));
+  }
+  ac.appendChild(btn('Editar', tipo === 'publicado' ? '' : 'azul', fechar(() => abrirEditor(p.id))));
+  if (!F('dlgCal').open) F('dlgCal').showModal();
+}
+
+// ---------- tema, perfil e usuários ----------
+const TEMA_KEY = 'igbot_tema';
+const temaSalvo = () => { try { return localStorage.getItem(TEMA_KEY) || ''; } catch (e) { return ''; } };
+function aplicarTema(t) {
+  const real = t === 'auto' ? (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'escuro') : t === 'claro' ? 'claro' : 'escuro';
+  document.documentElement.dataset.tema = real;
+}
+if (window.matchMedia) matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => { if (temaSalvo() === 'auto') aplicarTema('auto'); });
+function escolherTema(t) {
+  try { localStorage.setItem(TEMA_KEY, t); } catch (e) {}
+  aplicarTema(t); render();
+  if (auth && auth.currentUser) fb.setDoc(fb.doc(db, ADMINS, auth.currentUser.uid), { tema: t }, { merge: true }).catch(() => {});
+}
+const ADMINS = 'admins';
+let meuDoc = {}, usuarios = null, usuariosErro = '', usEditando = null, fbAppMod = null, appSecundario = null;
+const souAdmin = () => (meuDoc.papel || 'admin') === 'admin'; // contas antigas, sem papel, são administradoras
+function erroFirebase(e) {
+  const c = String((e && e.code) || '');
+  if (c.includes('permission-denied')) return 'O Firebase não deixou fazer isso (regras do Firestore). Peça para quem cuida do Firebase liberar a escrita na coleção "admins" para administradores.';
+  if (c.includes('email-already-in-use')) return 'Já existe uma conta com esse e-mail.';
+  if (c.includes('invalid-email')) return 'E-mail inválido.';
+  if (c.includes('weak-password')) return 'Senha fraca: use pelo menos 8 caracteres.';
+  if (/wrong-password|invalid-credential/.test(c)) return 'A senha atual está errada.';
+  if (c.includes('requires-recent-login')) return 'Por segurança, saia e entre de novo no painel e repita.';
+  if (c.includes('too-many-requests')) return 'Muitas tentativas. Aguarde alguns minutos.';
+  return erroLogin(e);
+}
+function campoPerfil(sec, rotulo, tipo = 'text', valor = '', extra = {}) {
+  const lb = document.createElement('label'); lb.textContent = rotulo;
+  const i = document.createElement('input'); i.type = tipo; i.value = valor; Object.assign(i, extra);
+  sec.append(lb, i); return i;
+}
+function renderPerfil(c) {
+  const u = auth && auth.currentUser;
+  if (!u) { c.innerHTML = '<div class="vazio">Entre no painel para ver o seu perfil.</div>'; return; }
+  const duas = document.createElement('div'); duas.className = 'duas';
+
+  const s1 = secao('👤 Meus dados', '');
+  const em = campoPerfil(s1, 'E-mail', 'email', u.email || '', { disabled: true });
+  const nome = campoPerfil(s1, 'Nome (aparece no menu e na lista de usuários)', 'text', meuDoc.nome || u.displayName || '', { placeholder: 'Seu nome' });
+  s1.insertAdjacentHTML('beforeend', `<p class="dica">Papel: <b>${souAdmin() ? 'Administrador' : 'Editor'}</b>${meuDoc.criadoEm ? ' · conta criada em ' + esc(fmtDia(meuDoc.criadoEm).slice(0, 10)) : ''}</p>`);
+  const a1 = document.createElement('div'); a1.className = 'atalhos';
+  a1.appendChild(btn('Salvar nome', 'azul', async ev => {
+    const b = ev.target; b.disabled = true;
+    try {
+      const n = nome.value.trim();
+      await fb.updateProfile(u, { displayName: n });
+      await fb.setDoc(fb.doc(db, ADMINS, u.uid), { nome: n }, { merge: true });
+      meuDoc.nome = n; mostrarQuem(u); toast('Nome salvo ✅', 'ok');
+    } catch (e) { toast(erroFirebase(e), 'erro'); } finally { b.disabled = false; }
+  }));
+  s1.appendChild(a1);
+
+  const s2 = secao('🎨 Aparência do painel', 'Fica salvo neste navegador e na sua conta.');
+  const atual = temaSalvo() || 'escuro';
+  const op = document.createElement('div'); op.className = 'temaopts';
+  [['escuro', '🌙 Escuro', ['#0e1a3a', '#1b2d5e', '#5BCEFA']], ['claro', '☀️ Claro', ['#F3F6FB', '#FFFFFF', '#1F8FC9']], ['auto', '🖥 Automático', ['#0e1a3a', '#F3F6FB', '#5BCEFA']]].forEach(([k, t, cores]) => {
+    const b = document.createElement('button'); b.className = 'temaopt' + (atual === k ? ' on' : '');
+    b.innerHTML = `<div class="amostra" style="background:${cores[0]}">${cores.slice(1).map(x => `<i style="background:${x}"></i>`).join('')}</div>${t}`;
+    b.onclick = () => escolherTema(k);
+    op.appendChild(b);
+  });
+  s2.appendChild(op);
+  s2.insertAdjacentHTML('beforeend', '<p class="dica" style="margin-top:10px">Automático segue o modo claro ou escuro do seu celular ou computador.</p>');
+
+  const s3 = secao('🔒 Trocar senha', '');
+  const sa = campoPerfil(s3, 'Senha atual', 'password', '', { autocomplete: 'current-password' });
+  const sn = campoPerfil(s3, 'Nova senha (mínimo 8 caracteres)', 'password', '', { autocomplete: 'new-password' });
+  const sc = campoPerfil(s3, 'Repita a nova senha', 'password', '', { autocomplete: 'new-password' });
+  const a3 = document.createElement('div'); a3.className = 'atalhos';
+  a3.appendChild(btn('Trocar senha', 'azul', async ev => {
+    if (sn.value.length < 8) return toast('A nova senha precisa ter pelo menos 8 caracteres.', 'erro');
+    if (sn.value !== sc.value) return toast('As duas senhas novas não são iguais.', 'erro');
+    const b = ev.target; b.disabled = true;
+    try {
+      await fb.reauthenticateWithCredential(u, fb.EmailAuthProvider.credential(u.email, sa.value));
+      await fb.updatePassword(u, sn.value);
+      sa.value = sn.value = sc.value = ''; toast('Senha trocada ✅', 'ok');
+    } catch (e) { toast(erroFirebase(e), 'erro'); } finally { b.disabled = false; }
+  }));
+  s3.appendChild(a3);
+
+  const s4 = secao('✉️ Trocar e-mail', 'O Firebase manda um link para o e-mail novo. A troca só vale depois que você clicar nele.');
+  const ne = campoPerfil(s4, 'Novo e-mail', 'email', '');
+  const ns = campoPerfil(s4, 'Senha atual', 'password', '', { autocomplete: 'current-password' });
+  const a4 = document.createElement('div'); a4.className = 'atalhos';
+  a4.appendChild(btn('Enviar confirmação', '', async ev => {
+    const novo = ne.value.trim().toLowerCase();
+    if (!novo || novo === (u.email || '').toLowerCase()) return toast('Digite um e-mail diferente do atual.', 'erro');
+    const b = ev.target; b.disabled = true;
+    try {
+      await fb.reauthenticateWithCredential(u, fb.EmailAuthProvider.credential(u.email, ns.value));
+      await fb.verifyBeforeUpdateEmail(u, novo);
+      ne.value = ns.value = ''; toast(`Pronto: abra o link que chegou em ${novo} para confirmar.`, 'ok');
+    } catch (e) { toast(erroFirebase(e), 'erro'); } finally { b.disabled = false; }
+  }));
+  s4.appendChild(a4);
+
+  const col1 = document.createElement('div'); col1.append(s1, s2);
+  const col2 = document.createElement('div'); col2.append(s3, s4);
+  duas.append(col1, col2); c.appendChild(duas);
+}
+async function carregarUsuarios() {
+  usuariosErro = '';
+  try {
+    const snap = await fb.getDocs(fb.collection(db, ADMINS));
+    usuarios = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+  } catch (e) { usuarios = []; usuariosErro = erroFirebase(e); }
+  if (tab === 'usuarios') render();
+}
+function renderUsuarios(c) {
+  if (!souAdmin()) { c.innerHTML = '<div class="vazio">Só administradores gerenciam usuários.</div>'; return; }
+  if (usuarios === null) { c.innerHTML = '<div class="vazio">Carregando usuários…</div>'; carregarUsuarios(); return; }
+  const eu = auth.currentUser && auth.currentUser.uid;
+  const duas = document.createElement('div'); duas.className = 'duas';
+  const s1 = secao(`👥 Usuários com acesso (${usuarios.length})`, 'Valem para este painel e para o painel de indicações do site.');
+  if (usuariosErro) s1.insertAdjacentHTML('beforeend', `<div class="aviso erro">${esc(usuariosErro)}</div>`);
+  usuarios.slice().sort((a, b) => (a.nome || a.email || '').localeCompare(b.nome || b.email || '')).forEach(u => {
+    const r = document.createElement('div'); r.className = 'urow';
+    const papel = u.papel || 'admin';
+    r.innerHTML = `<div class="ui"><b>${esc(u.nome || u.email || '(sem e-mail)')}<span class="pill ${papel === 'editor' ? 'ed' : ''}">${papel === 'editor' ? 'Editor' : 'Admin'}</span>${u.uid === eu ? '<span class="pill eu">você</span>' : ''}</b><small>${esc(u.nome ? u.email || '' : '')}${u.criadoEm ? `${u.nome ? ' · ' : ''}desde ${esc(fmtDia(u.criadoEm).slice(0, 10))}` : ''}${u.ultimoAcesso ? ` · último acesso ${esc(fmtDia(u.ultimoAcesso))}` : ''}</small></div>`;
+    r.appendChild(btn('Editar', '', () => abrirUsuario(u)));
+    if (u.uid !== eu) r.appendChild(btn('Remover', 'perigo', () => removerUsuario(u)));
+    s1.appendChild(r);
+  });
+  const at = document.createElement('div'); at.className = 'atalhos'; at.appendChild(btn('↻ Atualizar lista', '', () => { usuarios = null; render(); }));
+  s1.appendChild(at);
+
+  const s2 = secao('＋ Novo usuário', 'A pessoa entra com o e-mail e a senha provisória, e depois troca a senha em 👤 Meu perfil.');
+  const nN = campoPerfil(s2, 'Nome', 'text', '');
+  const nE = campoPerfil(s2, 'E-mail', 'email', '');
+  const nS = campoPerfil(s2, 'Senha provisória (mínimo 8 caracteres)', 'text', '', { autocomplete: 'off' });
+  const lbP = document.createElement('label'); lbP.textContent = 'Papel';
+  const nP = document.createElement('select'); nP.innerHTML = F('usPapel').innerHTML; nP.value = 'editor';
+  s2.append(lbP, nP);
+  const a2 = document.createElement('div'); a2.className = 'atalhos';
+  a2.appendChild(btn('Criar acesso', 'azul', async ev => {
+    const email = nE.value.trim().toLowerCase();
+    if (!/^\S+@\S+\.\S+$/.test(email)) return toast('Digite um e-mail válido.', 'erro');
+    if (nS.value.length < 8) return toast('A senha provisória precisa ter pelo menos 8 caracteres.', 'erro');
+    const b = ev.target; b.disabled = true; b.textContent = 'Criando…';
+    try {
+      // cria a conta numa segunda conexão, para você não sair do painel
+      if (!appSecundario) appSecundario = fbAppMod.initializeApp(FB_CONFIG, 'criar-usuario');
+      const authSec = fb.getAuth(appSecundario);
+      const cred = await fb.createUserWithEmailAndPassword(authSec, email, nS.value);
+      if (nN.value.trim()) await fb.updateProfile(cred.user, { displayName: nN.value.trim() }).catch(() => {});
+      await fb.signOut(authSec);
+      await fb.setDoc(fb.doc(db, ADMINS, cred.user.uid), { email, ...(nN.value.trim() ? { nome: nN.value.trim() } : {}), papel: nP.value, criadoPor: auth.currentUser.uid, criadoEm: new Date().toISOString() });
+      toast(`Pronto! ${email} já pode entrar com a senha provisória.`, 'ok');
+      usuarios = null; render();
+    } catch (e) { toast(erroFirebase(e), 'erro'); } finally { b.disabled = false; b.textContent = 'Criar acesso'; }
+  }));
+  s2.appendChild(a2);
+  duas.append(s1, s2); c.appendChild(duas);
+}
+function abrirUsuario(u) {
+  usEditando = u;
+  F('usTit').textContent = 'Editar ' + (u.nome || u.email || 'usuário');
+  F('usEmail').value = u.email || ''; F('usNome').value = u.nome || ''; F('usPapel').value = u.papel || 'admin';
+  F('usPapel').disabled = u.uid === (auth.currentUser && auth.currentUser.uid); // não dá para tirar o próprio papel de admin
+  F('dlgUsuario').showModal();
+}
+F('usOk').onclick = async () => {
+  const u = usEditando; if (!u) return;
+  const mud = { nome: F('usNome').value.trim(), papel: F('usPapel').value };
+  try {
+    await fb.setDoc(fb.doc(db, ADMINS, u.uid), mud, { merge: true });
+    Object.assign(u, mud);
+    if (u.uid === auth.currentUser.uid) { Object.assign(meuDoc, mud); mostrarQuem(auth.currentUser); }
+    F('dlgUsuario').close(); render(); toast('Usuário atualizado ✅', 'ok');
+  } catch (e) { toast(erroFirebase(e), 'erro'); }
+};
+F('usReset').onclick = async () => {
+  const u = usEditando; if (!u || !u.email) return;
+  try { await fb.sendPasswordResetEmail(auth, u.email); toast(`Link de nova senha enviado para ${u.email}.`, 'ok'); }
+  catch (e) { toast(erroFirebase(e), 'erro'); }
+};
+async function removerUsuario(u) {
+  if (!confirm(`Tirar o acesso de ${u.nome || u.email} aos painéis?\n\nA conta continua existindo no Firebase, mas não entra mais aqui nem no painel de indicações.`)) return;
+  try { await fb.deleteDoc(fb.doc(db, ADMINS, u.uid)); usuarios = usuarios.filter(x => x.uid !== u.uid); render(); toast('Acesso removido.'); }
+  catch (e) { toast(erroFirebase(e), 'erro'); }
+}
+function mostrarQuem(user) {
+  F('whoEmail').textContent = meuDoc.nome || user.displayName || user.email || '';
+  F('whoEmail').title = user.email || '';
 }
 
 // ---------- criar com IA ----------
@@ -1516,12 +1882,12 @@ function erroLogin(err) {
 }
 function mostrarLogin() {
   F('app').hidden = true; F('lock').hidden = false;
-  data = null; sha = null; ideias = []; banco = { posts: [] }; logoSrc = ''; dirty = false; jaCarregou = false;
+  data = null; sha = null; ideias = []; banco = { posts: [] }; logoSrc = ''; meuDoc = {}; usuarios = null; dirty = false; jaCarregou = false;
   lockErro(lockMsg); lockMsg = ''; F('lSenha').value = '';
 }
 function mostrarApp(user) {
   F('lock').hidden = true; F('app').hidden = false;
-  F('whoEmail').textContent = user.email || '';
+  mostrarQuem(user);
   if (!jaCarregou) { jaCarregou = true; render(); carregar(); }
 }
 async function aoMudarUsuario(user) {
@@ -1529,6 +1895,9 @@ async function aoMudarUsuario(user) {
   try {
     const d = await Promise.race([fb.getDoc(fb.doc(db, 'admins', user.uid)), new Promise((_, rej) => setTimeout(() => rej({ code: 'tempo esgotado ao consultar permissões' }), 15000))]);
     if (!d.exists()) { lockMsg = 'Esta conta não está na lista de administradores. Entre uma vez no painel de indicações do site e depois volte aqui.'; return fb.signOut(auth); }
+    meuDoc = d.data() || {};
+    if (!temaSalvo() && meuDoc.tema) { try { localStorage.setItem(TEMA_KEY, meuDoc.tema); } catch (e) {} aplicarTema(meuDoc.tema); }
+    fb.setDoc(fb.doc(db, ADMINS, user.uid), { ultimoAcesso: new Date().toISOString(), ...(user.email && user.email !== meuDoc.email ? { email: user.email } : {}) }, { merge: true }).catch(() => {});
   } catch (e) { lockMsg = 'Não consegui confirmar o acesso de administrador desta conta. ' + ((e && e.code) || ''); return fb.signOut(auth); }
   mostrarApp(user);
 }
@@ -1539,6 +1908,7 @@ async function iniciarLogin() {
     const limite = (p, ms, msg) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error(msg)), ms))]);
     const [a, au, fs] = await limite(Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]), 20000, 'tempo esgotado ao carregar o Firebase');
     fb = { ...au, ...fs };
+    fbAppMod = a;
     const app = a.initializeApp(FB_CONFIG);
     auth = au.getAuth(app); db = fs.getFirestore(app);
     F('lEntrar').disabled = false; F('lEntrar').textContent = 'Entrar';
