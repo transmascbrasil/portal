@@ -210,7 +210,7 @@
 <div id="toasts" aria-live="polite"></div>
 
 <script type="module">
-import { carregarFirebase, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
+import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
   hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
   REACOES, TIPOS, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
 
@@ -254,7 +254,7 @@ async function aoMudarLogin(user){
   } catch (err) {
     console.error(err); tela('entrar'); mostrarErro('e-err', traduzErro(err)); return;
   }
-  souAdmin = await fb.getDoc(fb.doc(db, 'admins', user.uid)).then(s => s.exists()).catch(() => false);
+  souAdmin = await ehModeracao();
   const bloqueado = await fb.getDoc(fb.doc(db, 'bloqueados', user.uid)).then(s => s.exists()).catch(() => false);
   if (bloqueado) verificado = false;
   abrirForum(bloqueado);

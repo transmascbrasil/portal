@@ -39,6 +39,11 @@ export async function carregarFirebase(){
   }
   return { fb, auth, db };
 }
+/* É da moderação? Quem pode ler a lista de admins (a conta dona ou quem está em "admins") é moderação.
+   Ler em vez de procurar o próprio documento inclui a conta dona, que não precisa estar na lista. */
+export function ehModeracao(){
+  return fb.getDocs(fb.query(fb.collection(db, 'admins'), fb.limit(1))).then(() => true).catch(() => false);
+}
 /* Mantém o ?emulador nos links entre as páginas durante os testes locais */
 export function url(pagina){ return location.search.includes('emulador') ? pagina + (pagina.includes('?') ? '&' : '?') + 'emulador' : pagina; }
 
