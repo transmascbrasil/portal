@@ -24,262 +24,12 @@
 <meta property="og:url" content="https://transmascbrasil.github.io/portal/comunidade.html">
 <meta property="og:image" content="https://transmascbrasil.github.io/portal/img/og-image.png">
 <meta property="og:locale" content="pt_BR">
+<meta name="robots" content="noindex, nofollow"><!-- tirar quando a comunidade for lançada -->
 <meta name="description" content="Área de membros do Portal Transmasc Brasil: perguntas, respostas, publicações e enquetes, com opção de anonimato.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<style>
-:root{
-  --blue:#5BCEFA; --blue-soft:#E6F7FE; --pink:#F5A9B8; --pink-soft:#FDEEF1;
-  --navy:#14254F; --navy-2:#1E3A8A; --ink:#14254F; --muted:#5B6785;
-  --bg:#F3F6FB; --card:#FFFFFF; --line:#E3E8F2; --soft:#F0F3F9;
-  --ok:#1F8A5B; --ok-soft:#E3F5EC; --bad:#B42318; --bad-soft:#FDECEA;
-  --radius:18px; --shadow:0 1px 2px rgba(20,37,79,.06),0 8px 24px rgba(20,37,79,.07);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-[hidden]{display:none!important}
-body{font-family:'Nunito Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:16px}
-h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;line-height:1.15}
-a{color:inherit}
-button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-.flag{display:flex;height:6px}.flag span{flex:1}.b{background:var(--blue)}.p{background:var(--pink)}.w{background:#fff}
-
-/* Cabeçalho */
-header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;height:64px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Bricolage Grotesque';font-weight:800;font-size:19px}
-.brand img{width:32px;height:32px}
-.brand small{display:block;font-family:'Nunito Sans';font-weight:700;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:-2px}
-.hlinks{display:flex;align-items:center;gap:6px}
-.hlinks a,.hlinks button{text-decoration:none;font-weight:700;font-size:14px;padding:8px 12px;border-radius:999px;color:var(--muted)}
-.hlinks a:hover,.hlinks button:hover{color:var(--navy);background:var(--blue-soft)}
-.hlinks .eu{display:flex;align-items:center;gap:8px;color:var(--navy)}
-@media(max-width:640px){.brand span{font-size:15px}.brand small{font-size:9px}.hlinks .eu b{display:none}.hlinks a.voltar,#h-editar{display:none}.hlinks .eu{padding:4px}}
-
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:800;padding:12px 20px;border-radius:999px;transition:transform .15s ease;text-decoration:none;font-size:15px}
-.btn:hover{transform:translateY(-1px)}
-.btn[disabled]{opacity:.55;transform:none;cursor:default}
-.btn-navy{background:var(--navy);color:#fff}
-.btn-pink{background:var(--pink);color:var(--navy)}
-.btn-line{background:#fff;box-shadow:inset 0 0 0 1.5px var(--line)}
-.btn-sm{padding:7px 14px;font-size:13px}
-.input,textarea.input{width:100%;font:inherit;font-weight:600;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;outline:none}
-.input:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
-.field{display:flex;flex-direction:column;gap:6px}
-.field label{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.stack{display:flex;flex-direction:column;gap:14px}
-.err{background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:11px 14px;font-size:14px;font-weight:700}
-.ok{background:var(--ok-soft);color:var(--ok);border-radius:12px;padding:11px 14px;font-size:14px;font-weight:700}
-.small{font-size:13px;color:var(--muted)}
-.link{color:var(--navy-2);font-weight:800;text-decoration:underline;font-size:14px}
-
-/* Entrada */
-.entrada{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding:56px 0 80px}
-.entrada .intro .eyebrow{display:inline-block;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--navy-2);margin-bottom:14px}
-.entrada .intro h1{font-size:clamp(32px,4.4vw,48px);font-weight:800}
-.entrada .intro h1 em{font-style:normal;background:linear-gradient(90deg,#2BA6D9,#E2768C);-webkit-background-clip:text;background-clip:text;color:transparent}
-.entrada .intro p{margin-top:16px;color:var(--muted);font-size:17px;max-width:480px}
-.entrada ul{list-style:none;margin-top:22px;display:flex;flex-direction:column;gap:10px}
-.entrada li{display:flex;gap:10px;align-items:start;font-weight:700}
-.entrada li span{font-size:20px;line-height:1.2}
-.cartao{background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:26px}
-.abas{display:flex;background:var(--soft);border-radius:999px;padding:4px;margin-bottom:20px}
-.abas button{flex:1;padding:9px;border-radius:999px;font-weight:800;color:var(--muted)}
-.abas button[aria-selected=true]{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(20,37,79,.12)}
-.chk{display:flex;gap:10px;align-items:start;font-size:14px}
-.chk input{width:18px;height:18px;margin-top:2px;accent-color:var(--navy);flex:none}
-@media(max-width:820px){.entrada{grid-template-columns:1fr;gap:26px;padding:28px 0 50px}}
-
-/* Fórum */
-.forum{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;padding:22px 0 70px;align-items:start}
-@media(max-width:900px){.forum{grid-template-columns:1fr}.lado{order:2}}
-.aviso{background:#FFF6E5;border:1.5px solid #F4D08A;border-radius:14px;padding:12px 14px;font-size:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
-.aviso p{flex:1;min-width:220px}
-.box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
-.criar{padding:14px 16px;display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
-.criar .linha{display:flex;gap:10px;align-items:center}
-.criar .abrir{flex:1;text-align:left;background:var(--soft);border-radius:999px;padding:11px 16px;color:var(--muted);font-weight:600}
-.criar .abrir:hover{background:#E7ECF5}
-.criar .atalhos{display:flex;gap:4px;border-top:1px solid var(--line);padding-top:8px}
-.criar .atalhos button{flex:1;padding:8px;border-radius:10px;font-weight:800;font-size:14px;color:var(--muted);display:flex;gap:6px;align-items:center;justify-content:center}
-.criar .atalhos button:hover{background:var(--soft)}
-.filtros{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px;scrollbar-width:none}
-.filtros button{white-space:nowrap;padding:8px 14px;border-radius:999px;font-weight:800;font-size:14px;color:var(--muted);background:#fff;box-shadow:inset 0 0 0 1.5px var(--line)}
-.filtros button[aria-pressed=true]{background:var(--navy);color:#fff;box-shadow:none}
-
-.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;flex:none;font-family:'Bricolage Grotesque'}
-.av.sm{width:32px;height:32px;font-size:12px}
-.av.anon{background:#2A2F45;color:#fff;font-size:20px}
-.av.anon.sm{font-size:16px}
-
-/* Post */
-#feed{display:flex;flex-direction:column;gap:14px}
-.post{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);scroll-margin-top:84px}
-.post.destaque{box-shadow:0 0 0 3px var(--blue),var(--shadow)}
-.phead{display:flex;gap:10px;align-items:center;padding:14px 16px 0}
-.pmeta{flex:1;min-width:0;display:flex;flex-direction:column}
-.pmeta b{font-size:15px}
-.pmeta span{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.pmeta span a{text-decoration:none}.pmeta span a:hover{text-decoration:underline}
-.tag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:999px;background:var(--blue-soft);color:var(--navy-2)}
-.tag.pergunta{background:var(--pink-soft);color:#A3324A}
-.tag.enquete{background:#EEE8FA;color:#5B3FA8}
-.pmenu{position:relative}
-.dots{width:36px;height:36px;border-radius:50%;font-size:20px;font-weight:900;color:var(--muted);line-height:1}
-.dots:hover{background:var(--soft)}
-.mlist{position:absolute;right:0;top:40px;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(20,37,79,.18);padding:6px;min-width:200px;z-index:5;display:flex;flex-direction:column}
-.mlist button,.mlist a{text-align:left;padding:9px 12px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none}
-.mlist button:hover,.mlist a:hover{background:var(--soft)}
-.mlist .perigo{color:var(--bad)}
-.ptexto{padding:10px 16px 0;white-space:normal;overflow-wrap:anywhere;font-size:15.5px}
-.ptexto.grande{font-size:22px;font-weight:700;line-height:1.3;font-family:'Bricolage Grotesque';letter-spacing:-.01em}
-.ptexto.perg{font-weight:700}
-.ptexto a,.ctexto a{color:var(--navy-2);font-weight:700}
-.pmidia{padding-bottom:4px}
-.pimgs{display:grid;gap:3px;margin-top:12px;background:var(--line)}
-.pimgs.n2{grid-template-columns:1fr 1fr}
-.pimgs.n3{grid-template-columns:1fr 1fr}.pimgs.n3 .pimg:first-child{grid-column:1/-1}
-.pimgs.n4{grid-template-columns:1fr 1fr}
-.pimg{display:block;padding:0;background:#fff;overflow:hidden}
-.pimg img{display:block;width:100%;height:100%;object-fit:cover;max-height:520px}
-.pimgs.n2 .pimg img,.pimgs.n3 .pimg img,.pimgs.n4 .pimg img{aspect-ratio:1/1;max-height:none}
-.pimgs.n3 .pimg:first-child img{aspect-ratio:16/9}
-.pvideo{margin-top:12px;aspect-ratio:16/9;background:#000}
-.pvideo iframe,.pvideo video{width:100%;height:100%;border:0;display:block}
-.lcard{display:flex;gap:12px;align-items:center;margin:12px 16px 0;padding:12px 14px;border-radius:14px;background:var(--soft);text-decoration:none;min-width:0}
-.lcard:hover{background:#E7ECF5}
-.lcard i{font-style:normal;font-size:22px}
-.lcard div{min-width:0}
-.lcard b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.lcard span{display:block;font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--navy-2)}
-
-.enq{margin:12px 16px 0;display:flex;flex-direction:column;gap:8px}
-.enq label.op{display:flex;gap:10px;align-items:center;padding:11px 14px;border-radius:12px;box-shadow:inset 0 0 0 1.5px var(--line);font-weight:700;cursor:pointer}
-.enq label.op:hover{background:var(--soft)}
-.enq label.op input{accent-color:var(--navy);width:18px;height:18px}
-.enq .res{position:relative;border-radius:12px;background:var(--soft);overflow:hidden;padding:10px 14px;display:flex;justify-content:space-between;gap:10px;font-weight:700}
-.enq .res i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--blue-soft),#CFEFFD);border-radius:12px}
-.enq .res.meu i{background:linear-gradient(90deg,var(--pink-soft),#F9D3DB)}
-.enq .res span,.enq .res b{position:relative}
-.enq .rodape{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted)}
-
-.pstats{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px 8px;font-size:14px;color:var(--muted)}
-.pstats button:hover{text-decoration:underline}
-.rsum{display:flex;align-items:center;gap:6px}
-.remj{display:inline-flex}
-.remj span{width:20px;height:20px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:13px;margin-left:-4px;box-shadow:0 0 0 2px #fff}
-.remj span:first-child{margin-left:0}
-.pacoes{display:flex;border-top:1px solid var(--line);margin:0 12px;padding:4px 0}
-.pacoes>*{flex:1}
-.acao{width:100%;padding:9px 6px;border-radius:10px;font-weight:800;font-size:14.5px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:7px;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-.acao:hover{background:var(--soft)}
-.acao .emj{font-size:18px;line-height:1}
-.acao svg{width:19px;height:19px}
-
-/* Reações */
-.reagir{position:relative}
-.rbar{position:absolute;bottom:calc(100% + 4px);left:0;display:flex;gap:2px;background:#fff;padding:5px 6px;border-radius:999px;box-shadow:0 6px 24px rgba(20,37,79,.22);z-index:8;
-  visibility:hidden;opacity:0;transform:translateY(6px) scale(.96);transform-origin:left bottom;transition:opacity .15s,transform .15s,visibility 0s .15s}
-@media(hover:hover){.reagir:hover .rbar{visibility:visible;opacity:1;transform:none;transition-delay:.45s,.45s,0s}}
-.reagir.aberto .rbar,.reagir:has(:focus-visible) .rbar{visibility:visible;opacity:1;transform:none;transition-delay:0s}
-.rbar button{width:42px;height:42px;font-size:28px;display:grid;place-items:center;border-radius:50%;transition:transform .12s;position:relative}
-.rbar button:hover,.rbar button:focus-visible{transform:scale(1.3) translateY(-4px)}
-.rbar button::after{content:attr(data-label);position:absolute;top:-24px;left:50%;transform:translateX(-50%);background:rgba(20,37,79,.9);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .1s}
-.rbar button:hover::after,.rbar button:focus-visible::after{opacity:1}
-@media(max-width:420px){.rbar button{width:36px;height:36px;font-size:24px}}
-
-/* Comentários */
-.pcoms{padding:4px 16px 0;display:flex;flex-direction:column;gap:10px}
-.pcoms:empty{display:none}
-.vertodos{align-self:flex-start;font-weight:800;font-size:14px;color:var(--muted)}
-.vertodos:hover{text-decoration:underline}
-.com{display:flex;gap:8px;align-items:start}
-.com.resp{margin-left:40px}
-.cbox{min-width:0;flex:1;display:flex;flex-direction:column;align-items:flex-start}
-.bolha{background:var(--soft);border-radius:16px;padding:8px 12px;max-width:100%;position:relative}
-.bolha b{font-size:13.5px}
-.selo{margin-left:6px;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:1px 7px;border-radius:999px;background:var(--navy);color:#fff;vertical-align:1px}
-.ctexto{font-size:14.5px;overflow-wrap:anywhere}
-.cimg{margin-top:6px;padding:0;border-radius:14px;overflow:hidden;max-width:260px}
-.cimg img{display:block;width:100%;max-height:300px;object-fit:cover}
-.creac{position:absolute;right:-8px;bottom:-10px;background:#fff;border-radius:999px;padding:1px 6px 1px 4px;font-size:12px;font-weight:700;color:var(--muted);box-shadow:0 1px 4px rgba(20,37,79,.2);display:flex;align-items:center;gap:3px}
-.creac .remj span{width:16px;height:16px;font-size:11px}
-.cacoes{display:flex;gap:4px 12px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--muted);padding:4px 10px 0;font-weight:800}
-.cacoes>button,.cacoes .reagir>.acao{font-weight:800;font-size:12.5px;color:var(--muted);padding:0;width:auto;background:none}
-.cacoes>button:hover,.cacoes .reagir>.acao:hover{text-decoration:underline;background:none}
-.cacoes span{font-weight:600}
-.cacoes .rbar{left:-6px}
-
-.ccomp{padding:10px 16px 14px}
-.ccomp .resp-info{font-size:13px;color:var(--muted);margin:0 0 6px 40px;display:flex;gap:8px;align-items:center}
-.ccomp .resp-info button{font-weight:800;color:var(--navy-2)}
-.ccomp .cl{display:flex;gap:8px;align-items:start}
-.cfield{flex:1;min-width:0;background:var(--soft);border-radius:18px;padding:6px 8px 6px 14px}
-.cfield textarea{width:100%;border:0;background:none;resize:none;font:inherit;font-size:14.5px;color:var(--ink);outline:none;padding:4px 0;max-height:200px;display:block}
-.cbar{display:flex;align-items:center;gap:6px;justify-content:flex-end;flex-wrap:wrap}
-.anonchk{display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;color:var(--muted);cursor:pointer;margin-right:auto}
-.anonchk input{accent-color:var(--navy)}
-.ico{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:17px}
-.ico:hover{background:#E2E8F3}
-.enviar{background:var(--navy);color:#fff;font-weight:800;font-size:13px;padding:6px 14px;border-radius:999px}
-.enviar[disabled]{opacity:.5;cursor:default}
-.prev{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
-.prev div{position:relative}
-.prev img{width:76px;height:76px;object-fit:cover;border-radius:10px;display:block}
-.prev button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:900}
-.semacesso{padding:10px 16px 14px;font-size:13px;color:var(--muted)}
-
-.vazio{text-align:center;padding:40px 20px;color:var(--muted)}
-.vazio b{display:block;font-family:'Bricolage Grotesque';font-size:22px;color:var(--navy);margin-bottom:6px}
-.mais{display:flex;justify-content:center;margin-top:16px}
-
-/* Lateral */
-.lado{display:flex;flex-direction:column;gap:14px;position:sticky;top:84px}
-@media(max-width:900px){.lado{position:static}}
-.lado .box{padding:18px}
-.lado h3{font-size:18px;margin-bottom:8px}
-.lado ol,.lado ul{padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:6px;color:var(--muted)}
-.lado p{font-size:14px;color:var(--muted)}
-
-/* Modais */
-.overlay{position:fixed;inset:0;background:rgba(14,22,44,.55);z-index:50;display:flex;padding:16px;overflow-y:auto}
-.modal{background:#fff;width:100%;max-width:560px;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.3);margin:auto}
-.modal .mhead{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
-.modal .mhead h3{font-size:21px}
-.modal .x{width:36px;height:36px;border-radius:50%;background:var(--soft);font-weight:900}
-.modal form,.modal .mbody{padding:16px 20px 20px;display:flex;flex-direction:column;gap:14px}
-.seg{display:flex;background:var(--soft);border-radius:999px;padding:4px}
-.seg label{flex:1;text-align:center;padding:8px 6px;border-radius:999px;font-weight:800;font-size:14px;color:var(--muted);cursor:pointer}
-.seg input{position:absolute;opacity:0;pointer-events:none}
-.seg label:has(input:checked){background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(20,37,79,.14)}
-.seg label:has(input:focus-visible){outline:2px solid var(--blue)}
-.quem{display:flex;gap:10px;align-items:center}
-.quem b{display:block}.quem small{color:var(--muted);font-size:12px}
-#n-texto{border:0;resize:vertical;font:inherit;font-size:18px;color:var(--ink);outline:none;min-height:120px;width:100%}
-.opcoes{display:flex;flex-direction:column;gap:8px}
-.opcoes .lin{display:flex;gap:6px}
-.opcoes .lin button{width:40px;border-radius:12px;background:var(--soft);font-weight:900}
-.addbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;border:1.5px solid var(--line);border-radius:14px;padding:8px 12px}
-.addbar span{font-weight:800;font-size:14px;margin-right:auto}
-.addbar label,.addbar button{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;font-weight:800;font-size:14px;cursor:pointer;background:var(--soft)}
-.addbar label:hover,.addbar button:hover{background:#E2E8F3}
-.anonop{display:flex;gap:12px;align-items:start;padding:12px 14px;border-radius:14px;background:#2A2F45;color:#fff;cursor:pointer}
-.anonop input{width:20px;height:20px;margin-top:2px;accent-color:var(--pink);flex:none}
-.anonop small{display:block;color:#C9D3EA;font-size:13px}
-.lista-quem{display:flex;flex-direction:column;gap:10px;max-height:60vh;overflow-y:auto}
-.lista-quem div{display:flex;align-items:center;gap:10px;font-weight:700}
-.lista-quem div span:last-child{margin-left:auto;font-size:20px}
-.abas-r{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:-4px -20px 0;padding:0 16px;overflow-x:auto}
-.abas-r button{padding:8px 10px;font-weight:800;font-size:14px;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
-.abas-r button[aria-selected=true]{color:var(--navy);border-color:var(--navy)}
-.lightbox{position:fixed;inset:0;background:rgba(5,10,25,.92);z-index:60;display:grid;place-items:center;padding:16px;cursor:zoom-out}
-.lightbox img{max-width:100%;max-height:100%;border-radius:8px}
-
-#toasts{position:fixed;bottom:20px;right:20px;left:20px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:70;pointer-events:none}
-.toast{background:var(--navy);color:#fff;padding:13px 18px;border-radius:14px;font-weight:700;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);border-left:5px solid var(--pink);max-width:380px}
-.carregando{display:grid;place-items:center;padding:100px 0;color:var(--muted);font-weight:700}
-</style>
+<link rel="stylesheet" href="comunidade.css">
 </head>
 <body>
 
@@ -293,8 +43,8 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdro
     </a>
     <div class="hlinks">
       <a href="index.html" class="voltar">← Portal</a>
-      <button class="eu" id="h-eu" hidden onclick="abrirNome()" title="Editar nome"><span id="h-av"></span><b id="h-nome"></b></button>
-      <button id="h-editar" hidden onclick="abrirNome()">Editar nome</button>
+      <a href="comunidade-admin.html" id="h-admin" hidden>🛡️ Moderação</a>
+      <a class="eu" id="h-eu" hidden href="perfil.html" title="Meu perfil"><span id="h-av"></span><b id="h-nome"></b></a>
       <button id="h-sair" hidden onclick="sair()">Sair</button>
     </div>
   </div>
@@ -367,6 +117,12 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdro
         <button class="btn btn-navy btn-sm" onclick="jaConfirmei()">Já confirmei</button>
       </div>
 
+      <div class="aviso" id="aviso-bloqueado" hidden>
+        <p>🚫 <b>Sua conta está suspensa</b> pela moderação. Você ainda pode ler, mas não pode publicar, comentar nem reagir. Dúvidas: transmascbrasil@gmail.com</p>
+      </div>
+      <div class="aviso" id="aviso-hormonio" hidden></div>
+      <div id="pendentes"></div>
+
       <div class="box criar">
         <div class="linha"><span id="criar-av"></span><button class="abrir" onclick="abrirNovo('post')">No que você está pensando?</button></div>
         <div class="atalhos">
@@ -390,6 +146,8 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdro
     </div>
 
     <aside class="lado">
+      <a class="box" id="lado-perfil" href="perfil.html" style="padding:16px 18px;text-decoration:none;display:flex;gap:12px;align-items:center">
+        <span style="font-size:28px">👤</span><span><b style="display:block">Meu perfil</b><span class="small">Perfil, hormonização, jornada e lojinha</span></span></a>
       <div class="box">
         <h3>Regras da comunidade</h3>
         <ol id="regras">
@@ -435,7 +193,8 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdro
       </div>
       <label class="anonop"><input type="checkbox" id="n-anon"><span><b>Publicar como anônimo</b><small>Seu nome não aparece para os outros membros.</small></span></label>
       <p class="err" id="n-err" hidden></p>
-      <button class="btn btn-navy" id="b-publicar">Publicar</button>
+      <p class="small">Toda publicação passa pela moderação antes de aparecer no feed.</p>
+      <button class="btn btn-navy" id="b-publicar">Enviar para moderação</button>
     </form>
   </div>
 </div>
@@ -448,162 +207,32 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdro
   </div>
 </div>
 
-<!-- Editar nome -->
-<div class="overlay" id="m-nome" hidden>
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-nome-t" style="max-width:420px">
-    <div class="mhead"><h3 id="m-nome-t">Editar nome</h3><button class="x" data-fechar aria-label="Fechar">✕</button></div>
-    <form onsubmit="salvarNome(event)">
-      <div class="field"><label for="en-nome">Nome ou apelido</label><input class="input" id="en-nome" maxlength="40" minlength="2" required></div>
-      <p class="small">O novo nome vale para as próximas publicações.</p>
-      <p class="err" id="en-err" hidden></p>
-      <button class="btn btn-navy">Salvar</button>
-    </form>
-  </div>
-</div>
-
 <div id="toasts" aria-live="polite"></div>
 
 <script type="module">
-const firebaseConfig = {
-  apiKey: "AIzaSyCqz9jXdJy4z3GN0IQ30qeJOErQxAOkx7o",
-  authDomain: "portal-d40f5.firebaseapp.com",
-  projectId: "portal-d40f5",
-  storageBucket: "portal-d40f5.firebasestorage.app",
-  messagingSenderId: "138269570866",
-  appId: "1:138269570866:web:64b9698327654988d8c92b"
-};
-/* Estrutura no Firestore (regras em firestore-comunidade.rules):
-   membros/{uid}                         nome de exibição
-   forum_posts/{id}                      publicação; reações em reacoes.{uid}; enquete em opcoes + contagem
-   forum_posts/{id}/comentarios/{id}     comentários e respostas (campo pai)
-   forum_posts/{id}/votos/{uid}          voto secreto (só a própria pessoa lê)
-   forum_autoria/{id}                    quem escreveu cada post/comentário (só a pessoa e a moderação leem) */
+import { carregarFirebase, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
+  hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
+  REACOES, TIPOS, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
 
-const REACOES = {
-  curtir:['👍','Curtir','#1877F2'], amei:['❤️','Amei','#E0245E'], forca:['🤗','Força','#C98A00'],
-  haha:['😂','Haha','#C98A00'], uau:['😮','Uau','#C98A00'], triste:['😢','Triste','#C98A00'], grr:['😡','Grr','#D9480F']
-};
-const TIPOS = { post:'Publicação', pergunta:'Pergunta', enquete:'Enquete' };
 const DICAS = { post:'No que você está pensando?', pergunta:'Qual é a sua dúvida? Conte um pouco do contexto…', enquete:'Qual é a pergunta da enquete?' };
 const POR_PAGINA = 15;
-const EMAIL_CONTATO = 'transmascbrasil@gmail.com';
 
-let fb = null, auth, db;
 let eu = null, meuNome = '', souAdmin = false, verificado = false, criandoConta = false;
 const meus = new Set();          // ids de posts/comentários que eu escrevi (inclusive anônimos)
 const posts = new Map();         // id -> { d, cs, el, todos, voto, verRes }
-const nomes = new Map();         // uid -> nome (para a lista de reações)
+const nomes = new Map();
+const meusPosts = new Map();     // id -> listener das minhas publicações ainda em moderação
 let unsubFeed = null, unsubMeus = null, limiteFeed = POR_PAGINA, filtro = 'tudo', primeiraCarga = true;
 let fotosNovo = [];
 
-/* ---------- utilidades ---------- */
-const $ = id => document.getElementById(id);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function toast(msg){
-  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
-  $('toasts').appendChild(t);
-  setTimeout(() => { t.style.transition = 'opacity .3s'; t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 4000);
-}
-function mostrarErro(id, msg){ const el = $(id); el.textContent = msg; el.hidden = !msg; }
 function tela(nome){ for (const t of ['carregando','entrar','perfil','forum']) $('tela-'+t).hidden = t !== nome; }
-function traduzErro(err){
-  const c = (err && err.code) || '';
-  if (c.includes('invalid-credential') || c.includes('wrong-password') || c.includes('user-not-found')) return 'E-mail ou senha incorretos.';
-  if (c.includes('too-many-requests')) return 'Muitas tentativas. Espere alguns minutos e tente de novo.';
-  if (c.includes('email-already-in-use')) return 'Já existe uma conta com esse e-mail. Tente entrar ou use “Esqueci minha senha”.';
-  if (c.includes('weak-password')) return 'Senha fraca. Use pelo menos 8 caracteres.';
-  if (c.includes('invalid-email')) return 'E-mail inválido.';
-  if (c.includes('operation-not-allowed')) return 'O login por e-mail e senha não está ativado no Firebase.';
-  if (c.includes('network') || c.includes('unavailable')) return 'Sem conexão. Verifique a internet e tente de novo.';
-  if (c.includes('permission-denied')) return verificado ? 'Você não tem permissão para fazer isso.' : 'Confirme seu e-mail para participar.';
-  if (c.includes('invalid-argument') || c.includes('resource-exhausted')) return 'A publicação ficou grande demais. Tente com menos fotos.';
-  return 'Algo deu errado: ' + ((err && err.message) || err);
-}
-function quando(ts){
-  const d = ts && ts.toDate ? ts.toDate() : new Date();
-  const s = (Date.now() - d) / 1000;
-  if (s < 60) return 'agora';
-  if (s < 3600) return `há ${Math.floor(s/60)} min`;
-  if (s < 86400) return `há ${Math.floor(s/3600)} h`;
-  if (s < 604800) { const n = Math.floor(s/86400); return `há ${n} dia${n > 1 ? 's' : ''}`; }
-  return d.toLocaleDateString('pt-BR', { day:'numeric', month:'short', year: d.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined });
-}
-const CORES = [['#5BCEFA','#14254F'],['#F5A9B8','#14254F'],['#1E3A8A','#fff'],['#7C5CBF','#fff'],['#1F8A5B','#fff'],['#C2552F','#fff'],['#2E7D96','#fff']];
-function avatarDe(nome, chave, peq, anon){
-  if (anon) return `<span class="av anon${peq ? ' sm' : ''}" aria-hidden="true">🎭</span>`;
-  let h = 0; for (const c of (chave || nome)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
-  const [bg, fg] = CORES[h % CORES.length];
-  const ini = (nome || '?').split(/\s+/).filter(Boolean).slice(0,2).map(p => p[0]).join('').toUpperCase();
-  return `<span class="av${peq ? ' sm' : ''}" style="background:${bg};color:${fg}" aria-hidden="true">${esc(ini)}</span>`;
-}
-const avatar = (d, peq) => avatarDe(d.autorNome, d.autorUid, peq, d.anonimo);
-const nomeDe = d => d.anonimo ? 'Anônimo' : (d.autorNome || 'Membro');
-
-/* Texto: escapa tudo e transforma endereços http(s) em links */
-const URL_RE = /https?:\/\/[^\s<]+/g;
-const aparaUrl = u => u.replace(/(&quot;|&#39;|[.,!?;:)\]])+$/, '');
-function textoHtml(t){
-  return esc(t).replace(URL_RE, m => {
-    const u = aparaUrl(m);
-    return `<a href="${u}" target="_blank" rel="noopener nofollow ugc">${u}</a>${m.slice(u.length)}`;
-  }).replace(/\n/g, '<br>');
-}
-const linksDe = t => (String(t || '').match(URL_RE) || []).map(u => u.replace(/[.,!?;:)\]"']+$/, ''));
-
-/* Vídeo: YouTube, Vimeo ou arquivo direto */
-function video(url){
-  if (!url) return null;
-  let u; try { u = new URL(url); } catch { return null; }
-  if (u.protocol !== 'https:' && u.protocol !== 'http:') return null;
-  const h = u.hostname.replace(/^(www|m)\./, '');
-  let id = null;
-  if (h === 'youtu.be') id = u.pathname.slice(1).split('/')[0];
-  else if (h === 'youtube.com' || h === 'music.youtube.com') id = u.searchParams.get('v') || (u.pathname.match(/^\/(?:shorts|embed|live)\/([^/?#]+)/) || [])[1];
-  if (id && /^[\w-]{6,20}$/.test(id)) return { tipo:'iframe', src:`https://www.youtube-nocookie.com/embed/${id}` };
-  if (h === 'vimeo.com' || h === 'player.vimeo.com') { const v = u.pathname.match(/(\d{5,})/); if (v) return { tipo:'iframe', src:`https://player.vimeo.com/video/${v[1]}` }; }
-  if (u.protocol === 'https:' && /\.(mp4|webm|ogg|mov)$/i.test(u.pathname)) return { tipo:'video', src:u.href };
-  return null;
-}
-function videoHtml(v){
-  return v.tipo === 'iframe'
-    ? `<div class="pvideo"><iframe src="${esc(v.src)}" title="Vídeo" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`
-    : `<div class="pvideo"><video src="${esc(v.src)}" controls preload="metadata" playsinline></video></div>`;
-}
-const IMG_RE = /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/;
-
-/* Fotos são reduzidas no navegador e guardadas no próprio documento (o Storage do Firebase exige plano pago) */
-async function comprimir(file, lado, alvo){
-  const url = URL.createObjectURL(file);
-  try {
-    const img = await new Promise((ok, erro) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => erro(new Error('formato')); i.src = url; });
-    let q = .82, out = '';
-    for (let t = 0; t < 10; t++) {
-      const s = Math.min(1, lado / Math.max(img.naturalWidth, img.naturalHeight));
-      const c = document.createElement('canvas');
-      c.width = Math.max(1, Math.round(img.naturalWidth * s)); c.height = Math.max(1, Math.round(img.naturalHeight * s));
-      const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
-      out = c.toDataURL('image/jpeg', q);
-      if (out.length <= alvo) return out;
-      if (q > .56) q -= .1; else lado *= .8;
-    }
-    return out;
-  } finally { URL.revokeObjectURL(url); }
-}
+const traduzErro = err => traduz(err, verificado);
 
 /* ---------- Firebase e login ---------- */
 async function iniciar(){
-  const base = "https://www.gstatic.com/firebasejs/11.6.1/";
   try {
-    const [a, au, fs] = await Promise.all([import(base+"firebase-app.js"), import(base+"firebase-auth.js"), import(base+"firebase-firestore.js")]);
-    fb = { ...au, ...fs };
-    const app = a.initializeApp(firebaseConfig);
-    auth = au.getAuth(app); db = fs.getFirestore(app);
-    /* Testes locais: abra localhost/comunidade.html?emulador com os emuladores do Firebase rodando */
-    if (location.hostname === 'localhost' && new URLSearchParams(location.search).has('emulador')) {
-      au.connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
-      fs.connectFirestoreEmulator(db, 'localhost', 8085);
-    }
-    au.onAuthStateChanged(auth, user => { if (!criandoConta) aoMudarLogin(user); });
+    await carregarFirebase();
+    fb.onAuthStateChanged(auth, user => { if (!criandoConta) aoMudarLogin(user); });
   } catch (err) {
     console.error(err);
     tela('entrar');
@@ -614,7 +243,7 @@ async function iniciar(){
 async function aoMudarLogin(user){
   pararTudo();
   eu = user;
-  ['h-eu','h-editar','h-sair'].forEach(id => $(id).hidden = !user);
+  ['h-eu','h-sair'].forEach(id => $(id).hidden = !user);
   if (!user) { tela('entrar'); return; }
   tela('carregando');
   verificado = user.emailVerified;
@@ -626,7 +255,9 @@ async function aoMudarLogin(user){
     console.error(err); tela('entrar'); mostrarErro('e-err', traduzErro(err)); return;
   }
   souAdmin = await fb.getDoc(fb.doc(db, 'admins', user.uid)).then(s => s.exists()).catch(() => false);
-  abrirForum();
+  const bloqueado = await fb.getDoc(fb.doc(db, 'bloqueados', user.uid)).then(s => s.exists()).catch(() => false);
+  if (bloqueado) verificado = false;
+  abrirForum(bloqueado);
 }
 
 window.mudarAba = aba => {
@@ -700,17 +331,6 @@ window.salvarPerfil = async e => {
   } catch (err) { mostrarErro('p-err', traduzErro(err)); }
 };
 
-window.abrirNome = () => { $('en-nome').value = meuNome; mostrarErro('en-err', ''); abrirModal('m-nome'); };
-window.salvarNome = async e => {
-  e.preventDefault();
-  const nome = $('en-nome').value.trim().replace(/\s+/g, ' ');
-  if (/^an[oô]nimo$/i.test(nome)) return mostrarErro('en-err', 'Escolha outro nome.');
-  try {
-    await fb.updateDoc(fb.doc(db, 'membros', eu.uid), { nome });
-    meuNome = nome; nomes.set(eu.uid, nome); atualizarCabecalho(); fecharModal('m-nome'); toast('Nome atualizado.');
-  } catch (err) { mostrarErro('en-err', traduzErro(err)); }
-};
-
 window.sair = () => fb && fb.signOut(auth);
 window.reenviarVerificacao = async () => {
   try { await enviarVerificacao(auth.currentUser); toast('Enviamos um novo link. Confira também o spam.'); }
@@ -721,22 +341,29 @@ window.jaConfirmei = async () => {
   if (auth.currentUser.emailVerified) { await auth.currentUser.getIdToken(true); location.reload(); }
   else toast('Ainda não aparece como confirmado. Abra o link do e-mail e tente de novo.');
 };
-function precisaVerificar(){ if (verificado) return false; toast('Confirme seu e-mail para participar.'); $('aviso-verificar').scrollIntoView({ behavior:'smooth', block:'center' }); return true; }
+function precisaVerificar(){ if (verificado) return false; toast($('aviso-bloqueado').hidden ? 'Confirme seu e-mail para participar.' : 'Sua conta está suspensa.'); if (!$('aviso-bloqueado').hidden) return true; $('aviso-verificar').scrollIntoView({ behavior:'smooth', block:'center' }); return true; }
 
 /* ---------- Fórum ---------- */
 function atualizarCabecalho(){
   $('h-nome').textContent = meuNome;
   $('h-av').innerHTML = avatarDe(meuNome, eu.uid, true);
   $('criar-av').innerHTML = avatarDe(meuNome, eu.uid);
+  $('h-eu').href = url('perfil.html'); $('lado-perfil').href = url('perfil.html');
+  hidratarAvatares(document.querySelector('header')); hidratarAvatares($('tela-forum'));
 }
-function abrirForum(){
+function abrirForum(bloqueado){
   tela('forum');
   atualizarCabecalho();
-  $('aviso-verificar').hidden = verificado;
+  $('aviso-verificar').hidden = verificado || bloqueado;
+  $('aviso-bloqueado').hidden = !bloqueado;
+  if (souAdmin) { $('h-admin').hidden = false; $('h-admin').href = url('comunidade-admin.html'); }
   $('v-email').textContent = eu.email;
   primeiraCarga = true;
+  lembreteHormonio();
   unsubMeus = fb.onSnapshot(fb.query(fb.collection(db, 'forum_autoria'), fb.where('uid', '==', eu.uid)), snap => {
     meus.clear(); snap.docs.forEach(d => meus.add(d.id));
+    /* autoria sem campo "post" = publicação; as que não estão no feed podem estar em moderação */
+    snap.docs.filter(d => !d.metadata.hasPendingWrites && !('post' in d.data())).forEach(d => acompanharPendente(d.id));
     for (const id of posts.keys()) { renderCab(id); renderComs(id); }
     aplicarFiltro();
   }, err => console.error(err));
@@ -745,12 +372,55 @@ function abrirForum(){
 function pararTudo(){
   unsubFeed && unsubFeed(); unsubMeus && unsubMeus(); unsubFeed = unsubMeus = null;
   for (const p of posts.values()) p.unsub && p.unsub();
-  posts.clear(); meus.clear(); $('feed').innerHTML = ''; limiteFeed = POR_PAGINA;
+  for (const u of meusPosts.values()) u && u();
+  posts.clear(); meus.clear(); meusPosts.clear(); $('feed').innerHTML = ''; $('pendentes').innerHTML = ''; limiteFeed = POR_PAGINA;
+}
+
+/* Aviso da próxima aplicação (dados privados da aba Hormonização do perfil) */
+async function lembreteHormonio(){
+  try {
+    const p = await fb.getDoc(fb.doc(db, 'privado', eu.uid));
+    const n = p.exists() && Number(p.data().intervalo); if (!n) return;
+    const q = await fb.getDocs(fb.query(fb.collection(db, 'privado', eu.uid, 'aplicacoes'), fb.orderBy('data', 'desc'), fb.limit(1)));
+    if (q.empty) return;
+    const d = dataLocal(q.docs[0].data().data); d.setDate(d.getDate() + n);
+    const f = diasEntre(new Date(), d); if (f > 1) return;
+    $('aviso-hormonio').innerHTML = `<p>💉 ${f === 1 ? 'Sua próxima aplicação é <b>amanhã</b>' : f === 0 ? 'Hoje é dia de <b>aplicação</b>' : `Sua aplicação estava marcada para <b>${dataBonita(isoDe(d), false)}</b>`}. Só você vê este aviso.</p><a class="btn btn-navy btn-sm" href="${url('perfil.html')}#hormonizacao">Registrar</a>`;
+    $('aviso-hormonio').hidden = false;
+  } catch (err) { console.error(err); }
+}
+
+/* Minhas publicações em moderação: só a própria pessoa (e a moderação) consegue ler forum_pendentes */
+const pendentes = new Map();
+function acompanharPendente(id, tentativa = 0){
+  if (meusPosts.has(id) && !tentativa) return;
+  meusPosts.set(id, null);
+  const u = fb.onSnapshot(fb.doc(db, 'forum_pendentes', id), s => {
+    if (s.exists()) pendentes.set(id, s.data({ serverTimestamps:'estimate' }));
+    else { pendentes.delete(id); u(); meusPosts.set(id, () => {}); }
+    renderPendentes();
+  }, err => {
+    /* a autoria pode ainda não ter chegado ao servidor: tenta de novo algumas vezes */
+    meusPosts.set(id, () => {});
+    if (tentativa < 3 && eu) setTimeout(() => acompanharPendente(id, tentativa + 1), 1500);
+    else console.error(err);
+  });
+  meusPosts.set(id, u);
+}
+function renderPendentes(){
+  const lista = [...pendentes.entries()].sort((a, b) => (b[1].criadoEm?.toMillis?.() || 0) - (a[1].criadoEm?.toMillis?.() || 0));
+  $('pendentes').innerHTML = lista.map(([id, d]) => `<div class="box pend ${d.status}">
+    <div class="pend-top"><span class="tag ${d.status === 'recusado' ? 'recusado' : 'analise'}">${d.status === 'recusado' ? 'Não aprovada' : '⏳ Em análise'}</span>
+      <span class="small">${TIPOS[d.tipo] || ''}${d.anonimo ? ' · anônima' : ''} · enviada ${quando(d.criadoEm)}</span>
+      <button class="link" data-apagar-pend="${id}">${d.status === 'recusado' ? 'Apagar' : 'Cancelar envio'}</button></div>
+    <p class="pend-txt">${esc((d.texto || '(sem texto)').slice(0, 220))}${(d.texto || '').length > 220 ? '…' : ''}</p>
+    ${d.status === 'recusado' ? `<p class="small"><b>Motivo:</b> ${esc(d.motivo || 'não informado')}. Se quiser, ajuste e envie de novo.</p>` : '<p class="small">A moderação revisa todas as publicações antes de irem para o feed. Comentários aparecem na hora.</p>'}
+  </div>`).join('');
 }
 
 function ouvirFeed(){
   unsubFeed && unsubFeed();
-  const q = fb.query(fb.collection(db, 'forum_posts'), fb.orderBy('criadoEm', 'desc'), fb.limit(limiteFeed));
+  const q = fb.query(fb.collection(db, 'forum_posts'), fb.orderBy('publicadoEm', 'desc'), fb.limit(limiteFeed));
   unsubFeed = fb.onSnapshot(q, snap => {
     const ids = [];
     snap.docs.forEach(s => {
@@ -814,30 +484,19 @@ function renderCab(id){
   const p = posts.get(id), d = p.d;
   const pode = meus.has(id) || souAdmin;
   const linkDenuncia = `mailto:${EMAIL_CONTATO}?subject=${encodeURIComponent('Denúncia na comunidade')}&body=${encodeURIComponent('Publicação: ' + linkPost(id) + '\n\nMotivo: ')}`;
-  p.el.querySelector('.pcab').innerHTML = `<div class="phead">${avatar(d)}
-    <div class="pmeta"><b>${esc(nomeDe(d))}</b><span><span class="tag ${d.tipo}">${TIPOS[d.tipo] || 'Publicação'}</span>·<a href="#p-${id}" title="${d.criadoEm && d.criadoEm.toDate ? esc(d.criadoEm.toDate().toLocaleString('pt-BR')) : ''}">${quando(d.criadoEm)}</a>${d.anonimo && meus.has(id) ? '· <span title="Só você vê isto">(você)</span>' : ''}</span></div>
+  const cab = p.el.querySelector('.pcab');
+  cab.innerHTML = `<div class="phead">${avatar(d)}
+    <div class="pmeta"><b>${nomeLink(d)}</b><span><span class="tag ${d.tipo}">${TIPOS[d.tipo] || 'Publicação'}</span>·<a href="#p-${id}" title="${d.publicadoEm && d.publicadoEm.toDate ? esc(d.publicadoEm.toDate().toLocaleString('pt-BR')) : ''}">${quando(d.publicadoEm)}</a>${d.anonimo && meus.has(id) ? '· <span title="Só você vê isto">(você)</span>' : ''}</span></div>
     <div class="pmenu"><button class="dots" data-menu aria-label="Mais opções" aria-expanded="false">⋯</button>
       <div class="mlist" hidden>
         <button data-compartilhar="${id}">🔗 Copiar link</button>
         <a href="${esc(linkDenuncia)}">🚩 Denunciar</a>
         ${pode ? `<button class="perigo" data-apagar-post="${id}">🗑️ Excluir publicação</button>` : ''}
       </div></div></div>`;
+  hidratarAvatares(cab);
 }
 function renderMidia(id){
-  const d = posts.get(id).d;
-  const imgs = (d.imagens || []).filter(s => IMG_RE.test(s));
-  const links = linksDe(d.texto);
-  const v = video(d.video) || links.map(video).find(Boolean);
-  const outro = d.video && !video(d.video) ? d.video : links.find(l => !video(l));
-  const curto = d.texto && d.texto.length <= 140 && !imgs.length && !v && d.tipo !== 'enquete' && !links.length;
-  let h = d.texto ? `<div class="ptexto${curto ? ' grande' : ''}${d.tipo === 'pergunta' && !curto ? ' perg' : ''}">${textoHtml(d.texto)}</div>` : '';
-  if (imgs.length) h += `<div class="pimgs n${Math.min(imgs.length, 4)}">${imgs.map((s, i) => `<button class="pimg" aria-label="Ampliar imagem ${i+1}"><img src="${s}" alt="" data-zoom loading="lazy"></button>`).join('')}</div>`;
-  if (v) h += videoHtml(v);
-  if (outro && /^https?:\/\//.test(outro)) {
-    let host = ''; try { host = new URL(outro).hostname.replace(/^www\./, ''); } catch {}
-    if (host) h += `<a class="lcard" href="${esc(outro)}" target="_blank" rel="noopener nofollow ugc"><i>🔗</i><div><b>${esc(host)}</b><span>${esc(outro)}</span></div></a>`;
-  }
-  posts.get(id).el.querySelector('.pmidia').innerHTML = h;
+  posts.get(id).el.querySelector('.pmidia').innerHTML = midiaHtml(posts.get(id).d);
 }
 function resumoReacoes(r){
   const vals = Object.values(r || {}).filter(v => REACOES[v]);
@@ -900,13 +559,14 @@ function renderComs(id){
   p.el.querySelector('.pcoms').innerHTML =
     (ocultos ? `<button class="vertodos" data-todos="${id}">Ver mais ${ocultos} comentário${ocultos > 1 ? 's' : ''}</button>` : '') +
     vis.map(c => umComentario(id, c, null) + cs.filter(f => f.pai === c.id).map(f => umComentario(id, f, c.id)).join('')).join('');
+  hidratarAvatares(p.el.querySelector('.pcoms'));
 }
 function umComentario(pid, c, pai){
   const pode = meus.has(c.id) || meus.has(pid) || souAdmin;
   const r = resumoReacoes(c.reacoes);
   const img = c.imagem && IMG_RE.test(c.imagem) ? `<button class="cimg" aria-label="Ampliar imagem"><img src="${c.imagem}" alt="" data-zoom loading="lazy"></button>` : '';
   return `<div class="com${pai ? ' resp' : ''}" id="c-${c.id}">${avatar(c, true)}<div class="cbox">
-    ${c.texto || !img ? `<div class="bolha"><b>${esc(nomeDe(c))}</b>${c.doAutor ? '<span class="selo">quem publicou</span>' : ''}${c.anonimo && meus.has(c.id) ? ' <span class="small">(você)</span>' : ''}<div class="ctexto">${textoHtml(c.texto)}</div>
+    ${c.texto || !img ? `<div class="bolha"><b>${nomeLink(c)}</b>${c.doAutor ? '<span class="selo">quem publicou</span>' : ''}${c.anonimo && meus.has(c.id) ? ' <span class="small">(você)</span>' : ''}<div class="ctexto">${textoHtml(c.texto)}</div>
       ${r ? `<button class="creac" data-quem="c:${pid}:${c.id}" aria-label="Ver reações"><span class="remj">${r.top}</span>${r.n > 1 ? r.n : ''}</button>` : ''}</div>` : `<b style="font-size:13.5px;padding:0 10px">${esc(nomeDe(c))}</b>`}
     ${img}
     <div class="cacoes">${botaoReagir(`c:${pid}:${c.id}`, c.reacoes, true)}<button data-responder="${pid}" data-cid="${pai || c.id}" data-nome="${esc(nomeDe(c))}">Responder</button><span>${quando(c.criadoEm)}</span>${pode ? `<button data-apagar-com="${pid}" data-cid="${c.id}">Excluir</button>` : ''}</div>
@@ -949,15 +609,15 @@ async function quemReagiu(alvo){
   const r = (k === 'p' ? p.d.reacoes : (p.cs.find(c => c.id === cid) || {}).reacoes) || {};
   const lista = Object.entries(r).filter(([, v]) => REACOES[v]);
   await Promise.all(lista.map(async ([uid]) => {
-    if (nomes.has(uid)) return;
-    try { const s = await fb.getDoc(fb.doc(db, 'membros', uid)); nomes.set(uid, s.exists() ? s.data().nome : 'Membro'); } catch { nomes.set(uid, 'Membro'); }
+    const p = await perfilDe(uid); nomes.set(uid, p ? p.nome : 'Membro');
   }));
   const cont = {}; lista.forEach(([, v]) => cont[v] = (cont[v] || 0) + 1);
   const abas = [['', `Todas ${lista.length}`], ...Object.entries(cont).sort((a, b) => b[1] - a[1]).map(([t, n]) => [t, `${REACOES[t][0]} ${n}`])];
   const mostrar = t => {
     $('q-abas').querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', b.dataset.t === t));
     $('q-lista').innerHTML = lista.filter(([, v]) => !t || v === t)
-      .map(([uid, v]) => `<div>${avatarDe(nomes.get(uid), uid, true)}<span>${esc(uid === eu.uid ? 'Você' : nomes.get(uid))}</span><span>${REACOES[v][0]}</span></div>`).join('');
+      .map(([uid, v]) => `<div>${avatarDe(nomes.get(uid), uid, true)}<a class="nome" href="${url('perfil.html?u=' + uid)}">${esc(uid === eu.uid ? 'Você' : nomes.get(uid))}</a><span>${REACOES[v][0]}</span></div>`).join('');
+    hidratarAvatares($('q-lista'));
   };
   $('q-abas').innerHTML = abas.map(([t, l]) => `<button role="tab" data-t="${t}">${l}</button>`).join('');
   $('q-abas').querySelectorAll('button').forEach(b => b.onclick = () => mostrar(b.dataset.t));
@@ -996,6 +656,12 @@ async function apagarPost(id){
   b.delete(fb.doc(db, 'forum_posts', id));
   if (meus.has(id) || souAdmin) b.delete(fb.doc(db, 'forum_autoria', id));
   try { await b.commit(); toast('Publicação excluída.'); } catch (err) { toast(traduzErro(err)); }
+}
+async function apagarPendente(id){
+  if (!confirm('Apagar esta publicação que ainda não foi para o feed?')) return;
+  const b = fb.writeBatch(db);
+  b.delete(fb.doc(db, 'forum_pendentes', id)); b.delete(fb.doc(db, 'forum_autoria', id));
+  try { await b.commit(); toast('Apagada.'); } catch (err) { toast(traduzErro(err)); }
 }
 async function apagarComentario(pid, cid){
   if (!confirm('Excluir este comentário?')) return;
@@ -1055,6 +721,7 @@ document.addEventListener('click', e => {
   let x;
   if ((x = t.closest('[data-compartilhar]'))) return compartilhar(x.dataset.compartilhar);
   if ((x = t.closest('[data-apagar-post]'))) return apagarPost(x.dataset.apagarPost);
+  if ((x = t.closest('[data-apagar-pend]'))) return apagarPendente(x.dataset.apagarPend);
   if ((x = t.closest('[data-apagar-com]'))) return apagarComentario(x.dataset.apagarCom, x.dataset.cid);
   if ((x = t.closest('[data-quem]'))) return quemReagiu(x.dataset.quem);
   if ((x = t.closest('[data-votar]'))) return votar(x.dataset.votar);
@@ -1106,15 +773,6 @@ document.addEventListener('change', async e => {
   } catch { toast('Não foi possível abrir essa imagem. Tente JPG ou PNG.'); }
   inp.value = '';
 });
-
-/* ---------- modais ---------- */
-let focoAntes = null;
-function abrirModal(id){ focoAntes = document.activeElement; $(id).hidden = false; document.body.style.overflow = 'hidden'; const f = $(id).querySelector('textarea,input:not([type=radio]):not([type=checkbox]):not([type=file])'); setTimeout(() => (f || $(id).querySelector('.x')).focus(), 30); }
-function fecharModal(id){ $(id).hidden = true; if (!document.querySelector('.overlay:not([hidden])')) document.body.style.overflow = ''; focoAntes && focoAntes.focus && focoAntes.focus(); }
-function abrirLightbox(src){
-  const l = document.createElement('div'); l.className = 'lightbox'; l.setAttribute('role', 'dialog'); l.setAttribute('aria-label', 'Imagem ampliada');
-  l.innerHTML = `<img src="${src}" alt="">`; l.onclick = () => l.remove(); document.body.appendChild(l);
-}
 
 /* ---------- nova publicação ---------- */
 const tipoNovo = () => document.querySelector('#f-novo [name=tipo]:checked').value;
@@ -1185,24 +843,25 @@ window.publicar = async e => {
     if (opcoes.length < 2) return mostrarErro('n-err', 'A enquete precisa de pelo menos 2 opções.');
   } else if (!texto && !fotosNovo.length && !vid) return mostrarErro('n-err', 'Escreva algo ou adicione uma foto ou vídeo.');
   if (vid && !/^https?:\/\/\S+$/.test(vid)) return mostrarErro('n-err', 'O link do vídeo precisa começar com https://');
-  const dados = { tipo, texto, anonimo: anon, criadoEm: fb.serverTimestamp(), reacoes: {} };
+  const dados = { tipo, texto, anonimo: anon, criadoEm: fb.serverTimestamp(), reacoes: {}, status: 'pendente' };
   if (!anon) { dados.autorUid = eu.uid; dados.autorNome = meuNome; }
   if (fotosNovo.length) dados.imagens = fotosNovo.slice();
   if (vid) dados.video = vid;
   if (tipo === 'enquete') { dados.opcoes = opcoes.slice(0, 6); dados.contagem = Object.fromEntries(dados.opcoes.map((_, i) => [String(i), 0])); }
   if (JSON.stringify(dados).length > 950000) return mostrarErro('n-err', 'As fotos ficaram grandes demais juntas. Remova uma e tente de novo.');
-  const ref = fb.doc(fb.collection(db, 'forum_posts'));
+  const ref = fb.doc(fb.collection(db, 'forum_pendentes'));
   const b = fb.writeBatch(db);
   b.set(ref, dados);
   b.set(fb.doc(db, 'forum_autoria', ref.id), { uid: eu.uid });
-  const btn = $('b-publicar'); btn.disabled = true; btn.textContent = 'Publicando…';
+  const btn = $('b-publicar'); btn.disabled = true; btn.textContent = 'Enviando…';
   try {
     await b.commit();
+    acompanharPendente(ref.id);
     fecharModal('m-novo'); resetNovo(); atualizarNovo();
-    toast(anon ? 'Publicado como anônimo.' : 'Publicado!');
+    toast('Enviado! Sua publicação aparece no feed assim que a moderação aprovar.');
     window.scrollTo({ top: 0, behavior:'smooth' });
   } catch (err) { mostrarErro('n-err', traduzErro(err)); }
-  finally { btn.disabled = false; btn.textContent = 'Publicar'; }
+  finally { btn.disabled = false; btn.textContent = 'Enviar para moderação'; }
 };
 
 /* Atualiza os "há X min" de vez em quando */

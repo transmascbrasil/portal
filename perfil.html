@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Perfil · Comunidade Transmasc Brasil</title>
+<meta name="theme-color" content="#14254F">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comunidade.css">
+<style>
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;align-items:start}
+.grid2 > aside{position:sticky;top:84px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}.grid2 > aside{position:static}}
+.pad{padding:20px}
+.secao{display:flex;flex-direction:column;gap:14px}
+.secao h2{font-size:22px}
+.secao h3{font-size:17px}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.duas{grid-template-columns:1fr}}
+select.input{appearance:auto}
+textarea.input{resize:vertical}
+.privado{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;font-weight:800;color:var(--ok);background:var(--ok-soft);padding:4px 10px;border-radius:999px}
+.publico{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;font-weight:800;color:var(--navy-2);background:var(--blue-soft);padding:4px 10px;border-radius:999px}
+
+/* Cartão do perfil */
+.pcard{background:#fff;border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.pcard .capa{height:96px;background:linear-gradient(90deg,var(--blue),var(--pink),#fff,var(--pink),var(--blue))}
+.pc-top{display:flex;gap:14px;align-items:flex-end;padding:0 20px;margin-top:-44px}
+.pc-top .av{box-shadow:0 0 0 5px #fff}
+.pc-top h1{font-size:26px}
+.pc-top p{color:var(--muted);font-size:14px;font-weight:700}
+.pc-corpo{padding:14px 20px 20px;display:flex;flex-direction:column;gap:12px}
+.emT{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--navy);color:#fff;border-radius:14px;padding:10px 14px;font-weight:700}
+.emT b{color:var(--pink)}
+.emT .festa{background:var(--pink);color:var(--navy);padding:2px 10px;border-radius:999px;font-size:13px;font-weight:900}
+.bio{font-size:15px;white-space:pre-line;overflow-wrap:anywhere}
+.curis{display:grid;gap:8px}
+.curi{background:var(--soft);border-radius:14px;padding:10px 12px}
+.curi small{display:block;font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.curi p{font-size:14.5px;font-weight:700;overflow-wrap:anywhere}
+.insta{font-weight:800;color:var(--navy-2);text-decoration:none}
+.fotobox{display:flex;gap:14px;align-items:center}
+.fotobox .av{width:72px;height:72px;font-size:26px}
+
+/* Hormonização */
+.prox{background:linear-gradient(135deg,var(--navy) 0%,#2A3F86 100%);color:#fff;border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.prox small{font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-size:12px}
+.prox .data{font-family:'Bricolage Grotesque';font-size:clamp(26px,4vw,36px);font-weight:800;line-height:1.1}
+.chip{display:inline-flex;align-items:center;gap:6px;font-weight:900;font-size:14px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.14);width:fit-content}
+.chip.hoje{background:var(--pink);color:var(--navy)}
+.chip.atraso{background:#FFB4A8;color:#5C1206}
+.barra{height:10px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden}
+.barra i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--pink));border-radius:999px}
+.prox .linha{display:flex;justify-content:space-between;font-size:13px;color:#C9D3EA;font-weight:700}
+.prox .btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn-white{background:#fff;color:var(--navy)}
+.btn-glass{background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.3)}
+.presets{display:flex;gap:6px;flex-wrap:wrap}
+.presets button{padding:6px 12px;border-radius:999px;background:var(--soft);font-weight:800;font-size:13px}
+.presets button[aria-pressed=true]{background:var(--navy);color:#fff}
+.hist{display:flex;flex-direction:column}
+.hist div{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.hist div:last-child{border-bottom:0}
+.hist b{min-width:110px}
+.hist span{flex:1;color:var(--muted);font-weight:600;min-width:0;overflow-wrap:anywhere}
+.hist button{color:var(--muted);font-weight:900;width:30px;height:30px;border-radius:50%}
+.hist button:hover{background:var(--soft);color:var(--bad)}
+.sug{background:var(--pink-soft);border-radius:12px;padding:10px 12px;font-size:14px}
+.cal{display:flex;gap:8px;flex-wrap:wrap}
+.nota{font-size:12.5px;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+
+/* Jornada */
+.contador{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.contador div{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:14px;text-align:center}
+.contador b{display:block;font-family:'Bricolage Grotesque';font-size:32px;line-height:1.1}
+.contador span{font-size:12.5px;font-weight:800;color:var(--muted)}
+.mud{display:flex;flex-direction:column;gap:14px}
+.mud .item{display:grid;grid-template-columns:200px 1fr;gap:6px 14px;align-items:center}
+@media(max-width:640px){.mud .item{grid-template-columns:1fr}}
+.mud .rot b{display:block;font-size:14.5px}
+.mud .rot span{font-size:12.5px;color:var(--muted);font-weight:700}
+.trilho{position:relative;height:22px;border-radius:8px;background:var(--soft)}
+.trilho .ini{position:absolute;top:0;bottom:0;background:var(--blue);border-radius:8px}
+.trilho .max{position:absolute;top:6px;bottom:6px;background:linear-gradient(90deg,#A9E2FB,#F6B8C5);border-radius:6px}
+.trilho .voce{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--navy);border-radius:3px}
+.trilho .notei{position:absolute;top:50%;transform:translate(-50%,-50%);font-size:14px}
+.mud .acao-m{grid-column:2;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px}
+@media(max-width:640px){.mud .acao-m{grid-column:1}}
+.mud .acao-m input{font:inherit;font-size:13px;border:1.5px solid var(--line);border-radius:8px;padding:4px 8px;color:var(--ink)}
+.escala{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);font-weight:800;margin-left:214px}
+@media(max-width:640px){.escala{margin-left:0}}
+.legenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);font-weight:700}
+.legenda i{display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:5px;vertical-align:0}
+.exames{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.exame{background:var(--soft);border-radius:16px;padding:12px 14px}
+.exame small{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.exame b{display:block;font-family:'Bricolage Grotesque';font-size:24px}
+.exame svg{width:100%;height:44px;display:block;margin:4px 0}
+.exame details{font-size:13px}
+.exame details div{display:flex;justify-content:space-between;gap:8px;padding:3px 0}
+.exame details button{color:var(--muted);font-weight:900}
+.fontes{font-size:12.5px;color:var(--muted)}
+.fontes a{color:var(--navy-2)}
+.entrar-box{max-width:460px;margin:60px auto;text-align:center}
+</style>
+</head>
+<body>
+<div class="flag" aria-hidden="true"><span class="b"></span><span class="p"></span><span class="w"></span><span class="p"></span><span class="b"></span></div>
+<header>
+  <div class="wrap bar">
+    <a href="comunidade.html" class="brand" id="h-brand"><img src="img/favicon.svg" alt="" width="32" height="32"><span>Transmasc Brasil<small>Comunidade</small></span></a>
+    <div class="hlinks">
+      <a href="comunidade.html" id="h-com">← Comunidade</a>
+      <a class="eu" id="h-eu" hidden href="perfil.html"><span id="h-av"></span><b id="h-nome"></b></a>
+      <button id="h-sair" hidden onclick="sair()">Sair</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" style="padding-bottom:70px">
+  <div id="tela-carregando" class="carregando">Carregando…</div>
+
+  <section id="tela-fora" hidden>
+    <div class="cartao entrada-box entrar-box">
+      <h2 style="font-size:26px;margin-bottom:8px">Área de membros</h2>
+      <p class="small" style="margin-bottom:18px">Entre ou crie sua conta na comunidade para ver perfis e acompanhar sua hormonização.</p>
+      <a class="btn btn-navy" id="b-ir-entrar" href="comunidade.html">Entrar na comunidade</a>
+    </div>
+  </section>
+
+  <!-- Perfil de outra pessoa -->
+  <section id="tela-outro" hidden>
+    <div style="max-width:560px;margin:26px auto" id="outro-card"></div>
+  </section>
+
+  <!-- Meu perfil -->
+  <section id="tela-meu" hidden>
+    <div class="tabsbar" role="tablist">
+      <a role="tab" href="#perfil" data-aba="perfil">👤 Meu perfil</a>
+      <a role="tab" href="#hormonizacao" data-aba="hormonizacao">💉 Hormonização</a>
+      <a role="tab" href="#jornada" data-aba="jornada">🌱 Minha jornada</a>
+      <a role="tab" href="#lojinha" data-aba="lojinha">🛍️ Lojinha</a>
+    </div>
+
+    <!-- ===== Perfil público ===== -->
+    <div data-painel="perfil" class="grid2">
+      <form class="box pad secao" id="f-perfil" onsubmit="salvarPerfil(event)">
+        <div><h2>Meu perfil</h2><p class="small" style="margin-top:4px"><span class="publico">👁️ Visível para membros logados</span> Deixe em branco o que não quiser mostrar.</p></div>
+        <div class="fotobox"><span id="pf-foto-av"></span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn btn-line btn-sm" style="cursor:pointer">📷 Trocar foto<input type="file" id="pf-foto" accept="image/*" hidden></label><button type="button" class="btn btn-line btn-sm" id="pf-foto-rm" onclick="removerFoto()">Remover</button></div></div>
+        <div class="duas">
+          <div class="field"><label for="pf-nome">Nome ou apelido *</label><input class="input" id="pf-nome" maxlength="40" minlength="2" required></div>
+          <div class="field"><label for="pf-pronomes">Pronomes</label><input class="input" id="pf-pronomes" maxlength="30" list="lista-pronomes" placeholder="ele/dele">
+            <datalist id="lista-pronomes"><option value="ele/dele"><option value="elu/delu"><option value="ele/elu"><option value="qualquer pronome"></datalist></div>
+          <div class="field"><label for="pf-cidade">Cidade</label><input class="input" id="pf-cidade" maxlength="60"></div>
+          <div class="field"><label for="pf-estado">Estado</label><select class="input" id="pf-estado"><option value="">—</option></select></div>
+        </div>
+        <div class="field"><label for="pf-emT">Comecei a testosterona em</label><input class="input" id="pf-emT" type="date">
+          <span class="small">Aparece como “em T há 1 ano e 3 meses”, e no dia do aniversário aparece o 🎉 T-versário. Também é usado na sua jornada.</span></div>
+        <div class="field"><label for="pf-bio">Sobre mim</label><textarea class="input" id="pf-bio" rows="4" maxlength="600" placeholder="Conte um pouco sobre você"></textarea></div>
+        <h3>Curiosidades</h3>
+        <div class="duas" id="pf-curis"></div>
+        <div class="field"><label for="pf-insta">Instagram</label><input class="input" id="pf-insta" maxlength="40" placeholder="@seuusuario"></div>
+        <p class="err" id="pf-err" hidden></p>
+        <button class="btn btn-navy" id="b-salvar">Salvar perfil</button>
+      </form>
+      <aside><p class="small" style="margin:0 0 8px 4px;font-weight:800">Como os outros membros veem:</p><div id="pf-previa"></div></aside>
+    </div>
+
+    <!-- ===== Hormonização ===== -->
+    <div data-painel="hormonizacao" hidden class="grid2">
+      <div class="secao">
+        <div class="prox" id="h-prox"></div>
+        <div class="box pad secao">
+          <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><h3>Histórico de aplicações</h3><span class="small" id="h-stats"></span></div>
+          <div class="hist" id="h-hist"></div>
+        </div>
+        <p class="nota">Este é um diário pessoal, não substitui acompanhamento médico. Medicamento, dose e intervalo são sempre definidos com seu médico ou serviço de saúde. Os dados desta aba são <b>privados</b>: só você vê, nem a moderação tem acesso.</p>
+      </div>
+      <aside class="secao">
+        <form class="box pad secao" onsubmit="salvarHormonio(event)">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h3>Meu esquema</h3><span class="privado">🔒 Só você vê</span></div>
+          <div class="field"><label for="hz-med">Medicamento</label>
+            <select class="input" id="hz-med">
+              <option>Durateston</option><option>Deposteron</option><option>Nebido</option><option>Testosterona em gel</option><option>Outro</option>
+            </select></div>
+          <div class="field"><label for="hz-dose">Dose</label><input class="input" id="hz-dose" maxlength="40" placeholder="Ex.: 1 ampola / 250 mg / 2 pumps"></div>
+          <div class="field"><label for="hz-int">De quantos em quantos dias?</label><input class="input" id="hz-int" type="number" min="1" max="180" required>
+            <div class="presets" id="hz-presets"></div>
+            <span class="small">Use o intervalo que foi prescrito para você.</span></div>
+          <div class="field"><label for="hz-hora">Horário do lembrete</label><input class="input" id="hz-hora" type="time" value="09:00"></div>
+          <button class="btn btn-navy">Salvar esquema</button>
+        </form>
+        <div class="box pad secao">
+          <h3>🔔 Lembretes no celular</h3>
+          <p class="small">Adicione a próxima aplicação ao calendário do celular: ele avisa um dia antes e na hora, e repete no seu intervalo.</p>
+          <label class="chk"><input type="checkbox" id="cal-discreto" checked><span>Título discreto (“Lembrete 💙”), para não aparecer “testosterona” na tela bloqueada</span></label>
+          <div class="cal">
+            <a class="btn btn-line btn-sm" id="cal-google" target="_blank" rel="noopener">Google Agenda</a>
+            <button class="btn btn-line btn-sm" onclick="baixarIcs()">iPhone / Outlook (.ics)</button>
+          </div>
+          <p class="small">Se você aplicar num dia diferente, registre aqui e adicione o lembrete de novo para acertar as próximas datas.</p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- ===== Jornada ===== -->
+    <div data-painel="jornada" hidden class="secao">
+      <div class="contador" id="j-contador"></div>
+      <div class="box pad secao">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><h2>Mudanças com a testosterona</h2><span class="privado">🔒 Suas marcações são privadas</span></div>
+        <p class="small">Quando cada mudança costuma <b>começar</b> e quando chega ao <b>efeito máximo</b>, segundo a diretriz da Endocrine Society. Cada corpo tem seu tempo: genética, idade e dose mudam tudo. Marque quando você notou cada uma e acompanhe sua linha do tempo.</p>
+        <div class="legenda"><span><i style="background:var(--blue)"></i>costuma começar</span><span><i style="background:linear-gradient(90deg,#A9E2FB,#F6B8C5)"></i>até o efeito máximo</span><span><i style="background:var(--navy);width:3px"></i>você hoje</span><span>⭐ quando você notou</span></div>
+        <div class="escala"><span>início</span><span>1 ano</span><span>2 anos</span><span>3 anos</span><span>4 anos</span><span>5 anos</span></div>
+        <div class="mud" id="j-mud"></div>
+        <p class="fontes">Fonte: Hembree WC et al. <a href="https://academic.oup.com/jcem/article/102/11/3869/4157558" target="_blank" rel="noopener">Endocrine Treatment of Gender-Dysphoric/Gender-Incongruent Persons, Endocrine Society, 2017</a> (tabela de efeitos masculinizantes). Informativo, não substitui consulta.</p>
+      </div>
+      <div class="box pad secao">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><h2>Meus exames</h2><span class="privado">🔒 Só você vê</span></div>
+        <p class="small">Anote os resultados dos exames de acompanhamento e veja como mudam com o tempo. Leve para a consulta: cada laboratório tem sua faixa de referência, e quem interpreta é o seu médico. Hematócrito e hemoglobina costumam subir com a testosterona e estabilizar em alguns meses, por isso o acompanhamento regular é importante.</p>
+        <form class="duas" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))" onsubmit="addExame(event)">
+          <div class="field"><label for="ex-tipo">Exame</label><select class="input" id="ex-tipo"></select></div>
+          <div class="field"><label for="ex-valor">Resultado</label><input class="input" id="ex-valor" type="number" step="any" required></div>
+          <div class="field"><label for="ex-un">Unidade</label><input class="input" id="ex-un" maxlength="12"></div>
+          <div class="field"><label for="ex-data">Data</label><input class="input" id="ex-data" type="date" required></div>
+          <div class="field" style="justify-content:flex-end"><button class="btn btn-navy">Adicionar</button></div>
+        </form>
+        <div class="exames" id="ex-lista"></div>
+      </div>
+    </div>
+
+    <!-- ===== Lojinha ===== -->
+    <div data-painel="lojinha" hidden class="secao">
+      <div><h2 style="font-size:26px">Lojinha</h2><p class="small">Achados que a comunidade usa e indica, separados por momento da jornada.</p></div>
+      <div class="shop" id="loja"></div>
+      <p class="small">💙 Os links são de afiliado do Mercado Livre: o portal recebe uma pequena comissão quando você compra por eles, sem custo extra pra você. É isso que ajuda a manter tudo gratuito.</p>
+    </div>
+  </section>
+</main>
+
+<!-- Registrar aplicação -->
+<div class="overlay" id="m-aplic" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-aplic-t" style="max-width:440px">
+    <div class="mhead"><h3 id="m-aplic-t">Registrar aplicação</h3><button class="x" data-fechar aria-label="Fechar">✕</button></div>
+    <form onsubmit="registrarAplicacao(event)">
+      <div class="field"><label for="ap-data">Data</label><input class="input" id="ap-data" type="date" required></div>
+      <div class="field"><label for="ap-local">Local</label><select class="input" id="ap-local"></select></div>
+      <div class="sug" id="ap-sug" hidden></div>
+      <div class="field"><label for="ap-dose">Dose</label><input class="input" id="ap-dose" maxlength="40"></div>
+      <div class="field"><label for="ap-nota">Observação</label><input class="input" id="ap-nota" maxlength="200" placeholder="Ex.: doeu pouco, apliquei na UBS"></div>
+      <button class="btn btn-navy">Registrar</button>
+    </form>
+  </div>
+</div>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script type="module">
+import { carregarFirebase, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, avatarDe, hidratarAvatares, perfilDe,
+  comprimir, abrirModal, fecharModal, IMG_RE, tempoEmT, dataLocal, isoDe, hojeIso, diasEntre, dataBonita,
+  LOJA_PADRAO, lojaHtml } from './comunidade-base.js';
+
+const UFS = 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
+const CURIS = [
+  ['musica', '🎵 Uma música que me representa'], ['hobby', '🎨 Hobbies'], ['marco', '🏁 Um marco da minha transição'],
+  ['orgulho', '💪 Algo de que me orgulho'], ['dica', '💡 Uma dica pra quem está começando']
+];
+const LOCAIS_INJ = ['Glúteo direito','Glúteo esquerdo','Coxa direita','Coxa esquerda','Braço direito (deltoide)','Braço esquerdo (deltoide)'];
+const LOCAIS_GEL = ['Ombros e braços','Abdômen','Coxas'];
+const PRESETS = [[1,'todo dia'],[7,'7 dias'],[14,'14 dias'],[21,'21 dias'],[28,'28 dias'],[84,'12 semanas']];
+/* Endocrine Society 2017 (Hembree et al.), efeitos masculinizantes: [início min, início max, máximo min, máximo max] em meses; null = variável/não se aplica */
+const MUDANCAS = [
+  ['pele',       'Pele mais oleosa e acne',        1, 6, 12, 24],
+  ['menstruacao','Parada da menstruação',          1, 6, null, null],
+  ['gordura',    'Redistribuição de gordura',      1, 6, 24, 60],
+  ['clitoris',   'Crescimento do clitóris',        1, 6, 12, 24],
+  ['ressecamento','Ressecamento vaginal',          1, 6, 12, 24],
+  ['voz',        'Voz mais grave',                 6, 12, 12, 24],
+  ['pelos',      'Pelos no rosto e no corpo',      6, 12, 48, 60],
+  ['musculos',   'Mais massa muscular e força',    6, 12, 24, 60],
+  ['calvicie',   'Entradas e queda de cabelo',     12, 18, null, null]
+];
+const EXAMES = [
+  ['Testosterona total','ng/dL'],['Hematócrito','%'],['Hemoglobina','g/dL'],['Estradiol','pg/mL'],['LH','mUI/mL'],
+  ['Colesterol total','mg/dL'],['HDL','mg/dL'],['LDL','mg/dL'],['Triglicerídeos','mg/dL'],['TGO (AST)','U/L'],['TGP (ALT)','U/L'],
+  ['Creatinina','mg/dL'],['Glicemia','mg/dL'],['Outro','']
+];
+
+let eu = null, meu = null, priv = {}, aplics = [], exames = [], fotoNova;
+const subs = [];
+
+$('h-com').href = url('comunidade.html'); $('h-brand').href = url('comunidade.html'); $('b-ir-entrar').href = url('comunidade.html');
+function tela(t){ for (const n of ['carregando','fora','outro','meu']) $('tela-' + n).hidden = n !== t; }
+
+async function iniciar(){
+  try { await carregarFirebase(); }
+  catch (err) { console.error(err); tela('fora'); toast('Não foi possível carregar. Verifique a internet.'); return; }
+  fb.onAuthStateChanged(auth, async user => {
+    subs.forEach(u => u()); subs.length = 0;
+    eu = user;
+    $('h-eu').hidden = $('h-sair').hidden = !user;
+    if (!user) return tela('fora');
+    meu = await perfilDe(user.uid, true);
+    if (!meu) { location.href = url('comunidade.html'); return; }   // perfil é criado no primeiro acesso à comunidade
+    $('h-nome').textContent = meu.nome; $('h-av').innerHTML = avatarDe(meu.nome, user.uid, true); $('h-eu').href = url('perfil.html');
+    hidratarAvatares(document.querySelector('header'));
+    const alvo = new URLSearchParams(location.search).get('u');
+    if (alvo && alvo !== user.uid) return verOutro(alvo);
+    abrirMeu();
+  });
+}
+window.sair = () => fb.signOut(auth);
+
+/* ---------- cartão público ---------- */
+function avatarFoto(m, uid, tam){
+  return m.foto && IMG_RE.test(m.foto) ? `<span class="av ${tam} foto" style="background-image:url('${m.foto}')" aria-hidden="true"></span>` : avatarDe(m.nome, uid, tam);
+}
+const instaUser = s => String(s || '').trim().replace(/^@/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/.*$/, '');
+function cartao(m, uid){
+  const t = tempoEmT(m.emTdesde);
+  const local = [m.cidade, m.estado].filter(Boolean).join('/');
+  const ig = instaUser(m.instagram);
+  const curis = CURIS.filter(([k]) => m.curiosidades && m.curiosidades[k]);
+  return `<div class="pcard"><div class="capa"></div>
+    <div class="pc-top">${avatarFoto(m, uid, 'lg')}<div style="padding-bottom:4px"><h1>${esc(m.nome)}</h1><p>${[m.pronomes && esc(m.pronomes), local && '📍 ' + esc(local)].filter(Boolean).join(' · ')}</p></div></div>
+    <div class="pc-corpo">
+      ${t ? `<div class="emT">🏳️‍⚧️ Em T há <b>${t.texto}</b>${t.tversario ? '<span class="festa">🎉 Hoje é T-versário!</span>' : ''}</div>` : ''}
+      ${m.bio ? `<p class="bio">${esc(m.bio)}</p>` : ''}
+      ${curis.length ? `<div class="curis">${curis.map(([k, l]) => `<div class="curi"><small>${l}</small><p>${esc(m.curiosidades[k])}</p></div>`).join('')}</div>` : ''}
+      ${/^[\w.]{1,30}$/.test(ig) ? `<a class="insta" href="https://instagram.com/${ig}" target="_blank" rel="noopener nofollow">📸 @${esc(ig)}</a>` : ''}
+      ${!t && !m.bio && !curis.length ? '<p class="small">Este perfil ainda não tem informações.</p>' : ''}
+    </div></div>`;
+}
+async function verOutro(uid){
+  tela('outro');
+  const m = await perfilDe(uid, true);
+  $('outro-card').innerHTML = m ? cartao(m, uid) : '<div class="vazio box"><b>Perfil não encontrado</b>Esta pessoa pode ter saído da comunidade.</div>';
+  if (m) document.title = m.nome + ' · Comunidade Transmasc Brasil';
+}
+
+/* ---------- meu perfil ---------- */
+function abrirMeu(){
+  tela('meu');
+  $('pf-estado').innerHTML = '<option value="">—</option>' + UFS.map(u => `<option>${u}</option>`).join('');
+  $('pf-curis').innerHTML = CURIS.map(([k, l]) => `<div class="field"><label for="pf-c-${k}">${l}</label><input class="input" id="pf-c-${k}" maxlength="200"></div>`).join('');
+  preencherPerfil();
+  $('f-perfil').addEventListener('input', previa);
+  /* privado: esquema, aplicações e exames */
+  const base = fb.doc(db, 'privado', eu.uid);
+  subs.push(fb.onSnapshot(base, s => { priv = s.exists() ? s.data() : {}; preencherEsquema(); renderHormonio(); renderJornada(); }, err => console.error(err)));
+  subs.push(fb.onSnapshot(fb.query(fb.collection(base, 'aplicacoes'), fb.orderBy('data', 'desc')), s => {
+    aplics = s.docs.map(d => ({ id: d.id, ...d.data() })); renderHormonio();
+  }, err => console.error(err)));
+  subs.push(fb.onSnapshot(fb.query(fb.collection(base, 'exames'), fb.orderBy('data')), s => {
+    exames = s.docs.map(d => ({ id: d.id, ...d.data() })); renderExames();
+  }, err => console.error(err)));
+  $('ex-tipo').innerHTML = EXAMES.map(([n]) => `<option>${n}</option>`).join('');
+  $('ex-tipo').onchange = () => { $('ex-un').value = (EXAMES.find(e => e[0] === $('ex-tipo').value) || [])[1] || ''; };
+  $('ex-tipo').onchange(); $('ex-data').value = hojeIso();
+  carregarLoja();
+  irAba();
+}
+function irAba(){
+  const aba = (location.hash || '#perfil').slice(1);
+  const ok = ['perfil','hormonizacao','jornada','lojinha'].includes(aba) ? aba : 'perfil';
+  document.querySelectorAll('[data-aba]').forEach(a => a.setAttribute('aria-selected', a.dataset.aba === ok));
+  document.querySelectorAll('[data-painel]').forEach(p => p.hidden = p.dataset.painel !== ok);
+}
+window.addEventListener('hashchange', irAba);
+
+function preencherPerfil(){
+  fotoNova = undefined;
+  $('pf-nome').value = meu.nome || ''; $('pf-pronomes').value = meu.pronomes || ''; $('pf-cidade').value = meu.cidade || '';
+  $('pf-estado').value = meu.estado || ''; $('pf-emT').value = meu.emTdesde || ''; $('pf-bio').value = meu.bio || '';
+  $('pf-insta').value = meu.instagram || '';
+  CURIS.forEach(([k]) => $('pf-c-' + k).value = (meu.curiosidades || {})[k] || '');
+  previa();
+}
+function lerPerfil(){
+  const v = id => $(id).value.trim();
+  const curiosidades = {}; CURIS.forEach(([k]) => { const x = v('pf-c-' + k); if (x) curiosidades[k] = x; });
+  return { nome: v('pf-nome').replace(/\s+/g, ' '), pronomes: v('pf-pronomes'), cidade: v('pf-cidade'), estado: v('pf-estado'),
+    emTdesde: v('pf-emT'), bio: v('pf-bio'), instagram: instaUser(v('pf-insta')), curiosidades,
+    foto: fotoNova !== undefined ? fotoNova : (meu.foto || '') };
+}
+function previa(){
+  const m = lerPerfil();
+  $('pf-previa').innerHTML = cartao(m.nome ? m : { ...m, nome: 'Seu nome' }, eu.uid);
+  $('pf-foto-av').innerHTML = avatarFoto(m, eu.uid, '');
+  $('pf-foto-rm').hidden = !m.foto;
+}
+$('pf-foto').addEventListener('change', async e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  try { fotoNova = await comprimir(f, 320, 60000, true); previa(); toast('Foto pronta. Clique em “Salvar perfil”.'); }
+  catch { toast('Não foi possível abrir essa imagem. Tente JPG ou PNG.'); }
+});
+window.removerFoto = () => { fotoNova = ''; previa(); };
+window.salvarPerfil = async e => {
+  e.preventDefault(); mostrarErro('pf-err', '');
+  const m = lerPerfil();
+  if (/^an[oô]nimo$/i.test(m.nome)) return mostrarErro('pf-err', 'Escolha outro nome: “Anônimo” é usado nas publicações anônimas.');
+  if (m.emTdesde && dataLocal(m.emTdesde) > new Date()) return mostrarErro('pf-err', 'A data de início em T não pode ser no futuro.');
+  const b = $('b-salvar'); b.disabled = true; b.textContent = 'Salvando…';
+  try {
+    await fb.updateDoc(fb.doc(db, 'membros', eu.uid), m);
+    meu = { ...meu, ...m }; perfilDe(eu.uid, true);
+    $('h-nome').textContent = meu.nome; $('h-av').innerHTML = avatarFoto(meu, eu.uid, 'sm'); toast('Perfil salvo!'); renderJornada();
+  } catch (err) { mostrarErro('pf-err', traduzErro(err)); }
+  finally { b.disabled = false; b.textContent = 'Salvar perfil'; }
+};
+
+/* ---------- hormonização ---------- */
+const intervalo = () => Number(priv.intervalo) || 0;
+const ehGel = () => /gel/i.test(priv.medicamento || '');
+function preencherEsquema(){
+  if (document.activeElement && document.activeElement.closest && document.activeElement.closest('[data-painel=hormonizacao] aside form')) return;
+  $('hz-med').value = priv.medicamento || 'Durateston'; $('hz-dose').value = priv.dose || '';
+  $('hz-int').value = priv.intervalo || ''; $('hz-hora').value = priv.hora || '09:00';
+  marcarPreset();
+}
+function marcarPreset(){
+  $('hz-presets').innerHTML = PRESETS.map(([n, l]) => `<button type="button" data-n="${n}" aria-pressed="${Number($('hz-int').value) === n}">${l}</button>`).join('');
+  $('hz-presets').querySelectorAll('button').forEach(b => b.onclick = () => { $('hz-int').value = b.dataset.n; marcarPreset(); });
+}
+$('hz-int').addEventListener('input', marcarPreset);
+$('hz-med').addEventListener('change', () => { if (/gel/i.test($('hz-med').value) && !$('hz-int').value) { $('hz-int').value = 1; marcarPreset(); } });
+window.salvarHormonio = async e => {
+  e.preventDefault();
+  const dados = { medicamento: $('hz-med').value, dose: $('hz-dose').value.trim(), intervalo: Math.max(1, Math.min(180, Number($('hz-int').value) || 0)), hora: $('hz-hora').value || '09:00' };
+  try { await fb.setDoc(fb.doc(db, 'privado', eu.uid), dados, { merge: true }); toast('Esquema salvo.'); document.activeElement.blur(); }
+  catch (err) { toast(traduzErro(err)); }
+};
+function proxima(){
+  const ult = aplics[0]; if (!ult || !intervalo()) return null;
+  const d = dataLocal(ult.data); d.setDate(d.getDate() + intervalo());
+  return { iso: isoDe(d), faltam: diasEntre(new Date(), d), ultima: ult.data };
+}
+function renderHormonio(){
+  const p = proxima(), n = intervalo();
+  let h = '<small>Próxima aplicação</small>';
+  if (!n) h += `<div class="data">Configure seu esquema</div><p style="color:#C9D3EA">Informe o medicamento e de quantos em quantos dias você aplica (ao lado${matchMedia('(max-width:900px)').matches ? ', mais abaixo' : ''}).</p>`;
+  else if (!p) h += `<div class="data">Registre sua última aplicação</div><p style="color:#C9D3EA">A partir dela calculamos a próxima a cada ${n} dia${n > 1 ? 's' : ''}.</p>`;
+  else {
+    const chip = p.faltam > 1 ? `<span class="chip">⏳ em ${p.faltam} dias</span>` : p.faltam === 1 ? '<span class="chip hoje">⏰ amanhã</span>'
+      : p.faltam === 0 ? '<span class="chip hoje">💉 é hoje!</span>' : `<span class="chip atraso">⚠️ atrasada há ${-p.faltam} dia${p.faltam < -1 ? 's' : ''}</span>`;
+    const pct = Math.max(0, Math.min(100, (n - Math.max(p.faltam, 0)) / n * 100));
+    h += `<div class="data">${dataBonita(p.iso)}</div>${chip}
+      ${n > 1 ? `<div class="barra"><i style="width:${pct}%"></i></div><div class="linha"><span>Última: ${dataBonita(p.ultima, false)}</span><span>a cada ${n} dias</span></div>` : ''}`;
+  }
+  h += `<div class="btns"><button class="btn btn-white" onclick="abrirAplicacao()">✓ Registrar aplicação</button></div>`;
+  $('h-prox').innerHTML = h;
+  /* histórico */
+  $('h-hist').innerHTML = aplics.length ? aplics.map(a => `<div><b>${dataLocal(a.data).toLocaleDateString('pt-BR')}</b><span>${[a.local, a.dose, a.nota].filter(Boolean).map(esc).join(' · ') || '—'}</span><button data-apagar-aplic="${a.id}" aria-label="Apagar registro">✕</button></div>`).join('')
+    : '<p class="small">Nenhuma aplicação registrada ainda.</p>';
+  if (aplics.length > 1) {
+    const difs = aplics.slice(0, 10).map((a, i, l) => l[i + 1] ? diasEntre(dataLocal(l[i + 1].data), dataLocal(a.data)) : null).filter(x => x !== null);
+    const media = difs.reduce((s, x) => s + x, 0) / difs.length;
+    $('h-stats').textContent = `${aplics.length} registros · intervalo real médio: ${media.toFixed(1).replace('.0', '').replace('.', ',')} dias`;
+  } else $('h-stats').textContent = aplics.length ? '1 registro' : '';
+  atualizarCalendario();
+}
+function sugestaoLocal(){
+  const locais = ehGel() ? LOCAIS_GEL : LOCAIS_INJ;
+  const ult = aplics[0] && aplics[0].local;
+  if (!ult || ehGel()) return null;
+  /* rodízio: mesmo lugar do outro lado; se já trocou de lado, vai para a próxima região */
+  const i = locais.indexOf(ult); if (i < 0) return null;
+  const outro = i % 2 === 0 ? locais[i + 1] : locais[(i + 1) % locais.length];
+  return { ult, outro };
+}
+window.abrirAplicacao = () => {
+  const locais = ehGel() ? LOCAIS_GEL : LOCAIS_INJ;
+  $('ap-data').value = hojeIso(); $('ap-dose').value = priv.dose || ''; $('ap-nota').value = '';
+  const s = sugestaoLocal();
+  $('ap-local').innerHTML = '<option value="">—</option>' + [...locais, 'Outro'].map(l => `<option>${l}</option>`).join('');
+  $('ap-local').value = s ? s.outro : '';
+  $('ap-sug').hidden = !s;
+  if (s) $('ap-sug').innerHTML = `🔄 Da última vez foi <b>${esc(s.ult)}</b>. Revezar o local ajuda a pele e o músculo a se recuperarem, então sugerimos <b>${esc(s.outro)}</b>.`;
+  abrirModal('m-aplic');
+};
+window.registrarAplicacao = async e => {
+  e.preventDefault();
+  const data = $('ap-data').value;
+  if (dataLocal(data) > new Date()) return toast('A data não pode ser no futuro.');
+  try {
+    await fb.addDoc(fb.collection(db, 'privado', eu.uid, 'aplicacoes'), { data, local: $('ap-local').value, dose: $('ap-dose').value.trim(), nota: $('ap-nota').value.trim(), criadoEm: fb.serverTimestamp() });
+    fecharModal('m-aplic'); toast('Aplicação registrada 💙');
+  } catch (err) { toast(traduzErro(err)); }
+};
+
+/* Lembretes no calendário: evento que se repete no intervalo, com aviso 1 dia antes e na hora */
+function eventoCal(){
+  const p = proxima(); if (!p) return null;
+  const [hh, mm] = (priv.hora || '09:00').split(':');
+  const ini = p.faltam < 0 ? hojeIso() : p.iso;
+  const comp = ini.replace(/-/g, '') + 'T' + hh + mm + '00';
+  const fimD = new Date(dataLocal(ini)); fimD.setHours(+hh, +mm + 15);
+  const fim = isoDe(fimD).replace(/-/g, '') + 'T' + String(fimD.getHours()).padStart(2, '0') + String(fimD.getMinutes()).padStart(2, '0') + '00';
+  const discreto = $('cal-discreto').checked;
+  return { comp, fim, titulo: discreto ? 'Lembrete 💙' : '💉 Aplicação de testosterona',
+    desc: (discreto ? '' : `${priv.medicamento || ''} ${priv.dose || ''}\n`) + 'Registre no seu perfil: ' + location.origin + location.pathname.replace(/[^/]*$/, '') + 'perfil.html#hormonizacao',
+    rrule: `RRULE:FREQ=DAILY;INTERVAL=${intervalo()}` };
+}
+function atualizarCalendario(){
+  const ev = eventoCal(), a = $('cal-google');
+  a.toggleAttribute('aria-disabled', !ev); a.style.opacity = ev ? '' : '.5'; a.style.pointerEvents = ev ? '' : 'none';
+  if (ev) a.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(ev.titulo) + '&dates=' + ev.comp + '/' + ev.fim + '&details=' + encodeURIComponent(ev.desc) + '&recur=' + encodeURIComponent(ev.rrule);
+}
+$('cal-discreto').addEventListener('change', atualizarCalendario);
+window.baixarIcs = () => {
+  const ev = eventoCal(); if (!ev) return toast('Configure o esquema e registre a última aplicação primeiro.');
+  const escIcs = s => s.replace(/\\/g, '\\\\').replace(/[,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
+  const agora = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Transmasc Brasil//Hormonizacao//PT','CALSCALE:GREGORIAN','BEGIN:VEVENT',
+    `UID:hormonio-${eu.uid}@transmascbrasil`, `DTSTAMP:${agora}`, `DTSTART:${ev.comp}`, `DTEND:${ev.fim}`, ev.rrule,
+    `SUMMARY:${escIcs(ev.titulo)}`, `DESCRIPTION:${escIcs(ev.desc)}`,
+    'BEGIN:VALARM','ACTION:DISPLAY','TRIGGER:-P1D',`DESCRIPTION:${escIcs(ev.titulo)} amanhã`,'END:VALARM',
+    'BEGIN:VALARM','ACTION:DISPLAY','TRIGGER:PT0M',`DESCRIPTION:${escIcs(ev.titulo)}`,'END:VALARM',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], { type:'text/calendar' })); a.download = 'lembrete.ics'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
+
+/* ---------- jornada ---------- */
+function renderJornada(){
+  const t = tempoEmT(meu.emTdesde);
+  if (!t) {
+    $('j-contador').innerHTML = `<div style="grid-column:1/-1"><b>🌱</b><span>Informe quando começou a testosterona no <a href="#perfil">seu perfil</a> para ver sua linha do tempo.</span></div>`;
+  } else {
+    const ini = dataLocal(meu.emTdesde), prox = new Date(ini); prox.setFullYear(new Date().getFullYear());
+    if (diasEntre(new Date(), prox) < 0) prox.setFullYear(prox.getFullYear() + 1);
+    const falta = diasEntre(new Date(), prox);
+    $('j-contador').innerHTML = `<div><b>${t.dias.toLocaleString('pt-BR')}</b><span>dias em T</span></div><div><b>${t.texto.replace(' e ', '<br>e ')}</b><span>de jornada</span></div>
+      <div><b>${t.tversario ? '🎉' : falta}</b><span>${t.tversario ? 'Hoje é seu T-versário!' : `dias para o ${t.anos + 1}º T-versário`}</span></div>`;
+  }
+  const meses = t ? t.meses + (t.dias % 30) / 30 : null, marcos = priv.marcos || {}, ESC = 60;
+  const pos = m => Math.min(100, m / ESC * 100);
+  $('j-mud').innerHTML = MUDANCAS.map(([k, nome, i0, i1, m0, m1]) => {
+    const notei = marcos[k];
+    const mNotei = notei && meu.emTdesde ? (dataLocal(notei) - dataLocal(meu.emTdesde)) / (30.44 * 86400000) : null;
+    const quando = i1 >= 12 && i0 >= 12 ? `começa depois de 1 ano` : `começa em ${i0}–${i1} meses`;
+    const max = m0 ? ` · máximo em ${m0 >= 12 ? `${m0 / 12}–${m1 / 12} anos` : `${m0}–${m1} meses`}` : m0 === null && k === 'calvicie' ? ' · varia muito' : '';
+    return `<div class="item"><div class="rot"><b>${nome}</b><span>${quando}${max}</span></div>
+      <div class="trilho" role="img" aria-label="${esc(nome)}: ${quando}${max}">
+        ${m1 ? `<span class="max" style="left:${pos(i0)}%;width:${pos(m1) - pos(i0)}%"></span>` : ''}
+        <span class="ini" style="left:${pos(i0)}%;width:${pos(i1) - pos(i0)}%"></span>
+        ${meses !== null ? `<span class="voce" style="left:${pos(meses)}%"></span>` : ''}
+        ${mNotei !== null && mNotei >= 0 ? `<span class="notei" style="left:${pos(mNotei)}%">⭐</span>` : ''}
+      </div>
+      <div class="acao-m">${notei ? `⭐ Você notou em <b>${dataLocal(notei).toLocaleDateString('pt-BR', { month:'short', year:'numeric' })}</b>${mNotei !== null && mNotei >= 0 ? ` (com ${Math.round(mNotei)} ${Math.round(mNotei) === 1 ? 'mês' : 'meses'} de T)` : ''} <button class="link" data-desmarcar="${k}">desfazer</button>`
+        : `<label>Notei em <input type="date" data-marco="${k}" max="${hojeIso()}"></label>`}</div>
+    </div>`;
+  }).join('');
+}
+document.addEventListener('change', async e => {
+  const m = e.target.closest('[data-marco]'); if (!m || !m.value) return;
+  try { await fb.setDoc(fb.doc(db, 'privado', eu.uid), { marcos: { [m.dataset.marco]: m.value } }, { merge: true }); toast('Marco salvo ⭐'); }
+  catch (err) { toast(traduzErro(err)); }
+});
+function renderExames(){
+  const grupos = {};
+  exames.forEach(x => (grupos[x.exame] = grupos[x.exame] || []).push(x));
+  $('ex-lista').innerHTML = Object.entries(grupos).map(([nome, l]) => {
+    const ult = l[l.length - 1], vals = l.map(x => x.valor), mn = Math.min(...vals), mx = Math.max(...vals);
+    const pts = l.map((x, i) => `${l.length === 1 ? 80 : 4 + i * 152 / (l.length - 1)},${mx === mn ? 22 : 40 - (x.valor - mn) / (mx - mn) * 36}`).join(' ');
+    return `<div class="exame"><small>${esc(nome)}</small><b>${String(ult.valor).replace('.', ',')} <span class="small">${esc(ult.unidade || '')}</span></b>
+      <svg viewBox="0 0 160 44" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="#1E3A8A" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${l.map((x, i) => `<circle cx="${pts.split(' ')[i].split(',')[0]}" cy="${pts.split(' ')[i].split(',')[1]}" r="3" fill="#F5A9B8"/>`).join('')}</svg>
+      <details><summary class="small">${l.length} resultado${l.length > 1 ? 's' : ''} · último em ${dataLocal(ult.data).toLocaleDateString('pt-BR')}</summary>
+        ${[...l].reverse().map(x => `<div><span>${dataLocal(x.data).toLocaleDateString('pt-BR')}</span><span>${String(x.valor).replace('.', ',')} ${esc(x.unidade || '')} <button data-apagar-exame="${x.id}" aria-label="Apagar">✕</button></span></div>`).join('')}</details></div>`;
+  }).join('') || '<p class="small">Nenhum exame anotado ainda.</p>';
+}
+window.addExame = async e => {
+  e.preventDefault();
+  const valor = Number($('ex-valor').value);
+  if (!isFinite(valor)) return toast('Digite um número.');
+  try {
+    await fb.addDoc(fb.collection(db, 'privado', eu.uid, 'exames'), { exame: $('ex-tipo').value, valor, unidade: $('ex-un').value.trim(), data: $('ex-data').value });
+    $('ex-valor').value = ''; toast('Exame anotado.');
+  } catch (err) { toast(traduzErro(err)); }
+};
+
+/* ---------- lojinha ---------- */
+async function carregarLoja(){
+  $('loja').innerHTML = lojaHtml(LOJA_PADRAO);
+  try {
+    const s = await fb.getDocs(fb.collection(db, 'loja'));
+    if (!s.empty) $('loja').innerHTML = lojaHtml(s.docs.map(d => ({ id: d.id, ...d.data() })));
+  } catch (err) { console.error('Lojinha indisponível; usando a padrão.', err); }
+}
+
+document.addEventListener('click', async e => {
+  const t = e.target; let x;
+  if ((x = t.closest('[data-apagar-aplic]'))) {
+    if (confirm('Apagar este registro de aplicação?')) await fb.deleteDoc(fb.doc(db, 'privado', eu.uid, 'aplicacoes', x.dataset.apagarAplic)).catch(err => toast(traduzErro(err)));
+    return;
+  }
+  if ((x = t.closest('[data-apagar-exame]'))) {
+    if (confirm('Apagar este resultado?')) await fb.deleteDoc(fb.doc(db, 'privado', eu.uid, 'exames', x.dataset.apagarExame)).catch(err => toast(traduzErro(err)));
+    return;
+  }
+  if ((x = t.closest('[data-desmarcar]'))) return fb.updateDoc(fb.doc(db, 'privado', eu.uid), { ['marcos.' + x.dataset.desmarcar]: fb.deleteField() }).catch(err => toast(traduzErro(err)));
+  if (t.closest('[data-fechar]') || t.classList.contains('overlay')) { const o = t.closest('.overlay'); if (o) fecharModal(o.id); }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.overlay:not([hidden])').forEach(o => fecharModal(o.id)); });
+
+iniciar();
+</script>
+</body>
+</html>
