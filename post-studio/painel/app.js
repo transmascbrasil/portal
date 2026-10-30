@@ -1,11 +1,15 @@
-import { postHtml, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, coresDe } from "/lib/template.js";
+import { postHtml, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, coresDe } from "../lib/template.js";
+import { servidorDisponivel, criarBackendServidor } from "./backend-servidor.js";
+import { criarBackendGithub, lerConfig, salvarConfig } from "./backend-github.js";
+import { jpgNoNavegador } from "./jpg-navegador.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const STATUS_ROTULO = { rascunho: "Rascunhos", aprovado: "Aprovados", publicado: "Publicados", rejeitado: "Rejeitados" };
 
 let slug = "";
-let st = null;          // estado da empresa vinda do servidor
+let st = null;          // estado da empresa (empresa, marca, posts, resumo do banco)
+let be = null;          // backend: servidor local (server.mjs) ou GitHub (GitHub Pages)
 let aba = "rascunho";
 let recemCriados = new Set();
 let editando = null;    // cópia do post aberto no editor
@@ -16,14 +20,18 @@ function toast(msg, erro = false) {
   t.textContent = msg; t.className = "toast on" + (erro ? " erro" : "");
   clearTimeout(toast.t); toast.t = setTimeout(() => (t.className = "toast"), erro ? 6000 : 3000);
 }
-async function api(caminho, opcoes = {}) {
-  const r = await fetch(caminho, { ...opcoes, headers: { "Content-Type": "application/json", ...(opcoes.headers || {}) } });
-  const tipo = r.headers.get("content-type") || "";
-  const dados = tipo.includes("json") ? await r.json() : await r.text();
-  if (!r.ok) throw Object.assign(new Error((dados && dados.erro) || `Erro ${r.status}`), { dados });
-  return dados;
+// trava o botão enquanto a ação roda e mostra o erro, se houver
+async function acao(fn, btn) {
+  if (btn) btn.disabled = true;
+  try { return await fn(); } catch (e) { toast(e.message, true); } finally { if (btn) btn.disabled = false; }
 }
-const rotaEmpresa = (resto = "") => `/api/e/${encodeURIComponent(slug)}${resto}`;
+const somenteLeitura = () => !be.podeGravar();
+function exigirToken() {
+  if (!somenteLeitura()) return false;
+  abrirConfig();
+  toast("Para salvar no GitHub, cole o token em ⚙ Configurações.", true);
+  return true;
+}
 
 function fontCss(marca) {
   const familias = ["Inter:wght@500;600;700;800;900"];
@@ -57,57 +65,82 @@ const fmtData = (iso) => {
 
 // ---------- carregamento ----------
 async function iniciar() {
+  be = (await servidorDisponivel()) ? criarBackendServidor() : criarBackendGithub(lerConfig());
+  $("btnConfig").hidden = be.tipo !== "github";
+  $("origem").textContent = be.descricao();
+  $("avisoLeitura").hidden = !somenteLeitura();
   try {
-    const empresas = await api("/api/empresas");
-    if (!empresas.length) {
+    const empresas = await be.listarEmpresas();
+    $("erroGeral").hidden = true;
+    const salvo = (() => { try { return localStorage.getItem("estudio:empresa"); } catch (e) { return null; } })();
+    slug = empresas.some((e) => e.slug === slug) ? slug : empresas.some((e) => e.slug === salvo) ? salvo : (empresas[0] || {}).slug || "";
+    $("empresa").innerHTML = empresas.map((e) => `<option value="${esc(e.slug)}">${esc(e.nome)}</option>`).join("") + `<option value="__nova">+ Nova empresa…</option>`;
+    $("empresa").value = slug || "__nova";
+    if (!slug) {
       $("erroGeral").hidden = false;
-      $("erroGeral").textContent = 'Nenhuma empresa cadastrada. No terminal, rode: node nova-empresa.mjs minha-empresa "Minha Empresa"';
+      $("erroGeral").textContent = 'Nenhuma empresa cadastrada ainda. Escolha "+ Nova empresa…" no seletor lá em cima.';
       return;
     }
-    const salvo = (() => { try { return localStorage.getItem("estudio:empresa"); } catch (e) { return null; } })();
-    slug = empresas.some((e) => e.slug === salvo) ? salvo : empresas[0].slug;
-    $("empresa").innerHTML = empresas.map((e) => `<option value="${esc(e.slug)}">${esc(e.nome)}</option>`).join("");
-    $("empresa").value = slug;
     await recarregar();
   } catch (e) {
     $("erroGeral").hidden = false;
-    $("erroGeral").textContent = "Não consegui falar com o servidor: " + e.message;
+    $("erroGeral").textContent = (be.tipo === "github" ? "Não consegui ler o repositório: " : "Não consegui falar com o servidor: ") + e.message;
+    if (be.tipo === "github" && (e.status === 0 || e.status === 404 || e.status === 401)) abrirConfig();
   }
 }
 async function recarregar() {
-  st = await api(rotaEmpresa());
+  st = await be.estado(slug);
   $("qtd").value = (st.empresa.geracao && st.empresa.geracao.quantidadePadrao) || 3;
+  bancoCarregadoDe = "";
   render();
 }
 $("empresa").onchange = async (e) => {
+  if (e.target.value === "__nova") { e.target.value = slug; return novaEmpresa(); }
   slug = e.target.value;
   try { localStorage.setItem("estudio:empresa", slug); } catch (er) {}
   recemCriados = new Set(); $("log").hidden = true;
-  await recarregar();
+  await acao(recarregar);
 };
+async function novaEmpresa() {
+  if (exigirToken()) return;
+  const novo = (prompt("Nome da pasta da nova empresa (letras minúsculas, números e hífen):", "") || "").trim().toLowerCase();
+  if (!novo) return;
+  const nome = prompt("Nome da empresa (aparece nos posts):", "") || novo;
+  const arroba = prompt("@ do Instagram (opcional):", "") || "";
+  await acao(async () => {
+    toast("Criando a empresa…");
+    await be.criarEmpresa(novo, nome.trim(), arroba.trim());
+    slug = novo;
+    try { localStorage.setItem("estudio:empresa", slug); } catch (er) {}
+    aba = "marca";
+    await iniciar();
+    toast("Empresa criada a partir do modelo. Ajuste a marca e o banco de conteúdo.");
+  });
+}
 
 // ---------- gerar ----------
 $("btnGerar").onclick = async () => {
+  if (exigirToken()) return;
   const b = $("btnGerar");
   b.disabled = true; b.textContent = "Gerando…";
   try {
-    const r = await api(rotaEmpresa("/gerar"), { method: "POST", body: JSON.stringify({ quantidade: Number($("qtd").value) || undefined }) });
-    st = r.estado;
+    const r = await be.gerar(slug, Number($("qtd").value) || undefined);
+    if (r.estado) st = r.estado;
     recemCriados = new Set(r.criados || []);
     mostrarLog(r);
     aba = "rascunho";
     render();
-    toast(r.criados && r.criados.length ? `${r.criados.length} rascunho(s) criado(s).` : (r.avisos && r.avisos[0]) || "Nenhum rascunho criado.", !(r.criados && r.criados.length));
+    if (!r.ok) toast("O script falhou: " + (r.erro || "veja a saída do script."), true);
+    else toast(r.criados && r.criados.length ? `${r.criados.length} rascunho(s) criado(s).` : (r.avisos && r.avisos[0]) || "Nenhum rascunho criado.", !(r.criados && r.criados.length));
   } catch (e) {
-    if (e.dados) mostrarLog(e.dados);
-    toast("O script falhou: " + e.message, true);
+    toast(e.message, true);
   } finally {
     b.disabled = false; b.textContent = "⚡ Gerar rascunhos";
   }
 };
 function mostrarLog(r) {
   $("log").hidden = false;
-  $("logTxt").textContent = `$ node ${r.script || "scripts/gerar-rascunhos.mjs"} --empresa ${slug}\n${r.saida || r.erro || ""}`;
+  $("logTxt").textContent = (be.tipo === "servidor" ? `$ node ${r.script || "scripts/gerar-rascunhos.mjs"} --empresa ${slug}\n` : `Gerado no navegador com ${r.script} e salvo no GitHub\n`) + (r.saida || r.erro || "");
 }
 
 // ---------- render ----------
@@ -162,6 +195,7 @@ function renderPosts() {
           <span class="chip">${esc(TEMAS[p.tema] || "Escuro")}</span>
           ${p.agendarPara ? `<span class="chip data">📅 ${esc(fmtData(p.agendarPara))}</span>` : ""}
           ${p.publicadoEm ? `<span class="chip">publicado ${esc(fmtData(p.publicadoEm))}</span>` : ""}
+          ${p.filaInstaBot ? `<span class="chip ok">📤 na fila do insta-bot (${esc(p.filaInstaBot)})</span>` : ""}
           <span class="chip">${esc(p.id)}</span>
         </div>
       </div>
@@ -169,12 +203,16 @@ function renderPosts() {
     quadro(c.querySelector(".quadro"), p, st.marca);
     c.querySelector(".quadro").onclick = () => abrirEditor(p.id);
     const acoes = c.querySelector(".card-acoes");
-    const botao = (txt, cls, fn) => { const b = document.createElement("button"); b.className = "btn peq " + cls; b.textContent = txt; b.onclick = fn; acoes.appendChild(b); };
+    const botao = (txt, cls, fn) => { const b = document.createElement("button"); b.className = "btn peq " + cls; b.textContent = txt; b.onclick = () => fn(b); acoes.appendChild(b); };
     if (aba === "rascunho") { botao("✓ Aprovar", "ok", () => mudarStatus(p.id, "aprovado")); botao("Rejeitar", "", () => mudarStatus(p.id, "rejeitado")); }
-    if (aba === "aprovado") { botao("Marcar publicado", "ok", () => mudarStatus(p.id, "publicado")); botao("Voltar p/ rascunho", "", () => mudarStatus(p.id, "rascunho")); }
+    if (aba === "aprovado") {
+      if (be.enviarInstaBot && st.empresa.instaBot && !p.filaInstaBot) botao("📤 Enviar p/ insta-bot", "ok", (b) => enviarInstaBot(p.id, b));
+      botao("Marcar publicado", p.filaInstaBot || !st.empresa.instaBot ? "ok" : "", () => mudarStatus(p.id, "publicado"));
+      botao("Voltar p/ rascunho", "", () => mudarStatus(p.id, "rascunho"));
+    }
     if (aba === "rejeitado" || aba === "publicado") botao("Voltar p/ rascunho", "", () => mudarStatus(p.id, "rascunho"));
     botao("Editar", "", () => abrirEditor(p.id));
-    botao("⬇ JPG", "", () => baixarJpg(p.id));
+    botao("⬇ JPG", "", (b) => baixarJpg(p, b));
     botao("Copiar legenda", "", () => copiar(p.legenda || ""));
     if (aba !== "publicado") botao("Excluir", "perigo", () => excluir(p.id));
     g.appendChild(c);
@@ -182,29 +220,41 @@ function renderPosts() {
 }
 
 async function mudarStatus(id, status) {
-  try { st = await api(rotaEmpresa(`/posts/${id}/status`), { method: "POST", body: JSON.stringify({ status }) }); render(); toast(`Movido para ${STATUS_ROTULO[status].toLowerCase()}.`); }
-  catch (e) { toast(e.message, true); }
+  if (exigirToken()) return;
+  await acao(async () => { st = await be.status(slug, id, status); render(); toast(`Movido para ${STATUS_ROTULO[status].toLowerCase()}.`); });
 }
 async function excluir(id) {
+  if (exigirToken()) return;
   if (!confirm(`Excluir o post ${id}? A pauta dele não volta para o banco.`)) return;
-  try { st = await api(rotaEmpresa(`/posts/${id}`), { method: "DELETE" }); render(); toast("Post excluído."); }
-  catch (e) { toast(e.message, true); }
+  await acao(async () => { st = await be.excluir(slug, id); render(); toast("Post excluído."); });
+}
+async function enviarInstaBot(id, btn) {
+  if (exigirToken()) return;
+  if (!confirm("Colocar este post na fila do insta-bot? Ele entra aprovado e o robô publica no próximo horário da agenda (ou na data sugerida).")) return;
+  await acao(async () => {
+    const r = await be.enviarInstaBot(slug, id);
+    st = r.estado; render();
+    toast(`Na fila do insta-bot como ${r.idBot}.`);
+  }, btn);
 }
 async function copiar(txt) {
   try { await navigator.clipboard.writeText(txt); toast("Legenda copiada."); }
   catch (e) { toast("Não consegui copiar. Abra o editor e copie a legenda de lá.", true); }
 }
-async function baixarJpg(id) {
+async function baixarJpg(p, btn) {
   toast("Gerando a imagem…");
-  try {
-    const r = await fetch(rotaEmpresa(`/posts/${id}.jpg`));
-    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).erro || `Erro ${r.status}`);
-    const url = URL.createObjectURL(await r.blob());
-    const a = Object.assign(document.createElement("a"), { href: url, download: `${slug}-${id}.jpg` });
+  await acao(async () => {
+    let blob = null;
+    if (be.jpgServidor) {
+      try { blob = await be.jpgServidor(slug, p.id); } catch (e) { if (e.status !== 501) throw e; }
+    }
+    if (!blob) blob = await jpgNoNavegador(p, st.marca, fontCss(st.marca));
+    const url = URL.createObjectURL(blob);
+    const a = Object.assign(document.createElement("a"), { href: url, download: `${slug}-${p.id}.jpg` });
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 5000);
     toast("Imagem baixada.");
-  } catch (e) { toast(e.message, true); }
+  }, btn);
 }
 
 // ---------- editor ----------
@@ -286,10 +336,11 @@ F.addEventListener("input", prever);
 F.tipo.addEventListener("change", () => { editando.itens = lerForm().itens; desenharItens(); prever(); });
 $("dlgFechar").onclick = $("dlgCancelar").onclick = () => $("dlg").close();
 $("dlgSalvar").onclick = async () => {
-  try {
-    st = await api(rotaEmpresa(`/posts/${editando.id}`), { method: "PUT", body: JSON.stringify(lerForm()) });
+  if (exigirToken()) return;
+  await acao(async () => {
+    st = await be.salvarPost(slug, lerForm());
     $("dlg").close(); render(); toast("Post salvo.");
-  } catch (e) { toast(e.message, true); }
+  }, $("dlgSalvar"));
 };
 
 // ---------- banco ----------
@@ -297,13 +348,12 @@ let bancoCarregadoDe = "";
 async function renderBanco() {
   if (bancoCarregadoDe === slug) return;
   try {
-    const b = await api(rotaEmpresa("/banco"));
+    const b = await be.lerBanco(slug);
     $("bancoTxt").value = JSON.stringify(b, null, 2);
     bancoCarregadoDe = slug;
     $("bancoErro").hidden = true;
   } catch (e) { toast(e.message, true); }
 }
-$("empresa").addEventListener("change", () => { bancoCarregadoDe = ""; });
 function editarBanco(fn) {
   let b;
   try { b = JSON.parse($("bancoTxt").value); } catch (e) { return mostrarErroBanco(e); }
@@ -321,10 +371,13 @@ $("bancoAddData").onclick = () => editarBanco((b) => (b.datas = b.datas || []).p
 $("bancoSalvar").onclick = async () => {
   let b;
   try { b = JSON.parse($("bancoTxt").value); } catch (e) { return mostrarErroBanco(e); }
+  if (exigirToken()) return;
+  $("bancoSalvar").disabled = true;
   try {
-    st = await api(rotaEmpresa("/banco"), { method: "PUT", body: JSON.stringify(b) });
+    st = await be.salvarBanco(slug, b);
     $("bancoErro").hidden = true; renderResumo(); toast("Banco salvo.");
   } catch (e) { $("bancoErro").hidden = false; $("bancoErro").textContent = e.message; }
+  finally { $("bancoSalvar").disabled = false; }
 };
 
 // ---------- marca ----------
@@ -382,10 +435,32 @@ M.onsubmit = async (ev) => {
     reciclar: M.reciclar.checked,
   };
   e.variaveis = Object.fromEntries(M.variaveis.value.split("\n").map((l) => l.split("=")).filter((p) => p.length >= 2 && p[0].trim()).map(([k, ...v]) => [k.trim(), v.join("=").trim()]));
-  try {
-    st = await api(rotaEmpresa("/empresa"), { method: "PUT", body: JSON.stringify(e) });
+  if (exigirToken()) return;
+  await acao(async () => {
+    st = await be.salvarEmpresa(slug, e);
     render(); toast("Marca salva. Os posts já usam as cores novas.");
-  } catch (er) { toast(er.message, true); }
+  }, M.querySelector("button.primario"));
+};
+
+// ---------- configurações (modo GitHub) ----------
+const C = $("fConfig");
+function abrirConfig() {
+  const c = lerConfig();
+  for (const k of ["owner", "repo", "branch", "pasta", "token"]) C[k].value = c[k] || "";
+  if (!$("dlgConfig").open) $("dlgConfig").showModal();
+}
+$("btnConfig").onclick = abrirConfig;
+$("cfgFechar").onclick = () => $("dlgConfig").close();
+$("cfgLimpar").onclick = () => { const c = lerConfig(); c.token = ""; salvarConfig(c); C.token.value = ""; toast("Token removido deste navegador."); };
+C.onsubmit = async (ev) => {
+  ev.preventDefault();
+  const c = {};
+  for (const k of ["owner", "repo", "branch", "pasta", "token"]) c[k] = C[k].value.trim();
+  c.branch = c.branch || "main";
+  c.pasta = c.pasta.replace(/^\/+|\/+$/g, "");
+  salvarConfig(c);
+  $("dlgConfig").close();
+  await iniciar();
 };
 
 iniciar();

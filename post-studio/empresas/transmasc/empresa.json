@@ -33,5 +33,9 @@
     ],
     "hora": "12:00",
     "script": "scripts/gerar-rascunhos.mjs"
+  },
+  "instaBot": {
+    "posts": "insta-bot/posts.json",
+    "ideias": "insta-bot/ideias.json"
   }
 }

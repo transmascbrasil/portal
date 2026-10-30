@@ -7,14 +7,14 @@
 <title>Estúdio de Posts</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/painel/estilo.css">
+<link rel="stylesheet" href="estilo.css">
 </head>
 <body>
 <header class="topo">
   <div class="topo-in">
     <div class="marca-app">
       <span class="logo-app" aria-hidden="true"></span>
-      <div><b>Estúdio de Posts</b><small id="nomeEmpresa">carregando…</small></div>
+      <div><b>Estúdio de Posts</b><small><span id="nomeEmpresa">carregando…</span> · <span id="origem"></span></small></div>
     </div>
     <label class="sel-empresa">
       <span class="sr">Empresa</span>
@@ -25,6 +25,7 @@
       <input id="qtd" type="number" min="1" max="30" value="3" title="Quantos rascunhos gerar">
       <button id="btnGerar" class="btn primario">⚡ Gerar rascunhos</button>
     </div>
+    <button id="btnConfig" class="btn" hidden title="Configurações do GitHub">⚙</button>
   </div>
   <nav class="abas" id="abas">
     <button data-aba="rascunho">Rascunhos <i id="n-rascunho"></i></button>
@@ -38,6 +39,7 @@
 
 <main>
   <div id="erroGeral" class="aviso erro" hidden></div>
+  <div id="avisoLeitura" class="aviso info" hidden>Modo leitura: para gerar, aprovar e salvar, cole o token do GitHub em ⚙ Configurações.</div>
   <section id="resumo" class="resumo"></section>
   <details id="log" class="log" hidden>
     <summary>Saída do script</summary>
@@ -157,7 +159,34 @@ datas: "data": "MM-DD" (todo ano) ou "AAAA-MM-DD" (uma vez)</pre>
   </form>
 </dialog>
 
+<dialog id="dlgConfig" class="dlg dlg-peq">
+  <form id="fConfig">
+    <div class="dlg-cab">
+      <h2>⚙ Configurações do GitHub</h2>
+      <button type="button" class="btn fantasma" id="cfgFechar" aria-label="Fechar">✕</button>
+    </div>
+    <div class="dlg-form cfg">
+      <p class="mut">Os dados de cada empresa ficam no repositório (pasta abaixo). O painel lê e grava lá, como o painel do insta-bot.</p>
+      <div class="campos2">
+        <label>Dono (usuário ou organização)<input name="owner" required placeholder="transmascbrasil"></label>
+        <label>Repositório<input name="repo" required placeholder="portal"></label>
+        <label>Branch<input name="branch" placeholder="main"></label>
+        <label>Pasta das empresas<input name="pasta" placeholder="post-studio/empresas"></label>
+      </div>
+      <label>Token do GitHub<input name="token" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+      <p class="dica mut">Fica guardado só neste navegador. Crie em
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Settings → Developer settings → Fine-grained tokens</a>:
+        escolha só este repositório e dê a permissão <b>Contents: Read and write</b>. Sem token, o painel abre só para leitura.</p>
+    </div>
+    <div class="dlg-rodape">
+      <button type="button" class="btn perigo" id="cfgLimpar">Remover token</button>
+      <span class="sp"></span>
+      <button class="btn primario">Salvar</button>
+    </div>
+  </form>
+</dialog>
+
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
-<script type="module" src="/painel/app.js"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>
