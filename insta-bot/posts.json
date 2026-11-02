@@ -528,6 +528,20 @@
       "aprovado": false,
       "postado": false,
       "criadoEm": "2026-10-31T14:58:13.877Z"
+    },
+    {
+      "id": "post117",
+      "fonte": "frase:resistencia",
+      "tipo": "citacao",
+      "tema": "rosa",
+      "kicker": "Pra lembrar",
+      "titulo": [
+        "Existir como a gente é já é resistência."
+      ],
+      "legenda": "Existir como a gente é já é resistência. 💙\n\nConta nos comentários: o que você acrescentaria?\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #pessoastrans",
+      "aprovado": false,
+      "postado": false,
+      "criadoEm": "2026-11-02T15:46:07.654Z"
     }
   ],
   "rascunhosAuto": {
@@ -535,7 +549,7 @@
     "aCadaDias": 2,
     "quantidade": 1,
     "aprovar": false,
-    "ultimaVez": "2026-10-31T14:58:13.877Z"
+    "ultimaVez": "2026-11-02T15:46:07.654Z"
   },
   "agenda": {
     "dias": [
