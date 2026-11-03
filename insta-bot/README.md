@@ -43,6 +43,13 @@ No painel: **🎨 Marca**. Fica em `posts.json` → `marca`:
 ## Painel: conta e usuários
 - **👤 Meu perfil**: nome, senha, e-mail e aparência do painel (escuro, claro ou automático).
 - **👥 Usuários** (só administradores): criar acesso com senha provisória, editar nome e papel, mandar link de nova senha e remover acesso. Os usuários ficam na coleção `admins` do Firestore, a mesma do painel de indicações. Papel `editor` usa o painel mas não vê a página de usuários (é um controle do painel, não uma regra de segurança do Firebase).
+- **Token do GitHub na conta**: em ⚙ Configurações, marque "Guardar na minha conta (Firebase)". O token vai para `segredos/{uid}` no Firestore (só a própria pessoa lê) e não fica salvo no navegador; em outro computador, é só entrar. Precisa desta regra no Firestore:
+  ```
+  match /segredos/{uid} {
+    allow read, write: if request.auth != null && request.auth.uid == uid
+      && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+  }
+  ```
 - **📅 Calendário** (Agenda e controle): mostra agendados, previstos da fila, publicados e rascunhos com data sugerida. Clique num post para ver, editar, mudar a data ou publicar.
 
 ## Configurar a Meta (uma vez)
