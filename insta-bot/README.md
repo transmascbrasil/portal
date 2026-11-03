@@ -43,11 +43,14 @@ No painel: **🎨 Marca**. Fica em `posts.json` → `marca`:
 ## Painel: conta e usuários
 - **👤 Meu perfil**: nome, senha, e-mail e aparência do painel (escuro, claro ou automático).
 - **👥 Usuários** (só administradores): criar acesso com senha provisória, editar nome e papel, mandar link de nova senha e remover acesso. Os usuários ficam na coleção `admins` do Firestore, a mesma do painel de indicações. Papel `editor` usa o painel mas não vê a página de usuários (é um controle do painel, não uma regra de segurança do Firebase).
-- **Token do GitHub na conta**: em ⚙ Configurações, marque "Guardar na minha conta (Firebase)". O token vai para `segredos/{uid}` no Firestore (só a própria pessoa lê) e não fica salvo no navegador; em outro computador, é só entrar. Precisa desta regra no Firestore:
+- **Token do GitHub da equipe**: em ⚙ Configurações, um administrador cola o token e marca "Usar este token para toda a equipe". Ele fica em `segredos/github` no Firestore e todos os usuários do painel passam a usar, sem colar nada no navegador (o token fica só na memória da página). Um token colado no próprio navegador continua valendo primeiro. Precisa desta regra no Firestore:
   ```
-  match /segredos/{uid} {
-    allow read, write: if request.auth != null && request.auth.uid == uid
+  match /segredos/github {
+    allow read: if request.auth != null
       && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    allow write: if request.auth != null
+      && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.get('papel', 'admin') == 'admin';
   }
   ```
 - **📅 Calendário** (Agenda e controle): mostra agendados, previstos da fila, publicados e rascunhos com data sugerida. Clique num post para ver, editar, mudar a data ou publicar.

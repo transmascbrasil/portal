@@ -358,7 +358,7 @@ label.cor input{width:44px;height:34px;padding:2px;flex:none}
     <label>Caminho do ideias.json</label><input id="cIdeias">
     <label>Token do GitHub (só para salvar e publicar)</label>
     <input id="cToken" type="password" autocomplete="off" placeholder="github_pat_...">
-    <label class="chk" style="margin-top:10px"><input type="checkbox" id="cTokenConta"><span>Guardar na minha conta (Firebase), para não precisar colar em cada navegador</span></label>
+    <label class="chk" style="margin-top:10px" id="cTokenContaLb"><input type="checkbox" id="cTokenConta"><span>Usar este token para toda a equipe (fica guardado no Firebase; ninguém precisa colar no navegador)</span></label>
     <div class="dica" id="cTokenInfo"></div>
     <p class="dica">Crie em
       <a style="color:var(--azul)" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Settings → Developer settings → Fine-grained tokens</a>:
@@ -529,8 +529,8 @@ const DEFAULTS = { owner: 'transmascbrasil', repo: 'portal', branch: 'main', pat
 let cfg = { ...DEFAULTS };
 try { cfg = { ...DEFAULTS, ...JSON.parse(localStorage.getItem(CFG_KEY) || '{}') }; } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch (e) {} };
-// Token do GitHub: o deste navegador (cfg.token) ou o guardado na sua conta do Firebase (segredos/{uid}).
-// O da conta fica só na memória da página: não vai para o localStorage.
+// Token do GitHub: o deste navegador (cfg.token) ou o da equipe, guardado no Firebase (segredos/github).
+// O da equipe fica só na memória da página: não vai para o localStorage.
 let tokenConta = '', tokenContaEm = '';
 const tokenGH = () => cfg.token || tokenConta;
 
@@ -1055,7 +1055,7 @@ function render() {
   const addAviso = (t, c = '') => { const d = document.createElement('div'); d.className = 'aviso ' + c; d.textContent = t; av.appendChild(d); };
   if (loadError) { addAviso(loadError, 'erro'); $('#conteudo').innerHTML = '<div class="vazio">Não consegui carregar os posts.</div>'; $('#barra').classList.remove('on'); return; }
   if (!data) { $('#conteudo').innerHTML = '<div class="vazio">Carregando…</div>'; return; }
-  if (!tokenGH()) addAviso('Modo leitura: para aprovar, salvar e publicar, cole o token do GitHub em ⚙ Configurações.', 'info');
+  if (!tokenGH()) addAviso(souAdmin() ? 'Modo leitura: para aprovar, salvar e publicar, guarde o token do GitHub da equipe em ⚙ Configurações.' : 'Modo leitura: ainda não há token do GitHub da equipe. Peça para um administrador guardar em ⚙ Configurações.', 'info');
 
   const fila = filaDe(), agend = agendadosDe(), rasc = rascunhosDe(), done = postadosDe();
   const ocupados = new Set([...agend.map(p => partesBRT(new Date(p.agendarPara)).dia), ...done.filter(p => p.publicadoEm).map(p => partesBRT(new Date(p.publicadoEm)).dia)]);
@@ -1666,36 +1666,39 @@ function mostrarQuem(user) {
 }
 
 
-// ---------- token do GitHub guardado na conta (Firestore: segredos/{uid}) ----------
-const SEGREDOS = 'segredos';
-async function carregarTokenDaConta(user) {
-  tokenConta = ''; tokenContaEm = '';
+// ---------- token do GitHub da equipe (Firestore: segredos/github) ----------
+// Um token só, usado por todos os usuários do painel. Só administradores trocam ou apagam.
+const DOC_TOKEN = ['segredos', 'github'];
+let tokenContaPor = '';
+async function carregarTokenDaConta() {
+  tokenConta = ''; tokenContaEm = ''; tokenContaPor = '';
   try {
-    const d = await fb.getDoc(fb.doc(db, SEGREDOS, user.uid));
-    if (d.exists()) { const x = d.data() || {}; tokenConta = x.githubToken || ''; tokenContaEm = x.salvoEm || ''; }
-  } catch (e) { console.warn('Não consegui ler o token da conta:', e && e.code); }
+    const d = await fb.getDoc(fb.doc(db, ...DOC_TOKEN));
+    if (d.exists()) { const x = d.data() || {}; tokenConta = x.githubToken || ''; tokenContaEm = x.salvoEm || ''; tokenContaPor = x.salvoPor || ''; }
+  } catch (e) { console.warn('Não consegui ler o token da equipe:', e && e.code); }
 }
 async function guardarTokenNaConta(t) {
-  const salvoEm = new Date().toISOString();
-  await fb.setDoc(fb.doc(db, SEGREDOS, auth.currentUser.uid), { githubToken: t, salvoEm });
-  tokenConta = t; tokenContaEm = salvoEm;
-  toast('Token guardado na sua conta ✅. Nos outros navegadores, é só entrar.', 'ok');
+  if (!souAdmin()) throw new Error('Só administradores trocam o token da equipe.');
+  const u = auth.currentUser, salvoEm = new Date().toISOString(), salvoPor = meuDoc.nome || u.email || '';
+  await fb.setDoc(fb.doc(db, ...DOC_TOKEN), { githubToken: t, salvoEm, salvoPor });
+  tokenConta = t; tokenContaEm = salvoEm; tokenContaPor = salvoPor;
+  toast('Token guardado para toda a equipe ✅. Ninguém mais precisa colar no navegador.', 'ok');
 }
 async function apagarTokenDaConta() {
-  if (!confirm('Apagar o token guardado na sua conta? Os navegadores onde você não colou o token voltam ao modo leitura.')) return;
-  try { await fb.deleteDoc(fb.doc(db, SEGREDOS, auth.currentUser.uid)); tokenConta = ''; tokenContaEm = ''; mostrarInfoToken(); render(); toast('Token apagado da conta.'); }
+  if (!confirm('Apagar o token da equipe? Quem não tiver um token colado no próprio navegador volta ao modo leitura.')) return;
+  try { await fb.deleteDoc(fb.doc(db, ...DOC_TOKEN)); tokenConta = ''; tokenContaEm = ''; tokenContaPor = ''; mostrarInfoToken(); render(); toast('Token da equipe apagado.'); }
   catch (e) { toast(erroFirebase(e), 'erro'); }
 }
 function mostrarInfoToken() {
+  F('cTokenContaLb').hidden = !souAdmin();
   const el = F('cTokenInfo'); el.innerHTML = '';
-  if (cfg.token) el.textContent = 'Agora: usando o token salvo neste navegador.' + (tokenConta ? ' Também há um na sua conta; o deste navegador vale primeiro.' : '');
+  const quem = `${tokenContaPor ? ' por ' + tokenContaPor : ''}${tokenContaEm ? ' em ' + fmtDia(tokenContaEm) : ''}`;
+  if (cfg.token) el.textContent = 'Agora: usando o token colado neste navegador.' + (tokenConta ? ' Também há um token da equipe; o deste navegador vale primeiro.' : '');
   else if (tokenConta) {
-    el.textContent = `Agora: usando o token guardado na sua conta${tokenContaEm ? ' desde ' + fmtDia(tokenContaEm) : ''}. `;
-    const b = document.createElement('button'); b.className = 'btn peq perigo'; b.textContent = 'Apagar da conta'; b.onclick = apagarTokenDaConta;
-    el.appendChild(b);
-  } else el.textContent = 'Agora: sem token (modo leitura).';
+    el.textContent = `Agora: usando o token da equipe (guardado${quem}). `;
+    if (souAdmin()) { const b = document.createElement('button'); b.className = 'btn peq perigo'; b.textContent = 'Apagar token da equipe'; b.onclick = apagarTokenDaConta; el.appendChild(b); }
+  } else el.textContent = souAdmin() ? 'Agora: sem token (modo leitura). Cole um token e marque a opção acima para valer para todos.' : 'Agora: sem token (modo leitura). Peça para um administrador guardar o token da equipe.';
 }
-
 // ---------- criar com IA ----------
 const EXEMPLOS = [
   'Dicas de uso seguro de colete/binder no verão',
@@ -1924,13 +1927,13 @@ function erroLogin(err) {
 }
 function mostrarLogin() {
   F('app').hidden = true; F('lock').hidden = false;
-  data = null; sha = null; ideias = []; banco = { posts: [] }; logoSrc = ''; meuDoc = {}; usuarios = null; tokenConta = ''; tokenContaEm = ''; dirty = false; jaCarregou = false;
+  data = null; sha = null; ideias = []; banco = { posts: [] }; logoSrc = ''; meuDoc = {}; usuarios = null; tokenConta = ''; tokenContaEm = ''; tokenContaPor = ''; dirty = false; jaCarregou = false;
   lockErro(lockMsg); lockMsg = ''; F('lSenha').value = '';
 }
 async function mostrarApp(user) {
   F('lock').hidden = true; F('app').hidden = false;
   mostrarQuem(user);
-  if (!jaCarregou) { jaCarregou = true; render(); await carregarTokenDaConta(user); carregar(); }
+  if (!jaCarregou) { jaCarregou = true; render(); await carregarTokenDaConta(); carregar(); }
 }
 async function aoMudarUsuario(user) {
   if (!user || user.isAnonymous) { if (user) fb.signOut(auth); return mostrarLogin(); }
