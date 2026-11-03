@@ -132,7 +132,7 @@ select.input{appearance:auto}
 
 <script type="module">
 import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, quando, avatar, avatarDe, nomeDe,
-  hidratarAvatares, perfilDe, midiaHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js';
+  hidratarAvatares, perfilDe, midiaHtml, chipTopico, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js';
 
 let pend = [], recus = [], pubs = [], membros = [], suspensos = new Set();
 let subs = [], recusando = null;
@@ -192,6 +192,7 @@ function resumo(){
 function renderFila(alvo, lista, fila){
   $(alvo).innerHTML = lista.length ? lista.map(({ id, d }) => `<article class="post mod" id="m-${id}">
     <div class="phead">${avatar(d)}<div class="pmeta"><b>${esc(nomeDe(d))}</b><span><span class="tag ${d.tipo}">${TIPOS[d.tipo] || ''}</span>· enviada ${quando(d.criadoEm)}</span></div></div>
+    ${(d.topicos || []).length ? `<div class="ptopicos">${d.topicos.map(chipTopico).join('')}</div>` : ''}
     ${d.anonimo ? `<div class="autoria" data-autoria="${id}">🎭 Publicação anônima. <button data-ver-autoria="${id}">Ver quem escreveu</button><span class="small" style="color:#C9D3EA">(só use em caso de abuso)</span></div>` : ''}
     ${midiaHtml(d)}
     ${d.tipo === 'enquete' ? `<div class="ops">${(d.opcoes || []).map(o => `<div>${esc(o)}</div>`).join('')}</div>` : ''}

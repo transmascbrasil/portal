@@ -132,6 +132,13 @@
         </div>
       </div>
 
+      <div class="busca-box">
+        <span aria-hidden="true">🔎</span>
+        <input type="search" id="busca" placeholder="Buscar perguntas e publicações…" aria-label="Buscar na comunidade" autocomplete="off">
+      </div>
+      <div class="topicos-bar" id="topicos-bar" role="group" aria-label="Tópicos"></div>
+      <div class="box topico-head" id="topico-head" hidden></div>
+
       <div class="filtros" role="group" aria-label="Filtrar">
         <button aria-pressed="true" data-filtro="tudo">Tudo</button>
         <button aria-pressed="false" data-filtro="pergunta">Perguntas</button>
@@ -178,6 +185,7 @@
         <label><input type="radio" name="tipo" value="enquete">📊 Enquete</label>
       </div>
       <div class="quem" id="n-quem"></div>
+      <div class="field"><label>Tópicos <span style="text-transform:none;letter-spacing:0">(escolha de 1 a 3)</span></label><div class="tchips" id="n-topicos"></div></div>
       <textarea id="n-texto" maxlength="5000" aria-label="Texto da publicação"></textarea>
       <div class="opcoes" id="n-opcoes" hidden></div>
       <div class="prev" id="n-prev"></div>
@@ -212,10 +220,10 @@
 <script type="module">
 import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
   hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
-  REACOES, TIPOS, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
+  REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
 
 const DICAS = { post:'No que você está pensando?', pergunta:'Qual é a sua dúvida? Conte um pouco do contexto…', enquete:'Qual é a pergunta da enquete?' };
-const POR_PAGINA = 15;
+const POR_PAGINA = 15, LIMITE_BUSCA = 200;
 
 let eu = null, meuNome = '', souAdmin = false, verificado = false, criandoConta = false;
 const meus = new Set();          // ids de posts/comentários que eu escrevi (inclusive anônimos)
@@ -223,7 +231,8 @@ const posts = new Map();         // id -> { d, cs, el, todos, voto, verRes }
 const nomes = new Map();
 const meusPosts = new Map();     // id -> listener das minhas publicações ainda em moderação
 let unsubFeed = null, unsubMeus = null, limiteFeed = POR_PAGINA, filtro = 'tudo', primeiraCarga = true;
-let fotosNovo = [];
+let fotosNovo = [], topicosNovo = [];
+let topico = new URLSearchParams(location.search).get('topico') || '', busca = '';
 
 function tela(nome){ for (const t of ['carregando','entrar','perfil','forum']) $('tela-'+t).hidden = t !== nome; }
 const traduzErro = err => traduz(err, verificado);
@@ -360,6 +369,7 @@ function abrirForum(bloqueado){
   $('v-email').textContent = eu.email;
   primeiraCarga = true;
   lembreteHormonio();
+  renderTopicosBar();
   unsubMeus = fb.onSnapshot(fb.query(fb.collection(db, 'forum_autoria'), fb.where('uid', '==', eu.uid)), snap => {
     meus.clear(); snap.docs.forEach(d => meus.add(d.id));
     /* autoria sem campo "post" = publicação; as que não estão no feed podem estar em moderação */
@@ -420,10 +430,16 @@ function renderPendentes(){
 
 function ouvirFeed(){
   unsubFeed && unsubFeed();
-  const q = fb.query(fb.collection(db, 'forum_posts'), fb.orderBy('publicadoEm', 'desc'), fb.limit(limiteFeed));
+  /* Tópico: array-contains sem orderBy não precisa de índice composto; a ordem é feita aqui.
+     Busca: o Firestore não busca texto, então carregamos as mais recentes e filtramos no navegador. */
+  const largo = topico || busca;
+  const q = topico
+    ? fb.query(fb.collection(db, 'forum_posts'), fb.where('topicos', 'array-contains', topico), fb.limit(LIMITE_BUSCA))
+    : fb.query(fb.collection(db, 'forum_posts'), fb.orderBy('publicadoEm', 'desc'), fb.limit(largo ? LIMITE_BUSCA : limiteFeed));
   unsubFeed = fb.onSnapshot(q, snap => {
     const ids = [];
-    snap.docs.forEach(s => {
+    const docs = [...snap.docs].sort((a, b) => (b.data({ serverTimestamps:'estimate' }).publicadoEm?.toMillis?.() || 0) - (a.data({ serverTimestamps:'estimate' }).publicadoEm?.toMillis?.() || 0));
+    docs.forEach(s => {
       const d = s.data({ serverTimestamps:'estimate' });
       ids.push(s.id);
       let p = posts.get(s.id);
@@ -431,7 +447,6 @@ function ouvirFeed(){
         p = { d, cs:[], todos:false, voto:undefined, verRes:false };
         posts.set(s.id, p);
         criarPost(s.id);
-        ouvirComentarios(s.id);
         if (d.tipo === 'enquete') carregarVoto(s.id);
       } else p.d = d;
       renderVar(s.id);
@@ -439,7 +454,7 @@ function ouvirFeed(){
     for (const [id, p] of posts) if (!ids.includes(id)) { p.unsub && p.unsub(); p.el.remove(); posts.delete(id); }
     const feed = $('feed');
     ids.forEach((id, i) => { const el = posts.get(id).el; if (feed.children[i] !== el) feed.insertBefore(el, feed.children[i] || null); });
-    $('b-mais').hidden = snap.size < limiteFeed;
+    $('b-mais').hidden = largo || snap.size < limiteFeed;
     aplicarFiltro();
     if (primeiraCarga) { primeiraCarga = false; irParaHash(); }
   }, err => { console.error(err); toast(traduzErro(err)); });
@@ -453,18 +468,59 @@ function irParaHash(){
   setTimeout(() => el.classList.remove('destaque'), 2500);
 }
 
+function textoBusca(p){
+  const d = p.d;
+  return normalizar([d.texto, ...(d.opcoes || []), d.anonimo ? '' : d.autorNome, ...(d.topicos || []).map(t => (topicoDe(t) || [])[2]),
+    ...p.cs.map(c => c.texto)].join(' '));
+}
 function aplicarFiltro(){
   let n = 0;
+  const termos = normalizar(busca).split(/\s+/).filter(Boolean);
   for (const [id, p] of posts) {
-    const ok = filtro === 'tudo' || (filtro === 'meus' ? meus.has(id) : p.d.tipo === filtro);
+    const ok = (filtro === 'tudo' || (filtro === 'meus' ? meus.has(id) : p.d.tipo === filtro))
+      && (!topico || (p.d.topicos || []).includes(topico))
+      && (!termos.length || (t => termos.every(x => t.includes(x)))(textoBusca(p)));
     p.el.hidden = !ok; if (ok) n++;
+    /* comentários só são carregados para o que está visível */
+    if (ok && !p.unsub) ouvirComentarios(id);
   }
   const v = $('vazio');
   v.hidden = n > 0;
-  if (!n) v.innerHTML = posts.size
-    ? '<b>Nada por aqui</b>Nenhuma publicação desse tipo entre as mais recentes.'
+  const tp = topicoDe(topico);
+  if (!n) v.innerHTML = termos.length
+    ? `<b>Nada encontrado</b>Nenhuma publicação${tp ? ' em ' + tp[1] + ' ' + tp[2] : ''} com “${esc(busca)}”. Que tal perguntar?<br><br><button class="btn btn-navy btn-sm" onclick="abrirNovo('pergunta')">❓ Fazer uma pergunta</button>`
+    : tp ? `<b>${tp[1]} Ainda não tem nada em ${esc(tp[2])}</b>Seja a primeira pessoa a perguntar sobre isso.<br><br><button class="btn btn-navy btn-sm" onclick="abrirNovo('pergunta')">❓ Perguntar sobre ${esc(tp[2])}</button>`
+    : posts.size ? '<b>Nada por aqui</b>Nenhuma publicação desse tipo entre as mais recentes.'
     : '<b>A comunidade está começando 💙</b>Seja a primeira pessoa a publicar: faça uma pergunta ou conte como você está.';
 }
+
+/* ---------- tópicos e busca ---------- */
+function renderTopicosBar(){
+  $('topicos-bar').innerHTML = `<button type="button" class="tchip${topico ? '' : ' on'}" data-topico="">Todos os tópicos</button>` +
+    TOPICOS.map(([id, e, n]) => `<button type="button" class="tchip${topico === id ? ' on' : ''}" data-topico="${id}" aria-pressed="${topico === id}">${e} ${n}</button>`).join('');
+  const tp = topicoDe(topico), h = $('topico-head');
+  h.hidden = !tp;
+  if (tp) h.innerHTML = `<span class="th-emoji">${tp[1]}</span><div><b>${esc(tp[2])}</b><span class="small">Perguntas e conversas sobre ${esc(tp[2].toLowerCase())}</span></div>
+    <button class="btn btn-navy btn-sm" onclick="abrirNovo('pergunta')">❓ Perguntar</button><button class="link" data-topico="">ver tudo</button>`;
+}
+function escolherTopico(id){
+  if (id === topico) id = '';
+  topico = id;
+  const u = new URL(location.href);
+  if (id) u.searchParams.set('topico', id); else u.searchParams.delete('topico');
+  u.hash = ''; history.replaceState(null, '', u);
+  renderTopicosBar(); ouvirFeed();
+  if (id) $('topicos-bar').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+let tBusca = null;
+$('busca').addEventListener('input', () => {
+  clearTimeout(tBusca);
+  tBusca = setTimeout(() => {
+    const antes = !!busca; busca = $('busca').value.trim();
+    /* entrar ou sair da busca muda quantas publicações carregamos */
+    if (antes !== !!busca && !topico) ouvirFeed(); else aplicarFiltro();
+  }, 250);
+});
 document.querySelectorAll('[data-filtro]').forEach(b => b.addEventListener('click', () => {
   filtro = b.dataset.filtro;
   document.querySelectorAll('[data-filtro]').forEach(x => x.setAttribute('aria-pressed', x === b));
@@ -492,7 +548,7 @@ function renderCab(id){
         <button data-compartilhar="${id}">🔗 Copiar link</button>
         <a href="${esc(linkDenuncia)}">🚩 Denunciar</a>
         ${pode ? `<button class="perigo" data-apagar-post="${id}">🗑️ Excluir publicação</button>` : ''}
-      </div></div></div>`;
+      </div></div></div>${(d.topicos || []).length ? `<div class="ptopicos">${d.topicos.map(chipTopico).join('')}</div>` : ''}`;
   hidratarAvatares(cab);
 }
 function renderMidia(id){
@@ -719,6 +775,7 @@ document.addEventListener('click', e => {
   if (menu) { const l = menu.nextElementSibling; const abrir = l.hidden; fecharFlutuantes(); l.hidden = !abrir; menu.setAttribute('aria-expanded', abrir); return; }
   fecharFlutuantes();
   let x;
+  if ((x = t.closest('[data-topico]')) && !x.closest('#n-topicos')) return escolherTopico(x.dataset.topico);
   if ((x = t.closest('[data-compartilhar]'))) return compartilhar(x.dataset.compartilhar);
   if ((x = t.closest('[data-apagar-post]'))) return apagarPost(x.dataset.apagarPost);
   if ((x = t.closest('[data-apagar-pend]'))) return apagarPendente(x.dataset.apagarPend);
@@ -798,8 +855,20 @@ function botaoAddOpcao(){
   add.hidden = n >= 6;
   box.querySelectorAll('.lin input').forEach((inp, i) => inp.placeholder = `Opção ${i + 1}`);
 }
+function renderTopicosNovo(){
+  $('n-topicos').innerHTML = TOPICOS.map(([id, e, n]) => `<button type="button" class="tchip${topicosNovo.includes(id) ? ' on' : ''}" data-topico="${id}" aria-pressed="${topicosNovo.includes(id)}">${e} ${n}</button>`).join('');
+}
+$('n-topicos').addEventListener('click', e => {
+  const b = e.target.closest('[data-topico]'); if (!b) return;
+  e.stopPropagation();   // não deixa o clique chegar ao filtro de tópicos do feed
+  const id = b.dataset.topico;
+  if (topicosNovo.includes(id)) topicosNovo = topicosNovo.filter(x => x !== id);
+  else if (topicosNovo.length < 3) topicosNovo.push(id);
+  else toast('Escolha no máximo 3 tópicos.');
+  renderTopicosNovo();
+});
 function resetNovo(){
-  $('f-novo').reset(); fotosNovo = []; renderFotosNovo();
+  $('f-novo').reset(); fotosNovo = []; renderFotosNovo(); topicosNovo = []; renderTopicosNovo();
   $('n-opcoes').innerHTML = ''; $('n-opcoes').append(linhaOpcao(), linhaOpcao()); botaoAddOpcao();
   $('n-video-box').hidden = true; $('n-video-aviso').textContent = ''; mostrarErro('n-err', '');
 }
@@ -807,6 +876,8 @@ window.abrirNovo = (tipo, midia) => {
   if (precisaVerificar()) return;
   if (!$('f-novo').dataset.pronto) { resetNovo(); $('f-novo').dataset.pronto = 1; }
   document.querySelector(`#f-novo [name=tipo][value=${tipo}]`).checked = true;
+  /* dentro de um tópico, ele já vem marcado */
+  if (topico && !topicosNovo.includes(topico) && topicosNovo.length < 3) { topicosNovo.push(topico); renderTopicosNovo(); }
   atualizarNovo(); abrirModal('m-novo');
   if (midia) $('n-fotos').click();
 };
@@ -843,7 +914,8 @@ window.publicar = async e => {
     if (opcoes.length < 2) return mostrarErro('n-err', 'A enquete precisa de pelo menos 2 opções.');
   } else if (!texto && !fotosNovo.length && !vid) return mostrarErro('n-err', 'Escreva algo ou adicione uma foto ou vídeo.');
   if (vid && !/^https?:\/\/\S+$/.test(vid)) return mostrarErro('n-err', 'O link do vídeo precisa começar com https://');
-  const dados = { tipo, texto, anonimo: anon, criadoEm: fb.serverTimestamp(), reacoes: {}, status: 'pendente' };
+  if (!topicosNovo.length) return mostrarErro('n-err', 'Escolha pelo menos um tópico, assim mais gente encontra sua publicação.');
+  const dados = { tipo, texto, anonimo: anon, topicos: topicosNovo.slice(0, 3), criadoEm: fb.serverTimestamp(), reacoes: {}, status: 'pendente' };
   if (!anon) { dados.autorUid = eu.uid; dados.autorNome = meuNome; }
   if (fotosNovo.length) dados.imagens = fotosNovo.slice();
   if (vid) dados.video = vid;
