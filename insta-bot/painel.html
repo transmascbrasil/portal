@@ -358,7 +358,9 @@ label.cor input{width:44px;height:34px;padding:2px;flex:none}
     <label>Caminho do ideias.json</label><input id="cIdeias">
     <label>Token do GitHub (só para salvar e publicar)</label>
     <input id="cToken" type="password" autocomplete="off" placeholder="github_pat_...">
-    <p class="dica">Fica guardado só neste navegador (o login protege o painel, mas o token continua salvo aqui até você remover). Crie em
+    <label class="chk" style="margin-top:10px" id="cTokenContaLb"><input type="checkbox" id="cTokenConta"><span>Usar este token para toda a equipe (fica guardado no Firebase; ninguém precisa colar no navegador)</span></label>
+    <div class="dica" id="cTokenInfo"></div>
+    <p class="dica">Crie em
       <a style="color:var(--azul)" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Settings → Developer settings → Fine-grained tokens</a>:
       escolha <b>só este repositório</b> e as permissões <b>Contents: Read and write</b> e <b>Actions: Read and write</b>. Não use em computador compartilhado.</p>
     <label>IA para gerar posts e ideias</label>
@@ -527,6 +529,10 @@ const DEFAULTS = { owner: 'transmascbrasil', repo: 'portal', branch: 'main', pat
 let cfg = { ...DEFAULTS };
 try { cfg = { ...DEFAULTS, ...JSON.parse(localStorage.getItem(CFG_KEY) || '{}') }; } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch (e) {} };
+// Token do GitHub: o deste navegador (cfg.token) ou o da equipe, guardado no Firebase (segredos/github).
+// O da equipe fica só na memória da página: não vai para o localStorage.
+let tokenConta = '', tokenContaEm = '';
+const tokenGH = () => cfg.token || tokenConta;
 
 const PAGINAS = ['inicio', 'agenda', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'marca', 'robo', 'repeticao', 'perfil', 'usuarios'];
 let calMes = null; // mês aberto no calendário (AAAA-MM)
@@ -554,7 +560,7 @@ function gh(path, opts = {}) {
     ...opts,
     headers: {
       Accept: 'application/vnd.github+json',
-      ...(cfg.token ? { Authorization: 'Bearer ' + cfg.token } : {}),
+      ...(tokenGH() ? { Authorization: 'Bearer ' + tokenGH() } : {}),
       ...(opts.headers || {})
     }
   });
@@ -663,7 +669,7 @@ async function salvarIdeias(tentar = true) {
   ideiasSha = (await r.json()).content.sha; snapIdeias = JSON.stringify(banco);
 }
 async function salvar() {
-  if (!cfg.token) { abrirConfig(); toast('Cole o token do GitHub para poder salvar.', 'erro'); return false; }
+  if (!tokenGH()) { abrirConfig(); toast('Cole o token do GitHub para poder salvar.', 'erro'); return false; }
   const btn = $('#btnSalvar'); btn.disabled = true; btn.textContent = 'Salvando…';
   try {
     if (JSON.stringify(data) !== snapPosts) await salvarPosts();
@@ -674,7 +680,7 @@ async function salvar() {
   finally { btn.disabled = false; btn.textContent = '💾 Salvar no GitHub'; }
 }
 async function disparar(dry) {
-  if (!cfg.token) { abrirConfig(); toast('Cole o token do GitHub (com permissão de Actions).', 'erro'); return; }
+  if (!tokenGH()) { abrirConfig(); toast('Cole o token do GitHub (com permissão de Actions).', 'erro'); return; }
   if (dirty) { toast('Salve as alterações antes de rodar o robô.', 'erro'); return; }
   const prox = data && filaDe()[0];
   if (!dry) {
@@ -739,7 +745,7 @@ function adicionarIdeia(id, silencioso = false) {
 }
 async function publicarAgora(id) {
   const p = achar(id); if (!p || p.postado) return;
-  if (!cfg.token) { abrirConfig(); return toast('Cole o token do GitHub (com permissão de Actions).', 'erro'); }
+  if (!tokenGH()) { abrirConfig(); return toast('Cole o token do GitHub (com permissão de Actions).', 'erro'); }
   if (!confirm(`Publicar AGORA no Instagram?\n\n"${tituloTxt(p)}"\n\nVai ao ar na conta pública em poucos minutos, mesmo sem estar aprovado.`)) return;
   if (dirty && !(await salvar())) return;
   const r = await gh('actions/workflows/instagram.yml/dispatches', { method: 'POST', body: JSON.stringify({ ref: cfg.branch, inputs: { dry_run: 'false', post_id: id } }) });
@@ -1011,7 +1017,7 @@ function renderAgenda(c, fila, agend, datas, novas) {
     <p class="dica">No banco agora: ${novas.length} item(ns). ${ia.ativa ? `O robô confere a cada rodada e gera no máximo uma vez a cada 20 horas.` : 'Desligado.'}${ia.ultimaTentativa ? ` Última tentativa: ${esc(fmtDia(ia.ultimaTentativa))}: ${esc(ia.ultimoResultado)}` : ''}</p>`);
   const k5 = document.createElement('div'); k5.className = 'atalhos';
   k5.appendChild(btn('⚡ Gerar ideias agora pelo robô', 'azul', async () => {
-    if (!cfg.token) { abrirConfig(); return toast('Cole o token do GitHub (com permissão de Actions).', 'erro'); }
+    if (!tokenGH()) { abrirConfig(); return toast('Cole o token do GitHub (com permissão de Actions).', 'erro'); }
     if (dirty && !(await salvar())) return;
     const r = await gh('actions/workflows/instagram.yml/dispatches', { method: 'POST', body: JSON.stringify({ ref: cfg.branch, inputs: { dry_run: 'false', gerar_ideias: 'true' } }) });
     if (r.status === 204) { toast(`Pedido enviado. Em 1 ou 2 minutos, clique em Recarregar e veja o Banco de ideias. Se não aparecer nada, confira o secret ${nomeSecret} e o log em Robô e execuções.`, 'ok'); setTimeout(carregarExecucoes, 4000); }
@@ -1049,7 +1055,7 @@ function render() {
   const addAviso = (t, c = '') => { const d = document.createElement('div'); d.className = 'aviso ' + c; d.textContent = t; av.appendChild(d); };
   if (loadError) { addAviso(loadError, 'erro'); $('#conteudo').innerHTML = '<div class="vazio">Não consegui carregar os posts.</div>'; $('#barra').classList.remove('on'); return; }
   if (!data) { $('#conteudo').innerHTML = '<div class="vazio">Carregando…</div>'; return; }
-  if (!cfg.token) addAviso('Modo leitura: para aprovar, salvar e publicar, cole o token do GitHub em ⚙ Configurações.', 'info');
+  if (!tokenGH()) addAviso(souAdmin() ? 'Modo leitura: para aprovar, salvar e publicar, guarde o token do GitHub da equipe em ⚙ Configurações.' : 'Modo leitura: ainda não há token do GitHub da equipe. Peça para um administrador guardar em ⚙ Configurações.', 'info');
 
   const fila = filaDe(), agend = agendadosDe(), rasc = rascunhosDe(), done = postadosDe();
   const ocupados = new Set([...agend.map(p => partesBRT(new Date(p.agendarPara)).dia), ...done.filter(p => p.publicadoEm).map(p => partesBRT(new Date(p.publicadoEm)).dia)]);
@@ -1326,7 +1332,7 @@ async function carregarLogo() {
   } catch (e) {}
 }
 async function enviarLogo(arquivo) {
-  if (!cfg.token) { abrirConfig(); return toast('Cole o token do GitHub para enviar o logo.', 'erro'); }
+  if (!tokenGH()) { abrirConfig(); return toast('Cole o token do GitHub para enviar o logo.', 'erro'); }
   const ext = (arquivo.name.split('.').pop() || '').toLowerCase();
   if (!MIME_IMG[ext]) return toast('Use uma imagem PNG, JPG, SVG ou WEBP.', 'erro');
   if (arquivo.size > 900000) return toast('Imagem grande demais (máximo 900 KB). Use um logo quadrado de uns 300 px.', 'erro');
@@ -1659,6 +1665,40 @@ function mostrarQuem(user) {
   F('whoEmail').title = user.email || '';
 }
 
+
+// ---------- token do GitHub da equipe (Firestore: segredos/github) ----------
+// Um token só, usado por todos os usuários do painel. Só administradores trocam ou apagam.
+const DOC_TOKEN = ['segredos', 'github'];
+let tokenContaPor = '';
+async function carregarTokenDaConta() {
+  tokenConta = ''; tokenContaEm = ''; tokenContaPor = '';
+  try {
+    const d = await fb.getDoc(fb.doc(db, ...DOC_TOKEN));
+    if (d.exists()) { const x = d.data() || {}; tokenConta = x.githubToken || ''; tokenContaEm = x.salvoEm || ''; tokenContaPor = x.salvoPor || ''; }
+  } catch (e) { console.warn('Não consegui ler o token da equipe:', e && e.code); }
+}
+async function guardarTokenNaConta(t) {
+  if (!souAdmin()) throw new Error('Só administradores trocam o token da equipe.');
+  const u = auth.currentUser, salvoEm = new Date().toISOString(), salvoPor = meuDoc.nome || u.email || '';
+  await fb.setDoc(fb.doc(db, ...DOC_TOKEN), { githubToken: t, salvoEm, salvoPor });
+  tokenConta = t; tokenContaEm = salvoEm; tokenContaPor = salvoPor;
+  toast('Token guardado para toda a equipe ✅. Ninguém mais precisa colar no navegador.', 'ok');
+}
+async function apagarTokenDaConta() {
+  if (!confirm('Apagar o token da equipe? Quem não tiver um token colado no próprio navegador volta ao modo leitura.')) return;
+  try { await fb.deleteDoc(fb.doc(db, ...DOC_TOKEN)); tokenConta = ''; tokenContaEm = ''; tokenContaPor = ''; mostrarInfoToken(); render(); toast('Token da equipe apagado.'); }
+  catch (e) { toast(erroFirebase(e), 'erro'); }
+}
+function mostrarInfoToken() {
+  F('cTokenContaLb').hidden = !souAdmin();
+  const el = F('cTokenInfo'); el.innerHTML = '';
+  const quem = `${tokenContaPor ? ' por ' + tokenContaPor : ''}${tokenContaEm ? ' em ' + fmtDia(tokenContaEm) : ''}`;
+  if (cfg.token) el.textContent = 'Agora: usando o token colado neste navegador.' + (tokenConta ? ' Também há um token da equipe; o deste navegador vale primeiro.' : '');
+  else if (tokenConta) {
+    el.textContent = `Agora: usando o token da equipe (guardado${quem}). `;
+    if (souAdmin()) { const b = document.createElement('button'); b.className = 'btn peq perigo'; b.textContent = 'Apagar token da equipe'; b.onclick = apagarTokenDaConta; el.appendChild(b); }
+  } else el.textContent = souAdmin() ? 'Agora: sem token (modo leitura). Cole um token e marque a opção acima para valer para todos.' : 'Agora: sem token (modo leitura). Peça para um administrador guardar o token da equipe.';
+}
 // ---------- criar com IA ----------
 const EXEMPLOS = [
   'Dicas de uso seguro de colete/binder no verão',
@@ -1815,8 +1855,9 @@ F('fOk').onclick = () => {
 
 // ---------- configurações ----------
 function abrirConfig() {
+  mostrarInfoToken();
   F('cOwner').value = cfg.owner; F('cRepo').value = cfg.repo; F('cBranch').value = cfg.branch;
-  F('cPath').value = cfg.path; F('cIdeias').value = cfg.ideias; F('cToken').value = cfg.token;
+  F('cPath').value = cfg.path; F('cIdeias').value = cfg.ideias; F('cToken').value = cfg.token; F('cTokenConta').checked = !!tokenConta && !cfg.token;
   F('cApiKey').value = cfg.apiKey; F('cModelo').value = cfg.model;
   F('cProv').value = cfg.provider || 'anthropic'; F('cGemKey').value = cfg.geminiKey; F('cGemModelo').value = cfg.geminiModel;
   F('cCompUrl').value = cfg.compatUrl; F('cCompKey').value = cfg.compatKey; F('cCompModelo').value = cfg.compatModel;
@@ -1825,8 +1866,12 @@ function abrirConfig() {
 }
 function mostrarProv() { const p = F('cProv').value; F('gAnt').hidden = p !== 'anthropic'; F('gGem').hidden = p !== 'gemini'; F('gComp').hidden = p !== 'compat'; }
 F('cProv').onchange = mostrarProv;
-F('cSalvar').onclick = () => {
+F('cSalvar').onclick = async () => {
   cfg = { owner: F('cOwner').value.trim(), repo: F('cRepo').value.trim(), branch: F('cBranch').value.trim() || 'main', path: F('cPath').value.trim(), ideias: F('cIdeias').value.trim(), token: F('cToken').value.trim(), provider: F('cProv').value, apiKey: F('cApiKey').value.trim(), model: F('cModelo').value.trim() || 'claude-sonnet-5-5', geminiKey: F('cGemKey').value.trim(), geminiModel: F('cGemModelo').value.trim() || 'gemini-2.5-flash', compatUrl: F('cCompUrl').value.trim(), compatKey: F('cCompKey').value.trim(), compatModel: F('cCompModelo').value.trim() };
+  if (F('cTokenConta').checked && cfg.token) {
+    try { await guardarTokenNaConta(cfg.token); } catch (e) { return toast(erroFirebase(e), 'erro'); }
+    cfg.token = ''; // passa a valer o da conta: não fica mais neste navegador
+  }
   saveCfg(); F('dlgConfig').close(); carregar();
 };
 F('cLimpar').onclick = () => { cfg.token = ''; cfg.apiKey = ''; cfg.geminiKey = ''; cfg.compatKey = ''; ['cToken', 'cApiKey', 'cGemKey', 'cCompKey'].forEach(i => F(i).value = ''); saveCfg(); toast('Chaves removidas deste navegador.'); render(); };
@@ -1882,13 +1927,13 @@ function erroLogin(err) {
 }
 function mostrarLogin() {
   F('app').hidden = true; F('lock').hidden = false;
-  data = null; sha = null; ideias = []; banco = { posts: [] }; logoSrc = ''; meuDoc = {}; usuarios = null; dirty = false; jaCarregou = false;
+  data = null; sha = null; ideias = []; banco = { posts: [] }; logoSrc = ''; meuDoc = {}; usuarios = null; tokenConta = ''; tokenContaEm = ''; tokenContaPor = ''; dirty = false; jaCarregou = false;
   lockErro(lockMsg); lockMsg = ''; F('lSenha').value = '';
 }
-function mostrarApp(user) {
+async function mostrarApp(user) {
   F('lock').hidden = true; F('app').hidden = false;
   mostrarQuem(user);
-  if (!jaCarregou) { jaCarregou = true; render(); carregar(); }
+  if (!jaCarregou) { jaCarregou = true; render(); await carregarTokenDaConta(); carregar(); }
 }
 async function aoMudarUsuario(user) {
   if (!user || user.isAnonymous) { if (user) fb.signOut(auth); return mostrarLogin(); }
