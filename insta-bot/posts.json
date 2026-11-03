@@ -611,6 +611,97 @@
       "aprovado": true,
       "postado": false,
       "criadoEm": "2026-11-03T11:50:28.323Z"
+    },
+    {
+      "id": "post105",
+      "tipo": "lista",
+      "tema": "claro",
+      "kicker": "Começando",
+      "titulo": [
+        "Primeiros",
+        "passos"
+      ],
+      "subtitulo": "Pra quem está começando a transição",
+      "itens": [
+        {
+          "emoji": "🤝",
+          "titulo": "Converse com quem você confia",
+          "texto": "Não precisa contar pra todo mundo de uma vez"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Use seu nome social",
+          "texto": "Dá pra pedir em muitos serviços"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Procure um ambulatório trans",
+          "texto": "Ou um profissional que respeite você"
+        },
+        {
+          "emoji": "💬",
+          "titulo": "Encontre a comunidade",
+          "texto": "Trocar com quem já passou ajuda muito"
+        }
+      ],
+      "destaque": {
+        "forte": "Vá no seu ritmo",
+        "texto": "Não existe ordem certa"
+      },
+      "legenda": "Começando agora e sem saber por onde ir? A gente te ajuda. 💙\n\nNão existe ordem certa nem prazo. Vai no seu ritmo, cuidando de você.\n\nNo portal tem ambulatórios trans, profissionais indicados pela comunidade e o passo a passo da retificação de nome.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #transicao",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-11-03T11:51:06.604Z"
+    },
+    {
+      "id": "post118",
+      "fonte": "frase:tempo",
+      "tipo": "citacao",
+      "tema": "rosa",
+      "kicker": "Pra lembrar",
+      "titulo": [
+        "Cada corpo tem o seu tempo. Sem comparação."
+      ],
+      "legenda": "Cada corpo tem o seu tempo. Sem comparação. 💙\n\nConta nos comentários: o que você acrescentaria?\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #visibilidadetrans",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-11-03T11:51:06.604Z"
+    },
+    {
+      "id": "post106",
+      "tipo": "passos",
+      "tema": "escuro",
+      "kicker": "Nome social",
+      "titulo": [
+        "Como pedir",
+        "seu nome social"
+      ],
+      "itens": [
+        {
+          "titulo": "Peça no cadastro",
+          "texto": "Na escola, faculdade, trabalho ou clínica"
+        },
+        {
+          "titulo": "No SUS, no cartão",
+          "texto": "O cartão do SUS pode ter o nome social"
+        },
+        {
+          "titulo": "Se negarem, peça por escrito",
+          "texto": "E guarde o protocolo"
+        },
+        {
+          "titulo": "Quer mudar de vez?",
+          "texto": "A retificação muda o registro"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral",
+        "texto": "As regras variam em cada instituição"
+      },
+      "legenda": "Você não precisa esperar a retificação pra ser chamado pelo seu nome. 🪪\n\nMuitos lugares aceitam o nome social: escolas, faculdades, serviços de saúde e órgãos públicos. No SUS, o cartão pode sair com o nome social.\n\nSe alguém negar, peça a resposta por escrito e guarde o protocolo. Cada instituição tem suas regras, então vale perguntar como funciona aí.\n\nEste post é informação geral, não é orientação jurídica.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #nomesocial",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-11-03T11:51:06.604Z"
     }
   ],
   "rascunhosAuto": {
