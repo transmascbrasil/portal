@@ -163,7 +163,7 @@
           <li>Não publique dados pessoais (seus ou de outras pessoas): endereço, documentos, telefone, nome de registro.</li>
           <li>Relatos de saúde são experiências, não receitas. Hormônio só com acompanhamento médico.</li>
           <li>Sem venda, propaganda ou golpes.</li>
-          <li>Viu algo errado? Use “Denunciar” no menu ⋯ da publicação.</li>
+          <li>Viu algo errado? Use “Denunciar” na publicação, no comentário ou no perfil da pessoa. A moderação recebe na hora.</li>
         </ol>
       </div>
       <div class="box">
@@ -221,7 +221,7 @@
 <script type="module">
 import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
   hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
-  ouvirConversas, naoLida, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
+  ouvirConversas, naoLida, abrirDenuncia, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
 
 const DICAS = { post:'No que você está pensando?', pergunta:'Qual é a sua dúvida? Conte um pouco do contexto…', enquete:'Qual é a pergunta da enquete?' };
 const POR_PAGINA = 15, LIMITE_BUSCA = 200;
@@ -547,14 +547,13 @@ function criarPost(id){
 function renderCab(id){
   const p = posts.get(id), d = p.d;
   const pode = meus.has(id) || souAdmin;
-  const linkDenuncia = `mailto:${EMAIL_CONTATO}?subject=${encodeURIComponent('Denúncia na comunidade')}&body=${encodeURIComponent('Publicação: ' + linkPost(id) + '\n\nMotivo: ')}`;
   const cab = p.el.querySelector('.pcab');
   cab.innerHTML = `<div class="phead">${avatar(d)}
     <div class="pmeta"><b>${nomeLink(d)}</b><span><span class="tag ${d.tipo}">${TIPOS[d.tipo] || 'Publicação'}</span>·<a href="#p-${id}" title="${d.publicadoEm && d.publicadoEm.toDate ? esc(d.publicadoEm.toDate().toLocaleString('pt-BR')) : ''}">${quando(d.publicadoEm)}</a>${d.anonimo && meus.has(id) ? '· <span title="Só você vê isto">(você)</span>' : ''}</span></div>
     <div class="pmenu"><button class="dots" data-menu aria-label="Mais opções" aria-expanded="false">⋯</button>
       <div class="mlist" hidden>
         <button data-compartilhar="${id}">🔗 Copiar link</button>
-        <a href="${esc(linkDenuncia)}">🚩 Denunciar</a>
+        ${meus.has(id) ? '' : `<button data-denunciar-post="${id}">🚩 Denunciar</button>`}
         ${pode ? `<button class="perigo" data-apagar-post="${id}">🗑️ Excluir publicação</button>` : ''}
       </div></div></div>${(d.topicos || []).length ? `<div class="ptopicos">${d.topicos.map(chipTopico).join('')}</div>` : ''}`;
   hidratarAvatares(cab);
@@ -633,7 +632,7 @@ function umComentario(pid, c, pai){
     ${c.texto || !img ? `<div class="bolha"><b>${nomeLink(c)}</b>${c.doAutor ? '<span class="selo">quem publicou</span>' : ''}${c.anonimo && meus.has(c.id) ? ' <span class="small">(você)</span>' : ''}<div class="ctexto">${textoHtml(c.texto)}</div>
       ${r ? `<button class="creac" data-quem="c:${pid}:${c.id}" aria-label="Ver reações"><span class="remj">${r.top}</span>${r.n > 1 ? r.n : ''}</button>` : ''}</div>` : `<b style="font-size:13.5px;padding:0 10px">${esc(nomeDe(c))}</b>`}
     ${img}
-    <div class="cacoes">${botaoReagir(`c:${pid}:${c.id}`, c.reacoes, true)}<button data-responder="${pid}" data-cid="${pai || c.id}" data-nome="${esc(nomeDe(c))}">Responder</button><span>${quando(c.criadoEm)}</span>${pode ? `<button data-apagar-com="${pid}" data-cid="${c.id}">Excluir</button>` : ''}</div>
+    <div class="cacoes">${botaoReagir(`c:${pid}:${c.id}`, c.reacoes, true)}<button data-responder="${pid}" data-cid="${pai || c.id}" data-nome="${esc(nomeDe(c))}">Responder</button><span>${quando(c.criadoEm)}</span>${pode ? `<button data-apagar-com="${pid}" data-cid="${c.id}">Excluir</button>` : ''}${meus.has(c.id) ? '' : `<button data-denunciar-com="${pid}" data-cid="${c.id}">Denunciar</button>`}</div>
   </div></div>`;
 }
 function caixaComentario(id){
@@ -787,6 +786,14 @@ document.addEventListener('click', e => {
   if ((x = t.closest('[data-compartilhar]'))) return compartilhar(x.dataset.compartilhar);
   if ((x = t.closest('[data-apagar-post]'))) return apagarPost(x.dataset.apagarPost);
   if ((x = t.closest('[data-apagar-pend]'))) return apagarPendente(x.dataset.apagarPend);
+  if ((x = t.closest('[data-denunciar-post]'))) {
+    const d = posts.get(x.dataset.denunciarPost).d;
+    return abrirDenuncia({ tipo:'post', postId: x.dataset.denunciarPost, alvoUid: d.anonimo ? undefined : d.autorUid, alvoNome: d.anonimo ? undefined : 'publicação de ' + d.autorNome });
+  }
+  if ((x = t.closest('[data-denunciar-com]'))) {
+    const c = posts.get(x.dataset.denunciarCom).cs.find(y => y.id === x.dataset.cid) || {};
+    return abrirDenuncia({ tipo:'comentario', postId: x.dataset.denunciarCom, comentarioId: x.dataset.cid, alvoUid: c.anonimo ? undefined : c.autorUid, alvoNome: c.anonimo ? undefined : 'comentário de ' + c.autorNome });
+  }
   if ((x = t.closest('[data-apagar-com]'))) return apagarComentario(x.dataset.apagarCom, x.dataset.cid);
   if ((x = t.closest('[data-quem]'))) return quemReagiu(x.dataset.quem);
   if ((x = t.closest('[data-votar]'))) return votar(x.dataset.votar);

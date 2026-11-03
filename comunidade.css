@@ -293,3 +293,4 @@ a.nome{text-decoration:none}a.nome:hover{text-decoration:underline}
 .topico-head .th-emoji{font-size:34px;line-height:1}
 .topico-head div{flex:1;min-width:160px}
 .topico-head b{display:block;font-family:'Bricolage Grotesque';font-size:20px}
+.info{background:var(--blue-soft);border-radius:12px;padding:10px 12px;font-size:13.5px}

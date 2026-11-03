@@ -262,3 +262,57 @@ export function ouvirConversas(uid, cb){
     cb(snap.docs.map(d => ({ id: d.id, ...d.data({ serverTimestamps:'estimate' }) })).sort((a, b) => ms(b.atualizadoEm) - ms(a.atualizadoEm)));
   }, err => console.error(err));
 }
+
+/* ---------- denúncias ---------- */
+export const MOTIVOS = {
+  assedio:'Assédio ou perseguição', odio:'Transfobia, racismo ou outro discurso de ódio', falso:'Perfil falso ou se passando por outra pessoa',
+  golpe:'Golpe, venda ou spam', dados:'Expôs dados pessoais', saude:'Orientação de saúde perigosa', improprio:'Conteúdo sexual ou impróprio', outro:'Outro motivo'
+};
+const TITULOS_DENUNCIA = { usuario:'Denunciar pessoa', post:'Denunciar publicação', comentario:'Denunciar comentário', conversa:'Denunciar conversa' };
+let alvoDenuncia = null;
+function montarModalDenuncia(){
+  if ($('m-denuncia')) return;
+  const el = document.createElement('div');
+  el.className = 'overlay'; el.id = 'm-denuncia'; el.hidden = true;
+  el.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="dn-t" style="max-width:460px">
+    <div class="mhead"><h3 id="dn-t">Denunciar</h3><button class="x" type="button" data-fechar-denuncia aria-label="Fechar">✕</button></div>
+    <form id="f-denuncia">
+      <p class="small" id="dn-sobre"></p>
+      <div class="field"><label for="dn-motivo">Motivo</label><select class="input" id="dn-motivo" required>
+        <option value="">Escolha…</option>${Object.entries(MOTIVOS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
+      <div class="field"><label for="dn-texto">Conte o que aconteceu</label>
+        <textarea class="input" id="dn-texto" rows="5" minlength="10" maxlength="1500" required placeholder="Descreva o motivo da denúncia. Quanto mais detalhes, mais fácil para a moderação decidir."></textarea></div>
+      <p class="info" id="dn-conversa" hidden>🔓 Ao denunciar esta conversa, a moderação passa a poder ler as mensagens dela para analisar o caso. As outras conversas continuam privadas.</p>
+      <p class="small">Sua denúncia é anônima: a pessoa denunciada não fica sabendo quem denunciou.</p>
+      <p class="err" id="dn-err" hidden></p>
+      <button class="btn btn-navy" id="dn-enviar">🚩 Enviar aos administradores</button>
+    </form></div>`;
+  document.body.appendChild(el);
+  el.addEventListener('click', e => { if (e.target === el || e.target.closest('[data-fechar-denuncia]')) fecharModal('m-denuncia'); });
+  $('f-denuncia').addEventListener('submit', enviarDenuncia);
+}
+/* alvo: { tipo, alvoUid, alvoNome, postId, comentarioId, convId } */
+export function abrirDenuncia(alvo){
+  montarModalDenuncia();
+  alvoDenuncia = alvo;
+  $('dn-t').textContent = TITULOS_DENUNCIA[alvo.tipo] || 'Denunciar';
+  $('dn-sobre').textContent = alvo.alvoNome ? `Sobre: ${alvo.alvoNome}` : alvo.tipo === 'post' ? 'Sobre esta publicação.' : alvo.tipo === 'comentario' ? 'Sobre este comentário.' : '';
+  $('dn-motivo').value = ''; $('dn-texto').value = ''; mostrarErro('dn-err', '');
+  $('dn-conversa').hidden = alvo.tipo !== 'conversa';
+  abrirModal('m-denuncia');
+}
+async function enviarDenuncia(e){
+  e.preventDefault();
+  const a = alvoDenuncia, texto = $('dn-texto').value.trim();
+  if (!$('dn-motivo').value) return mostrarErro('dn-err', 'Escolha um motivo.');
+  if (texto.length < 10) return mostrarErro('dn-err', 'Conte um pouco mais (pelo menos 10 letras).');
+  const d = { tipo: a.tipo, motivo: $('dn-motivo').value, texto, autorUid: auth.currentUser.uid, criadoEm: fb.serverTimestamp(), status: 'aberta' };
+  for (const k of ['alvoUid','postId','comentarioId','convId']) if (a[k]) d[k] = a[k];
+  const b = fb.writeBatch(db);
+  b.set(fb.doc(fb.collection(db, 'denuncias')), d);
+  if (a.convId && a.convExiste) b.update(fb.doc(db, 'conversas', a.convId), { denunciada: true });
+  const btn = $('dn-enviar'); btn.disabled = true;
+  try { await b.commit(); fecharModal('m-denuncia'); toast('Denúncia enviada. Obrigado por ajudar a cuidar da comunidade 💙'); }
+  catch (err) { mostrarErro('dn-err', traduzErro(err)); }
+  finally { btn.disabled = false; }
+}

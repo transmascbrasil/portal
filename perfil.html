@@ -242,7 +242,7 @@ textarea.input{resize:vertical}
           </div>
         </div>
       </div>
-      <p class="nota" style="margin-top:12px">As mensagens ficam só entre você e a outra pessoa: nem a moderação lê. Se alguém te incomodar, use “Bloquear” na conversa e, se precisar, denuncie para transmascbrasil@gmail.com.</p>
+      <p class="nota" style="margin-top:12px">As mensagens ficam só entre você e a outra pessoa. Se alguém te incomodar, use “Bloquear” e “Denunciar” no menu ⋯ da conversa. Só quando uma das pessoas denuncia é que a moderação pode ler aquela conversa.</p>
     </div>
 
     <!-- ===== Membros ===== -->
@@ -345,7 +345,7 @@ textarea.input{resize:vertical}
 <script type="module">
 import { carregarFirebase, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, avatarDe, hidratarAvatares, perfilDe,
   comprimir, abrirModal, fecharModal, IMG_RE, tempoEmT, dataLocal, isoDe, hojeIso, diasEntre, dataBonita,
-  LOJA_PADRAO, lojaHtml, idConversa, outroDe, naoLida, ouvirConversas, ms, textoHtml, quando } from './comunidade-base.js';
+  LOJA_PADRAO, lojaHtml, abrirDenuncia, idConversa, outroDe, naoLida, ouvirConversas, ms, textoHtml, quando } from './comunidade-base.js';
 
 const UFS = 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
 const CURIS = [
@@ -424,7 +424,8 @@ async function verOutro(uid){
   const m = await perfilDe(uid, true);
   $('outro-card').innerHTML = m ? cartao(m, uid) + `<div class="acoes-perfil">
       <a class="btn btn-navy" href="${url('perfil.html?com=' + encodeURIComponent(uid))}#mensagens">✉️ Enviar mensagem</a>
-      <a class="btn btn-line" href="${url('perfil.html')}#membros">👥 Ver outros membros</a></div>`
+      <a class="btn btn-line" href="${url('perfil.html')}#membros">👥 Ver outros membros</a>
+      <button class="btn btn-line" data-denunciar-usuario="${esc(uid)}" data-nome="${esc(m.nome)}" style="color:var(--bad)">🚩 Denunciar</button></div>`
     : '<div class="vazio box"><b>Perfil não encontrado</b>Esta pessoa pode ter saído da comunidade.</div>';
   if (m) document.title = m.nome + ' · Comunidade Transmasc Brasil';
 }
@@ -711,7 +712,7 @@ async function abrirConversa(outro){
   $('dm-cab').innerHTML = `<button class="dm-voltar" data-dm-voltar aria-label="Voltar para as conversas">←</button>
     ${avatarFoto(p, outro, 'sm')}<a class="nome" href="${url('perfil.html?u=' + encodeURIComponent(outro))}">${esc(p.nome)}</a>
     <div class="pmenu"><button class="dots" data-menu aria-label="Opções da conversa" aria-expanded="false">⋯</button>
-      <div class="mlist" hidden><button data-bloquear>🚫 Bloquear conversa</button><a href="mailto:transmascbrasil@gmail.com?subject=${encodeURIComponent('Denúncia de mensagem privada')}&body=${encodeURIComponent('Pessoa: ' + p.nome + ' (' + location.origin + location.pathname + '?u=' + outro + ')\n\nO que aconteceu (pode colar as mensagens): ')}">🚩 Denunciar</a></div></div>`;
+      <div class="mlist" hidden><button data-bloquear>🚫 Bloquear conversa</button><button data-denunciar-conv data-nome="${esc(p.nome)}">🚩 Denunciar</button></div></div>`;
   renderConversas();
   unsubMsgs && unsubMsgs();
   $('dm-msgs').innerHTML = '<p class="small" style="margin:auto">Carregando…</p>';
@@ -789,6 +790,11 @@ document.addEventListener('click', async e => {
   if ((x = t.closest('[data-apagar-exame]'))) {
     if (confirm('Apagar este resultado?')) await fb.deleteDoc(fb.doc(db, 'privado', eu.uid, 'exames', x.dataset.apagarExame)).catch(err => toast(traduzErro(err)));
     return;
+  }
+  if ((x = t.closest('[data-denunciar-usuario]'))) return abrirDenuncia({ tipo:'usuario', alvoUid: x.dataset.denunciarUsuario, alvoNome: x.dataset.nome });
+  if ((x = t.closest('[data-denunciar-conv]'))) {
+    document.querySelectorAll('.dm .mlist').forEach(m => m.hidden = true);
+    return abrirDenuncia({ tipo:'conversa', alvoUid: outroAberto, alvoNome: x.dataset.nome, convId: convAberta, convExiste: convs.some(c => c.id === convAberta) });
   }
   if ((x = t.closest('[data-conv]'))) return abrirConversa(x.dataset.conv);
   if (t.closest('[data-dm-voltar]')) { $('dm').classList.remove('aberta'); return; }
