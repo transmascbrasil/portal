@@ -293,7 +293,7 @@ service cloud.firestore {
         && d.ultimaMsg.texto is string && d.ultimaMsg.texto.size() <= 200;
     }
     match /conversas/{convId} {
-      allow get: if dmMinha(convId);
+      allow get: if dmMinha(convId) || (cmAdmin() && resource.data.get('denunciada', false) == true);
       allow list: if cmLogado() && request.auth.uid in resource.data.participantes;
       allow create: if cmVerificado() && dmMinha(convId)
         && request.resource.data.keys().hasOnly(['participantes','criadoEm','atualizadoEm','ultimaMsg','lidoEm'])
@@ -306,7 +306,10 @@ service cloud.firestore {
         && dmUltima(request.resource.data)
         && request.resource.data.lidoEm is map && request.resource.data.lidoEm.keys().hasOnly([request.auth.uid]);
       allow update: if dmMinha(convId)
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ultimaMsg','atualizadoEm','lidoEm','bloqueadoPor'])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ultimaMsg','atualizadoEm','lidoEm','bloqueadoPor','denunciada'])
+        // denunciar abre a conversa para a moderação e não pode ser desfeito
+        && request.resource.data.get('denunciada', false) == (resource.data.get('denunciada', false) || request.resource.data.get('denunciada', false))
+        && (!('denunciada' in request.resource.data) || request.resource.data.denunciada == true)
         && request.resource.data.lidoEm.diff(resource.data.lidoEm).affectedKeys().hasOnly([request.auth.uid])
         // bloquear: só põe o próprio uid; desbloquear: só quem bloqueou
         && (resource.data.get('bloqueadoPor', '') == request.resource.data.get('bloqueadoPor', '')
@@ -318,7 +321,8 @@ service cloud.firestore {
             && request.resource.data.atualizadoEm == request.time
             && !('bloqueadoPor' in request.resource.data)));
       match /mensagens/{msgId} {
-        allow read: if dmMinha(convId);
+        allow read: if dmMinha(convId)
+          || (cmAdmin() && get(cmDoc('conversas/' + convId)).data.get('denunciada', false) == true);
         allow create: if cmVerificado() && dmMinha(convId)
           && request.resource.data.keys().hasOnly(['de','texto','criadoEm'])
           && request.resource.data.de == request.auth.uid
@@ -328,6 +332,29 @@ service cloud.firestore {
           && existsAfter(cmDoc('conversas/' + convId))
           && !('bloqueadoPor' in getAfter(cmDoc('conversas/' + convId)).data);
       }
+    }
+
+    // ---------- Denúncias ----------
+    // Qualquer membro logado denuncia (mesmo suspenso ou sem e-mail confirmado: quem sofre assédio precisa conseguir).
+    // Só a moderação lê e resolve.
+    match /denuncias/{id} {
+      allow read, delete: if cmAdmin();
+      allow create: if cmLogado()
+        && request.resource.data.keys().hasOnly(['tipo','motivo','texto','autorUid','alvoUid','postId','comentarioId','convId','criadoEm','status'])
+        && request.resource.data.autorUid == request.auth.uid
+        && request.resource.data.status == 'aberta'
+        && request.resource.data.criadoEm == request.time
+        && request.resource.data.tipo in ['usuario','post','comentario','conversa']
+        && request.resource.data.motivo in ['assedio','odio','falso','golpe','dados','saude','improprio','outro']
+        && request.resource.data.texto is string && request.resource.data.texto.size() >= 10 && request.resource.data.texto.size() <= 1500
+        && (!('alvoUid' in request.resource.data) || (request.resource.data.alvoUid is string && request.resource.data.alvoUid != request.auth.uid))
+        && cmTexto(request.resource.data, 'postId', 64) && cmTexto(request.resource.data, 'comentarioId', 64)
+        && (!('convId' in request.resource.data) || (request.resource.data.convId is string
+          && request.auth.uid in request.resource.data.convId.split('_')));
+      allow update: if cmAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','notaAdmin','resolvidoEm','resolvidoPor'])
+        && request.resource.data.status in ['aberta','resolvida','descartada']
+        && cmTexto(request.resource.data, 'notaAdmin', 500);
     }
 
     // ================= FIM — Comunidade =================
