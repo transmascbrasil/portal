@@ -544,6 +544,73 @@
       "aprovado": true,
       "postado": false,
       "criadoEm": "2026-11-02T15:46:07.654Z"
+    },
+    {
+      "id": "post102",
+      "tipo": "citacao",
+      "tema": "rosa",
+      "titulo": [
+        "Não existe",
+        "transição atrasada."
+      ],
+      "subtitulo": "Seu tempo é seu",
+      "itens": [],
+      "destaque": {},
+      "legenda": "Pra quem acha que começou tarde demais: não começou. 💙\n\nCada um tem seu tempo, sua história e seus motivos. Com 18, 30 ou 50 anos, o caminho é seu e ninguém tem o direito de te apressar ou te segurar.\n\nMarca aqui alguém que precisa ouvir isso hoje.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-11-03T11:50:28.323Z"
+    },
+    {
+      "id": "post103",
+      "tipo": "capa",
+      "tema": "azul",
+      "kicker": "Saúde",
+      "titulo": [
+        "Tem ambulatório",
+        "trans no",
+        "seu estado?"
+      ],
+      "subtitulo": "Veja a lista no portal",
+      "itens": [],
+      "destaque": {
+        "forte": "🔗 Link na bio"
+      },
+      "legenda": "Procurando atendimento pelo SUS ou um serviço especializado? 🏥\n\nO portal reúne mais de 40 ambulatórios trans pelo Brasil, com cidade e contato. Dá pra filtrar pelo seu estado.\n\nContatos e horários podem mudar, então confirme antes de ir. E se você conhece um serviço que não está lá, indica pra gente!\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-11-03T11:50:28.323Z"
+    },
+    {
+      "id": "post104",
+      "tipo": "comparativo",
+      "tema": "escuro",
+      "kicker": "Comparativo",
+      "titulo": [
+        "SUS",
+        "x",
+        "particular"
+      ],
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "SUS",
+          "texto": "Gratuito|Pode ter fila|Ambulatórios trans"
+        },
+        {
+          "emoji": "💳",
+          "titulo": "Particular",
+          "texto": "Pago ou convênio|Costuma ser mais rápido|Você escolhe o profissional"
+        }
+      ],
+      "destaque": {
+        "forte": "Os dois caminhos são válidos",
+        "texto": "Dá até pra combinar os dois"
+      },
+      "legenda": "SUS ou particular? Não tem resposta certa, depende do seu momento. 🤝\n\nNo SUS o atendimento é gratuito e existem ambulatórios especializados, mas pode ter fila. No particular ou pelo convênio costuma ser mais rápido, e você escolhe com quem se consultar.\n\nNo portal tem ambulatórios e profissionais indicados pela comunidade. As indicações são moderadas, mas sempre confira contato e convênio antes.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudetrans",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-11-03T11:50:28.323Z"
     }
   ],
   "rascunhosAuto": {
