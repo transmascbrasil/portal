@@ -171,49 +171,20 @@
       "instagramMediaId": "18116450264024532"
     },
     {
-      "id": "post10",
+      "id": "post102",
+      "tipo": "citacao",
+      "tema": "rosa",
+      "titulo": [
+        "Não existe",
+        "transição atrasada."
+      ],
+      "subtitulo": "Seu tempo é seu",
+      "itens": [],
+      "destaque": {},
+      "legenda": "Pra quem acha que começou tarde demais: não começou. 💙\n\nCada um tem seu tempo, sua história e seus motivos. Com 18, 30 ou 50 anos, o caminho é seu e ninguém tem o direito de te apressar ou te segurar.\n\nMarca aqui alguém que precisa ouvir isso hoje.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans",
       "aprovado": true,
       "postado": false,
-      "tipo": "lista",
-      "kicker": "Binder",
-      "titulo": [
-        "Uso seguro",
-        "do binder"
-      ],
-      "tamanhoTitulo": 96,
-      "subtitulo": "Informações gerais pra você se cuidar",
-      "itens": [
-        {
-          "emoji": "📏",
-          "titulo": "Use o tamanho certo",
-          "texto": "Apertado demais machuca e atrapalha a respiração"
-        },
-        {
-          "emoji": "🚫",
-          "titulo": "Nada de improvisar",
-          "texto": "Fita e faixas elásticas não são seguras"
-        },
-        {
-          "emoji": "⏳",
-          "titulo": "Faça pausas",
-          "texto": "Evite passar muitas horas seguidas com ele"
-        },
-        {
-          "emoji": "🛌",
-          "titulo": "Não durma com binder",
-          "texto": "Seu corpo precisa descansar"
-        },
-        {
-          "emoji": "⚠️",
-          "titulo": "Dor ou falta de ar?",
-          "texto": "Tire na hora e procure atendimento"
-        }
-      ],
-      "destaque": {
-        "forte": "Informação geral, não é orientação médica.",
-        "texto": "Converse com sua equipe de saúde."
-      },
-      "legenda": "Uso seguro do binder 💙\n\nInformação geral pra ajudar você a se cuidar: tamanho certo, nada de improvisar com fita ou faixa, fazer pausas, não dormir com ele e tirar se sentir dor ou falta de ar.\n\nIsso não substitui orientação médica. Converse com a sua equipe de saúde sobre o seu caso.\n\nMe segue aí, galera, e compartilha com quem usa binder 🏳️‍⚧️\n\nNa lojinha do portal tem uma lista de binders. 🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #binder"
+      "criadoEm": "2026-11-03T11:50:28.323Z"
     },
     {
       "id": "post13",
@@ -260,79 +231,125 @@
       "legenda": "Vai retificar nome e gênero no cartório? 🏳️‍⚧️\n\nSepare os papéis antes: certidão de nascimento ou casamento atualizada, RG, CPF e título de eleitor, comprovante de endereço e as certidões de distribuição e de protesto (a maioria sai de graça no site dos tribunais).\n\nDesde a decisão do STF de 2018 e o Provimento 73 do CNJ, dá pra fazer direto no cartório, por autodeclaração, sem cirurgia, sem laudo e sem processo judicial. As exigências podem variar por cartório, então ligue e confirme a lista com o seu.\n\nInformação geral, não substitui orientação jurídica. Sem dinheiro para as taxas? Procure a Defensoria Pública.\n\nO guia passo a passo completo está no portal. Me segue aí, galera, e compartilha com quem precisa 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #retificacao"
     },
     {
-      "id": "post14",
+      "id": "post114",
+      "tipo": "citacao",
+      "tema": "claro",
+      "titulo": [
+        "Respeitar o nome",
+        "é o mínimo."
+      ],
+      "subtitulo": "Nome é identidade",
+      "itens": [],
+      "destaque": {},
+      "legenda": "Simples assim. 🏳️‍⚧️\n\nChamar alguém pelo nome e pelo pronome certos não custa nada e muda o dia de uma pessoa.\n\nCompartilha pra quem precisa aprender.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #respeito",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-11-03T11:52:08.940Z"
+    },
+    {
+      "id": "post20",
       "aprovado": true,
       "postado": false,
       "tipo": "lista",
-      "kicker": "Mito ou verdade",
+      "kicker": "Apoie",
       "titulo": [
-        "Retificação",
-        "no cartório"
-      ],
-      "tamanhoTitulo": 96,
-      "subtitulo": "Dá pra mudar nome e gênero sem cirurgia?",
-      "itens": [
-        {
-          "emoji": "❌",
-          "titulo": "Precisa de cirurgia?",
-          "texto": "MITO. Não precisa de cirurgia."
-        },
-        {
-          "emoji": "❌",
-          "titulo": "Precisa de laudo?",
-          "texto": "MITO. Não precisa de laudo médico nem psicológico."
-        },
-        {
-          "emoji": "❌",
-          "titulo": "Precisa de advogado?",
-          "texto": "MITO. Dá pra fazer direto no cartório."
-        },
-        {
-          "emoji": "✅",
-          "titulo": "Tem idade mínima?",
-          "texto": "VERDADE. A partir dos 18 anos."
-        }
-      ],
-      "destaque": {
-        "forte": "Decisão do STF (2018) e Provimento 73 do CNJ.",
-        "texto": "Exigências de documentos podem variar por cartório."
-      },
-      "legenda": "Mito ou verdade: retificação no cartório 🏳️‍⚧️\n\n❌ Precisa de cirurgia? Mito.\n❌ Precisa de laudo médico ou psicológico? Mito.\n❌ Precisa de advogado? Mito, dá pra fazer direto no cartório.\n✅ Tem idade mínima? Verdade: a partir dos 18 anos.\n\nIsso vem da decisão do STF de 2018 (ADI 4275) e do Provimento 73 do CNJ, que permitem a retificação por autodeclaração direto no cartório. As exigências de documentos podem variar por cartório.\n\nInformação geral, não substitui orientação jurídica.\n\nTem o passo a passo no portal. Me segue aí, galera, e manda pra quem ainda acha que precisa de cirurgia 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #retificacao"
-    },
-    {
-      "id": "post15",
-      "aprovado": true,
-      "postado": false,
-      "tipo": "passos",
-      "kicker": "Saúde",
-      "titulo": [
-        "Procurando",
-        "ambulatório trans?"
+        "Ajude o portal",
+        "a continuar"
       ],
       "tamanhoTitulo": 92,
+      "subtitulo": "Comunitário, gratuito e sem fins lucrativos",
       "itens": [
         {
-          "titulo": "Abra o portal",
-          "texto": "O link está na bio"
+          "emoji": "🤝",
+          "titulo": "Feito por e para homens trans",
+          "texto": "Mantido por uma pessoa só, sem equipe"
         },
         {
-          "titulo": "Entre em Ambulatórios trans",
-          "texto": "É uma das abas do portal"
+          "emoji": "💙",
+          "titulo": "Contribua com qualquer valor",
+          "texto": "Uma contribuição pontual já ajuda"
         },
         {
-          "titulo": "Filtre por estado e cidade",
-          "texto": "Pra achar o mais perto de você"
-        },
-        {
-          "titulo": "Confira convênio e contato",
-          "texto": "Eles aparecem em cada card"
+          "emoji": "🔗",
+          "titulo": "Link na bio",
+          "texto": "Procure o botão Apoie no portal"
         }
       ],
       "destaque": {
-        "forte": "Mais de 40 ambulatórios na lista.",
-        "texto": "Contatos podem mudar. Confirme antes de ir."
+        "forte": "Não pode contribuir? Compartilhar também ajuda.",
+        "texto": "Indique o portal pra quem precisa."
       },
-      "legenda": "Procurando ambulatório trans? 🏥\n\nNo portal você abre a aba de ambulatórios, filtra por estado e cidade e já vê convênio e contato de cada um. Hoje a lista tem mais de 40 ambulatórios, e a comunidade ainda pode indicar outros.\n\nContato e convênio podem mudar, então confirme antes de ir. As indicações são feitas pela comunidade e revisadas antes de entrar.\n\nMe segue aí, galera, e compartilha com quem está procurando 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans"
+      "legenda": "Quer ajudar o portal a continuar no ar? 💙\n\nO Portal Transmasc Brasil é gratuito, comunitário e sem fins lucrativos, mantido por uma pessoa só. Se puder, contribua com qualquer valor pela campanha no Apoia.se (o link está no portal).\n\nNão pode contribuir? Compartilhar, seguir e indicar profissionais também ajuda muito 🤝\n\nMe segue aí, galera!\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil"
+    },
+    {
+      "id": "post104",
+      "tipo": "comparativo",
+      "tema": "escuro",
+      "kicker": "Comparativo",
+      "titulo": [
+        "SUS",
+        "x",
+        "particular"
+      ],
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "SUS",
+          "texto": "Gratuito|Pode ter fila|Ambulatórios trans"
+        },
+        {
+          "emoji": "💳",
+          "titulo": "Particular",
+          "texto": "Pago ou convênio|Costuma ser mais rápido|Você escolhe o profissional"
+        }
+      ],
+      "destaque": {
+        "forte": "Os dois caminhos são válidos",
+        "texto": "Dá até pra combinar os dois"
+      },
+      "legenda": "SUS ou particular? Não tem resposta certa, depende do seu momento. 🤝\n\nNo SUS o atendimento é gratuito e existem ambulatórios especializados, mas pode ter fila. No particular ou pelo convênio costuma ser mais rápido, e você escolhe com quem se consultar.\n\nNo portal tem ambulatórios e profissionais indicados pela comunidade. As indicações são moderadas, mas sempre confira contato e convênio antes.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudetrans",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-11-03T11:50:28.323Z"
+    },
+    {
+      "id": "post110",
+      "tipo": "lista",
+      "tema": "escuro",
+      "kicker": "Dia a dia",
+      "titulo": [
+        "Erraram seu",
+        "nome ou pronome?"
+      ],
+      "itens": [
+        {
+          "emoji": "💬",
+          "titulo": "Corrija com calma",
+          "texto": "\"É ele, por favor\" já resolve"
+        },
+        {
+          "emoji": "🧠",
+          "titulo": "Você não deve explicação",
+          "texto": "Só respeito"
+        },
+        {
+          "emoji": "🤝",
+          "titulo": "Conte com aliados",
+          "texto": "Peça pra amigos ajudarem a corrigir"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Em serviços, peça o nome social"
+        }
+      ],
+      "destaque": {
+        "forte": "Sua segurança vem primeiro",
+        "texto": "Às vezes deixar pra depois é ok"
+      },
+      "legenda": "Quem nunca passou por isso, né? 😮‍💨\n\nCorrigir é um direito, mas você não precisa dar aula pra ninguém. E se o ambiente não parecer seguro, tudo bem deixar pra depois.\n\nE pra quem é aliado: errou, pede desculpa, corrige e segue. Sem drama.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #respeito",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-11-03T11:52:08.940Z"
     },
     {
       "id": "post16",
@@ -368,46 +385,6 @@
         "texto": "O portal não garante resultado de nenhum profissional."
       },
       "legenda": "Pesquisando cirurgião pra mastectomia masculinizadora? 🏥\n\nO portal reúne o maior acervo de cirurgiões que fazem mastectomia masculinizadora no Brasil, indicados pela comunidade. Dá pra filtrar por estado e cidade e ver convênio e contato.\n\nDica geral: converse com mais de um profissional, se puder, e confira o registro no CRM.\n\nImportante: as indicações vêm da comunidade e o portal não garante qualidade nem resultado de nenhum profissional. Contato e convênio podem mudar. Isso não substitui consulta nem orientação médica.\n\nMe segue aí, galera, e indica quem atendeu bem você 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #mastectomia"
-    },
-    {
-      "id": "post17",
-      "aprovado": true,
-      "postado": false,
-      "tipo": "lista",
-      "kicker": "Consulta",
-      "titulo": [
-        "Vai consultar um",
-        "cirurgião?"
-      ],
-      "tamanhoTitulo": 90,
-      "subtitulo": "Leve estas perguntas pra conversa",
-      "itens": [
-        {
-          "emoji": "🩺",
-          "titulo": "Como é o procedimento?",
-          "texto": "Peça pra explicarem com calma"
-        },
-        {
-          "emoji": "🗓️",
-          "titulo": "Como é a recuperação?",
-          "texto": "Pergunte sobre prazos e cuidados"
-        },
-        {
-          "emoji": "💰",
-          "titulo": "O que está incluso?",
-          "texto": "Valores, convênio e exames"
-        },
-        {
-          "emoji": "📞",
-          "titulo": "Como é o acompanhamento?",
-          "texto": "O que acontece depois da cirurgia"
-        }
-      ],
-      "destaque": {
-        "forte": "Informação geral, não é orientação médica.",
-        "texto": "Siga sempre a sua equipe de saúde."
-      },
-      "legenda": "Vai consultar um cirurgião? Leva estas perguntas anotadas 🩺\n\n• Como é o procedimento?\n• Como é a recuperação?\n• O que está incluso (valores, convênio, exames)?\n• Como é o acompanhamento depois da cirurgia?\n\nÉ só uma lista geral pra te ajudar a organizar a conversa. Ela não substitui a orientação da sua equipe de saúde, que conhece o seu caso.\n\nMe segue aí, galera, e salva pra levar na consulta 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #mastectomia"
     },
     {
       "id": "post19",
@@ -450,39 +427,65 @@
       "legenda": "A lojinha do portal tem listas prontas de produtos 🛍️\n\n💸 Pagando pouco\n🩹 Pós-mastectomia\n👕 Binder\n🧔 Cuidados com a barba\n\nSão links de afiliado do Mercado Livre: você não paga nada a mais e o portal recebe uma pequena comissão, que ajuda a mantê-lo no ar. Para itens de saúde, siga sempre a orientação da sua equipe médica.\n\nMe segue aí, galera, e compartilha 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #lojinha"
     },
     {
-      "id": "post20",
+      "tipo": "citacao",
+      "kicker": "20 de novembro · Dia da Memória Trans",
+      "titulo": [
+        "Lembrar quem perdemos é lutar para que ninguém mais falte."
+      ],
+      "subtitulo": "",
+      "id": "post116",
+      "fonte": "data:memoria:2026",
+      "agendarPara": "2026-11-20T15:00:00.000Z",
+      "tema": "claro",
+      "legenda": "20 de novembro é o Dia da Memória Trans.\n\nHoje a gente lembra das pessoas trans que perdemos para a violência e o preconceito. Lembrar é também lutar por respeito e por uma vida segura pra todo mundo.\n\nSe você está passando por um momento difícil, procure sua rede de apoio. O CVV atende 24 horas pelo 188 ou em cvv.org.br.\n\n🕯️\n\n#transmasc #homemtrans #transmasculino #transbrasil #memoriatrans",
+      "aprovado": true,
+      "postado": false,
+      "criadoEm": "2026-10-31T14:58:13.877Z"
+    },
+    {
+      "id": "post10",
       "aprovado": true,
       "postado": false,
       "tipo": "lista",
-      "kicker": "Apoie",
+      "kicker": "Binder",
       "titulo": [
-        "Ajude o portal",
-        "a continuar"
+        "Uso seguro",
+        "do binder"
       ],
-      "tamanhoTitulo": 92,
-      "subtitulo": "Comunitário, gratuito e sem fins lucrativos",
+      "tamanhoTitulo": 96,
+      "subtitulo": "Informações gerais pra você se cuidar",
       "itens": [
         {
-          "emoji": "🤝",
-          "titulo": "Feito por e para homens trans",
-          "texto": "Mantido por uma pessoa só, sem equipe"
+          "emoji": "📏",
+          "titulo": "Use o tamanho certo",
+          "texto": "Apertado demais machuca e atrapalha a respiração"
         },
         {
-          "emoji": "💙",
-          "titulo": "Contribua com qualquer valor",
-          "texto": "Uma contribuição pontual já ajuda"
+          "emoji": "🚫",
+          "titulo": "Nada de improvisar",
+          "texto": "Fita e faixas elásticas não são seguras"
         },
         {
-          "emoji": "🔗",
-          "titulo": "Link na bio",
-          "texto": "Procure o botão Apoie no portal"
+          "emoji": "⏳",
+          "titulo": "Faça pausas",
+          "texto": "Evite passar muitas horas seguidas com ele"
+        },
+        {
+          "emoji": "🛌",
+          "titulo": "Não durma com binder",
+          "texto": "Seu corpo precisa descansar"
+        },
+        {
+          "emoji": "⚠️",
+          "titulo": "Dor ou falta de ar?",
+          "texto": "Tire na hora e procure atendimento"
         }
       ],
       "destaque": {
-        "forte": "Não pode contribuir? Compartilhar também ajuda.",
-        "texto": "Indique o portal pra quem precisa."
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Converse com sua equipe de saúde."
       },
-      "legenda": "Quer ajudar o portal a continuar no ar? 💙\n\nO Portal Transmasc Brasil é gratuito, comunitário e sem fins lucrativos, mantido por uma pessoa só. Se puder, contribua com qualquer valor pela campanha no Apoia.se (o link está no portal).\n\nNão pode contribuir? Compartilhar, seguir e indicar profissionais também ajuda muito 🤝\n\nMe segue aí, galera!\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil"
+      "legenda": "Uso seguro do binder 💙\n\nInformação geral pra ajudar você a se cuidar: tamanho certo, nada de improvisar com fita ou faixa, fazer pausas, não dormir com ele e tirar se sentir dor ou falta de ar.\n\nIsso não substitui orientação médica. Converse com a sua equipe de saúde sobre o seu caso.\n\nMe segue aí, galera, e compartilha com quem usa binder 🏳️‍⚧️\n\nNa lojinha do portal tem uma lista de binders. 🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #binder"
     },
     {
       "id": "post101",
@@ -516,20 +519,79 @@
       "postado": false
     },
     {
-      "tipo": "citacao",
-      "kicker": "20 de novembro · Dia da Memória Trans",
-      "titulo": [
-        "Lembrar quem perdemos é lutar para que ninguém mais falte."
-      ],
-      "subtitulo": "",
-      "id": "post116",
-      "fonte": "data:memoria:2026",
-      "agendarPara": "2026-11-20T15:00:00.000Z",
-      "tema": "claro",
-      "legenda": "20 de novembro é o Dia da Memória Trans.\n\nHoje a gente lembra das pessoas trans que perdemos para a violência e o preconceito. Lembrar é também lutar por respeito e por uma vida segura pra todo mundo.\n\nSe você está passando por um momento difícil, procure sua rede de apoio. O CVV atende 24 horas pelo 188 ou em cvv.org.br.\n\n🕯️\n\n#transmasc #homemtrans #transmasculino #transbrasil #memoriatrans",
+      "id": "post15",
       "aprovado": true,
       "postado": false,
-      "criadoEm": "2026-10-31T14:58:13.877Z"
+      "tipo": "passos",
+      "kicker": "Saúde",
+      "titulo": [
+        "Procurando",
+        "ambulatório trans?"
+      ],
+      "tamanhoTitulo": 92,
+      "itens": [
+        {
+          "titulo": "Abra o portal",
+          "texto": "O link está na bio"
+        },
+        {
+          "titulo": "Entre em Ambulatórios trans",
+          "texto": "É uma das abas do portal"
+        },
+        {
+          "titulo": "Filtre por estado e cidade",
+          "texto": "Pra achar o mais perto de você"
+        },
+        {
+          "titulo": "Confira convênio e contato",
+          "texto": "Eles aparecem em cada card"
+        }
+      ],
+      "destaque": {
+        "forte": "Mais de 40 ambulatórios na lista.",
+        "texto": "Contatos podem mudar. Confirme antes de ir."
+      },
+      "legenda": "Procurando ambulatório trans? 🏥\n\nNo portal você abre a aba de ambulatórios, filtra por estado e cidade e já vê convênio e contato de cada um. Hoje a lista tem mais de 40 ambulatórios, e a comunidade ainda pode indicar outros.\n\nContato e convênio podem mudar, então confirme antes de ir. As indicações são feitas pela comunidade e revisadas antes de entrar.\n\nMe segue aí, galera, e compartilha com quem está procurando 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans"
+    },
+    {
+      "id": "post17",
+      "aprovado": true,
+      "postado": false,
+      "tipo": "lista",
+      "kicker": "Consulta",
+      "titulo": [
+        "Vai consultar um",
+        "cirurgião?"
+      ],
+      "tamanhoTitulo": 90,
+      "subtitulo": "Leve estas perguntas pra conversa",
+      "itens": [
+        {
+          "emoji": "🩺",
+          "titulo": "Como é o procedimento?",
+          "texto": "Peça pra explicarem com calma"
+        },
+        {
+          "emoji": "🗓️",
+          "titulo": "Como é a recuperação?",
+          "texto": "Pergunte sobre prazos e cuidados"
+        },
+        {
+          "emoji": "💰",
+          "titulo": "O que está incluso?",
+          "texto": "Valores, convênio e exames"
+        },
+        {
+          "emoji": "📞",
+          "titulo": "Como é o acompanhamento?",
+          "texto": "O que acontece depois da cirurgia"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Siga sempre a sua equipe de saúde."
+      },
+      "legenda": "Vai consultar um cirurgião? Leva estas perguntas anotadas 🩺\n\n• Como é o procedimento?\n• Como é a recuperação?\n• O que está incluso (valores, convênio, exames)?\n• Como é o acompanhamento depois da cirurgia?\n\nÉ só uma lista geral pra te ajudar a organizar a conversa. Ela não substitui a orientação da sua equipe de saúde, que conhece o seu caso.\n\nMe segue aí, galera, e salva pra levar na consulta 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #mastectomia"
     },
     {
       "id": "post117",
@@ -546,20 +608,44 @@
       "criadoEm": "2026-11-02T15:46:07.654Z"
     },
     {
-      "id": "post102",
-      "tipo": "citacao",
-      "tema": "rosa",
-      "titulo": [
-        "Não existe",
-        "transição atrasada."
-      ],
-      "subtitulo": "Seu tempo é seu",
-      "itens": [],
-      "destaque": {},
-      "legenda": "Pra quem acha que começou tarde demais: não começou. 💙\n\nCada um tem seu tempo, sua história e seus motivos. Com 18, 30 ou 50 anos, o caminho é seu e ninguém tem o direito de te apressar ou te segurar.\n\nMarca aqui alguém que precisa ouvir isso hoje.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans",
+      "id": "post14",
       "aprovado": true,
       "postado": false,
-      "criadoEm": "2026-11-03T11:50:28.323Z"
+      "tipo": "lista",
+      "kicker": "Mito ou verdade",
+      "titulo": [
+        "Retificação",
+        "no cartório"
+      ],
+      "tamanhoTitulo": 96,
+      "subtitulo": "Dá pra mudar nome e gênero sem cirurgia?",
+      "itens": [
+        {
+          "emoji": "❌",
+          "titulo": "Precisa de cirurgia?",
+          "texto": "MITO. Não precisa de cirurgia."
+        },
+        {
+          "emoji": "❌",
+          "titulo": "Precisa de laudo?",
+          "texto": "MITO. Não precisa de laudo médico nem psicológico."
+        },
+        {
+          "emoji": "❌",
+          "titulo": "Precisa de advogado?",
+          "texto": "MITO. Dá pra fazer direto no cartório."
+        },
+        {
+          "emoji": "✅",
+          "titulo": "Tem idade mínima?",
+          "texto": "VERDADE. A partir dos 18 anos."
+        }
+      ],
+      "destaque": {
+        "forte": "Decisão do STF (2018) e Provimento 73 do CNJ.",
+        "texto": "Exigências de documentos podem variar por cartório."
+      },
+      "legenda": "Mito ou verdade: retificação no cartório 🏳️‍⚧️\n\n❌ Precisa de cirurgia? Mito.\n❌ Precisa de laudo médico ou psicológico? Mito.\n❌ Precisa de advogado? Mito, dá pra fazer direto no cartório.\n✅ Tem idade mínima? Verdade: a partir dos 18 anos.\n\nIsso vem da decisão do STF de 2018 (ADI 4275) e do Provimento 73 do CNJ, que permitem a retificação por autodeclaração direto no cartório. As exigências de documentos podem variar por cartório.\n\nInformação geral, não substitui orientação jurídica.\n\nTem o passo a passo no portal. Me segue aí, galera, e manda pra quem ainda acha que precisa de cirurgia 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #retificacao"
     },
     {
       "id": "post103",
@@ -577,37 +663,6 @@
         "forte": "🔗 Link na bio"
       },
       "legenda": "Procurando atendimento pelo SUS ou um serviço especializado? 🏥\n\nO portal reúne mais de 40 ambulatórios trans pelo Brasil, com cidade e contato. Dá pra filtrar pelo seu estado.\n\nContatos e horários podem mudar, então confirme antes de ir. E se você conhece um serviço que não está lá, indica pra gente!\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
-      "aprovado": true,
-      "postado": false,
-      "criadoEm": "2026-11-03T11:50:28.323Z"
-    },
-    {
-      "id": "post104",
-      "tipo": "comparativo",
-      "tema": "escuro",
-      "kicker": "Comparativo",
-      "titulo": [
-        "SUS",
-        "x",
-        "particular"
-      ],
-      "itens": [
-        {
-          "emoji": "🏥",
-          "titulo": "SUS",
-          "texto": "Gratuito|Pode ter fila|Ambulatórios trans"
-        },
-        {
-          "emoji": "💳",
-          "titulo": "Particular",
-          "texto": "Pago ou convênio|Costuma ser mais rápido|Você escolhe o profissional"
-        }
-      ],
-      "destaque": {
-        "forte": "Os dois caminhos são válidos",
-        "texto": "Dá até pra combinar os dois"
-      },
-      "legenda": "SUS ou particular? Não tem resposta certa, depende do seu momento. 🤝\n\nNo SUS o atendimento é gratuito e existem ambulatórios especializados, mas pode ter fila. No particular ou pelo convênio costuma ser mais rápido, e você escolhe com quem se consultar.\n\nNo portal tem ambulatórios e profissionais indicados pela comunidade. As indicações são moderadas, mas sempre confira contato e convênio antes.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudetrans",
       "aprovado": true,
       "postado": false,
       "criadoEm": "2026-11-03T11:50:28.323Z"
@@ -812,45 +867,6 @@
       "criadoEm": "2026-11-03T11:52:08.940Z"
     },
     {
-      "id": "post110",
-      "tipo": "lista",
-      "tema": "escuro",
-      "kicker": "Dia a dia",
-      "titulo": [
-        "Erraram seu",
-        "nome ou pronome?"
-      ],
-      "itens": [
-        {
-          "emoji": "💬",
-          "titulo": "Corrija com calma",
-          "texto": "\"É ele, por favor\" já resolve"
-        },
-        {
-          "emoji": "🧠",
-          "titulo": "Você não deve explicação",
-          "texto": "Só respeito"
-        },
-        {
-          "emoji": "🤝",
-          "titulo": "Conte com aliados",
-          "texto": "Peça pra amigos ajudarem a corrigir"
-        },
-        {
-          "emoji": "🪪",
-          "titulo": "Em serviços, peça o nome social"
-        }
-      ],
-      "destaque": {
-        "forte": "Sua segurança vem primeiro",
-        "texto": "Às vezes deixar pra depois é ok"
-      },
-      "legenda": "Quem nunca passou por isso, né? 😮‍💨\n\nCorrigir é um direito, mas você não precisa dar aula pra ninguém. E se o ambiente não parecer seguro, tudo bem deixar pra depois.\n\nE pra quem é aliado: errou, pede desculpa, corrige e segue. Sem drama.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #respeito",
-      "aprovado": true,
-      "postado": false,
-      "criadoEm": "2026-11-03T11:52:08.940Z"
-    },
-    {
       "id": "post111",
       "tipo": "capa",
       "tema": "escuro",
@@ -944,22 +960,6 @@
       "criadoEm": "2026-11-03T11:52:08.940Z"
     },
     {
-      "id": "post114",
-      "tipo": "citacao",
-      "tema": "claro",
-      "titulo": [
-        "Respeitar o nome",
-        "é o mínimo."
-      ],
-      "subtitulo": "Nome é identidade",
-      "itens": [],
-      "destaque": {},
-      "legenda": "Simples assim. 🏳️‍⚧️\n\nChamar alguém pelo nome e pelo pronome certos não custa nada e muda o dia de uma pessoa.\n\nCompartilha pra quem precisa aprender.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #respeito",
-      "aprovado": true,
-      "postado": false,
-      "criadoEm": "2026-11-03T11:52:08.940Z"
-    },
-    {
       "id": "post115",
       "tipo": "checklist",
       "tema": "azul",
@@ -989,7 +989,7 @@
         "texto": "No atendimento e no cadastro"
       },
       "legenda": "Vai ter consulta? Separa isso antes pra aproveitar bem o tempo. 📋\n\nAnotar as dúvidas ajuda muito, porque na hora a gente esquece. Leve os exames que já fez e peça para ser chamado pelo nome social.\n\nNo portal tem ambulatórios trans e profissionais indicados pela comunidade.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudetrans",
-      "aprovado": false,
+      "aprovado": true,
       "postado": false
     }
   ],
