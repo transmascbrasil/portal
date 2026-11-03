@@ -60,6 +60,7 @@
       <h1>Um espaço seguro para <em>perguntar, trocar e se apoiar</em>.</h1>
       <p>Crie sua conta gratuita para participar da comunidade do Portal Transmasc Brasil.</p>
       <ul>
+        <li><span>🛡️</span>Comunidade moderada: toda publicação é revisada antes de aparecer</li>
         <li><span>💬</span>Faça perguntas e responda as de outras pessoas</li>
         <li><span>🎭</span>Publique ou comente de forma anônima quando quiser</li>
         <li><span>📷</span>Compartilhe fotos, vídeos e links</li>
@@ -88,7 +89,7 @@
         <div class="small" id="regras-entrada" hidden></div>
         <p class="err" id="c-err" hidden></p>
         <button class="btn btn-navy" id="b-criar">Criar conta</button>
-        <p class="small">Vamos enviar um link para confirmar seu e-mail. Seu e-mail nunca aparece para outros membros.</p>
+        <p class="small">Vamos enviar um link para confirmar seu e-mail (pode cair no spam). Seu e-mail nunca aparece para outros membros.</p>
       </form>
     </div>
   </section>
@@ -111,7 +112,7 @@
   <section id="tela-forum" class="forum" hidden>
     <div>
       <div class="aviso" id="aviso-verificar" hidden>
-        <p>📧 <b>Confirme seu e-mail</b> para publicar, comentar, reagir e votar. O link foi enviado para <b id="v-email"></b> (confira o spam).</p>
+        <p>📧 <b>Confirme seu e-mail</b> para publicar, comentar, reagir e votar. O link foi enviado para <b id="v-email"></b> (confira a caixa de spam e, se estiver lá, marque como “não é spam”).</p>
         <button class="btn btn-line btn-sm" onclick="reenviarVerificacao()">Reenviar</button>
         <button class="btn btn-navy btn-sm" onclick="jaConfirmei()">Já confirmei</button>
       </div>

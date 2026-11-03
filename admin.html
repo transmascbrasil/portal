@@ -467,6 +467,7 @@ async function initFirebase(){
     fbApp = a;
     const app = a.initializeApp(firebaseConfig);
     auth = au.getAuth(app); db = fs.getFirestore(app);
+    auth.languageCode = 'pt-BR';   // e-mail de nova senha em português
     au.onAuthStateChanged(auth, user => user ? abrirPainel(user) : abrirLogin());
   } catch (err) {
     console.error(err);
