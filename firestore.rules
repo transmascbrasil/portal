@@ -171,8 +171,15 @@ service cloud.firestore {
       allow delete: if cmLogado() && (resource.data.uid == request.auth.uid || cmAdmin());
     }
 
+    // Mesma lista de TOPICOS do comunidade-base.js
+    function cmTopicos() {
+      return ['hormonizacao','barba','mastectomia','cirurgias','binder','retificacao','saude','saude-mental','voz',
+        'corpo','estilo','relacionamentos','familia','trabalho','sus','conquistas','outros'];
+    }
     function cmPostValido(d) {
       return d.tipo in ['post','pergunta','enquete']
+        && (!('topicos' in d) || (d.topicos is list && d.topicos.size() >= 1 && d.topicos.size() <= 3
+          && d.topicos.hasOnly(cmTopicos())))
         && d.texto is string && d.texto.size() <= 5000
         && d.reacoes == {}
         && (!('imagens' in d) || (d.imagens is list && d.imagens.size() <= 4))
@@ -187,7 +194,7 @@ service cloud.firestore {
       allow read: if cmLogado() && (cmAutorDe(postId) || cmAdmin());
       allow create: if cmVerificado()
         && getAfter(cmDoc('forum_autoria/' + postId)).data.uid == request.auth.uid
-        && request.resource.data.keys().hasOnly(['tipo','texto','imagens','video','anonimo','autorUid','autorNome','criadoEm','reacoes','opcoes','contagem','status'])
+        && request.resource.data.keys().hasOnly(['tipo','texto','imagens','video','anonimo','autorUid','autorNome','criadoEm','reacoes','opcoes','contagem','topicos','status'])
         && request.resource.data.status == 'pendente'
         && request.resource.data.criadoEm == request.time
         && cmAssinatura(request.resource.data)
@@ -205,7 +212,7 @@ service cloud.firestore {
       // só a moderação publica, no mesmo lote em que apaga o pendente
       allow create: if cmAdmin()
         && exists(cmDoc('forum_pendentes/' + postId)) && !existsAfter(cmDoc('forum_pendentes/' + postId))
-        && request.resource.data.keys().hasOnly(['tipo','texto','imagens','video','anonimo','autorUid','autorNome','criadoEm','reacoes','opcoes','contagem','publicadoEm'])
+        && request.resource.data.keys().hasOnly(['tipo','texto','imagens','video','anonimo','autorUid','autorNome','criadoEm','reacoes','opcoes','contagem','topicos','publicadoEm'])
         && request.resource.data.publicadoEm == request.time
         && request.resource.data.anonimo is bool
         && cmPostValido(request.resource.data);

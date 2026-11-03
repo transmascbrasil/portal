@@ -276,3 +276,20 @@ a.nome{text-decoration:none}a.nome:hover{text-decoration:underline}
 .pend-txt{margin:8px 0 6px;font-size:14.5px;overflow-wrap:anywhere}
 .tag.analise{background:#FFF1D6;color:#8A5A00}
 .tag.recusado{background:var(--bad-soft);color:var(--bad)}
+
+/* Tópicos e busca */
+.busca-box{display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;box-shadow:var(--shadow);padding:4px 6px 4px 16px;margin-bottom:12px}
+.busca-box input{flex:1;min-width:0;border:0;outline:none;font:inherit;font-weight:600;color:var(--ink);padding:9px 4px;background:none}
+.busca-box:focus-within{box-shadow:0 0 0 3px var(--blue-soft),var(--shadow)}
+.tchip{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;padding:6px 12px;border-radius:999px;font-weight:800;font-size:13px;color:var(--navy-2);background:var(--blue-soft);cursor:pointer}
+.tchip:hover{background:#D3F0FD}
+.tchip.on{background:var(--navy);color:#fff}
+.topicos-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+@media(max-width:700px){.topicos-bar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}}
+.tchips{display:flex;flex-wrap:wrap;gap:6px}
+.ptopicos{display:flex;flex-wrap:wrap;gap:6px;padding:8px 16px 0}
+.ptopicos .tchip{font-size:12px;padding:4px 10px}
+.topico-head{display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:12px;flex-wrap:wrap}
+.topico-head .th-emoji{font-size:34px;line-height:1}
+.topico-head div{flex:1;min-width:160px}
+.topico-head b{display:block;font-family:'Bricolage Grotesque';font-size:20px}

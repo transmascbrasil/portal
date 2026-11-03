@@ -23,6 +23,19 @@ export const REACOES = {
   haha:['😂','Haha','#C98A00'], uau:['😮','Uau','#C98A00'], triste:['😢','Triste','#C98A00'], grr:['😡','Grr','#D9480F']
 };
 export const TIPOS = { post:'Publicação', pergunta:'Pergunta', enquete:'Enquete' };
+/* Tópicos da comunidade. Para mudar a lista, altere aqui E a lista em cmTopicos() no firestore.rules */
+export const TOPICOS = [
+  ['hormonizacao','💉','Hormonização'], ['barba','🧔','Barba e pelos'], ['mastectomia','🩹','Mastectomia'],
+  ['cirurgias','🏥','Histerectomia e outras cirurgias'], ['binder','🎽','Binder'], ['retificacao','📄','Retificação de nome'],
+  ['saude','🩺','Saúde e exames'], ['saude-mental','🧠','Saúde mental'], ['voz','🎙️','Voz'],
+  ['corpo','💪','Corpo e treino'], ['estilo','👕','Estilo e roupas'], ['relacionamentos','💞','Relacionamentos e sexualidade'],
+  ['familia','🏠','Família e se assumir'], ['trabalho','💼','Trabalho e direitos'], ['sus','🏛️','SUS e ambulatórios'],
+  ['conquistas','🎉','Conquistas e desabafos'], ['outros','✨','Outros']
+];
+export const topicoDe = id => TOPICOS.find(t => t[0] === id);
+export const chipTopico = id => { const t = topicoDe(id); return t ? `<button type="button" class="tchip" data-topico="${t[0]}">${t[1]} ${t[2]}</button>` : ''; };
+/* Busca sem acento e sem maiúsculas */
+export const normalizar = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
 /* ---------- Firebase ---------- */
 export let fb = null, auth = null, db = null;
