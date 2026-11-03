@@ -45,6 +45,7 @@ export async function carregarFirebase(){
   fb = { ...au, ...fs };
   const app = a.initializeApp(firebaseConfig);
   auth = au.getAuth(app); db = fs.getFirestore(app);
+  auth.languageCode = 'pt-BR';   // e-mails do Firebase (confirmação, nova senha) em português
   /* Testes locais: abra localhost/<página>?emulador com os emuladores do Firebase rodando */
   if (location.hostname === 'localhost' && new URLSearchParams(location.search).has('emulador')) {
     au.connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
