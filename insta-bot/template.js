@@ -173,6 +173,7 @@ body{width:1080px;height:1350px;background:${T.bg};font-family:'${fonte}','Inter
 h1{font-size:${Number(p.tamanhoTitulo) || tamPadrao}px;line-height:${tipo === "citacao" ? 1.16 : 1.06};font-weight:900;letter-spacing:-.02em}
 h1 .rosa{color:${T.acc2};${T.hl ? `background:${T.hl};color:${T.hlTxt || T.txt};padding:0 .16em;border-radius:14px;-webkit-box-decoration-break:clone;box-decoration-break:clone;` : ""}}
 .aspas{font-size:300px;line-height:.6;font-weight:900;color:${T.hl || T.kick};height:150px;margin-left:-8px}
+.kicker + .aspas{margin-top:64px}
 .sub{margin-top:22px;font-size:${tipo === "capa" ? 44 : 36}px;line-height:1.25;font-weight:700;color:${tipo === "citacao" ? T.kick : T.txt}}
 .corpo{margin-top:${tipo === "passos" ? 52 : 46}px;display:flex;flex-direction:column;gap:${tipo === "passos" ? 36 : tipo === "mito" ? 22 : 18}px}
 .passo{display:flex;gap:28px;align-items:flex-start}
