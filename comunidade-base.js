@@ -249,3 +249,16 @@ export function lojaHtml(lista){
       <div class="bd"><h3>${esc(i.titulo)}</h3><p>${esc(i.texto)}</p><span class="go">${temLink(i) ? 'Ver produtos →' : 'Em breve'}</span></div>
     </a>`).join('');
 }
+
+/* ---------- mensagens privadas ---------- */
+export const idConversa = (a, b) => [a, b].sort().join('_');
+export const outroDe = (c, uid) => (c.participantes || []).find(p => p !== uid);
+export const ms = ts => ts && ts.toMillis ? ts.toMillis() : 0;
+/* Não lida: a última mensagem é da outra pessoa e chegou depois da última vez que abri a conversa */
+export const naoLida = (c, uid) => !!(c.ultimaMsg && c.ultimaMsg.de !== uid && ms(c.atualizadoEm) > ms((c.lidoEm || {})[uid]));
+/* Escuta as minhas conversas (sem índice composto: a ordem é feita aqui) */
+export function ouvirConversas(uid, cb){
+  return fb.onSnapshot(fb.query(fb.collection(db, 'conversas'), fb.where('participantes', 'array-contains', uid)), snap => {
+    cb(snap.docs.map(d => ({ id: d.id, ...d.data({ serverTimestamps:'estimate' }) })).sort((a, b) => ms(b.atualizadoEm) - ms(a.atualizadoEm)));
+  }, err => console.error(err));
+}

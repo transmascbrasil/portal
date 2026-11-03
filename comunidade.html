@@ -43,6 +43,7 @@
     <div class="hlinks">
       <a href="index.html" class="voltar">← Portal</a>
       <a href="comunidade-admin.html" id="h-admin" hidden>🛡️ Moderação</a>
+      <a href="perfil.html#mensagens" id="h-msgs" hidden title="Mensagens">💬<span class="badge" id="h-msgs-n" hidden></span></a>
       <a class="eu" id="h-eu" hidden href="perfil.html" title="Meu perfil"><span id="h-av"></span><b id="h-nome"></b></a>
       <button id="h-sair" hidden onclick="sair()">Sair</button>
     </div>
@@ -220,7 +221,7 @@
 <script type="module">
 import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
   hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
-  REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
+  ouvirConversas, naoLida, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
 
 const DICAS = { post:'No que você está pensando?', pergunta:'Qual é a sua dúvida? Conte um pouco do contexto…', enquete:'Qual é a pergunta da enquete?' };
 const POR_PAGINA = 15, LIMITE_BUSCA = 200;
@@ -230,7 +231,7 @@ const meus = new Set();          // ids de posts/comentários que eu escrevi (in
 const posts = new Map();         // id -> { d, cs, el, todos, voto, verRes }
 const nomes = new Map();
 const meusPosts = new Map();     // id -> listener das minhas publicações ainda em moderação
-let unsubFeed = null, unsubMeus = null, limiteFeed = POR_PAGINA, filtro = 'tudo', primeiraCarga = true;
+let unsubFeed = null, unsubMeus = null, unsubConvs = null, limiteFeed = POR_PAGINA, filtro = 'tudo', primeiraCarga = true;
 let fotosNovo = [], topicosNovo = [];
 let topico = new URLSearchParams(location.search).get('topico') || '', busca = '';
 
@@ -370,6 +371,12 @@ function abrirForum(bloqueado){
   primeiraCarga = true;
   lembreteHormonio();
   renderTopicosBar();
+  $('h-msgs').hidden = false; $('h-msgs').href = url('perfil.html') + '#mensagens';
+  unsubConvs = ouvirConversas(eu.uid, lista => {
+    const n = lista.filter(c => naoLida(c, eu.uid)).length;
+    $('h-msgs-n').textContent = n; $('h-msgs-n').hidden = !n;
+    $('h-msgs').title = n ? `${n} conversa${n > 1 ? 's' : ''} com mensagem nova` : 'Mensagens';
+  });
   unsubMeus = fb.onSnapshot(fb.query(fb.collection(db, 'forum_autoria'), fb.where('uid', '==', eu.uid)), snap => {
     meus.clear(); snap.docs.forEach(d => meus.add(d.id));
     /* autoria sem campo "post" = publicação; as que não estão no feed podem estar em moderação */
@@ -380,7 +387,8 @@ function abrirForum(bloqueado){
   ouvirFeed();
 }
 function pararTudo(){
-  unsubFeed && unsubFeed(); unsubMeus && unsubMeus(); unsubFeed = unsubMeus = null;
+  unsubFeed && unsubFeed(); unsubMeus && unsubMeus(); unsubConvs && unsubConvs(); unsubFeed = unsubMeus = unsubConvs = null;
+  $('h-msgs').hidden = true;
   for (const p of posts.values()) p.unsub && p.unsub();
   for (const u of meusPosts.values()) u && u();
   posts.clear(); meus.clear(); meusPosts.clear(); $('feed').innerHTML = ''; $('pendentes').innerHTML = ''; limiteFeed = POR_PAGINA;

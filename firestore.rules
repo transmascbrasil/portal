@@ -283,6 +283,53 @@ service cloud.firestore {
       }
     }
 
+    // ---------- Mensagens privadas ----------
+    // Conversa entre duas pessoas: id = os dois uids em ordem alfabética, separados por "_".
+    // Só as duas leem (nem a moderação). Quem bloqueia a conversa impede novas mensagens.
+    function dmMinha(convId) { return cmLogado() && request.auth.uid in convId.split('_'); }
+    function dmUltima(d) {
+      return d.ultimaMsg is map && d.ultimaMsg.keys().hasOnly(['texto','de'])
+        && d.ultimaMsg.de == request.auth.uid
+        && d.ultimaMsg.texto is string && d.ultimaMsg.texto.size() <= 200;
+    }
+    match /conversas/{convId} {
+      allow get: if dmMinha(convId);
+      allow list: if cmLogado() && request.auth.uid in resource.data.participantes;
+      allow create: if cmVerificado() && dmMinha(convId)
+        && request.resource.data.keys().hasOnly(['participantes','criadoEm','atualizadoEm','ultimaMsg','lidoEm'])
+        && request.resource.data.participantes is list && request.resource.data.participantes.size() == 2
+        && request.resource.data.participantes[0] < request.resource.data.participantes[1]
+        && convId == request.resource.data.participantes[0] + '_' + request.resource.data.participantes[1]
+        && exists(/databases/$(database)/documents/membros/$(request.resource.data.participantes[0]))
+        && exists(/databases/$(database)/documents/membros/$(request.resource.data.participantes[1]))
+        && request.resource.data.criadoEm == request.time && request.resource.data.atualizadoEm == request.time
+        && dmUltima(request.resource.data)
+        && request.resource.data.lidoEm is map && request.resource.data.lidoEm.keys().hasOnly([request.auth.uid]);
+      allow update: if dmMinha(convId)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ultimaMsg','atualizadoEm','lidoEm','bloqueadoPor'])
+        && request.resource.data.lidoEm.diff(resource.data.lidoEm).affectedKeys().hasOnly([request.auth.uid])
+        // bloquear: só põe o próprio uid; desbloquear: só quem bloqueou
+        && (resource.data.get('bloqueadoPor', '') == request.resource.data.get('bloqueadoPor', '')
+          || (resource.data.get('bloqueadoPor', '') == '' && request.resource.data.bloqueadoPor == request.auth.uid)
+          || (resource.data.get('bloqueadoPor', '') == request.auth.uid && !('bloqueadoPor' in request.resource.data)))
+        // mandar mensagem: e-mail confirmado, conversa não bloqueada
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['ultimaMsg','atualizadoEm'])
+          || (cmVerificado() && dmUltima(request.resource.data)
+            && request.resource.data.atualizadoEm == request.time
+            && !('bloqueadoPor' in request.resource.data)));
+      match /mensagens/{msgId} {
+        allow read: if dmMinha(convId);
+        allow create: if cmVerificado() && dmMinha(convId)
+          && request.resource.data.keys().hasOnly(['de','texto','criadoEm'])
+          && request.resource.data.de == request.auth.uid
+          && request.resource.data.texto is string
+          && request.resource.data.texto.size() >= 1 && request.resource.data.texto.size() <= 2000
+          && request.resource.data.criadoEm == request.time
+          && existsAfter(cmDoc('conversas/' + convId))
+          && !('bloqueadoPor' in getAfter(cmDoc('conversas/' + convId)).data);
+      }
+    }
+
     // ================= FIM — Comunidade =================
 
     // Todo o resto do banco fica fechado
