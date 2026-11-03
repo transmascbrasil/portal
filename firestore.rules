@@ -16,13 +16,46 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
     }
 
+    // Gestores = dona + quem está na lista com papel "admin" (sem papel = admin, contas antigas).
+    // Só gestores criam/editam/removem usuários e trocam o token do GitHub da equipe.
+    function isGestor() {
+      return isOwner() || (request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.get('papel', 'admin') == 'admin');
+    }
+
+    function adminCamposOk(d) {
+      return d.keys().hasOnly(['email', 'criadoPor', 'criadoEm', 'nome', 'papel', 'tema', 'ultimoAcesso'])
+        && (!('nome' in d) || (d.nome is string && d.nome.size() <= 60))
+        && (!('papel' in d) || d.papel in ['admin', 'editor'])
+        && (!('tema' in d) || d.tema in ['escuro', 'claro', 'auto'])
+        && (!('ultimoAcesso' in d) || (d.ultimoAcesso is string && d.ultimoAcesso.size() <= 40))
+        && (!('email' in d) || (d.email is string && d.email.size() <= 120));
+    }
+
     // ---------- Lista de administradores ----------
     match /admins/{uid} {
       allow read: if isAdmin();
-      allow create, update: if isAdmin()
-        && request.resource.data.keys().hasOnly(['email', 'criadoPor', 'criadoEm']);
+      allow create: if isGestor() && adminCamposOk(request.resource.data);
+      allow update: if adminCamposOk(request.resource.data) && (
+        isGestor()
+        // a própria pessoa muda só nome, tema, último acesso e o e-mail (igual ao da conta)
+        || (isAdmin() && uid == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nome', 'tema', 'ultimoAcesso', 'email'])
+          && request.resource.data.get('email', '') in [resource.data.get('email', ''), request.auth.token.email])
+      );
       // ninguém remove a si mesmo (evita ficar sem nenhum admin por engano)
-      allow delete: if isAdmin() && uid != request.auth.uid;
+      allow delete: if isGestor() && uid != request.auth.uid;
+    }
+
+    // ---------- Token do GitHub da equipe (painel do Instagram) ----------
+    match /segredos/github {
+      allow read: if isAdmin();
+      allow create, update: if isGestor()
+        && request.resource.data.keys().hasOnly(['githubToken', 'salvoEm', 'salvoPor'])
+        && request.resource.data.githubToken is string
+        && request.resource.data.githubToken.size() > 10 && request.resource.data.githubToken.size() < 300;
+      allow delete: if isGestor();
     }
 
     // ---------- Categorias (abas do site) ----------
