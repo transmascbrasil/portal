@@ -24,7 +24,6 @@
 <meta property="og:url" content="https://transmascbrasil.github.io/portal/comunidade.html">
 <meta property="og:image" content="https://transmascbrasil.github.io/portal/img/og-image.png">
 <meta property="og:locale" content="pt_BR">
-<meta name="robots" content="noindex, nofollow"><!-- tirar quando a comunidade for lançada -->
 <meta name="description" content="Área de membros do Portal Transmasc Brasil: perguntas, respostas, publicações e enquetes, com opção de anonimato.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -253,7 +252,7 @@ async function aoMudarLogin(user){
   pararTudo();
   eu = user;
   ['h-eu','h-sair'].forEach(id => $(id).hidden = !user);
-  if (!user) { tela('entrar'); return; }
+  if (!user) { tela('entrar'); if (new URLSearchParams(location.search).has('criar')) mudarAba('criar'); return; }
   tela('carregando');
   verificado = user.emailVerified;
   try {

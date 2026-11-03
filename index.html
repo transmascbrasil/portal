@@ -73,7 +73,9 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdro
   .bar{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:0;gap:8px}
   .brand{font-size:16px;gap:8px}.brand small{font-size:9px}.mark{width:28px;height:28px;border-radius:8px}
   .btn-contrib{padding:7px 12px;font-size:13px}
-  .menu{order:3;width:100%;justify-content:space-around;border-top:1px solid var(--line);padding:4px 0;gap:0}
+  .menu{order:3;width:100%;justify-content:space-between;border-top:1px solid var(--line);padding:4px 0;gap:0;overflow-x:auto;scrollbar-width:none}
+  .menu::-webkit-scrollbar{display:none}
+  .menu a{flex:none}
   .menu a{font-size:13px;padding:8px 6px}
 }
 .more{display:flex;justify-content:center;margin-top:16px}
@@ -90,6 +92,42 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdro
   .contrib-strip{flex-direction:column;align-items:stretch;text-align:center}
   .contrib-strip .btn{justify-content:center}
   .pcard{padding:16px}
+}
+
+
+/* Banner da comunidade */
+#comunidade{scroll-margin-top:72px}
+@media(max-width:820px){#comunidade{scroll-margin-top:100px}}
+.cbanner{position:relative;overflow:hidden;border-radius:28px;background:linear-gradient(125deg,#14254F 0%,#1E3A8A 60%,#3A2A5E 100%);color:#fff;display:grid;grid-template-columns:1.15fr 1fr;gap:34px;align-items:center;padding:40px 44px}
+.cbanner::before{content:"";position:absolute;right:-140px;bottom:-160px;width:460px;height:460px;border-radius:50%;background:conic-gradient(from 200deg,var(--blue),var(--pink),#fff,var(--pink),var(--blue));opacity:.16}
+.cb-txt,.cb-arte{position:relative}
+.cb-novo{display:inline-block;font-weight:900;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:var(--pink);color:var(--navy);padding:5px 12px;border-radius:999px;margin-bottom:16px}
+.cbanner h2{font-size:clamp(28px,3.6vw,42px);font-weight:800}
+.cbanner h2 em{font-style:normal;background:linear-gradient(90deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cbanner p{margin-top:14px;color:#C9D3EA;font-size:16.5px;max-width:540px}
+.cbanner p b{color:#fff}
+.cbanner ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-top:18px;font-weight:700;font-size:15px}
+.cb-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.cb-arte{display:flex;flex-direction:column;gap:12px}
+.cb-post{background:#fff;color:var(--navy);border-radius:18px;padding:14px 16px;box-shadow:0 18px 40px rgba(0,0,0,.28);font-size:14.5px}
+.cb-post p{color:var(--navy);margin-top:8px;font-size:15px;font-weight:600;max-width:none}
+.cb-h{display:flex;gap:10px;align-items:center}
+.cb-h b{display:block;font-size:14px}
+.cb-h small{font-size:12px;color:var(--muted);font-weight:700}
+.cb-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:var(--navy);flex:none}
+.cb-av.anon{background:#2A2F45;font-size:18px}
+.cb-tag{font-style:normal;background:var(--pink-soft);color:#A3324A;padding:1px 7px;border-radius:999px;font-weight:800}
+.cb-r{margin-top:8px;font-size:12.5px;color:var(--muted);font-weight:700}
+.cb-resp{margin-left:34px;transform:rotate(-1deg)}
+.cb-enq{transform:rotate(1.2deg);margin-right:20px}
+.cb-bar{position:relative;display:flex;justify-content:space-between;margin-top:8px;padding:7px 12px;border-radius:10px;background:var(--bg);font-weight:800;font-size:13px;overflow:hidden}
+.cb-bar i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--blue-soft),#F9D3DB)}
+.cb-bar span{position:relative}
+@media(max-width:860px){
+  .cbanner{grid-template-columns:1fr;padding:28px 22px;gap:24px;border-radius:22px}
+  .cbanner ul{grid-template-columns:1fr}
+  .cb-ctas{flex-direction:column}.cb-ctas .btn{justify-content:center}
+  .cb-arte{max-width:420px}
 }
 
 /* Hero */
@@ -336,6 +374,7 @@ svg{flex:none}
       <span>Transmasc Brasil<small>Portal da comunidade</small></span>
     </a>
     <nav class="menu">
+      <a href="#comunidade">Comunidade</a>
       <a href="#indicacoes">Indicações</a>
       <a href="#retificacao">Retificação</a>
       <a href="#barba">Barba</a>
@@ -413,6 +452,45 @@ svg{flex:none}
       <button class="harrow" id="hprev" aria-label="Banner anterior">‹</button>
       <div class="dots" id="hdots"></div>
       <button class="harrow" id="hnext" aria-label="Próximo banner">›</button>
+    </div>
+  </div>
+</section>
+
+<!-- COMUNIDADE -->
+<section class="block" id="comunidade" style="padding-top:36px;padding-bottom:0">
+  <div class="wrap">
+    <div class="cbanner">
+      <div class="cb-txt">
+        <span class="cb-novo">✨ Novo · Comunidade</span>
+        <h2>Um lugar seguro pra <em>perguntar, trocar e se apoiar</em>.</h2>
+        <p>A comunidade do Portal é um espaço só para membros onde você tira dúvidas sobre hormonização, barba, mastectomia, retificação e muito mais, com quem vive o mesmo que você. Pode perguntar com seu nome ou de forma <b>anônima</b>, e tudo passa por moderação.</p>
+        <ul>
+          <li>💬 Perguntas e respostas por tópico</li>
+          <li>🎭 Opção de postar anônimo</li>
+          <li>📊 Enquetes com voto secreto</li>
+          <li>💉 Lembrete da sua aplicação de T</li>
+        </ul>
+        <div class="cb-ctas">
+          <a class="btn btn-pink" href="comunidade.html?criar=1">Criar minha conta grátis</a>
+          <a class="btn btn-ghost" href="comunidade.html">Já tenho conta</a>
+        </div>
+      </div>
+      <div class="cb-arte" aria-hidden="true">
+        <div class="cb-post">
+          <div class="cb-h"><span class="cb-av anon">🎭</span><div><b>Anônimo</b><small><i class="cb-tag">Pergunta</i> · 🧔 Barba e pelos</small></div></div>
+          <p>Com quantos meses de T a barba de vocês começou a aparecer?</p>
+          <div class="cb-r"><span>👍❤️🤗</span> 24 · 12 respostas</div>
+        </div>
+        <div class="cb-post cb-resp">
+          <div class="cb-h"><span class="cb-av" style="background:#F5A9B8">L</span><div><b>Lucas</b><small>em T há 2 anos</small></div></div>
+          <p>Comigo foi lá pelos 8 meses, primeiro no queixo. Paciência que vem! 💙</p>
+        </div>
+        <div class="cb-post cb-enq">
+          <b>📊 Qual binder vocês usam?</b>
+          <div class="cb-bar"><i style="width:62%"></i><span>Meia regata</span><span>62%</span></div>
+          <div class="cb-bar"><i style="width:38%"></i><span>Inteiro</span><span>38%</span></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1125,6 +1203,7 @@ document.addEventListener('click', e => {
   const h = a.getAttribute('href') || '';
   if (/meli\.la|mercadolivre/.test(h)) gtag('event', 'clique_lojinha', { link_url: h, link_text: a.textContent.trim().slice(0,60) });
   else if (/apoia\.se/.test(h)) gtag('event', 'clique_apoiase', { link_url: h });
+  else if (/comunidade\.html/.test(h)) gtag('event', 'clique_comunidade', { link_url: h });
   else if (/^tel:|instagram\.com/.test(h)) gtag('event', 'clique_contato', { link_url: h });
 });
 </script>
