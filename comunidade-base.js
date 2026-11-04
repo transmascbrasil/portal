@@ -145,7 +145,7 @@ const perfis = new Map();
 /* Perfil = membros/{uid} (nome e se é visível) + perfis/{uid} (detalhes).
    Se o perfil é privado, o Firebase não entrega os detalhes para outros membros e fica só o nome.
    Contas antigas ainda podem ter os detalhes direto em membros: valem até a pessoa salvar o perfil de novo. */
-export const CAMPOS_DETALHES = ['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto'];
+export const CAMPOS_DETALHES = ['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto','capa'];
 export function perfilDe(uid, recarregar){
   if (recarregar || !perfis.has(uid)) perfis.set(uid, (async () => {
     const m = await fb.getDoc(fb.doc(db, 'membros', uid)).then(s => s.exists() ? s.data() : null).catch(() => null);
@@ -217,9 +217,11 @@ export async function comprimir(file, lado, alvo, quadrado){
   try {
     const img = await new Promise((ok, erro) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => erro(new Error('formato')); i.src = src; });
     let q = .82, out = '';
-    /* foto de perfil: corta o centro num quadrado */
-    const lw = quadrado ? Math.min(img.naturalWidth, img.naturalHeight) : img.naturalWidth;
-    const lh = quadrado ? lw : img.naturalHeight;
+    /* recorte do centro: true = quadrado (foto de perfil); número = proporção largura/altura (ex.: 3 para a capa) */
+    const prop = quadrado === true ? 1 : typeof quadrado === 'number' ? quadrado : null;
+    const W = img.naturalWidth, H = img.naturalHeight;
+    const lw = !prop ? W : W / H > prop ? Math.round(H * prop) : W;
+    const lh = !prop ? H : W / H > prop ? H : Math.round(W / prop);
     const sx = (img.naturalWidth - lw) / 2, sy = (img.naturalHeight - lh) / 2;
     for (let t = 0; t < 10; t++) {
       const s = Math.min(1, lado / Math.max(lw, lh));
