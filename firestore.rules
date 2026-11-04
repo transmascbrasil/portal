@@ -156,11 +156,10 @@ service cloud.firestore {
     }
 
     function cmTexto(d, k, max) { return !(k in d) || (d[k] is string && d[k].size() <= max); }
-    function cmPerfil(d) {
-      return d.keys().hasOnly(['nome','criadoEm','pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto'])
-        && d.nome is string && d.nome.size() >= 2 && d.nome.size() <= 40
-        && !(d.nome.lower() in ['anônimo','anonimo'])
-        && cmTexto(d, 'pronomes', 30) && cmTexto(d, 'cidade', 60) && cmTexto(d, 'estado', 2)
+    // Detalhes do perfil (foto, cidade, tempo em T, bio...). Ficam em perfis/{uid}, separados do nome,
+    // para o Firebase conseguir esconder tudo quando a pessoa deixa o perfil privado.
+    function cmDetalhes(d) {
+      return cmTexto(d, 'pronomes', 30) && cmTexto(d, 'cidade', 60) && cmTexto(d, 'estado', 2)
         && cmTexto(d, 'emTdesde', 10) && cmTexto(d, 'bio', 600) && cmTexto(d, 'instagram', 40)
         && cmTexto(d, 'foto', 90000)
         && (!('curiosidades' in d) || (d.curiosidades is map
@@ -169,8 +168,16 @@ service cloud.firestore {
           && cmTexto(d.curiosidades, 'marco', 200) && cmTexto(d.curiosidades, 'orgulho', 200)
           && cmTexto(d.curiosidades, 'dica', 200)));
     }
+    // membros/{uid}: o nome (sempre visível, aparece nas publicações e mensagens) e se o perfil é visível.
+    // Os campos de detalhes ainda são aceitos aqui só para contas antigas; ao salvar o perfil eles vão para perfis/{uid}.
+    function cmPerfil(d) {
+      return d.keys().hasOnly(['nome','criadoEm','visivel','pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto'])
+        && d.nome is string && d.nome.size() >= 2 && d.nome.size() <= 40
+        && !(d.nome.lower() in ['anônimo','anonimo'])
+        && (!('visivel' in d) || d.visivel is bool)
+        && cmDetalhes(d);
+    }
 
-    // Perfil público: membros logados leem; só a própria pessoa edita
     match /membros/{uid} {
       allow read: if cmLogado();
       allow create: if cmLogado() && request.auth.uid == uid
@@ -178,6 +185,17 @@ service cloud.firestore {
       allow update: if cmLogado() && request.auth.uid == uid
         && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['criadoEm'])
         && cmPerfil(request.resource.data);
+    }
+
+    match /perfis/{uid} {
+      // perfil visível (padrão): membros logados veem; privado: só a própria pessoa e a moderação
+      allow get: if cmLogado() && (request.auth.uid == uid || cmAdmin()
+        || get(/databases/$(database)/documents/membros/$(uid)).data.get('visivel', true) == true);
+      allow list: if cmAdmin();
+      allow create, update: if cmLogado() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto'])
+        && cmDetalhes(request.resource.data);
+      allow delete: if cmLogado() && request.auth.uid == uid;
     }
 
     // Contas suspensas: só a moderação cria/remove; a pessoa consegue saber que está suspensa

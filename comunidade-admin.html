@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261104b">
+<link rel="stylesheet" href="comunidade.css?v=20261105">
 <style>
 header.adm{background:var(--navy);border:0}
 header.adm .brand,header.adm .hlinks a,header.adm .hlinks button{color:#fff}
@@ -161,10 +161,10 @@ select.input{appearance:auto}
 
 <script type="module">
 import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, quando, avatar, avatarDe, nomeDe,
-  hidratarAvatares, perfilDe, midiaHtml, chipTopico, MOTIVOS, textoHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js?v=20261104b';
+  hidratarAvatares, perfilDe, midiaHtml, chipTopico, MOTIVOS, textoHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js?v=20261105';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
-let pend = [], recus = [], pubs = [], membros = [], suspensos = new Set(), denuncias = [], denFiltro = 'aberta';
+let pend = [], recus = [], pubs = [], membros = [], detalhes = {}, suspensos = new Set(), denuncias = [], denFiltro = 'aberta';
 let subs = [], recusando = null;
 $('h-com').href = url('comunidade.html'); $('h-brand').href = url('comunidade.html');
 
@@ -207,6 +207,10 @@ function ouvir(){
     membros = snap.docs.map(s => ({ uid: s.id, ...s.data() })).sort((a, b) => ms(b.criadoEm) - ms(a.criadoEm));
     renderMembros(); resumo();
   }, err => toast(traduzErro(err))));
+  /* detalhes do perfil (cidade, tempo em T...) ficam em perfis/{uid}; a moderação lê todos, até os privados */
+  subs.push(fb.onSnapshot(fb.collection(db, 'perfis'), snap => {
+    detalhes = Object.fromEntries(snap.docs.map(s => [s.id, s.data()])); renderMembros();
+  }, err => console.error(err)));
   subs.push(fb.onSnapshot(fb.collection(db, 'denuncias'), snap => {
     denuncias = snap.docs.map(s => ({ id: s.id, ...s.data({ serverTimestamps:'estimate' }) })).sort((a, b) => ms(b.criadoEm) - ms(a.criadoEm));
     renderDenuncias(); resumo();
@@ -254,11 +258,11 @@ function renderPublicados(){
 }
 function renderMembros(){
   const q = $('busca').value.trim().toLowerCase();
-  const lista = membros.filter(m => !q || (m.nome + ' ' + (m.cidade || '') + ' ' + (m.estado || '')).toLowerCase().includes(q));
+  const lista = membros.map(m => ({ ...m, ...(detalhes[m.uid] || {}) })).filter(m => !q || (m.nome + ' ' + (m.cidade || '') + ' ' + (m.estado || '')).toLowerCase().includes(q));
   $('l-membros').innerHTML = lista.length ? lista.map(m => {
     const t = tempoEmT(m.emTdesde), s = suspensos.has(m.uid);
     return `<div class="membro${s ? ' susp' : ''}">${avatarDe(m.nome, m.uid, true)}
-      <div class="txt"><a class="nome" href="${url('perfil.html?u=' + m.uid)}" target="_blank"><b>${esc(m.nome)}</b></a>${s ? ' <span class="tag recusado" style="display:inline">suspenso</span>' : ''}
+      <div class="txt"><a class="nome" href="${url('perfil.html?u=' + m.uid)}" target="_blank"><b>${esc(m.nome)}</b></a>${s ? ' <span class="tag recusado" style="display:inline">suspenso</span>' : ''}${m.visivel === false ? ' <span class="tag" style="display:inline">🔒 privado</span>' : ''}
         <span>${[m.cidade && esc(m.cidade + (m.estado ? '/' + m.estado : '')), t && 'em T há ' + t.texto, m.criadoEm && 'entrou ' + quando(m.criadoEm)].filter(Boolean).join(' · ') || '—'}</span></div>
       <button class="btn ${s ? 'btn-line' : 'btn-bad'} btn-sm" data-suspender="${m.uid}" data-nome="${esc(m.nome)}">${s ? 'Reativar' : 'Suspender'}</button></div>`;
   }).join('') : '<div class="vazio"><b>Nenhum membro encontrado</b></div>';
