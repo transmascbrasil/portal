@@ -110,10 +110,10 @@ service cloud.firestore {
     // ================= INÍCIO — Comunidade =================
 
     function cmLogado() { return request.auth != null; }
-    // Para escrever é preciso ter confirmado o e-mail (barra contas falsas em massa)
-    // e não estar suspenso pela moderação
+    // Pode participar: estar logado e não estar suspenso pela moderação.
+    // (Não exige mais e-mail confirmado: os e-mails de confirmação do Firebase não chegavam.)
     function cmVerificado() {
-      return cmLogado() && request.auth.token.email_verified == true
+      return cmLogado()
         && !exists(/databases/$(database)/documents/bloqueados/$(request.auth.uid));
     }
     // moderação = mesmos administradores do portal (inclui a conta dona)
