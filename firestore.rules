@@ -162,6 +162,10 @@ service cloud.firestore {
       return cmTexto(d, 'pronomes', 30) && cmTexto(d, 'cidade', 60) && cmTexto(d, 'estado', 2)
         && cmTexto(d, 'emTdesde', 10) && cmTexto(d, 'bio', 600) && cmTexto(d, 'instagram', 40)
         && cmTexto(d, 'foto', 90000) && cmTexto(d, 'capa', 220000)
+        // listas iguais às de comunidade-base.js
+        && (!('genero' in d) || d.genero in ['homem_trans','mulher_trans','homem_cis','mulher_cis','nao_binario','nd'])
+        && (!('orientacao' in d) || d.orientacao in ['hetero','homo','bi','pan','assexual','demi','queer','questionando','nd'])
+        && (!('estadoCivil' in d) || d.estadoCivil in ['solteiro','ficando','enrolado','namorando','noivo','casado','uniao','aberto','separado','viuvo','nd'])
         && (!('curiosidades' in d) || (d.curiosidades is map
           && d.curiosidades.keys().hasOnly(['musica','hobby','marco','orgulho','dica'])
           && cmTexto(d.curiosidades, 'musica', 200) && cmTexto(d.curiosidades, 'hobby', 200)
@@ -193,9 +197,21 @@ service cloud.firestore {
         || get(/databases/$(database)/documents/membros/$(uid)).data.get('visivel', true) == true);
       allow list: if cmAdmin();
       allow create, update: if cmLogado() && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto','capa'])
+        && request.resource.data.keys().hasOnly(['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto','capa','genero','orientacao','estadoCivil'])
         && cmDetalhes(request.resource.data);
       allow delete: if cmLogado() && request.auth.uid == uid;
+    }
+
+    // Dados da conta (e-mail e data de nascimento): só a própria pessoa e a moderação veem
+    match /contas/{uid} {
+      allow get: if cmLogado() && (request.auth.uid == uid || cmAdmin());
+      allow list: if cmAdmin();
+      allow create, update: if cmLogado() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['email','nascimento','atualizadoEm'])
+        && request.resource.data.email == request.auth.token.email
+        && (!('nascimento' in request.resource.data) || (request.resource.data.nascimento is string
+          && request.resource.data.nascimento.matches('^[12][0-9]{3}-[01][0-9]-[0-3][0-9]$')))
+        && request.resource.data.atualizadoEm == request.time;
     }
 
     // Contas suspensas: só a moderação cria/remove; a pessoa consegue saber que está suspensa
