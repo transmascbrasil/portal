@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261108">
+<link rel="stylesheet" href="comunidade.css?v=20261109">
 <style>
 header.adm{background:var(--navy);border:0}
 header.adm .brand,header.adm .hlinks a,header.adm .hlinks button{color:#fff}
@@ -117,7 +117,7 @@ select.input{appearance:auto}
     <div class="tabsbar" role="tablist">
       <button role="tab" aria-selected="true" data-aba="pendentes">Em análise<span class="badge" id="b-pend" hidden></span></button>
       <button role="tab" aria-selected="false" data-aba="denuncias">🚩 Denúncias<span class="badge" id="b-den" hidden></span></button>
-      <button role="tab" aria-selected="false" data-aba="namoro">💘 Namoro<span class="badge" id="b-nm" hidden></span></button>
+      <button role="tab" aria-selected="false" data-aba="namoro" hidden>💘 Namoro<span class="badge" id="b-nm" hidden></span></button>
       <button role="tab" aria-selected="false" data-aba="recusados">Não aprovadas</button>
       <button role="tab" aria-selected="false" data-aba="publicados">Publicadas</button>
       <button role="tab" aria-selected="false" data-aba="membros">Membros</button>
@@ -175,7 +175,7 @@ select.input{appearance:auto}
 
 <script type="module">
 import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, quando, avatar, avatarDe, nomeDe,
-  hidratarAvatares, perfilDe, midiaHtml, chipTopico, MOTIVOS, textoHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js?v=20261108';
+  hidratarAvatares, perfilDe, midiaHtml, chipTopico, MOTIVOS, textoHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js?v=20261109';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
 let nmPerfis = [], nmFiltro = 'pendente', pend = [], recus = [], pubs = [], membros = [], detalhes = {}, suspensos = new Set(), denuncias = [], denFiltro = 'aberta';
