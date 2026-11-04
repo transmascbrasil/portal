@@ -344,7 +344,7 @@ textarea.input{resize:vertical}
 
 <script type="module">
 import { carregarFirebase, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, avatarDe, hidratarAvatares, perfilDe,
-  comprimir, abrirModal, fecharModal, IMG_RE, tempoEmT, dataLocal, isoDe, hojeIso, diasEntre, dataBonita,
+  sessaoValida, comprimir, abrirModal, fecharModal, IMG_RE, tempoEmT, dataLocal, isoDe, hojeIso, diasEntre, dataBonita,
   LOJA_PADRAO, lojaHtml, abrirDenuncia, idConversa, outroDe, naoLida, ouvirConversas, ms, textoHtml, quando } from './comunidade-base.js';
 
 const UFS = 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
@@ -388,6 +388,7 @@ async function iniciar(){
     eu = user;
     $('h-eu').hidden = $('h-sair').hidden = !user;
     if (!user) return tela('fora');
+    if (!await sessaoValida(user)) return;   // conta apagada ou senha trocada: o signOut leva para a tela de entrada
     meu = await perfilDe(user.uid, true);
     if (!meu) { location.href = url('comunidade.html'); return; }   // perfil é criado no primeiro acesso à comunidade
     $('h-nome').textContent = meu.nome; $('h-av').innerHTML = avatarDe(meu.nome, user.uid, true); $('h-eu').href = url('perfil.html');
