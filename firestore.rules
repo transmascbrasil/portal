@@ -189,6 +189,8 @@ service cloud.firestore {
       allow update: if cmLogado() && request.auth.uid == uid
         && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['criadoEm'])
         && cmPerfil(request.resource.data);
+      // a pessoa pode excluir a própria conta (LGPD)
+      allow delete: if cmLogado() && request.auth.uid == uid;
     }
 
     match /perfis/{uid} {
@@ -207,11 +209,19 @@ service cloud.firestore {
       allow get: if cmLogado() && (request.auth.uid == uid || cmAdmin());
       allow list: if cmAdmin();
       allow create, update: if cmLogado() && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['email','nascimento','atualizadoEm'])
+        && request.resource.data.keys().hasOnly(['email','nascimento','aceite','sensiveis','atualizadoEm'])
         && request.resource.data.email == request.auth.token.email
         && (!('nascimento' in request.resource.data) || (request.resource.data.nascimento is string
           && request.resource.data.nascimento.matches('^[12][0-9]{3}-[01][0-9]-[0-3][0-9]$')))
+        // registro do aceite dos Termos/Política e do consentimento para dados sensíveis (LGPD)
+        && (!('aceite' in request.resource.data) || (request.resource.data.aceite is map
+          && request.resource.data.aceite.keys().hasOnly(['versao','em'])
+          && request.resource.data.aceite.versao is string && request.resource.data.aceite.versao.size() <= 20))
+        && (!('sensiveis' in request.resource.data) || (request.resource.data.sensiveis is map
+          && request.resource.data.sensiveis.keys().hasOnly(['autorizado','em'])
+          && request.resource.data.sensiveis.autorizado is bool))
         && request.resource.data.atualizadoEm == request.time;
+      allow delete: if cmLogado() && request.auth.uid == uid;
     }
 
     // Contas suspensas: só a moderação cria/remove; a pessoa consegue saber que está suspensa
