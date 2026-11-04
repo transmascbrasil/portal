@@ -240,6 +240,14 @@ service cloud.firestore {
           : !('opcoes' in d) && !('contagem' in d));
     }
 
+    // Campos que uma edição pode mudar (tipo, anonimato e enquete não mudam)
+    function cmEdicao(d) {
+      return (!('texto' in d) || (d.texto is string && d.texto.size() <= 5000))
+        && (!('topicos' in d) || (d.topicos is list && d.topicos.size() >= 1 && d.topicos.size() <= 3 && d.topicos.hasOnly(cmTopicos())))
+        && (!('imagens' in d) || (d.imagens is list && d.imagens.size() <= 4))
+        && (!('video' in d) || (d.video is string && d.video.size() <= 500));
+    }
+
     // Toda publicação nasce aqui e só vai para forum_posts quando a moderação aprova
     match /forum_pendentes/{postId} {
       allow read: if cmLogado() && (cmAutorDe(postId) || cmAdmin());
@@ -267,7 +275,12 @@ service cloud.firestore {
         && request.resource.data.publicadoEm == request.time
         && request.resource.data.anonimo is bool
         && cmPostValido(request.resource.data);
-      allow update: if cmVerificado() && (cmReacao() || cmVoto(postId));
+      allow update: if (cmVerificado() && (cmReacao() || cmVoto(postId)))
+        // moderação edita direto (inclusive aplicando a edição que quem publicou enviou)
+        || (cmAdmin()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['texto','topicos','imagens','video','editadoEm'])
+          && request.resource.data.editadoEm == request.time
+          && cmEdicao(request.resource.data));
       allow delete: if cmLogado() && (cmAutorDe(postId) || cmAdmin());
 
       match /votos/{uid} {
@@ -299,6 +312,18 @@ service cloud.firestore {
         // (ordem importa: num lote que apaga vários comentários, as duas primeiras leem sempre os mesmos documentos)
         allow delete: if cmLogado() && (cmAutorDe(postId) || cmAdmin() || cmAutorDe(cId));
       }
+    }
+
+    // Edição enviada por quem publicou: fica aqui até a moderação aprovar (a versão antiga continua no ar)
+    match /forum_edicoes/{postId} {
+      allow read: if cmLogado() && (cmAutorDe(postId) || cmAdmin());
+      allow create, update: if cmVerificado() && cmAutorDe(postId)
+        && exists(cmDoc('forum_posts/' + postId))
+        && request.resource.data.keys().hasOnly(['texto','topicos','imagens','video','criadoEm'])
+        && request.resource.data.criadoEm == request.time
+        && 'texto' in request.resource.data && 'topicos' in request.resource.data
+        && cmEdicao(request.resource.data);
+      allow delete: if cmLogado() && (cmAutorDe(postId) || cmAdmin());
     }
 
     // ---------- Mensagens privadas ----------
