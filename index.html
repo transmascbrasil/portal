@@ -377,8 +377,8 @@ svg{flex:none}
       <span>Transmasc Brasil<small>Portal da comunidade</small></span>
     </a>
     <nav class="menu">
-      <a href="#comunidade">Comunidade</a>
       <a href="#indicacoes">Indicações</a>
+      <a href="#comunidade">Comunidade</a>
       <a href="#apoie">Apoie</a>
     </nav>
     <button class="btn btn-navy btn-contrib" onclick="openModal()">+ Contribuir</button>
@@ -456,8 +456,39 @@ svg{flex:none}
   </div>
 </section>
 
+<!-- INDICAÇÕES -->
+<section class="block" id="indicacoes" style="padding-top:36px">
+  <div class="wrap">
+    <div class="shead">
+      <div>
+        <div class="kicker">Diretório</div>
+        <h2>Indicações da comunidade</h2>
+        <p>Filtre por estado, convênio ou busque pelo nome e cidade. Toque no contato para ligar ou abrir o perfil.</p>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" id="tabs"></div>
+
+    <div class="filters">
+      <div class="field"><label for="f-busca">Buscar</label><input id="f-busca" class="input" type="search" placeholder="Nome ou cidade…" oninput="filtrarLista()"></div>
+      <div class="field"><label for="filter-estado">Estado</label><select id="filter-estado" class="input" onchange="filtrarLista()"><option value="todos">Todos</option></select></div>
+      <div class="field"><label for="filter-convenio">Convênio</label><select id="filter-convenio" class="input" onchange="filtrarLista()"><option value="todos">Todos</option></select></div>
+    </div>
+
+    <div class="results-meta" id="results-meta"></div>
+    <div id="loading-indicator" class="loading">Carregando indicações…</div>
+    <div id="data-list" class="cards" hidden></div>
+    <div id="ver-mais" class="more"></div>
+
+    <div class="contrib-strip">
+      <p>Conhece um profissional respeitoso que não está aqui? Sua indicação ajuda muita gente.</p>
+      <button class="btn btn-navy" onclick="openModal()">+ Contribuir com indicação</button>
+    </div>
+  </div>
+</section>
+
 <!-- COMUNIDADE -->
-<section class="block" id="comunidade" style="padding-top:36px;padding-bottom:0">
+<section class="block" id="comunidade" style="padding-top:0;padding-bottom:0">
   <div class="wrap">
     <div class="cbanner">
       <div class="cb-txt">
@@ -494,37 +525,6 @@ svg{flex:none}
           <div class="cb-bar"><i style="width:15%"></i><span>Fita</span><span>15%</span></div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- INDICAÇÕES -->
-<section class="block" id="indicacoes" style="padding-top:36px">
-  <div class="wrap">
-    <div class="shead">
-      <div>
-        <div class="kicker">Diretório</div>
-        <h2>Indicações da comunidade</h2>
-        <p>Filtre por estado, convênio ou busque pelo nome e cidade. Toque no contato para ligar ou abrir o perfil.</p>
-      </div>
-    </div>
-
-    <div class="tabs" role="tablist" id="tabs"></div>
-
-    <div class="filters">
-      <div class="field"><label for="f-busca">Buscar</label><input id="f-busca" class="input" type="search" placeholder="Nome ou cidade…" oninput="filtrarLista()"></div>
-      <div class="field"><label for="filter-estado">Estado</label><select id="filter-estado" class="input" onchange="filtrarLista()"><option value="todos">Todos</option></select></div>
-      <div class="field"><label for="filter-convenio">Convênio</label><select id="filter-convenio" class="input" onchange="filtrarLista()"><option value="todos">Todos</option></select></div>
-    </div>
-
-    <div class="results-meta" id="results-meta"></div>
-    <div id="loading-indicator" class="loading">Carregando indicações…</div>
-    <div id="data-list" class="cards" hidden></div>
-    <div id="ver-mais" class="more"></div>
-
-    <div class="contrib-strip">
-      <p>Conhece um profissional respeitoso que não está aqui? Sua indicação ajuda muita gente.</p>
-      <button class="btn btn-navy" onclick="openModal()">+ Contribuir com indicação</button>
     </div>
   </div>
 </section>
