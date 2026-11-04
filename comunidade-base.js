@@ -53,10 +53,10 @@ export async function carregarFirebase(){
   }
   return { fb, auth, db };
 }
-/* É da moderação? Quem pode ler a lista de admins (a conta dona ou quem está em "admins") é moderação.
-   Ler em vez de procurar o próprio documento inclui a conta dona, que não precisa estar na lista. */
+/* É da moderação? Tenta ler o próprio registro em "admins": as regras só deixam a moderação (incluindo
+   a conta dona, que não precisa estar na lista) ler ali, exista o registro ou não. */
 export function ehModeracao(){
-  return fb.getDocs(fb.query(fb.collection(db, 'admins'), fb.limit(1))).then(() => true).catch(() => false);
+  return fb.getDoc(fb.doc(db, 'admins', auth.currentUser.uid)).then(() => true).catch(() => false);
 }
 /* Confere se a conta logada ainda existe (pode ter sido apagada ou ter a senha trocada em outro lugar).
    Se não existir, sai e devolve false, para a página voltar à tela de entrada. */
