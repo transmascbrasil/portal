@@ -747,7 +747,10 @@ function marcarLida(){
 window.enviarMsg = async e => {
   e.preventDefault();
   const texto = $('dm-texto').value.trim(); if (!texto || !convAberta) return;
-  const id = convAberta, existe = convs.some(c => c.id === id);
+  const id = convAberta;
+  /* confere direto no banco se a conversa já existe (não depende da lista ter carregado) */
+  let existe = convs.some(c => c.id === id);
+  if (!existe) existe = await fb.getDoc(fb.doc(db, 'conversas', id)).then(d => d.exists()).catch(() => false);
   const ultimaMsg = { texto: texto.slice(0, 200), de: eu.uid };
   const b = fb.writeBatch(db);
   b.set(fb.doc(fb.collection(db, 'conversas', id, 'mensagens')), { de: eu.uid, texto, criadoEm: fb.serverTimestamp() });
@@ -755,7 +758,7 @@ window.enviarMsg = async e => {
   else b.set(fb.doc(db, 'conversas', id), { participantes: id.split('_'), criadoEm: fb.serverTimestamp(), atualizadoEm: fb.serverTimestamp(), ultimaMsg, lidoEm: { [eu.uid]: fb.serverTimestamp() } });
   $('dm-enviar').disabled = true;
   try { await b.commit(); $('dm-texto').value = ''; $('dm-texto').style.height = ''; }
-  catch (err) { toast(traduzErro(err)); }
+  catch (err) { console.error('Erro ao enviar mensagem:', err); toast(String(err.code).includes('permission') ? 'Sem permissão para enviar. Confira se as regras de mensagens estão publicadas no Firebase.' : traduzErro(err)); }
   finally { $('dm-enviar').disabled = false; }
 };
 $('dm-texto').addEventListener('input', () => { const t = $('dm-texto'); t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; });
