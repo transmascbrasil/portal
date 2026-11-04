@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261110">
+<link rel="stylesheet" href="comunidade.css?v=20261111">
 </head>
 <body>
 
@@ -85,6 +85,9 @@
       </form>
       <form id="f-criar" class="stack" onsubmit="criarConta(event)" hidden>
         <div class="field"><label for="c-nome">Como quer ser chamado(a)?</label><input class="input" id="c-nome" maxlength="40" minlength="2" autocomplete="nickname" required placeholder="Pode ser apelido"></div>
+        <div class="field"><label for="c-nasc">Data de nascimento</label><input class="input" id="c-nasc" type="date" required>
+          <span class="small">Não aparece para outros membros.</span></div>
+        <div class="field"><label for="c-genero">Identidade de gênero</label><select class="input" id="c-genero" required style="appearance:auto"></select></div>
         <div class="field"><label for="c-email">E-mail</label><input class="input" id="c-email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="c-senha">Senha (mínimo 8 caracteres)</label><input class="input" id="c-senha" type="password" minlength="8" autocomplete="new-password" required></div>
         <div class="field"><label for="c-senha2">Repita a senha</label><input class="input" id="c-senha2" type="password" minlength="8" autocomplete="new-password" required></div>
@@ -92,7 +95,7 @@
         <div class="small" id="regras-entrada" hidden></div>
         <p class="err" id="c-err" hidden></p>
         <button class="btn btn-navy" id="b-criar">Criar conta</button>
-        <p class="small">Seu e-mail nunca aparece para outros membros. Ele serve para entrar e para recuperar a senha.</p>
+        <p class="small">Seu e-mail e sua data de nascimento nunca aparecem para outros membros: só a moderação vê. O e-mail serve para entrar e para recuperar a senha.</p>
       </form>
     </div>
   </section>
@@ -234,7 +237,7 @@
 <script type="module">
 import { carregarFirebase, ehModeracao, sessaoValida, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
   hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
-  ouvirConversas, naoLida, abrirDenuncia, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js?v=20261110';
+  ouvirConversas, naoLida, abrirDenuncia, GENEROS, opcoesHtml, idadeDe, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js?v=20261111';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
 const DICAS = { post:'No que você está pensando?', pergunta:'Qual é a sua dúvida? Conte um pouco do contexto…', enquete:'Qual é a pergunta da enquete?' };
@@ -281,6 +284,7 @@ async function aoMudarLogin(user){
     console.error(err); tela('entrar'); mostrarErro('e-err', traduzErro(err)); return;
   }
   souAdmin = await ehModeracao();
+  registrarEmail(user);
   const bloqueado = await fb.getDoc(fb.doc(db, 'bloqueados', user.uid)).then(s => s.exists()).catch(() => false);
   if (bloqueado) verificado = false;
   abrirForum(bloqueado);
@@ -291,6 +295,8 @@ window.mudarAba = aba => {
   $('aba-criar').setAttribute('aria-selected', aba === 'criar');
   $('f-entrar').hidden = aba !== 'entrar'; $('f-criar').hidden = aba !== 'criar';
 };
+$('c-genero').innerHTML = opcoesHtml(GENEROS, '', 'Escolha…');
+$('c-nasc').max = new Date().toISOString().slice(0, 10);
 $('regras-entrada').innerHTML = '<ol style="padding-left:18px;display:flex;flex-direction:column;gap:4px">' + $('regras').innerHTML + '</ol>';
 
 window.entrar = async e => {
@@ -330,11 +336,17 @@ window.criarConta = async e => {
   if (nome.length < 2) return mostrarErro('c-err', 'Escolha um nome com pelo menos 2 letras.');
   if (/^an[oô]nimo$/i.test(nome)) return mostrarErro('c-err', 'Escolha outro nome: “Anônimo” é usado nas publicações anônimas.');
   if ($('c-senha').value !== $('c-senha2').value) return mostrarErro('c-err', 'As senhas não são iguais.');
+  const nasc = $('c-nasc').value, idade = idadeDe(nasc);
+  if (idade === null || idade < 0 || idade > 110) return mostrarErro('c-err', 'Confira a data de nascimento.');
+  if (!$('c-genero').value) return mostrarErro('c-err', 'Escolha sua identidade de gênero (ou “Prefiro não declarar”).');
   const b = $('b-criar'); b.disabled = true; b.textContent = 'Criando…';
   criandoConta = true;
   try {
     const cred = await fb.createUserWithEmailAndPassword(auth, $('c-email').value.trim(), $('c-senha').value);
     await fb.setDoc(fb.doc(db, 'membros', cred.user.uid), { nome, criadoEm: fb.serverTimestamp() });
+    /* e-mail e nascimento: só a pessoa e a moderação leem; identidade de gênero vai para o perfil (editável) */
+    await fb.setDoc(fb.doc(db, 'contas', cred.user.uid), { email: cred.user.email, nascimento: nasc, atualizadoEm: fb.serverTimestamp() }).catch(err => console.error(err));
+    await fb.setDoc(fb.doc(db, 'perfis', cred.user.uid), { genero: $('c-genero').value }).catch(err => console.error(err));
     await fb.updateProfile(cred.user, { displayName: nome }).catch(() => {});
     criandoConta = false;
     await aoMudarLogin(cred.user);
@@ -410,6 +422,15 @@ function pararTudo(){
   for (const p of posts.values()) p.unsub && p.unsub();
   for (const u of meusPosts.values()) u && u();
   posts.clear(); meus.clear(); meusPosts.clear(); $('feed').innerHTML = ''; $('pendentes').innerHTML = ''; limiteFeed = POR_PAGINA;
+}
+
+/* Guarda o e-mail da conta em contas/{uid} (só a pessoa e a moderação leem), para contas criadas antes disso */
+async function registrarEmail(user){
+  try {
+    const c = await fb.getDoc(fb.doc(db, 'contas', user.uid));
+    if (!c.exists() || c.data().email !== user.email)
+      await fb.setDoc(fb.doc(db, 'contas', user.uid), { email: user.email, atualizadoEm: fb.serverTimestamp() }, { merge: true });
+  } catch (err) { console.error(err); }
 }
 
 /* Banner "Namoro em breve" (quem fecha não vê de novo neste aparelho) */

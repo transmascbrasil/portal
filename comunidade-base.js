@@ -23,6 +23,18 @@ export const REACOES = {
   haha:['😂','Haha','#C98A00'], uau:['😮','Uau','#C98A00'], triste:['😢','Triste','#C98A00'], grr:['😡','Grr','#D9480F']
 };
 export const TIPOS = { post:'Publicação', pergunta:'Pergunta', enquete:'Enquete' };
+/* Dados de identidade do perfil (valor guardado -> texto mostrado). Para mudar, altere aqui E as listas em firestore.rules. */
+export const GENEROS = { homem_trans:'Homem trans', mulher_trans:'Mulher trans', homem_cis:'Homem cis', mulher_cis:'Mulher cis', nao_binario:'Pessoa não binária', nd:'Prefiro não declarar' };
+export const ORIENTACOES = { hetero:'Heterossexual', homo:'Homossexual (gay/lésbica)', bi:'Bissexual', pan:'Pansexual', assexual:'Assexual', demi:'Demissexual', queer:'Queer', questionando:'Ainda descobrindo', nd:'Prefiro não declarar' };
+export const ESTADOS_CIVIS = { solteiro:'Solteiro(a)', ficando:'Ficando', enrolado:'Enrolado(a)', namorando:'Namorando', noivo:'Noivo(a)', casado:'Casado(a)', uniao:'União estável', aberto:'Relacionamento aberto', separado:'Separado(a) / divorciado(a)', viuvo:'Viúvo(a)', nd:'Prefiro não declarar' };
+export const opcoesHtml = (mapa, atual, vazio = 'Escolha…') => `<option value="">${vazio}</option>` + Object.entries(mapa).map(([k, v]) => `<option value="${k}"${k === atual ? ' selected' : ''}>${v}</option>`).join('');
+/* idade a partir de "AAAA-MM-DD" */
+export function idadeDe(iso){
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso || '')) return null;
+  const [a, m, d] = iso.split('-').map(Number), h = new Date();
+  let i = h.getFullYear() - a; if (h.getMonth() + 1 < m || (h.getMonth() + 1 === m && h.getDate() < d)) i--;
+  return i;
+}
 /* Tópicos da comunidade. Para mudar a lista, altere aqui E a lista em cmTopicos() no firestore.rules */
 export const TOPICOS = [
   ['hormonizacao','💉','Hormonização'], ['barba','🧔','Barba e pelos'], ['mastectomia','🩹','Mastectomia'],
@@ -145,7 +157,7 @@ const perfis = new Map();
 /* Perfil = membros/{uid} (nome e se é visível) + perfis/{uid} (detalhes).
    Se o perfil é privado, o Firebase não entrega os detalhes para outros membros e fica só o nome.
    Contas antigas ainda podem ter os detalhes direto em membros: valem até a pessoa salvar o perfil de novo. */
-export const CAMPOS_DETALHES = ['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto','capa'];
+export const CAMPOS_DETALHES = ['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto','capa','genero','orientacao','estadoCivil'];
 export function perfilDe(uid, recarregar){
   if (recarregar || !perfis.has(uid)) perfis.set(uid, (async () => {
     const m = await fb.getDoc(fb.doc(db, 'membros', uid)).then(s => s.exists() ? s.data() : null).catch(() => null);
