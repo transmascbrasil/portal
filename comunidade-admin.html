@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261111">
+<link rel="stylesheet" href="comunidade.css?v=20261112">
 <style>
 header.adm{background:var(--navy);border:0}
 header.adm .brand,header.adm .hlinks a,header.adm .hlinks button{color:#fff}
@@ -198,7 +198,7 @@ select.input{appearance:auto}
 
 <script type="module">
 import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, quando, avatar, avatarDe, nomeDe,
-  hidratarAvatares, perfilDe, midiaHtml, chipTopico, GENEROS, ORIENTACOES, ESTADOS_CIVIS, idadeDe, MOTIVOS, textoHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js?v=20261111';
+  hidratarAvatares, perfilDe, midiaHtml, chipTopico, GENEROS, ORIENTACOES, ESTADOS_CIVIS, idadeDe, MOTIVOS, textoHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js?v=20261112';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
 let contas = {}, edicoes = [], nmPerfis = [], nmFiltro = 'pendente', pend = [], recus = [], pubs = [], membros = [], detalhes = {}, suspensos = new Set(), denuncias = [], denFiltro = 'aberta';
@@ -325,6 +325,8 @@ function dadosMembro(m){
     ['Instagram', m.instagram ? '@' + m.instagram : ''],
     ['Sobre', m.bio || ''],
     ...Object.entries(CURIS_ADM).map(([k, l]) => [l, (m.curiosidades || {})[k] || '']),
+    ['Aceite dos termos', c.aceite ? `versão ${c.aceite.versao} em ${(x => x && x.em && x.em.toDate ? x.em.toDate().toLocaleString('pt-BR') : '')(c.aceite)}` : 'ainda não aceitou a versão atual'],
+    ['Dados sensíveis', c.sensiveis ? (c.sensiveis.autorizado ? 'autorizou' : 'não autorizou / revogou') + ` em ${(x => x && x.em && x.em.toDate ? x.em.toDate().toLocaleString('pt-BR') : '')(c.sensiveis)}` : '—'],
     ['Perfil', m.visivel === false ? 'Privado' : 'Visível'],
     ['Entrou em', m.criadoEm && m.criadoEm.toDate ? m.criadoEm.toDate().toLocaleString('pt-BR') : ''],
     ['Situação', suspensos.has(m.uid) ? 'Suspensa' : 'Ativa'],

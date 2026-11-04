@@ -350,3 +350,88 @@ async function enviarDenuncia(e){
   catch (err) { mostrarErro('dn-err', traduzErro(err)); }
   finally { btn.disabled = false; }
 }
+
+/* ---------- LGPD: aceite, consentimento, baixar dados e excluir conta ---------- */
+/* Mude a versão quando os Termos ou a Política mudarem de forma importante: todo mundo precisa aceitar de novo */
+export const VERSAO_TERMOS = '2026-11';
+export const termosOk = c => !!(c && c.aceite && c.aceite.versao === VERSAO_TERMOS && idadeDe(c.nascimento) >= 18);
+export const sensiveisOk = c => !!(c && c.sensiveis && c.sensiveis.autorizado);
+export const minhaConta = uid => fb.getDoc(fb.doc(db, 'contas', uid)).then(s => s.exists() ? s.data() : {}).catch(() => ({}));
+
+/* apaga uma lista de documentos em paralelo, em grupos (cada exclusão é checada pelas regras separadamente) */
+async function apagarTodos(refs){
+  for (let i = 0; i < refs.length; i += 20) await Promise.all(refs.slice(i, i + 20).map(r => fb.deleteDoc(r).catch(err => console.warn('não apagou', r.path, err.code))));
+}
+const docsDe = async q => (await fb.getDocs(q).catch(() => ({ docs: [] }))).docs;
+
+/* Revogar o consentimento de dados sensíveis: apaga identidade de gênero, orientação, início em T e hormonização/exames/marcos */
+export async function revogarSensiveis(){
+  const uid = auth.currentUser.uid;
+  const p = fb.doc(db, 'privado', uid);
+  await apagarTodos([...(await docsDe(fb.collection(p, 'aplicacoes'))), ...(await docsDe(fb.collection(p, 'exames')))].map(d => d.ref));
+  await fb.deleteDoc(p).catch(() => {});
+  const perfil = await fb.getDoc(fb.doc(db, 'perfis', uid)).catch(() => null);
+  if (perfil && perfil.exists()) await fb.updateDoc(perfil.ref, { genero: fb.deleteField(), orientacao: fb.deleteField(), emTdesde: fb.deleteField() });
+  await fb.setDoc(fb.doc(db, 'contas', uid), { email: auth.currentUser.email, sensiveis: { autorizado: false, em: fb.serverTimestamp() }, atualizadoEm: fb.serverTimestamp() }, { merge: true });
+  perfis.delete(uid);
+}
+export async function autorizarSensiveis(){
+  await fb.setDoc(fb.doc(db, 'contas', auth.currentUser.uid), { email: auth.currentUser.email, sensiveis: { autorizado: true, em: fb.serverTimestamp() }, atualizadoEm: fb.serverTimestamp() }, { merge: true });
+}
+
+/* Baixar meus dados: junta tudo o que a pessoa tem na comunidade num arquivo JSON */
+export async function baixarMeusDados(){
+  const uid = auth.currentUser.uid, dado = s => s.exists() ? s.data() : null;
+  const pega = async (...caminho) => dado(await fb.getDoc(fb.doc(db, ...caminho)).catch(() => ({ exists: () => false })));
+  const lista = async q => (await docsDe(q)).map(d => ({ id: d.id, ...d.data() }));
+  const out = { geradoEm: new Date().toISOString(), conta: { uid, email: auth.currentUser.email } };
+  out.dadosDaConta = await pega('contas', uid);
+  out.membro = await pega('membros', uid);
+  out.perfil = await pega('perfis', uid);
+  out.hormonizacao = { esquemaEMarcos: await pega('privado', uid),
+    aplicacoes: await lista(fb.collection(db, 'privado', uid, 'aplicacoes')), exames: await lista(fb.collection(db, 'privado', uid, 'exames')) };
+  out.namoro = { perfil: await pega('namoro', uid),
+    curtidasQueFiz: await lista(fb.query(fb.collection(db, 'namoro_curtidas'), fb.where('de', '==', uid))) };
+  const autoria = await docsDe(fb.query(fb.collection(db, 'forum_autoria'), fb.where('uid', '==', uid)));
+  out.publicacoes = []; out.comentarios = [];
+  for (const a of autoria) {
+    const d = a.data();
+    if (d.post) { const c = await pega('forum_posts', d.post, 'comentarios', a.id); if (c) out.comentarios.push({ id: a.id, post: d.post, ...c }); }
+    else { const p = await pega('forum_posts', a.id) || await pega('forum_pendentes', a.id); if (p) out.publicacoes.push({ id: a.id, ...p }); }
+  }
+  const convs = await lista(fb.query(fb.collection(db, 'conversas'), fb.where('participantes', 'array-contains', uid)));
+  out.mensagensPrivadas = [];
+  for (const c of convs) out.mensagensPrivadas.push({ conversa: c.id, participantes: c.participantes, mensagens: await lista(fb.query(fb.collection(db, 'conversas', c.id, 'mensagens'), fb.orderBy('criadoEm'))) });
+  const json = JSON.stringify(out, (k, v) => v && typeof v === 'object' && typeof v.toDate === 'function' ? v.toDate().toISOString() : v, 2);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
+  a.download = 'meus-dados-transmasc-brasil.json'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+/* Excluir minha conta: confirma a senha, apaga tudo da pessoa e por último a conta de login */
+export async function excluirConta(senha, aoProgresso = () => {}){
+  const u = auth.currentUser, uid = u.uid;
+  await fb.reauthenticateWithCredential(u, fb.EmailAuthProvider.credential(u.email, senha));
+  aoProgresso('Apagando publicações e comentários…');
+  const autoria = await docsDe(fb.query(fb.collection(db, 'forum_autoria'), fb.where('uid', '==', uid)));
+  const conteudo = [];
+  for (const a of autoria) {
+    const d = a.data();
+    if (d.post) conteudo.push(fb.doc(db, 'forum_posts', d.post, 'comentarios', a.id));
+    else {
+      /* comentários de outras pessoas nas minhas publicações saem junto com elas */
+      (await docsDe(fb.collection(db, 'forum_posts', a.id, 'comentarios'))).forEach(c => conteudo.push(c.ref));
+      conteudo.push(fb.doc(db, 'forum_edicoes', a.id), fb.doc(db, 'forum_pendentes', a.id), fb.doc(db, 'forum_posts', a.id));
+    }
+  }
+  await apagarTodos(conteudo);
+  await apagarTodos(autoria.map(a => a.ref));
+  aoProgresso('Apagando perfil e dados pessoais…');
+  await apagarTodos((await docsDe(fb.query(fb.collection(db, 'namoro_curtidas'), fb.where('de', '==', uid)))).map(d => d.ref));
+  const p = fb.doc(db, 'privado', uid);
+  await apagarTodos([...(await docsDe(fb.collection(p, 'aplicacoes'))), ...(await docsDe(fb.collection(p, 'exames')))].map(d => d.ref));
+  await apagarTodos([p, fb.doc(db, 'namoro', uid), fb.doc(db, 'perfis', uid), fb.doc(db, 'contas', uid), fb.doc(db, 'membros', uid)]);
+  aoProgresso('Encerrando a conta…');
+  await fb.deleteUser(u);
+}
