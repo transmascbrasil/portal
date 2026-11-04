@@ -161,7 +161,7 @@ service cloud.firestore {
     function cmDetalhes(d) {
       return cmTexto(d, 'pronomes', 30) && cmTexto(d, 'cidade', 60) && cmTexto(d, 'estado', 2)
         && cmTexto(d, 'emTdesde', 10) && cmTexto(d, 'bio', 600) && cmTexto(d, 'instagram', 40)
-        && cmTexto(d, 'foto', 90000)
+        && cmTexto(d, 'foto', 90000) && cmTexto(d, 'capa', 220000)
         && (!('curiosidades' in d) || (d.curiosidades is map
           && d.curiosidades.keys().hasOnly(['musica','hobby','marco','orgulho','dica'])
           && cmTexto(d.curiosidades, 'musica', 200) && cmTexto(d.curiosidades, 'hobby', 200)
@@ -193,7 +193,7 @@ service cloud.firestore {
         || get(/databases/$(database)/documents/membros/$(uid)).data.get('visivel', true) == true);
       allow list: if cmAdmin();
       allow create, update: if cmLogado() && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto'])
+        && request.resource.data.keys().hasOnly(['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto','capa'])
         && cmDetalhes(request.resource.data);
       allow delete: if cmLogado() && request.auth.uid == uid;
     }
