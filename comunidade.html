@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261104">
+<link rel="stylesheet" href="comunidade.css?v=20261104b">
 </head>
 <body>
 
@@ -90,7 +90,7 @@
         <div class="small" id="regras-entrada" hidden></div>
         <p class="err" id="c-err" hidden></p>
         <button class="btn btn-navy" id="b-criar">Criar conta</button>
-        <p class="small">Vamos enviar um link para confirmar seu e-mail (pode cair no spam). Seu e-mail nunca aparece para outros membros.</p>
+        <p class="small">Seu e-mail nunca aparece para outros membros. Ele serve para entrar e para recuperar a senha.</p>
       </form>
     </div>
   </section>
@@ -221,12 +221,13 @@
 <script type="module">
 import { carregarFirebase, ehModeracao, sessaoValida, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
   hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
-  ouvirConversas, naoLida, abrirDenuncia, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js?v=20261104';
+  ouvirConversas, naoLida, abrirDenuncia, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js?v=20261104b';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
 const DICAS = { post:'No que você está pensando?', pergunta:'Qual é a sua dúvida? Conte um pouco do contexto…', enquete:'Qual é a pergunta da enquete?' };
 const POR_PAGINA = 15, LIMITE_BUSCA = 200;
 
+/* verificado = pode participar. Não exige mais confirmar o e-mail (os e-mails do Firebase não chegavam); só a suspensão bloqueia. */
 let eu = null, meuNome = '', souAdmin = false, verificado = false, criandoConta = false;
 const meus = new Set();          // ids de posts/comentários que eu escrevi (inclusive anônimos)
 const posts = new Map();         // id -> { d, cs, el, todos, voto, verRes }
@@ -258,7 +259,7 @@ async function aoMudarLogin(user){
   if (!user) { tela('entrar'); if (new URLSearchParams(location.search).has('criar')) mudarAba('criar'); return; }
   tela('carregando');
   if (!await sessaoValida(user)) { toast('Sua sessão expirou. Entre de novo.'); return; }   // o signOut chama aoMudarLogin(null)
-  verificado = user.emailVerified;
+  verificado = true;
   try {
     const m = await fb.getDoc(fb.doc(db, 'membros', user.uid));
     if (!m.exists()) { $('p-nome').value = user.displayName || ''; tela('perfil'); return; }
@@ -322,10 +323,9 @@ window.criarConta = async e => {
     const cred = await fb.createUserWithEmailAndPassword(auth, $('c-email').value.trim(), $('c-senha').value);
     await fb.setDoc(fb.doc(db, 'membros', cred.user.uid), { nome, criadoEm: fb.serverTimestamp() });
     await fb.updateProfile(cred.user, { displayName: nome }).catch(() => {});
-    await enviarVerificacao(cred.user).catch(err => console.error(err));
     criandoConta = false;
     await aoMudarLogin(cred.user);
-    toast('Conta criada! Confirme seu e-mail pelo link que enviamos.');
+    toast('Conta criada! Boas-vindas à comunidade 💙');
   } catch (err) {
     criandoConta = false;
     mostrarErro('c-err', traduzErro(err));
@@ -354,7 +354,7 @@ window.jaConfirmei = async () => {
   if (auth.currentUser.emailVerified) { await auth.currentUser.getIdToken(true); location.reload(); }
   else toast('Ainda não aparece como confirmado. Abra o link do e-mail e tente de novo.');
 };
-function precisaVerificar(){ if (verificado) return false; toast($('aviso-bloqueado').hidden ? 'Confirme seu e-mail para participar.' : 'Sua conta está suspensa.'); if (!$('aviso-bloqueado').hidden) return true; $('aviso-verificar').scrollIntoView({ behavior:'smooth', block:'center' }); return true; }
+function precisaVerificar(){ if (verificado) return false; toast('Sua conta está suspensa.'); $('aviso-bloqueado').scrollIntoView({ behavior:'smooth', block:'center' }); return true; }
 
 /* ---------- Fórum ---------- */
 function atualizarCabecalho(){
@@ -367,7 +367,7 @@ function atualizarCabecalho(){
 function abrirForum(bloqueado){
   tela('forum');
   atualizarCabecalho();
-  $('aviso-verificar').hidden = verificado || bloqueado;
+  $('aviso-verificar').hidden = true;
   $('aviso-bloqueado').hidden = !bloqueado;
   if (souAdmin) { $('h-admin').hidden = false; $('h-admin').href = url('comunidade-admin.html'); }
   $('v-email').textContent = eu.email;
@@ -542,7 +542,7 @@ document.querySelectorAll('[data-filtro]').forEach(b => b.addEventListener('clic
 function criarPost(id){
   const el = document.createElement('article');
   el.className = 'post'; el.id = 'p-' + id;
-  el.innerHTML = `<div class="pcab"></div><div class="pmidia"></div><div class="pvar"></div><div class="pcoms"></div>${verificado ? caixaComentario(id) : '<p class="semacesso">Confirme seu e-mail para comentar.</p>'}`;
+  el.innerHTML = `<div class="pcab"></div><div class="pmidia"></div><div class="pvar"></div><div class="pcoms"></div>${verificado ? caixaComentario(id) : '<p class="semacesso">Sua conta está suspensa: você pode ler, mas não comentar.</p>'}`;
   posts.get(id).el = el;
   renderCab(id); renderMidia(id);
   return el;

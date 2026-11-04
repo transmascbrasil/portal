@@ -90,7 +90,7 @@ export function traduzErro(err, verificado = true){
   if (c.includes('invalid-email')) return 'E-mail inválido.';
   if (c.includes('operation-not-allowed')) return 'O login por e-mail e senha não está ativado no Firebase.';
   if (c.includes('network') || c.includes('unavailable')) return 'Sem conexão. Verifique a internet e tente de novo.';
-  if (c.includes('permission-denied')) return verificado ? 'Você não tem permissão para fazer isso.' : 'Confirme seu e-mail para participar.';
+  if (c.includes('permission-denied')) return verificado ? 'Você não tem permissão para fazer isso.' : 'Sua conta está suspensa.';
   if (c.includes('invalid-argument') || c.includes('resource-exhausted')) return 'Ficou grande demais. Tente com menos fotos.';
   return 'Algo deu errado: ' + ((err && err.message) || err);
 }
