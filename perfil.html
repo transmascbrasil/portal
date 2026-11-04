@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261104b">
+<link rel="stylesheet" href="comunidade.css?v=20261105">
 <style>
 .grid2{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;align-items:start}
 .grid2 > aside{position:sticky;top:84px}
@@ -46,6 +46,12 @@ textarea.input{resize:vertical}
 .curi p{font-size:14.5px;font-weight:700;overflow-wrap:anywhere}
 .insta{font-weight:800;color:var(--navy-2);text-decoration:none}
 .fotobox{display:flex;gap:14px;align-items:center}
+.visib{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:var(--blue-soft);cursor:pointer}
+.visib input{width:20px;height:20px;margin-top:2px;accent-color:var(--navy);flex:none}
+.visib small{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.visib.off{background:#2A2F45;color:#fff}.visib.off small{color:#C9D3EA}
+.privado-card{text-align:center;padding:10px 0 4px}
+.privado-card b{display:block;font-size:16px}
 .fotobox .av{width:72px;height:72px;font-size:26px}
 
 /* Hormonização */
@@ -200,7 +206,10 @@ textarea.input{resize:vertical}
     <!-- ===== Perfil público ===== -->
     <div data-painel="perfil" class="grid2">
       <form class="box pad secao" id="f-perfil" onsubmit="salvarPerfil(event)">
-        <div><h2>Meu perfil</h2><p class="small" style="margin-top:4px"><span class="publico">👁️ Visível para membros logados</span> Deixe em branco o que não quiser mostrar.</p></div>
+        <div><h2>Meu perfil</h2><p class="small" style="margin-top:4px">Deixe em branco o que não quiser mostrar.</p></div>
+        <label class="visib"><input type="checkbox" id="pf-visivel" checked>
+          <span><b>👁️ Perfil visível para outros membros</b>
+          <small id="pf-visivel-txt">Outros membros veem sua foto, cidade, tempo em T, bio e curiosidades, e você aparece na lista de Membros.</small></span></label>
         <div class="fotobox"><span id="pf-foto-av"></span>
           <div style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn btn-line btn-sm" style="cursor:pointer">📷 Trocar foto<input type="file" id="pf-foto" accept="image/*" hidden></label><button type="button" class="btn btn-line btn-sm" id="pf-foto-rm" onclick="removerFoto()">Remover</button></div></div>
         <div class="duas">
@@ -344,8 +353,8 @@ textarea.input{resize:vertical}
 
 <script type="module">
 import { carregarFirebase, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, avatarDe, hidratarAvatares, perfilDe,
-  sessaoValida, comprimir, abrirModal, fecharModal, IMG_RE, tempoEmT, dataLocal, isoDe, hojeIso, diasEntre, dataBonita,
-  LOJA_PADRAO, lojaHtml, abrirDenuncia, idConversa, outroDe, naoLida, ouvirConversas, ms, textoHtml, quando } from './comunidade-base.js?v=20261104b';
+  sessaoValida, CAMPOS_DETALHES, comprimir, abrirModal, fecharModal, IMG_RE, tempoEmT, dataLocal, isoDe, hojeIso, diasEntre, dataBonita,
+  LOJA_PADRAO, lojaHtml, abrirDenuncia, idConversa, outroDe, naoLida, ouvirConversas, ms, textoHtml, quando } from './comunidade-base.js?v=20261105';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
 const UFS = 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
@@ -407,6 +416,9 @@ function avatarFoto(m, uid, tam){
 }
 const instaUser = s => String(s || '').trim().replace(/^@/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/.*$/, '');
 function cartao(m, uid){
+  if (m.visivel === false && uid !== eu.uid) return `<div class="pcard"><div class="capa"></div>
+    <div class="pc-top">${avatarDe(m.nome, uid, 'lg')}<div style="padding-bottom:4px"><h1>${esc(m.nome)}</h1></div></div>
+    <div class="pc-corpo privado-card"><b>🔒 Este perfil é privado</b><p class="small">${esc(m.nome)} preferiu não mostrar os detalhes do perfil.</p></div></div>`;
   const t = tempoEmT(m.emTdesde);
   const local = [m.cidade, m.estado].filter(Boolean).join('/');
   const ig = instaUser(m.instagram);
@@ -472,6 +484,7 @@ function preencherPerfil(){
   $('pf-nome').value = meu.nome || ''; $('pf-pronomes').value = meu.pronomes || ''; $('pf-cidade').value = meu.cidade || '';
   $('pf-estado').value = meu.estado || ''; $('pf-emT').value = meu.emTdesde || ''; $('pf-bio').value = meu.bio || '';
   $('pf-insta').value = meu.instagram || '';
+  $('pf-visivel').checked = meu.visivel !== false;
   CURIS.forEach(([k]) => $('pf-c-' + k).value = (meu.curiosidades || {})[k] || '');
   previa();
 }
@@ -484,7 +497,13 @@ function lerPerfil(){
 }
 function previa(){
   const m = lerPerfil();
-  $('pf-previa').innerHTML = cartao(m.nome ? m : { ...m, nome: 'Seu nome' }, eu.uid);
+  const vis = $('pf-visivel').checked;
+  $('pf-visivel').closest('.visib').classList.toggle('off', !vis);
+  $('pf-visivel-txt').textContent = vis
+    ? 'Outros membros veem sua foto, cidade, tempo em T, bio e curiosidades, e você aparece na lista de Membros.'
+    : 'Perfil privado: outros membros só veem seu nome (nas publicações e mensagens) e você não aparece na lista de Membros. A moderação continua vendo.';
+  $('pf-previa').innerHTML = vis ? cartao(m.nome ? m : { ...m, nome: 'Seu nome' }, eu.uid)
+    : cartao({ nome: m.nome || 'Seu nome', visivel: false }, '__previa__');
   $('pf-foto-av').innerHTML = avatarFoto(m, eu.uid, '');
   $('pf-foto-rm').hidden = !m.foto;
 }
@@ -501,8 +520,16 @@ window.salvarPerfil = async e => {
   if (m.emTdesde && dataLocal(m.emTdesde) > new Date()) return mostrarErro('pf-err', 'A data de início em T não pode ser no futuro.');
   const b = $('b-salvar'); b.disabled = true; b.textContent = 'Salvando…';
   try {
-    await fb.updateDoc(fb.doc(db, 'membros', eu.uid), m);
-    meu = { ...meu, ...m }; perfilDe(eu.uid, true);
+    /* nome e visibilidade em membros; detalhes em perfis (o Firebase esconde perfis quando o perfil é privado) */
+    const { nome, ...detalhes } = m;
+    const visivel = $('pf-visivel').checked;
+    const base = { nome, visivel };
+    CAMPOS_DETALHES.forEach(k => base[k] = fb.deleteField());   // tira detalhes antigos que ficavam em membros
+    const b2 = fb.writeBatch(db);
+    b2.update(fb.doc(db, 'membros', eu.uid), base);
+    b2.set(fb.doc(db, 'perfis', eu.uid), detalhes);
+    await b2.commit();
+    meu = { ...meu, ...m, visivel }; perfilDe(eu.uid, true);
     $('h-nome').textContent = meu.nome; $('h-av').innerHTML = avatarFoto(meu, eu.uid, 'sm'); toast('Perfil salvo!'); renderJornada();
   } catch (err) { mostrarErro('pf-err', traduzErro(err)); }
   finally { b.disabled = false; b.textContent = 'Salvar perfil'; }
@@ -772,7 +799,9 @@ async function carregarMembros(){
   if (!membros) {
     try {
       const s = await fb.getDocs(fb.query(fb.collection(db, 'membros'), fb.limit(1000)));
-      membros = s.docs.map(d => ({ uid: d.id, ...d.data() })).filter(m => m.uid !== eu.uid).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+      const base = s.docs.map(d => ({ uid: d.id, ...d.data() })).filter(m => m.uid !== eu.uid && m.visivel !== false);
+      membros = (await Promise.all(base.map(async m => ({ ...m, ...((await perfilDe(m.uid)) || {}) }))))
+        .filter(m => m.visivel !== false).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
     } catch (err) { $('mb-lista').innerHTML = `<p class="err">${esc(traduzErro(err))}</p>`; return; }
   }
   const q = $('mb-busca').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();

@@ -142,8 +142,17 @@ export const nomeDe = d => d.anonimo ? 'Anônimo' : (d.autorNome || 'Membro');
 export const nomeLink = d => d.anonimo || !d.autorUid ? esc(nomeDe(d)) : `<a class="nome" href="${url('perfil.html?u=' + encodeURIComponent(d.autorUid))}">${esc(nomeDe(d))}</a>`;
 
 const perfis = new Map();
+/* Perfil = membros/{uid} (nome e se é visível) + perfis/{uid} (detalhes).
+   Se o perfil é privado, o Firebase não entrega os detalhes para outros membros e fica só o nome.
+   Contas antigas ainda podem ter os detalhes direto em membros: valem até a pessoa salvar o perfil de novo. */
+export const CAMPOS_DETALHES = ['pronomes','cidade','estado','emTdesde','bio','curiosidades','instagram','foto'];
 export function perfilDe(uid, recarregar){
-  if (recarregar || !perfis.has(uid)) perfis.set(uid, fb.getDoc(fb.doc(db, 'membros', uid)).then(s => s.exists() ? s.data() : null).catch(() => null));
+  if (recarregar || !perfis.has(uid)) perfis.set(uid, (async () => {
+    const m = await fb.getDoc(fb.doc(db, 'membros', uid)).then(s => s.exists() ? s.data() : null).catch(() => null);
+    if (!m) return null;
+    const d = await fb.getDoc(fb.doc(db, 'perfis', uid)).then(s => s.exists() ? s.data() : null).catch(() => null);
+    return d ? { ...m, ...d } : m;
+  })());
   return perfis.get(uid);
 }
 /* Troca as iniciais pela foto de perfil, quando a pessoa tem uma */
