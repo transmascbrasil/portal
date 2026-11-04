@@ -219,7 +219,7 @@
 <div id="toasts" aria-live="polite"></div>
 
 <script type="module">
-import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
+import { carregarFirebase, ehModeracao, sessaoValida, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
   hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
   ouvirConversas, naoLida, abrirDenuncia, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js';
 
@@ -256,6 +256,7 @@ async function aoMudarLogin(user){
   ['h-eu','h-sair'].forEach(id => $(id).hidden = !user);
   if (!user) { tela('entrar'); if (new URLSearchParams(location.search).has('criar')) mudarAba('criar'); return; }
   tela('carregando');
+  if (!await sessaoValida(user)) { toast('Sua sessão expirou. Entre de novo.'); return; }   // o signOut chama aoMudarLogin(null)
   verificado = user.emailVerified;
   try {
     const m = await fb.getDoc(fb.doc(db, 'membros', user.uid));
@@ -343,11 +344,12 @@ window.salvarPerfil = async e => {
 
 window.sair = () => fb && fb.signOut(auth);
 window.reenviarVerificacao = async () => {
+  if (!await sessaoValida(auth.currentUser)) { toast('Sua sessão expirou. Entre de novo.'); return; }
   try { await enviarVerificacao(auth.currentUser); toast('Enviamos um novo link. Confira também o spam.'); }
   catch (err) { toast(traduzErro(err)); }
 };
 window.jaConfirmei = async () => {
-  await auth.currentUser.reload();
+  if (!await sessaoValida(auth.currentUser)) { toast('Sua sessão expirou. Entre de novo.'); return; }
   if (auth.currentUser.emailVerified) { await auth.currentUser.getIdToken(true); location.reload(); }
   else toast('Ainda não aparece como confirmado. Abra o link do e-mail e tente de novo.');
 };

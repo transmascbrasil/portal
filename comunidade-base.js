@@ -58,6 +58,16 @@ export async function carregarFirebase(){
 export function ehModeracao(){
   return fb.getDocs(fb.query(fb.collection(db, 'admins'), fb.limit(1))).then(() => true).catch(() => false);
 }
+/* Confere se a conta logada ainda existe (pode ter sido apagada ou ter a senha trocada em outro lugar).
+   Se não existir, sai e devolve false, para a página voltar à tela de entrada. */
+export async function sessaoValida(user){
+  try { await user.reload(); return true; }
+  catch (err) {
+    const c = String(err && err.code);
+    if (/user-token-expired|user-not-found|user-disabled|invalid-user-token/.test(c)) { await fb.signOut(auth).catch(() => {}); return false; }
+    return true;   // sem internet etc.: segue com a sessão guardada
+  }
+}
 /* Mantém o ?emulador nos links entre as páginas durante os testes locais */
 export function url(pagina){ return location.search.includes('emulador') ? pagina + (pagina.includes('?') ? '&' : '?') + 'emulador' : pagina; }
 
@@ -74,6 +84,7 @@ export function traduzErro(err, verificado = true){
   const c = (err && err.code) || '';
   if (c.includes('invalid-credential') || c.includes('wrong-password') || c.includes('user-not-found')) return 'E-mail ou senha incorretos.';
   if (c.includes('too-many-requests')) return 'Muitas tentativas. Espere alguns minutos e tente de novo.';
+  if (c.includes('user-token-expired') || c.includes('user-disabled') || c.includes('requires-recent-login')) return 'Sua sessão expirou. Saia e entre de novo.';
   if (c.includes('email-already-in-use')) return 'Já existe uma conta com esse e-mail. Tente entrar ou use “Esqueci minha senha”.';
   if (c.includes('weak-password')) return 'Senha fraca. Use pelo menos 8 caracteres.';
   if (c.includes('invalid-email')) return 'E-mail inválido.';
