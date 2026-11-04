@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261108">
+<link rel="stylesheet" href="comunidade.css?v=20261109">
 </head>
 <body>
 
@@ -43,7 +43,6 @@
     <div class="hlinks">
       <a href="index.html" class="voltar">← Portal</a>
       <a href="comunidade-admin.html" id="h-admin" hidden>🛡️ Moderação</a>
-      <a href="namoro.html" id="h-namoro">💘 Namoro</a>
       <a href="perfil.html#lojinha" id="h-loja" class="voltar">🛍️ Lojinha</a>
       <a href="https://apoia.se/transmascbrasil" target="_blank" rel="noopener" class="voltar">💙 Apoie</a>
       <a href="perfil.html#mensagens" id="h-msgs" hidden title="Mensagens">💬<span class="badge" id="h-msgs-n" hidden></span></a>
@@ -126,6 +125,12 @@
       </div>
       <div class="aviso" id="aviso-hormonio" hidden></div>
       <div id="pendentes"></div>
+      <div class="nm-breve" id="nm-breve" hidden>
+        <span class="nm-emj">💘</span>
+        <div><span class="nm-tag">Em breve</span><b>Namoro na comunidade</b>
+          <span>Um espaço seguro para se conhecer: só 18+, perfis aprovados pela moderação e conversa só quando as duas pessoas se curtem.</span></div>
+        <button class="nm-x" id="nm-breve-x" aria-label="Fechar aviso">✕</button>
+      </div>
 
       <div class="box criar">
         <div class="linha"><span id="criar-av"></span><button class="abrir" onclick="abrirNovo('post')">No que você está pensando?</button></div>
@@ -162,8 +167,6 @@
         <a class="btn btn-line" id="lado-loja" href="perfil.html#lojinha">🛍️ Lojinha</a>
         <p class="small">O portal e a comunidade são gratuitos e mantidos por voluntários. Apoiando ou comprando pela lojinha, você ajuda a manter tudo no ar.</p>
       </div>
-      <a class="box" id="lado-namoro" href="namoro.html" style="padding:16px 18px;text-decoration:none;display:flex;gap:12px;align-items:center;background:linear-gradient(120deg,#FDEEF1,#E6F7FE)">
-        <span style="font-size:28px">💘</span><span><b style="display:block">Namoro</b><span class="small">Conheça pessoas da comunidade. Só 18+, com moderação e match.</span></span></a>
       <a class="box" id="lado-perfil" href="perfil.html" style="padding:16px 18px;text-decoration:none;display:flex;gap:12px;align-items:center">
         <span style="font-size:28px">👤</span><span><b style="display:block">Meu perfil</b><span class="small">Perfil, hormonização, jornada e lojinha</span></span></a>
       <div class="box">
@@ -231,7 +234,7 @@
 <script type="module">
 import { carregarFirebase, ehModeracao, sessaoValida, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
   hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
-  ouvirConversas, naoLida, abrirDenuncia, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js?v=20261108';
+  ouvirConversas, naoLida, abrirDenuncia, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js?v=20261109';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
 const DICAS = { post:'No que você está pensando?', pergunta:'Qual é a sua dúvida? Conte um pouco do contexto…', enquete:'Qual é a pergunta da enquete?' };
@@ -373,7 +376,6 @@ function atualizarCabecalho(){
   $('criar-av').innerHTML = avatarDe(meuNome, eu.uid);
   $('h-eu').href = url('perfil.html'); $('lado-perfil').href = url('perfil.html');
   $('h-loja').href = $('lado-loja').href = url('perfil.html') + '#lojinha';
-  $('h-namoro').href = $('lado-namoro').href = url('namoro.html');
   hidratarAvatares(document.querySelector('header')); hidratarAvatares($('tela-forum'));
 }
 function abrirForum(bloqueado){
@@ -386,6 +388,7 @@ function abrirForum(bloqueado){
   primeiraCarga = true;
   lembreteHormonio();
   renderTopicosBar();
+  bannerNamoro();
   $('h-msgs').hidden = false; $('h-msgs').href = url('perfil.html') + '#mensagens';
   unsubConvs = ouvirConversas(eu.uid, lista => {
     const n = lista.filter(c => naoLida(c, eu.uid)).length;
@@ -407,6 +410,13 @@ function pararTudo(){
   for (const p of posts.values()) p.unsub && p.unsub();
   for (const u of meusPosts.values()) u && u();
   posts.clear(); meus.clear(); meusPosts.clear(); $('feed').innerHTML = ''; $('pendentes').innerHTML = ''; limiteFeed = POR_PAGINA;
+}
+
+/* Banner "Namoro em breve" (quem fecha não vê de novo neste aparelho) */
+function bannerNamoro(){
+  let fechado = false; try { fechado = localStorage.getItem('nmBreveFechado') === '1'; } catch {}
+  $('nm-breve').hidden = fechado;
+  $('nm-breve-x').onclick = () => { $('nm-breve').hidden = true; try { localStorage.setItem('nmBreveFechado', '1'); } catch {} };
 }
 
 /* Aviso da próxima aplicação (dados privados da aba Hormonização do perfil) */

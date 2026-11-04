@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261108">
+<link rel="stylesheet" href="comunidade.css?v=20261109">
 <style>
 .nm-hero{background:linear-gradient(125deg,#14254F 0%,#1E3A8A 55%,#7A3E6E 100%);color:#fff;border-radius:22px;padding:22px 24px;margin:22px 0 4px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .nm-hero h1{font-size:28px}
@@ -81,6 +81,16 @@ select.input{appearance:auto}
 
 <main class="wrap" style="padding-bottom:70px">
   <div id="tela-carregando" class="carregando">Carregando…</div>
+
+  <section id="tela-embreve" hidden>
+    <div class="nm-hero" style="flex-direction:column;align-items:flex-start;padding:34px 30px;margin-top:40px">
+      <span class="emj">💘</span>
+      <span style="background:var(--pink);color:var(--navy);font-weight:900;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:999px">Em breve</span>
+      <h1 style="font-size:34px">Namoro na comunidade</h1>
+      <p>Estamos preparando um espaço seguro para pessoas da comunidade se conhecerem: só para maiores de 18 anos, com perfis aprovados pela moderação e conversa só quando as duas pessoas se curtem. Fica de olho, que logo abre! 💙</p>
+      <a class="btn btn-pink" id="b-voltar-com" href="comunidade.html" style="margin-top:8px">← Voltar para a comunidade</a>
+    </div>
+  </section>
 
   <section id="tela-fora" hidden>
     <div class="cartao entrar-box" style="max-width:460px;margin:60px auto;text-align:center">
@@ -158,9 +168,11 @@ select.input{appearance:auto}
 
 <script type="module">
 import { carregarFirebase, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, avatarDe, hidratarAvatares, perfilDe,
-  sessaoValida, comprimir, IMG_RE, abrirLightbox, abrirDenuncia, isoDe } from './comunidade-base.js?v=20261108';
+  sessaoValida, comprimir, IMG_RE, abrirLightbox, abrirDenuncia, isoDe } from './comunidade-base.js?v=20261109';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
+/* Área de namoro desligada ("em breve"). Para abrir: troque para true, devolva os links na comunidade e mostre a aba de namoro na moderação. */
+const NAMORO_ABERTO = false;
 const UFS = 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
 const PROCURO = { namoro:'💘 Namoro', amizade:'🤝 Amizade', casual:'🔥 Algo casual', conversar:'💬 Conversar' };
 const INTERESSE = { homens:'Homens (trans e cis)', mulheres:'Mulheres (trans e cis)', nb:'Pessoas não binárias' };
@@ -169,10 +181,11 @@ let eu = null, meuNome = '', meu = null, perfis = [], curti = new Set(), curtira
 const fotoAtual = {};   // uid -> índice da foto mostrada
 const subs = [];
 $('h-com').href = url('comunidade.html'); $('h-brand').href = url('comunidade.html'); $('b-ir-entrar').href = url('comunidade.html');
-function tela(t){ for (const n of ['carregando','fora','nm']) $('tela-' + n).hidden = n !== t; }
+function tela(t){ for (const n of ['carregando','fora','nm','embreve']) $('tela-' + n).hidden = n !== t; }
 const idadeDe = iso => { const [a, m, d] = iso.split('-').map(Number), h = new Date(); let i = h.getFullYear() - a; if (h.getMonth() + 1 < m || (h.getMonth() + 1 === m && h.getDate() < d)) i--; return i; };
 
 async function iniciar(){
+  if (!NAMORO_ABERTO) { $('b-voltar-com').href = url('comunidade.html'); return tela('embreve'); }
   try { await carregarFirebase(); }
   catch (err) { console.error(err); tela('fora'); toast('Não foi possível carregar. Verifique a internet.'); return; }
   fb.onAuthStateChanged(auth, async user => {

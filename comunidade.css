@@ -296,3 +296,11 @@ a.nome{text-decoration:none}a.nome:hover{text-decoration:underline}
 .info{background:var(--blue-soft);border-radius:12px;padding:10px 12px;font-size:13.5px}
 .apoio{padding:16px 18px;display:flex;flex-direction:column;gap:8px}
 .apoio .btn{justify-content:center}
+
+/* Banner "Namoro em breve" */
+.nm-breve{position:relative;display:flex;gap:14px;align-items:center;background:linear-gradient(120deg,#14254F 0%,#1E3A8A 55%,#7A3E6E 100%);color:#fff;border-radius:18px;padding:16px 46px 16px 18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.nm-breve .nm-emj{font-size:38px;line-height:1}
+.nm-breve b{display:block;font-family:'Bricolage Grotesque';font-size:19px;margin-top:4px}
+.nm-breve span:not(.nm-emj):not(.nm-tag){display:block;font-size:13.5px;color:#D5DDF0;margin-top:2px}
+.nm-breve .nm-tag{display:inline-block;background:var(--pink);color:var(--navy);font-weight:900;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:999px}
+.nm-breve .nm-x{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;color:#fff;background:rgba(255,255,255,.12);font-weight:900}
