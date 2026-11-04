@@ -113,6 +113,10 @@ header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdro
 .pimgs.n4{grid-template-columns:1fr 1fr}
 .pimg{display:block;padding:0;background:#fff;overflow:hidden}
 .pimg img{display:block;width:100%;height:100%;object-fit:cover;max-height:520px}
+/* foto única: aparece inteira, sem cortar */
+.pimgs.n1{background:var(--soft)}
+.pimgs.n1 .pimg{display:flex;justify-content:center;background:var(--soft)}
+.pimgs.n1 .pimg img{width:auto;max-width:100%;height:auto;max-height:640px;object-fit:contain}
 .pimgs.n2 .pimg img,.pimgs.n3 .pimg img,.pimgs.n4 .pimg img{aspect-ratio:1/1;max-height:none}
 .pimgs.n3 .pimg:first-child img{aspect-ratio:16/9}
 .pvideo{margin-top:12px;aspect-ratio:16/9;background:#000}

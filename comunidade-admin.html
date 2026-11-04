@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261109">
+<link rel="stylesheet" href="comunidade.css?v=20261110">
 <style>
 header.adm{background:var(--navy);border:0}
 header.adm .brand,header.adm .hlinks a,header.adm .hlinks button{color:#fff}
@@ -45,6 +45,12 @@ header.adm .hlinks a:hover,header.adm .hlinks button:hover{background:rgba(255,2
 .membro .txt span{display:block;font-size:12.5px;color:var(--muted)}
 .membro.susp{background:var(--bad-soft)}
 .busca{max-width:360px;margin-bottom:12px}
+.versoes{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 16px 0}
+@media(max-width:700px){.versoes{grid-template-columns:1fr}}
+.versoes > div{border-radius:14px;padding:4px 0 10px;box-shadow:inset 0 0 0 1.5px var(--line);min-width:0;overflow:hidden}
+.versoes > div.nova{box-shadow:inset 0 0 0 2px var(--ok)}
+.versoes h4{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 14px 0}
+.versoes .nova h4{color:var(--ok)}
 .nmfotos{display:flex;gap:8px;flex-wrap:wrap;margin:10px 16px 0}
 .nmfotos img{width:120px;aspect-ratio:4/5;object-fit:cover;border-radius:12px;cursor:zoom-in}
 .nminfo{margin:10px 16px 0;font-size:14.5px}
@@ -116,6 +122,7 @@ select.input{appearance:auto}
     </div>
     <div class="tabsbar" role="tablist">
       <button role="tab" aria-selected="true" data-aba="pendentes">Em análise<span class="badge" id="b-pend" hidden></span></button>
+      <button role="tab" aria-selected="false" data-aba="edicoes">✏️ Edições<span class="badge" id="b-ed" hidden></span></button>
       <button role="tab" aria-selected="false" data-aba="denuncias">🚩 Denúncias<span class="badge" id="b-den" hidden></span></button>
       <button role="tab" aria-selected="false" data-aba="namoro" hidden>💘 Namoro<span class="badge" id="b-nm" hidden></span></button>
       <button role="tab" aria-selected="false" data-aba="recusados">Não aprovadas</button>
@@ -123,6 +130,10 @@ select.input{appearance:auto}
       <button role="tab" aria-selected="false" data-aba="membros">Membros</button>
     </div>
     <div data-painel="pendentes"><div class="lista" id="l-pendentes"></div></div>
+    <div data-painel="edicoes" hidden>
+      <p class="small" style="margin:-4px 0 12px">Edições que quem publicou pediu. Enquanto não forem aprovadas, a versão antiga continua no ar.</p>
+      <div class="lista" id="l-edicoes"></div>
+    </div>
     <div data-painel="denuncias" hidden>
       <div class="filtros" role="group" aria-label="Situação das denúncias" style="margin-bottom:14px">
         <button aria-pressed="true" data-den-filtro="aberta">Abertas</button>
@@ -175,10 +186,10 @@ select.input{appearance:auto}
 
 <script type="module">
 import { carregarFirebase, ehModeracao, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro, quando, avatar, avatarDe, nomeDe,
-  hidratarAvatares, perfilDe, midiaHtml, chipTopico, MOTIVOS, textoHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js?v=20261109';
+  hidratarAvatares, perfilDe, midiaHtml, chipTopico, MOTIVOS, textoHtml, abrirModal, fecharModal, abrirLightbox, TIPOS, tempoEmT } from './comunidade-base.js?v=20261110';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
-let nmPerfis = [], nmFiltro = 'pendente', pend = [], recus = [], pubs = [], membros = [], detalhes = {}, suspensos = new Set(), denuncias = [], denFiltro = 'aberta';
+let edicoes = [], nmPerfis = [], nmFiltro = 'pendente', pend = [], recus = [], pubs = [], membros = [], detalhes = {}, suspensos = new Set(), denuncias = [], denFiltro = 'aberta';
 let subs = [], recusando = null;
 $('h-com').href = url('comunidade.html'); $('h-brand').href = url('comunidade.html');
 
@@ -225,6 +236,10 @@ function ouvir(){
   subs.push(fb.onSnapshot(fb.collection(db, 'perfis'), snap => {
     detalhes = Object.fromEntries(snap.docs.map(s => [s.id, s.data()])); renderMembros();
   }, err => console.error(err)));
+  subs.push(fb.onSnapshot(fb.collection(db, 'forum_edicoes'), snap => {
+    edicoes = snap.docs.map(s => ({ id: s.id, ...s.data({ serverTimestamps:'estimate' }) })).sort((a, b) => ms(a.criadoEm) - ms(b.criadoEm));
+    renderEdicoes(); resumo();
+  }, err => console.error(err)));
   subs.push(fb.onSnapshot(fb.collection(db, 'namoro'), snap => {
     nmPerfis = snap.docs.map(s => ({ uid: s.id, ...s.data({ serverTimestamps:'estimate' }) })).sort((a, b) => ms(a.atualizadoEm) - ms(b.atualizadoEm));
     renderNamoro(); resumo();
@@ -246,7 +261,8 @@ function resumo(){
   $('r-den').textContent = nDen; $('b-den').textContent = nDen; $('b-den').hidden = !nDen;
   const nNm = nmPerfis.filter(p => p.status === 'pendente').length;
   $('b-nm').textContent = nNm; $('b-nm').hidden = !nNm;
-  const tot = pend.length + nDen + nNm;
+  $('b-ed').textContent = edicoes.length; $('b-ed').hidden = !edicoes.length;
+  const tot = pend.length + nDen + nNm + edicoes.length;
   document.title = (tot ? `(${tot}) ` : '') + 'Moderação · Comunidade Transmasc Brasil';
 }
 
@@ -330,6 +346,44 @@ async function verAutoria(id){
     box.innerHTML = `🔓 Escrita por <b>${esc(p ? p.nome : 'membro sem perfil')}</b> · <a class="nome" style="color:var(--pink)" href="${url('perfil.html?u=' + a.data().uid)}" target="_blank">ver perfil</a>`;
   } catch (err) { toast(traduzErro(err)); }
 }
+/* ---------- edições pedidas por quem publicou ---------- */
+const atuais = {};   // postId -> dados atuais do post (para comparar)
+async function renderEdicoes(){
+  if (!edicoes.length) { $('l-edicoes').innerHTML = '<div class="vazio box"><b>Nenhuma edição esperando 🎉</b></div>'; return; }
+  await Promise.all(edicoes.map(async e => {
+    if (!(e.id in atuais)) atuais[e.id] = await fb.getDoc(fb.doc(db, 'forum_posts', e.id)).then(s => s.exists() ? s.data() : null).catch(() => null);
+  }));
+  $('l-edicoes').innerHTML = edicoes.map(e => {
+    const a = atuais[e.id];
+    if (!a) return `<article class="post mod"><div class="phead"><div class="pmeta"><b>Publicação não existe mais</b></div></div><div class="modbar"><button class="btn btn-line" data-ed-recusar="${e.id}">Descartar edição</button></div></article>`;
+    const nova = { ...a, texto: e.texto, topicos: e.topicos, imagens: e.imagens, video: e.video };
+    return `<article class="post mod">
+      <div class="phead">${avatar(a)}<div class="pmeta"><b>${esc(nomeDe(a))}</b><span><span class="tag ${a.tipo}">${TIPOS[a.tipo] || ''}</span>· edição pedida ${quando(e.criadoEm)}</span></div></div>
+      ${a.anonimo ? `<div class="autoria" data-autoria="${e.id}">🎭 Publicação anônima. <button data-ver-autoria="${e.id}">Ver quem escreveu</button></div>` : ''}
+      <div class="versoes">
+        <div><h4>Versão atual</h4>${(a.topicos || []).length ? `<div class="ptopicos">${a.topicos.map(chipTopico).join('')}</div>` : ''}${midiaHtml(a)}</div>
+        <div class="nova"><h4>✏️ Nova versão</h4>${(e.topicos || []).length ? `<div class="ptopicos">${e.topicos.map(chipTopico).join('')}</div>` : ''}${midiaHtml(nova)}</div>
+      </div>
+      <div class="modbar">
+        <button class="btn btn-ok" data-ed-aprovar="${e.id}">✓ Aprovar edição</button>
+        <button class="btn btn-bad" data-ed-recusar="${e.id}">✕ Recusar edição</button>
+        <a class="btn btn-line" href="${url('comunidade.html')}#p-${e.id}" target="_blank">Ver no feed</a>
+      </div></article>`;
+  }).join('');
+  hidratarAvatares($('l-edicoes'));
+}
+async function aprovarEdicao(id){
+  const e = edicoes.find(x => x.id === id); if (!e) return;
+  const b = fb.writeBatch(db);
+  b.update(fb.doc(db, 'forum_posts', id), { texto: e.texto, topicos: e.topicos, imagens: e.imagens || fb.deleteField(), video: e.video || fb.deleteField(), editadoEm: fb.serverTimestamp() });
+  b.delete(fb.doc(db, 'forum_edicoes', id));
+  try { await b.commit(); delete atuais[id]; toast('Edição aprovada e publicada.'); } catch (err) { toast(traduzErro(err)); }
+}
+async function recusarEdicao(id){
+  if (!confirm('Recusar esta edição? A versão atual continua no ar.')) return;
+  try { await fb.deleteDoc(fb.doc(db, 'forum_edicoes', id)); delete atuais[id]; toast('Edição recusada.'); } catch (err) { toast(traduzErro(err)); }
+}
+
 /* ---------- namoro ---------- */
 const NM_PROCURO = { namoro:'💘 Namoro', amizade:'🤝 Amizade', casual:'🔥 Algo casual', conversar:'💬 Conversar' };
 const NM_INTERESSE = { homens:'Homens', mulheres:'Mulheres', nb:'Pessoas não binárias' };
@@ -456,6 +510,8 @@ document.addEventListener('click', e => {
     document.querySelectorAll('[data-painel]').forEach(p => p.hidden = p.dataset.painel !== x.dataset.aba);
     return;
   }
+  if ((x = t.closest('[data-ed-aprovar]'))) return aprovarEdicao(x.dataset.edAprovar);
+  if ((x = t.closest('[data-ed-recusar]'))) return recusarEdicao(x.dataset.edRecusar);
   if ((x = t.closest('[data-nm-filtro]'))) {
     nmFiltro = x.dataset.nmFiltro;
     document.querySelectorAll('[data-nm-filtro]').forEach(b => b.setAttribute('aria-pressed', b === x));
