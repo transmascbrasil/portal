@@ -303,7 +303,7 @@ service cloud.firestore {
 
     // ---------- Mensagens privadas ----------
     // Conversa entre duas pessoas: id = os dois uids em ordem alfabética, separados por "_".
-    // Só as duas leem (nem a moderação). Quem bloqueia a conversa impede novas mensagens.
+    // Só as duas leem; a moderação só lê se uma das pessoas denunciar a conversa. Quem bloqueia impede novas mensagens.
     function dmMinha(convId) { return cmLogado() && request.auth.uid in convId.split('_'); }
     function dmUltima(d) {
       return d.ultimaMsg is map && d.ultimaMsg.keys().hasOnly(['texto','de'])
@@ -333,7 +333,7 @@ service cloud.firestore {
         && (resource.data.get('bloqueadoPor', '') == request.resource.data.get('bloqueadoPor', '')
           || (resource.data.get('bloqueadoPor', '') == '' && request.resource.data.bloqueadoPor == request.auth.uid)
           || (resource.data.get('bloqueadoPor', '') == request.auth.uid && !('bloqueadoPor' in request.resource.data)))
-        // mandar mensagem: e-mail confirmado, conversa não bloqueada
+        // mandar mensagem: conta não suspensa e conversa não bloqueada
         && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['ultimaMsg','atualizadoEm'])
           || (cmVerificado() && dmUltima(request.resource.data)
             && request.resource.data.atualizadoEm == request.time
