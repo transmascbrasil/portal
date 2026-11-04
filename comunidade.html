@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="comunidade.css?v=20261107">
+<link rel="stylesheet" href="comunidade.css?v=20261108">
 </head>
 <body>
 
@@ -43,6 +43,7 @@
     <div class="hlinks">
       <a href="index.html" class="voltar">← Portal</a>
       <a href="comunidade-admin.html" id="h-admin" hidden>🛡️ Moderação</a>
+      <a href="namoro.html" id="h-namoro">💘 Namoro</a>
       <a href="perfil.html#lojinha" id="h-loja" class="voltar">🛍️ Lojinha</a>
       <a href="https://apoia.se/transmascbrasil" target="_blank" rel="noopener" class="voltar">💙 Apoie</a>
       <a href="perfil.html#mensagens" id="h-msgs" hidden title="Mensagens">💬<span class="badge" id="h-msgs-n" hidden></span></a>
@@ -161,6 +162,8 @@
         <a class="btn btn-line" id="lado-loja" href="perfil.html#lojinha">🛍️ Lojinha</a>
         <p class="small">O portal e a comunidade são gratuitos e mantidos por voluntários. Apoiando ou comprando pela lojinha, você ajuda a manter tudo no ar.</p>
       </div>
+      <a class="box" id="lado-namoro" href="namoro.html" style="padding:16px 18px;text-decoration:none;display:flex;gap:12px;align-items:center;background:linear-gradient(120deg,#FDEEF1,#E6F7FE)">
+        <span style="font-size:28px">💘</span><span><b style="display:block">Namoro</b><span class="small">Conheça pessoas da comunidade. Só 18+, com moderação e match.</span></span></a>
       <a class="box" id="lado-perfil" href="perfil.html" style="padding:16px 18px;text-decoration:none;display:flex;gap:12px;align-items:center">
         <span style="font-size:28px">👤</span><span><b style="display:block">Meu perfil</b><span class="small">Perfil, hormonização, jornada e lojinha</span></span></a>
       <div class="box">
@@ -228,7 +231,7 @@
 <script type="module">
 import { carregarFirebase, ehModeracao, sessaoValida, fb, auth, db, url, $, esc, toast, mostrarErro, traduzErro as traduz, quando, avatarDe, avatar, nomeDe, nomeLink,
   hidratarAvatares, perfilDe, textoHtml, midiaHtml, IMG_RE, comprimir, abrirModal, fecharModal, abrirLightbox, video,
-  ouvirConversas, naoLida, abrirDenuncia, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js?v=20261107';
+  ouvirConversas, naoLida, abrirDenuncia, REACOES, TIPOS, TOPICOS, topicoDe, chipTopico, normalizar, EMAIL_CONTATO, dataLocal, diasEntre, dataBonita, isoDe } from './comunidade-base.js?v=20261108';
 window.__paginaOk = true;   // o código rodou (ver aviso de carregamento no fim da página)
 
 const DICAS = { post:'No que você está pensando?', pergunta:'Qual é a sua dúvida? Conte um pouco do contexto…', enquete:'Qual é a pergunta da enquete?' };
@@ -370,6 +373,7 @@ function atualizarCabecalho(){
   $('criar-av').innerHTML = avatarDe(meuNome, eu.uid);
   $('h-eu').href = url('perfil.html'); $('lado-perfil').href = url('perfil.html');
   $('h-loja').href = $('lado-loja').href = url('perfil.html') + '#lojinha';
+  $('h-namoro').href = $('lado-namoro').href = url('namoro.html');
   hidratarAvatares(document.querySelector('header')); hidratarAvatares($('tela-forum'));
 }
 function abrirForum(bloqueado){
