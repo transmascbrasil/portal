@@ -375,6 +375,56 @@ service cloud.firestore {
         && cmTexto(request.resource.data, 'notaAdmin', 500);
     }
 
+    // ---------- Namoro (só 18+, perfil aprovado pela moderação, conversa só com match) ----------
+    function nmAprovado(uid) {
+      let p = get(/databases/$(database)/documents/namoro/$(uid)).data;
+      return p.status == 'aprovado' && p.ativo == true;
+    }
+    function nmCampos(d) {
+      return d.keys().hasOnly(['nome','idade','identidade','pronomes','cidade','estado','sobre','procuro','interesse','fotos','status','motivo','ativo','atualizadoEm'])
+        && d.nome == cmNome()
+        && d.idade is int && d.idade >= 18 && d.idade <= 99
+        && cmTexto(d, 'identidade', 40) && cmTexto(d, 'pronomes', 30)
+        && cmTexto(d, 'cidade', 60) && cmTexto(d, 'estado', 2) && cmTexto(d, 'sobre', 600)
+        && d.procuro is list && d.procuro.size() >= 1 && d.procuro.size() <= 4
+        && d.procuro.hasOnly(['namoro','amizade','casual','conversar'])
+        && d.interesse is list && d.interesse.size() >= 1 && d.interesse.size() <= 3
+        && d.interesse.hasOnly(['homens','mulheres','nb'])
+        && d.fotos is list && d.fotos.size() >= 1 && d.fotos.size() <= 3
+        && d.ativo is bool
+        && d.atualizadoEm == request.time;
+    }
+    match /namoro/{uid} {
+      // só quem tem perfil de namoro aprovado (e ativo) vê os outros perfis aprovados
+      allow get: if cmLogado() && (request.auth.uid == uid || cmAdmin()
+        || (resource.data.status == 'aprovado' && resource.data.ativo == true && nmAprovado(request.auth.uid)));
+      allow list: if cmAdmin()
+        || (cmLogado() && resource.data.status == 'aprovado' && resource.data.ativo == true && nmAprovado(request.auth.uid));
+      // criar ou editar sempre volta para análise; pausar/retomar não precisa de nova análise
+      allow create: if cmVerificado() && request.auth.uid == uid && nmCampos(request.resource.data)
+        && request.resource.data.status == 'pendente' && !('motivo' in request.resource.data);
+      allow update: if (cmVerificado() && request.auth.uid == uid && nmCampos(request.resource.data)
+          && (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ativo','atualizadoEm'])
+            || (request.resource.data.status == 'pendente' && !('motivo' in request.resource.data))))
+        || (cmAdmin()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','motivo'])
+          && request.resource.data.status in ['pendente','aprovado','recusado']
+          && cmTexto(request.resource.data, 'motivo', 300));
+      allow delete: if cmLogado() && (request.auth.uid == uid || cmAdmin());
+    }
+    // Curtidas: id = quemCurte_quemFoiCurtido. Match = as duas curtidas existem.
+    match /namoro_curtidas/{id} {
+      allow read: if cmLogado() && (resource.data.de == request.auth.uid || resource.data.para == request.auth.uid);
+      allow create: if cmVerificado()
+        && request.resource.data.keys().hasOnly(['de','para','criadoEm'])
+        && request.resource.data.de == request.auth.uid
+        && request.resource.data.para is string && request.resource.data.para != request.auth.uid
+        && id == request.auth.uid + '_' + request.resource.data.para
+        && request.resource.data.criadoEm == request.time
+        && nmAprovado(request.auth.uid) && nmAprovado(request.resource.data.para);
+      allow delete: if cmLogado() && resource.data.de == request.auth.uid;
+    }
+
     // ================= FIM — Comunidade =================
 
     // Todo o resto do banco fica fechado
