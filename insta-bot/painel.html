@@ -532,7 +532,19 @@ const saveCfg = () => { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg))
 // Token do GitHub: o deste navegador (cfg.token) ou o da equipe, guardado no Firebase (segredos/github).
 // O da equipe fica só na memória da página: não vai para o localStorage.
 let tokenConta = '', tokenContaEm = '';
-const tokenGH = () => cfg.token || tokenConta;
+// Tokens que o GitHub recusou (vencidos ou revogados) nesta visita: o painel passa para o próximo
+// e, sem nenhum que funcione, abre em modo leitura (o repositório é público).
+const tokensRuins = new Set();
+const tokenGH = () => [cfg.token, tokenConta].find(t => t && !tokensRuins.has(t)) || '';
+function avisoTokenRuim() {
+  const contaRuim = tokenConta && tokensRuins.has(tokenConta), navRuim = cfg.token && tokensRuins.has(cfg.token);
+  if (!contaRuim && !navRuim) return '';
+  const admin = typeof souAdmin === 'function' && souAdmin();
+  const comoTrocar = admin ? 'Crie um token novo no GitHub, cole em ⚙ Configurações e marque "Usar este token para toda a equipe".' : 'Peça para um administrador trocar em ⚙ Configurações.';
+  if (navRuim && !contaRuim) return 'O token do GitHub salvo neste navegador venceu ou foi revogado. ' + (tokenConta ? 'Estou usando o token da equipe no lugar. Para tirar este aviso, apague o token deste navegador em ⚙ Configurações.' : 'Cole outro em ⚙ Configurações.');
+  if (contaRuim && !navRuim && tokenGH()) return 'O token do GitHub da equipe (guardado no Firebase) venceu ou foi revogado. Este navegador está usando o token dele mesmo, mas nos outros o painel fica só para leitura. ' + comoTrocar;
+  return 'O token do GitHub ' + (contaRuim ? 'da equipe (guardado no Firebase) ' : '') + 'venceu ou foi revogado: o painel está só para leitura. ' + comoTrocar;
+}
 
 const PAGINAS = ['inicio', 'agenda', 'fila', 'rascunhos', 'postados', 'ia', 'ideias', 'marca', 'robo', 'repeticao', 'perfil', 'usuarios'];
 let calMes = null; // mês aberto no calendário (AAAA-MM)
@@ -554,21 +566,26 @@ const enc = str => {
   for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
   return btoa(bin);
 };
-function gh(path, opts = {}) {
-  return fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/${path}`, {
-    cache: 'no-store',
-    ...opts,
-    headers: {
-      Accept: 'application/vnd.github+json',
-      ...(tokenGH() ? { Authorization: 'Bearer ' + tokenGH() } : {}),
-      ...(opts.headers || {})
-    }
-  });
+async function gh(path, opts = {}) {
+  for (;;) {
+    const t = tokenGH();
+    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/${path}`, {
+      cache: 'no-store',
+      ...opts,
+      headers: {
+        Accept: 'application/vnd.github+json',
+        ...(t ? { Authorization: 'Bearer ' + t } : {}),
+        ...(opts.headers || {})
+      }
+    });
+    if (r.status !== 401 || !t) return r;
+    tokensRuins.add(t); // recusado: tenta o próximo token (ou sem token, só leitura)
+  }
 }
 async function erroDaApi(r) {
   let msg = '';
   try { msg = (await r.json()).message || ''; } catch (e) {}
-  if (r.status === 401) return 'Token inválido ou vencido. Gere outro em Configurações.';
+  if (r.status === 401 || (r.status === 404 && tokensRuins.size && !tokenGH())) return avisoTokenRuim() || 'Token inválido ou vencido. Gere outro em Configurações.';
   if (r.status === 403) return 'Sem permissão (ou limite de consultas). ' + msg;
   if (r.status === 404) return 'Não encontrei o arquivo/repositório. Confira as Configurações (repositório, branch e caminho) e, se o repositório for privado, o token. ' + msg;
   return `Erro ${r.status}. ${msg}`;
@@ -1055,7 +1072,8 @@ function render() {
   const addAviso = (t, c = '') => { const d = document.createElement('div'); d.className = 'aviso ' + c; d.textContent = t; av.appendChild(d); };
   if (loadError) { addAviso(loadError, 'erro'); $('#conteudo').innerHTML = '<div class="vazio">Não consegui carregar os posts.</div>'; $('#barra').classList.remove('on'); return; }
   if (!data) { $('#conteudo').innerHTML = '<div class="vazio">Carregando…</div>'; return; }
-  if (!tokenGH()) addAviso(souAdmin() ? 'Modo leitura: para aprovar, salvar e publicar, guarde o token do GitHub da equipe em ⚙ Configurações.' : 'Modo leitura: ainda não há token do GitHub da equipe. Peça para um administrador guardar em ⚙ Configurações.', 'info');
+  if (avisoTokenRuim()) addAviso(avisoTokenRuim(), 'erro');
+  else if (!tokenGH()) addAviso(souAdmin() ? 'Modo leitura: para aprovar, salvar e publicar, guarde o token do GitHub da equipe em ⚙ Configurações.' : 'Modo leitura: ainda não há token do GitHub da equipe. Peça para um administrador guardar em ⚙ Configurações.', 'info');
 
   const fila = filaDe(), agend = agendadosDe(), rasc = rascunhosDe(), done = postadosDe();
   const ocupados = new Set([...agend.map(p => partesBRT(new Date(p.agendarPara)).dia), ...done.filter(p => p.publicadoEm).map(p => partesBRT(new Date(p.publicadoEm)).dia)]);
@@ -1693,7 +1711,12 @@ function mostrarInfoToken() {
   F('cTokenContaLb').hidden = !souAdmin();
   const el = F('cTokenInfo'); el.innerHTML = '';
   const quem = `${tokenContaPor ? ' por ' + tokenContaPor : ''}${tokenContaEm ? ' em ' + fmtDia(tokenContaEm) : ''}`;
-  if (cfg.token) el.textContent = 'Agora: usando o token colado neste navegador.' + (tokenConta ? ' Também há um token da equipe; o deste navegador vale primeiro.' : '');
+  const ruim = avisoTokenRuim();
+  if (ruim) {
+    el.textContent = '⚠ ' + ruim + ' ';
+    if (cfg.token && tokensRuins.has(cfg.token)) { const b = document.createElement('button'); b.className = 'btn peq perigo'; b.textContent = 'Apagar o token deste navegador'; b.onclick = () => { cfg.token = ''; saveCfg(); F('cToken').value = ''; mostrarInfoToken(); render(); carregar(); }; el.appendChild(b); }
+    if (souAdmin() && tokenConta && tokensRuins.has(tokenConta)) { const b = document.createElement('button'); b.className = 'btn peq perigo'; b.textContent = 'Apagar token da equipe'; b.onclick = apagarTokenDaConta; el.appendChild(b); }
+  } else if (cfg.token) el.textContent = 'Agora: usando o token colado neste navegador.' + (tokenConta ? ' Também há um token da equipe; o deste navegador vale primeiro.' : '');
   else if (tokenConta) {
     el.textContent = `Agora: usando o token da equipe (guardado${quem}). `;
     if (souAdmin()) { const b = document.createElement('button'); b.className = 'btn peq perigo'; b.textContent = 'Apagar token da equipe'; b.onclick = apagarTokenDaConta; el.appendChild(b); }
