@@ -1090,7 +1090,12 @@ function render() {
       if (!data.posts.some(p => p.fonte === `data:${d.id || i}:${q.slice(0, 4)}`)) return q;
       return /^\d{2}-\d{2}$/.test(String(d.data)) ? `${Number(q.slice(0, 4)) + 1}${q.slice(4)}` : null;
     }).filter(Boolean).sort()[0];
-    addAviso(`Os rascunhos automáticos estão ligados, mas o Banco de conteúdo acabou: o robô não tem o que criar.${prox ? ` A próxima data comemorativa (${prox.split('-').reverse().join('/')}) entra ${regrasDe(banco).diasAntecedencia} dias antes.` : ''} Adicione ideias ou frases em 💡 Banco de conteúdo, ou ligue o banco de ideias automático com IA (Agenda e controle).`);
+    addAviso(`Os rascunhos automáticos estão ligados, mas o Banco de conteúdo acabou: o robô não tem o que criar.${prox ? ` A próxima data comemorativa (${prox.split('-').reverse().join('/')}) entra ${regrasDe(banco).diasAntecedencia} dias antes.` : ''}${(() => {
+      const ia = ideiasAutoDe(data);
+      if (!ia.ativa) return ' O banco de ideias automático (IA), que escreve ideias novas sozinho, está desligado: ligue em 🗓 Agenda e controle, ou adicione ideias e frases em 💡 Banco de conteúdo.';
+      if (/falta o secret|erro/i.test(ia.ultimoResultado || '')) return ` O banco de ideias automático (IA) está ligado, mas não conseguiu criar ideias: ${ia.ultimoResultado} Veja em 🗓 Agenda e controle.`;
+      return ' O banco de ideias automático (IA) está ligado e vai criar ideias novas na próxima rodada do robô (em até 30 min, uma vez a cada 20 h).';
+    })()}`);
   }
   else if (fila.length && fila.length < 3) addAviso(`A fila está curta: só ${fila.length} post(s) aprovado(s). Vai até ${fmtData(datas[datas.length - 1])}.`);
 
