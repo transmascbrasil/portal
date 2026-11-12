@@ -1013,5 +1013,12 @@
       6
     ],
     "hora": "12:00"
+  },
+  "ideiasAuto": {
+    "ativa": true,
+    "minimo": 5,
+    "quantidade": 5,
+    "provedor": "gemini",
+    "modelo": "gemini-2.5-flash"
   }
 }

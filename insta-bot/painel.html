@@ -501,7 +501,7 @@ function falhaFatal(msg) {
 }
 let SYSTEM_IA, extrairJson, NOME_PROV, temChaveDe, chamarIADe, normalizarPost, postCompleto, pedirJsonDe, postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, temasDe, coresDe, CORES_PADRAO, FAIXA_PADRAO, fonteCssGoogle, criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO, raizDe, proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT, agendaDe, descreverAgenda, rascunhosAutoDe, proximaCriacao, NOMES_DIAS, JANELA_HORAS, ideiasAutoDe, MODELO_PADRAO, SECRET_DA_IA;
 try {
-  const VER = '?v=20261030b'; // evita usar uma cópia antiga em cache
+  const VER = '?v=20261111a'; // evita usar uma cópia antiga em cache
   const [T, Fm, IA, B] = await Promise.all([import('./template.js' + VER), import('./fila.js' + VER), import('./ia.js' + VER), import('./banco.js' + VER)]);
   ({ criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO } = B);
   ({ SYSTEM_IA, extrairJson, NOME_PROV, temChave: temChaveDe, chamarIA: chamarIADe, normalizarPost, postCompleto, pedirJson: pedirJsonDe } = IA);
@@ -1083,6 +1083,20 @@ function render() {
   const repAtiva = !!(data.repeticao && data.repeticao.ativa);
   if (!fila.length && !agend.length && !repAtiva) addAviso('Nenhum post aprovado: o robô não vai publicar nada nos próximos dias. Aprove rascunhos, reposte algum post antigo ou ligue a repetição automática.');
   else if (!fila.length && !agend.length && repAtiva) addAviso('Fila vazia: o robô vai usar a repetição automática (post mais antigo) no próximo horário.', 'info');
+  if (rascunhosAutoDe(data).ativa && !novas.length) {
+    // próxima data comemorativa que ainda não virou post (a deste ano já usada passa para o ano que vem)
+    const prox = (banco.datas || []).map((d, i) => {
+      const q = proximaOcorrencia(d); if (!q) return null;
+      if (!data.posts.some(p => p.fonte === `data:${d.id || i}:${q.slice(0, 4)}`)) return q;
+      return /^\d{2}-\d{2}$/.test(String(d.data)) ? `${Number(q.slice(0, 4)) + 1}${q.slice(4)}` : null;
+    }).filter(Boolean).sort()[0];
+    addAviso(`Os rascunhos automáticos estão ligados, mas o Banco de conteúdo acabou: o robô não tem o que criar.${prox ? ` A próxima data comemorativa (${prox.split('-').reverse().join('/')}) entra ${regrasDe(banco).diasAntecedencia} dias antes.` : ''}${(() => {
+      const ia = ideiasAutoDe(data);
+      if (!ia.ativa) return ' O banco de ideias automático (IA), que escreve ideias novas sozinho, está desligado: ligue em 🗓 Agenda e controle, ou adicione ideias e frases em 💡 Banco de conteúdo.';
+      if (/falta o secret|erro/i.test(ia.ultimoResultado || '')) return ` O banco de ideias automático (IA) está ligado, mas não conseguiu criar ideias: ${ia.ultimoResultado} Veja em 🗓 Agenda e controle.`;
+      return ' O banco de ideias automático (IA) está ligado e vai criar ideias novas na próxima rodada do robô (em até 30 min, uma vez a cada 20 h).';
+    })()}`);
+  }
   else if (fila.length && fila.length < 3) addAviso(`A fila está curta: só ${fila.length} post(s) aprovado(s). Vai até ${fmtData(datas[datas.length - 1])}.`);
 
   const cands = [];

@@ -121,7 +121,8 @@ export function criarRascunhosAuto(config, banco, agora = new Date()) {
     agora, proximoId, hora: `${String(ag.hora).padStart(2, "0")}:${String(ag.minuto).padStart(2, "0")}`,
   }).map((c) => ({ ...c, aprovado: r.aprovar && !c.geradoPorIA })); // posts escritos pela IA nunca vão direto para a fila sem revisão
   config.posts.push(...criados);
-  config.rascunhosAuto = { ...(config.rascunhosAuto || {}), ultimaVez: agora.toISOString() };
+  // só conta a rodada quando criou algo: com o banco vazio, cria assim que entrar conteúdo novo
+  if (criados.length) config.rascunhosAuto = { ...(config.rascunhosAuto || {}), ultimaVez: agora.toISOString() };
   return { criados, motivo: criados.length ? "" : "banco de conteúdo vazio" };
 }
 
