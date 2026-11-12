@@ -1019,6 +1019,8 @@
     "minimo": 5,
     "quantidade": 5,
     "provedor": "gemini",
-    "modelo": "gemini-2.5-flash"
+    "modelo": "gemini-2.5-flash",
+    "ultimaTentativa": "2026-11-12T14:12:58.303Z",
+    "ultimoResultado": "erro: Chave da API inválida ou sem permissão. Confira em Configurações. The Gemini API free tier is not available for this project. To use the Gemini API, please set up billing to upgrade to the paid tier at https://aistudio.google.com/billing. For more information, see https://ai.google.dev/gemini-api/docs/troubleshooting#project-unavailable."
   }
 }
