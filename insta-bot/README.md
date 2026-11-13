@@ -32,7 +32,10 @@ Testar localmente: `npm install && npx playwright install chromium && node rende
 - **Frases** (`frases`): frases soltas que viram o modelo "Frase em destaque".
 - **Datas comemorativas** (`datas`): viram rascunho alguns dias antes (`regras.diasAntecedencia`), já com a data marcada. Ao aprovar, o post sai nesse dia. `"data": "MM-DD"` repete todo ano; `"AAAA-MM-DD"` acontece uma vez.
 - **Legenda automática** (`legenda`): modelos, chamadas para ação e hashtags usados nas frases e datas sem legenda própria.
-- **Regras** (`regras`): `frasesACada` (1 frase a cada N rascunhos) e `diasAntecedencia`.
+- **Regras** (`regras`): `frasesACada` (1 frase a cada N rascunhos), `diasAntecedencia`, `desdobrar`, `reciclar` e `diasReciclar`.
+- **Quando tudo isso acaba**, o banco continua rendendo sem IA:
+  - 🧩 **dicas avulsas** (`desdobrar`): cada item das ideias em lista, checklist ou mito vira um post próprio (modelo capa), com a chamada e o aviso (caixa de destaque) do post original;
+  - ♻️ **reaproveitamento** (`reciclar`): posts publicados há mais de `diasReciclar` dias (padrão 60) voltam como rascunho, com outro tema de cor. Nunca repete o que ainda está na fila.
 
 Cada item vira rascunho uma vez só. O botão **📥 Gerar rascunhos** (painel) e os **rascunhos automáticos** (robô, `rascunhos.mjs`) usam a mesma regra, em `banco.js`: primeiro as datas que estão chegando, depois as ideias, com uma frase a cada N rascunhos.
 

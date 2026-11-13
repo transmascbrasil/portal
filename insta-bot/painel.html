@@ -501,7 +501,7 @@ function falhaFatal(msg) {
 }
 let SYSTEM_IA, extrairJson, NOME_PROV, temChaveDe, chamarIADe, normalizarPost, postCompleto, pedirJsonDe, postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, temasDe, coresDe, CORES_PADRAO, FAIXA_PADRAO, fonteCssGoogle, criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO, raizDe, proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT, agendaDe, descreverAgenda, rascunhosAutoDe, proximaCriacao, NOMES_DIAS, JANELA_HORAS, ideiasAutoDe, MODELO_PADRAO, SECRET_DA_IA;
 try {
-  const VER = '?v=20261111a'; // evita usar uma cópia antiga em cache
+  const VER = '?v=20261113a'; // evita usar uma cópia antiga em cache
   const [T, Fm, IA, B] = await Promise.all([import('./template.js' + VER), import('./fila.js' + VER), import('./ia.js' + VER), import('./banco.js' + VER)]);
   ({ criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO } = B);
   ({ SYSTEM_IA, extrairJson, NOME_PROV, temChave: temChaveDe, chamarIA: chamarIADe, normalizarPost, postCompleto, pedirJson: pedirJsonDe } = IA);
@@ -876,7 +876,7 @@ function card(p, { badge, badgeCls, extra, acoes, selecionavel }) {
 function barraGerar(disp) {
   const b = document.createElement('div'); b.className = 'selbar';
   const sp = document.createElement('span'); sp.className = 'sp';
-  sp.textContent = disp ? `${disp} item(ns) pronto(s) no banco de conteúdo (ideias, frases e datas que estão chegando). Escolha quantos rascunhos criar agora (sem IA e sem chave).` : 'O banco de conteúdo acabou: tudo já virou rascunho ou foi para a fila.';
+  sp.textContent = disp ? `${disp} item(ns) pronto(s) no banco de conteúdo (ideias, frases, datas que estão chegando, dicas avulsas e posts para reaproveitar). Escolha quantos rascunhos criar agora (sem IA e sem chave).` : 'O banco de conteúdo acabou: tudo já virou rascunho ou foi para a fila.';
   const q = document.createElement('input'); q.type = 'number'; q.min = 1; q.max = Math.max(disp, 1); q.value = Math.min(qtdRasc, Math.max(disp, 1)); q.style.width = '70px'; q.disabled = !disp;
   q.oninput = () => { qtdRasc = parseInt(q.value, 10) || 1; };
   const g = btn('📥 Gerar rascunhos', '', () => gerarRascunhos(q.value), !disp);
@@ -1079,7 +1079,7 @@ function render() {
   const ocupados = new Set([...agend.map(p => partesBRT(new Date(p.agendarPara)).dia), ...done.filter(p => p.publicadoEm).map(p => partesBRT(new Date(p.publicadoEm)).dia)]);
   const datas = proximasDatas(fila.length, ocupados);
   const dispBanco = disponiveisNoBanco(data, banco);
-  const novas = [...dispBanco.datas, ...dispBanco.ideias, ...dispBanco.frases];
+  const novas = [...dispBanco.datas, ...dispBanco.ideias, ...dispBanco.frases, ...dispBanco.dicas, ...dispBanco.reciclar];
   const repAtiva = !!(data.repeticao && data.repeticao.ativa);
   if (!fila.length && !agend.length && !repAtiva) addAviso('Nenhum post aprovado: o robô não vai publicar nada nos próximos dias. Aprove rascunhos, reposte algum post antigo ou ligue a repetição automática.');
   else if (!fila.length && !agend.length && repAtiva) addAviso('Fila vazia: o robô vai usar a repetição automática (post mais antigo) no próximo horário.', 'info');
@@ -1092,7 +1092,7 @@ function render() {
     }).filter(Boolean).sort()[0];
     addAviso(`Os rascunhos automáticos estão ligados, mas o Banco de conteúdo acabou: o robô não tem o que criar.${prox ? ` A próxima data comemorativa (${prox.split('-').reverse().join('/')}) entra ${regrasDe(banco).diasAntecedencia} dias antes.` : ''}${(() => {
       const ia = ideiasAutoDe(data);
-      if (!ia.ativa) return ' O banco de ideias automático (IA), que escreve ideias novas sozinho, está desligado: ligue em 🗓 Agenda e controle, ou adicione ideias e frases em 💡 Banco de conteúdo.';
+      if (!ia.ativa) return ' Adicione ideias ou frases em 💡 Banco de conteúdo, ou ligue em ⚙ Regras as dicas avulsas e o reaproveitamento de posts publicados.';
       if (/falta o secret|erro/i.test(ia.ultimoResultado || '')) return ` O banco de ideias automático (IA) está ligado, mas não conseguiu criar ideias: ${ia.ultimoResultado} Veja em 🗓 Agenda e controle.`;
       return ' O banco de ideias automático (IA) está ligado e vai criar ideias novas na próxima rodada do robô (em até 30 min, uma vez a cada 20 h).';
     })()}`);
@@ -1247,9 +1247,9 @@ function aplicarNoBanco(novo) {
 function linhaBanco(html) { const d = document.createElement('div'); d.className = 'bitem'; d.innerHTML = html; return d; }
 function renderBanco(c, grid, disp) {
   const regras = regrasDe(banco);
-  c.appendChild(barraGerar(disp.datas.length + disp.ideias.length + disp.frases.length));
+  c.appendChild(barraGerar(disp.datas.length + disp.ideias.length + disp.frases.length + disp.dicas.length + disp.reciclar.length));
   const intro = document.createElement('p'); intro.className = 'dica'; intro.style.margin = '-4px 0 14px';
-  intro.innerHTML = `Cada item vira rascunho <b>uma vez só</b>. Ordem: 📅 datas que estão chegando (até ${regras.diasAntecedencia} dias antes) → 💡 ideias, na ordem abaixo → 💬 uma frase a cada ${regras.frasesACada || '∞'} rascunhos (e as frases que sobrarem quando as ideias acabarem). Tudo fica no <code>ideias.json</code>.`;
+  intro.innerHTML = `Cada item vira rascunho <b>uma vez só</b>. Ordem: 📅 datas que estão chegando (até ${regras.diasAntecedencia} dias antes) → 💡 ideias, na ordem abaixo → 💬 uma frase a cada ${regras.frasesACada || '∞'} rascunhos (e as frases que sobrarem quando as ideias acabarem). Quando tudo isso acaba, o banco continua rendendo sem IA: ${regras.desdobrar ? `🧩 cada item das ideias em lista, checklist ou mito vira uma dica avulsa (${disp.dicas.length} disponível(is))` : '🧩 dicas avulsas desligadas'} e ${regras.reciclar ? `♻️ posts publicados há mais de ${regras.diasReciclar} dias voltam como rascunho (${disp.reciclar.length} agora)` : '♻️ reaproveitamento desligado'}. Tudo fica no <code>ideias.json</code>.`;
   c.appendChild(intro);
   const duas = document.createElement('div'); duas.className = 'duas';
 
@@ -1321,7 +1321,17 @@ function renderBanco(c, grid, disp) {
   const fa = r1.querySelector('.fa'), da = r2.querySelector('.da'); fa.value = regras.frasesACada; da.value = regras.diasAntecedencia;
   fa.onchange = () => { banco.regras = { ...regras, ...(banco.regras || {}), frasesACada: Math.max(0, Math.min(20, parseInt(fa.value, 10) || 0)) }; marcar(); };
   da.onchange = () => { banco.regras = { ...regras, ...(banco.regras || {}), diasAntecedencia: Math.max(0, Math.min(90, parseInt(da.value, 10) || 0)) }; marcar(); };
-  sR.append(r1, r2);
+  const chk = (rot, chave) => {
+    const l = document.createElement('label'); l.className = 'chk'; l.style.marginTop = '10px';
+    l.innerHTML = `<input type="checkbox" ${regras[chave] ? 'checked' : ''}><span>${rot}</span>`;
+    l.querySelector('input').onchange = ev => { banco.regras = { ...regras, ...(banco.regras || {}), [chave]: ev.target.checked }; marcar(); };
+    return l;
+  };
+  const r3 = document.createElement('div'); r3.className = 'linha'; r3.style.marginTop = '4px';
+  r3.innerHTML = 'Reaproveitar posts publicados há mais de <input type="number" min="7" max="365" class="dr"> dias';
+  const dr = r3.querySelector('.dr'); dr.value = regras.diasReciclar;
+  dr.onchange = () => { banco.regras = { ...regras, ...(banco.regras || {}), diasReciclar: Math.max(7, Math.min(365, parseInt(dr.value, 10) || 60)) }; marcar(); };
+  sR.append(r1, r2, chk('🧩 Quando o banco acabar, transformar cada item das ideias (lista, checklist, mito) em dica avulsa', 'desdobrar'), chk('♻️ Depois disso, reaproveitar posts já publicados (como rascunho, com outro tema)', 'reciclar'), r3);
   const colL = document.createElement('div'); colL.append(sL, sR);
   duas.appendChild(colL);
   c.appendChild(duas);
