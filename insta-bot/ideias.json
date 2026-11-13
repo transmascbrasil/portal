@@ -817,6 +817,853 @@
         "texto": "No atendimento e no cadastro"
       },
       "legenda": "Vai ter consulta? Separa isso antes pra aproveitar bem o tempo. 📋\n\nAnotar as dúvidas ajuda muito, porque na hora a gente esquece. Leve os exames que já fez e peça para ser chamado pelo nome social.\n\nNo portal tem ambulatórios trans e profissionais indicados pela comunidade.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudetrans"
+    },
+    {
+      "id": "reserva-001",
+      "tipo": "lista",
+      "kicker": "Nome social",
+      "titulo": [
+        "Nome social",
+        "no SUS"
+      ],
+      "subtitulo": "Você pode ser chamado pelo seu nome no atendimento",
+      "itens": [
+        {
+          "emoji": "🪪",
+          "titulo": "Peça o nome social no cartão do SUS",
+          "texto": "Na UBS ou na secretaria de saúde"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "Avise na recepção",
+          "texto": "Ele deve aparecer no seu cadastro"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Vale em toda a rede pública",
+          "texto": "Postos, hospitais e ambulatórios"
+        },
+        {
+          "emoji": "📣",
+          "titulo": "Desrespeitaram?",
+          "texto": "Procure a ouvidoria do SUS: 136"
+        }
+      ],
+      "destaque": {
+        "forte": "Nome social é direito no SUS.",
+        "texto": "Não precisa ter retificado."
+      },
+      "legenda": "Você não precisa esperar a retificação pra ser chamado pelo seu nome no SUS. Dá pra pedir o nome social no cartão e no cadastro da unidade.\n\nSe alguém desrespeitar, a Ouvidoria do SUS atende pelo 136.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #nomesocial",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post120",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "em São Paulo"
+      ],
+      "subtitulo": "88 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 55",
+          "texto": "São Paulo, Campinas e Itapetininga"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 32",
+          "texto": "São Paulo, Santos e Presidente Prudente"
+        },
+        {
+          "emoji": "💉",
+          "titulo": "Endocrinologistas: 1",
+          "texto": "São José do Rio Preto"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "58 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans em São Paulo? 📍\n\nO portal reúne 88 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 55\n🩺 Cirurgiões (mastectomia): 32\n💉 Endocrinologistas: 1\n✅ 58 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-SP",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post121",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "em Minas Gerais"
+      ],
+      "subtitulo": "15 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 8",
+          "texto": "Belo Horizonte, Juiz de Fora e Uberlândia"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 7",
+          "texto": "Belo Horizonte, Uberaba e Uberlândia"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "7 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans em Minas Gerais? 📍\n\nO portal reúne 15 indicações no estado, feitas pela própria comunidade:\n🩺 Cirurgiões (mastectomia): 8\n🏥 Ambulatórios trans: 7\n✅ 7 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-MG",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post122",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Rio de Janeiro"
+      ],
+      "subtitulo": "14 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 9",
+          "texto": "Rio de Janeiro e Niterói"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 5",
+          "texto": "Rio de Janeiro e Niterói"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "7 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Rio de Janeiro? 📍\n\nO portal reúne 14 indicações no estado, feitas pela própria comunidade:\n🩺 Cirurgiões (mastectomia): 9\n🏥 Ambulatórios trans: 5\n✅ 7 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-RJ",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post123",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Rio Grande do Sul"
+      ],
+      "subtitulo": "12 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 6",
+          "texto": "Porto Alegre, Lajeado e Santa Maria"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 6",
+          "texto": "Porto Alegre"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "8 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Rio Grande do Sul? 📍\n\nO portal reúne 12 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 6\n🩺 Cirurgiões (mastectomia): 6\n✅ 8 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-RS",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post124",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "na Bahia"
+      ],
+      "subtitulo": "7 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 4",
+          "texto": "Salvador"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 3",
+          "texto": "Salvador e Bahia"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "7 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans na Bahia? 📍\n\nO portal reúne 7 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 4\n🩺 Cirurgiões (mastectomia): 3\n✅ 7 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-BA",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post125",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Distrito Federal"
+      ],
+      "subtitulo": "4 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Brasília"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 2",
+          "texto": "Brasília"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "2 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Distrito Federal? 📍\n\nO portal reúne 4 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n🩺 Cirurgiões (mastectomia): 2\n✅ 2 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-DF",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post126",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "em Goiás"
+      ],
+      "subtitulo": "4 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Goiânia"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 2",
+          "texto": "Goiânia"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "4 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans em Goiás? 📍\n\nO portal reúne 4 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n🩺 Cirurgiões (mastectomia): 2\n✅ 4 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-GO",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post127",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "em Pernambuco"
+      ],
+      "subtitulo": "4 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Recife"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 2",
+          "texto": "Recife"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "4 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans em Pernambuco? 📍\n\nO portal reúne 4 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n🩺 Cirurgiões (mastectomia): 2\n✅ 4 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-PE",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post128",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "na Paraíba"
+      ],
+      "subtitulo": "3 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 3",
+          "texto": "João Pessoa e Campina Grande"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "3 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans na Paraíba? 📍\n\nO portal reúne 3 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 3\n✅ 3 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-PB",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post129",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "em Alagoas"
+      ],
+      "subtitulo": "2 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 2",
+          "texto": "Maceió"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "2 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans em Alagoas? 📍\n\nO portal reúne 2 indicações no estado, feitas pela própria comunidade:\n🩺 Cirurgiões (mastectomia): 2\n✅ 2 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-AL",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post130",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Ceará"
+      ],
+      "subtitulo": "2 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Fortaleza"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "2 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Ceará? 📍\n\nO portal reúne 2 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n✅ 2 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-CE",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post131",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Espírito Santo"
+      ],
+      "subtitulo": "2 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Vitória"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "2 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Espírito Santo? 📍\n\nO portal reúne 2 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n✅ 2 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-ES",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post132",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Mato Grosso do Sul"
+      ],
+      "subtitulo": "2 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 2",
+          "texto": "Campo Grande"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Mato Grosso do Sul? 📍\n\nO portal reúne 2 indicações no estado, feitas pela própria comunidade:\n🩺 Cirurgiões (mastectomia): 2\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-MS",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post133",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Mato Grosso"
+      ],
+      "subtitulo": "2 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Cuiabá"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "2 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Mato Grosso? 📍\n\nO portal reúne 2 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n✅ 2 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-MT",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post134",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Pará"
+      ],
+      "subtitulo": "2 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Belém"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "2 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Pará? 📍\n\nO portal reúne 2 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n✅ 2 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-PA",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post135",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Paraná"
+      ],
+      "subtitulo": "2 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Curitiba"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "2 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Paraná? 📍\n\nO portal reúne 2 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n✅ 2 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-PR",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post136",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Rio Grande do Norte"
+      ],
+      "subtitulo": "2 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Mossoró e Natal"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "2 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Rio Grande do Norte? 📍\n\nO portal reúne 2 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n✅ 2 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-RN",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post137",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "em Santa Catarina"
+      ],
+      "subtitulo": "2 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 2",
+          "texto": "Florianópolis"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "2 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans em Santa Catarina? 📍\n\nO portal reúne 2 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 2\n✅ 2 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-SC",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post138",
+      "tipo": "lista",
+      "kicker": "Ambulatórios trans",
+      "titulo": [
+        "Onde tem",
+        "pelo Brasil"
+      ],
+      "subtitulo": "102 indicações em 18 estados",
+      "itens": [
+        {
+          "emoji": "📍",
+          "titulo": "São Paulo: 55",
+          "texto": "São Paulo, Campinas e Itapetininga"
+        },
+        {
+          "emoji": "📍",
+          "titulo": "Minas Gerais: 7",
+          "texto": "Belo Horizonte, Uberaba e Uberlândia"
+        },
+        {
+          "emoji": "📍",
+          "titulo": "Rio Grande do Sul: 6",
+          "texto": "Porto Alegre, Lajeado e Santa Maria"
+        },
+        {
+          "emoji": "📍",
+          "titulo": "Rio de Janeiro: 5",
+          "texto": "Rio de Janeiro e Niterói"
+        },
+        {
+          "emoji": "➕",
+          "titulo": "E mais 14 estados",
+          "texto": "Veja todos no portal"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "🏥 Ambulatórios trans: o portal tem 102 indicações em 18 estados, todas feitas pela comunidade.\n\nOnde tem mais:\n📍 São Paulo: 55\n📍 Minas Gerais: 7\n📍 Rio Grande do Sul: 6\n📍 Rio de Janeiro: 5\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans",
+      "portalChave": "portal-cat-ambulatorios",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "post139",
+      "tipo": "lista",
+      "kicker": "Cirurgiões (mastectomia)",
+      "titulo": [
+        "Onde tem",
+        "pelo Brasil"
+      ],
+      "subtitulo": "68 indicações em 10 estados",
+      "itens": [
+        {
+          "emoji": "📍",
+          "titulo": "São Paulo: 32",
+          "texto": "São Paulo, Santos e Presidente Prudente"
+        },
+        {
+          "emoji": "📍",
+          "titulo": "Rio de Janeiro: 9",
+          "texto": "Rio de Janeiro e Niterói"
+        },
+        {
+          "emoji": "📍",
+          "titulo": "Minas Gerais: 8",
+          "texto": "Belo Horizonte, Juiz de Fora e Uberlândia"
+        },
+        {
+          "emoji": "📍",
+          "titulo": "Rio Grande do Sul: 6",
+          "texto": "Porto Alegre"
+        },
+        {
+          "emoji": "➕",
+          "titulo": "E mais 6 estados",
+          "texto": "Veja todos no portal"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "🩺 Cirurgiões (mastectomia): o portal tem 68 indicações em 10 estados, todas feitas pela comunidade.\n\nOnde tem mais:\n📍 São Paulo: 32\n📍 Rio de Janeiro: 9\n📍 Minas Gerais: 8\n📍 Rio Grande do Sul: 6\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans",
+      "portalChave": "portal-cat-cirurgioes",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z"
     }
-  ]
+  ],
+  "abastecer": {
+    "reserva": {
+      "ativa": true,
+      "aCadaDias": 2,
+      "quantidade": 1,
+      "ultimaVez": "2026-11-13T19:36:15.529Z"
+    },
+    "portal": {
+      "ativa": true,
+      "refazerAposDias": 30,
+      "assinaturas": {
+        "portal-uf-SP": {
+          "assinatura": "[[\"ambulatorios\",55],[\"cirurgioes\",32],[\"endocrinologistas\",1]]|58",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post120"
+        },
+        "portal-uf-MG": {
+          "assinatura": "[[\"cirurgioes\",8],[\"ambulatorios\",7]]|7",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post121"
+        },
+        "portal-uf-RJ": {
+          "assinatura": "[[\"cirurgioes\",9],[\"ambulatorios\",5]]|7",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post122"
+        },
+        "portal-uf-RS": {
+          "assinatura": "[[\"ambulatorios\",6],[\"cirurgioes\",6]]|8",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post123"
+        },
+        "portal-uf-BA": {
+          "assinatura": "[[\"ambulatorios\",4],[\"cirurgioes\",3]]|7",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post124"
+        },
+        "portal-uf-DF": {
+          "assinatura": "[[\"ambulatorios\",2],[\"cirurgioes\",2]]|2",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post125"
+        },
+        "portal-uf-GO": {
+          "assinatura": "[[\"ambulatorios\",2],[\"cirurgioes\",2]]|4",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post126"
+        },
+        "portal-uf-PE": {
+          "assinatura": "[[\"ambulatorios\",2],[\"cirurgioes\",2]]|4",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post127"
+        },
+        "portal-uf-PB": {
+          "assinatura": "[[\"ambulatorios\",3]]|3",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post128"
+        },
+        "portal-uf-AL": {
+          "assinatura": "[[\"cirurgioes\",2]]|2",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post129"
+        },
+        "portal-uf-CE": {
+          "assinatura": "[[\"ambulatorios\",2]]|2",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post130"
+        },
+        "portal-uf-ES": {
+          "assinatura": "[[\"ambulatorios\",2]]|2",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post131"
+        },
+        "portal-uf-MS": {
+          "assinatura": "[[\"cirurgioes\",2]]|0",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post132"
+        },
+        "portal-uf-MT": {
+          "assinatura": "[[\"ambulatorios\",2]]|2",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post133"
+        },
+        "portal-uf-PA": {
+          "assinatura": "[[\"ambulatorios\",2]]|2",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post134"
+        },
+        "portal-uf-PR": {
+          "assinatura": "[[\"ambulatorios\",2]]|2",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post135"
+        },
+        "portal-uf-RN": {
+          "assinatura": "[[\"ambulatorios\",2]]|2",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post136"
+        },
+        "portal-uf-SC": {
+          "assinatura": "[[\"ambulatorios\",2]]|2",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post137"
+        },
+        "portal-cat-ambulatorios": {
+          "assinatura": "[[\"SP\",55],[\"MG\",7],[\"RS\",6],[\"RJ\",5],[\"BA\",4],[\"PB\",3],[\"CE\",2],[\"DF\",2],[\"ES\",2],[\"GO\",2],[\"MT\",2],[\"PA\",2],[\"PE\",2],[\"PR\",2],[\"RN\",2],[\"SC\",2],[\"AC\",1],[\"TO\",1]]",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post138"
+        },
+        "portal-cat-cirurgioes": {
+          "assinatura": "[[\"SP\",32],[\"RJ\",9],[\"MG\",8],[\"RS\",6],[\"BA\",3],[\"AL\",2],[\"DF\",2],[\"GO\",2],[\"MS\",2],[\"PE\",2]]",
+          "em": "2026-11-13T19:36:15.529Z",
+          "id": "post139"
+        }
+      },
+      "novidadesDesde": "2026-10-20T19:47:55.233Z",
+      "ultimaVez": "2026-11-13T19:36:15.529Z",
+      "ultimoResultado": "171 indicações lidas; 20 ideia(s) nova(s)."
+    }
+  }
 }
