@@ -154,7 +154,9 @@ export function postHtml(p, marca, fontCss = "") {
   const tituloHtml = tipo === "citacao"
     ? esc(linhas.join(" "))
     : titulo;
-  const tamPadrao = tipo === "capa" ? 118 : tipo === "citacao" ? 68 : 84;
+  // capa: palavra muito longa ("transexualizador") não cabe na largura em 118px
+  const maiorPalavra = Math.max(0, ...linhas.join(" ").split(/\s+/).map((w) => w.length));
+  const tamPadrao = tipo === "capa" ? (maiorPalavra > 12 ? Math.max(80, Math.floor(1370 / maiorPalavra)) : 118) : tipo === "citacao" ? 68 : 84;
 
   const destaque = p.destaque && (p.destaque.forte || p.destaque.texto)
     ? `<div class="destaque"><b>${esc(p.destaque.forte || "")}</b>${p.destaque.texto ? `<span>${esc(p.destaque.texto)}</span>` : ""}</div>`

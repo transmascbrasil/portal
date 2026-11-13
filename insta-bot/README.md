@@ -39,6 +39,11 @@ Testar localmente: `npm install && npx playwright install chromium && node rende
 
 Cada item vira rascunho uma vez só. O botão **📥 Gerar rascunhos** (painel) e os **rascunhos automáticos** (robô, `rascunhos.mjs`) usam a mesma regra, em `banco.js`: primeiro as datas que estão chegando, depois as ideias, com uma frase a cada N rascunhos.
 
+### O banco se abastece sozinho (`abastecer-banco.mjs`)
+Roda nas rodadas do robô e coloca ideias novas no banco, mesmo que ninguém use. Sem IA e sem chave. Regras em `ideias.json` → `abastecer` (ou no painel, em Banco de conteúdo → ⚙ Regras):
+- **📦 Reserva** (`reserva.json`): pacote de pautas prontas; o robô libera `quantidade` a cada `aCadaDias` (padrão: 1 a cada 2 dias).
+- **📍 Dados do portal**: uma vez por dia, lê as indicações aprovadas do site (dados públicos do Firestore) e cria ideias por estado, por categoria e de novidades, sem citar nomes. Uma ideia só é refeita quando os números mudam, e no mínimo 30 dias depois da anterior (`refazerAposDias`); se ela ainda não virou rascunho, só os números são atualizados. Regras em `portal-dados.js`.
+
 ## Marca
 No painel: **🎨 Marca**. Fica em `posts.json` → `marca`:
 `nome`, `rodape`, `cores` (`escura`, `clara`, `primaria`, `secundaria`), `faixa` (cores da faixa do topo), `fonte` (Google Fonts) e `logo` (arquivo nesta pasta, como `logo.png`, ou URL). Sem `cores`, os posts usam o visual padrão do portal.
