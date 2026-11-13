@@ -999,6 +999,47 @@
       "legenda": "Vai ter consulta? Separa isso antes pra aproveitar bem o tempo. 📋\n\nAnotar as dúvidas ajuda muito, porque na hora a gente esquece. Leve os exames que já fez e peça para ser chamado pelo nome social.\n\nNo portal tem ambulatórios trans e profissionais indicados pela comunidade.\n\nMe segue aí, galera, e compartilha com quem precisa ver isso 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudetrans",
       "aprovado": true,
       "postado": false
+    },
+    {
+      "id": "reserva-001",
+      "tipo": "lista",
+      "kicker": "Nome social",
+      "titulo": [
+        "Nome social",
+        "no SUS"
+      ],
+      "subtitulo": "Você pode ser chamado pelo seu nome no atendimento",
+      "itens": [
+        {
+          "emoji": "🪪",
+          "titulo": "Peça o nome social no cartão do SUS",
+          "texto": "Na UBS ou na secretaria de saúde"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "Avise na recepção",
+          "texto": "Ele deve aparecer no seu cadastro"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Vale em toda a rede pública",
+          "texto": "Postos, hospitais e ambulatórios"
+        },
+        {
+          "emoji": "📣",
+          "titulo": "Desrespeitaram?",
+          "texto": "Procure a ouvidoria do SUS: 136"
+        }
+      ],
+      "destaque": {
+        "forte": "Nome social é direito no SUS.",
+        "texto": "Não precisa ter retificado."
+      },
+      "legenda": "Você não precisa esperar a retificação pra ser chamado pelo seu nome no SUS. Dá pra pedir o nome social no cartão e no cadastro da unidade.\n\nSe alguém desrespeitar, a Ouvidoria do SUS atende pelo 136.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #nomesocial",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z",
+      "criadoEm": "2026-11-13T22:45:12.398Z"
     }
   ],
   "rascunhosAuto": {
@@ -1006,7 +1047,7 @@
     "aCadaDias": 2,
     "quantidade": 1,
     "aprovar": false,
-    "ultimaVez": "2026-11-10T22:27:14.997Z"
+    "ultimaVez": "2026-11-13T22:45:12.398Z"
   },
   "agenda": {
     "dias": [
