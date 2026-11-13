@@ -1017,7 +1017,7 @@
     "hora": "12:00"
   },
   "ideiasAuto": {
-    "ativa": true,
+    "ativa": false,
     "minimo": 5,
     "quantidade": 5,
     "provedor": "gemini",
