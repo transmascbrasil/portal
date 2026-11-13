@@ -1,0 +1,2936 @@
+{
+  "posts": [
+    {
+      "id": "reserva-001",
+      "tipo": "lista",
+      "kicker": "Nome social",
+      "titulo": [
+        "Nome social",
+        "no SUS"
+      ],
+      "subtitulo": "Você pode ser chamado pelo seu nome no atendimento",
+      "itens": [
+        {
+          "emoji": "🪪",
+          "titulo": "Peça o nome social no cartão do SUS",
+          "texto": "Na UBS ou na secretaria de saúde"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "Avise na recepção",
+          "texto": "Ele deve aparecer no seu cadastro"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Vale em toda a rede pública",
+          "texto": "Postos, hospitais e ambulatórios"
+        },
+        {
+          "emoji": "📣",
+          "titulo": "Desrespeitaram?",
+          "texto": "Procure a ouvidoria do SUS: 136"
+        }
+      ],
+      "destaque": {
+        "forte": "Nome social é direito no SUS.",
+        "texto": "Não precisa ter retificado."
+      },
+      "legenda": "Você não precisa esperar a retificação pra ser chamado pelo seu nome no SUS. Dá pra pedir o nome social no cartão e no cadastro da unidade.\n\nSe alguém desrespeitar, a Ouvidoria do SUS atende pelo 136.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #nomesocial"
+    },
+    {
+      "id": "reserva-002",
+      "tipo": "lista",
+      "kicker": "Escola",
+      "titulo": [
+        "Nome social",
+        "na escola"
+      ],
+      "subtitulo": "Estudantes trans podem usar o nome social",
+      "itens": [
+        {
+          "emoji": "🏫",
+          "titulo": "Peça na secretaria",
+          "texto": "Ele vai para a chamada e os registros internos"
+        },
+        {
+          "emoji": "👨‍👩‍👦",
+          "titulo": "Menor de 18 anos?",
+          "texto": "O pedido costuma ser feito pelos responsáveis"
+        },
+        {
+          "emoji": "📄",
+          "titulo": "Tem norma nacional",
+          "texto": "Resolução do CNE de 2018"
+        },
+        {
+          "emoji": "💬",
+          "titulo": "Converse com a coordenação",
+          "texto": "Combinem como vai ser na prática"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral.",
+        "texto": "Cada rede de ensino organiza o pedido do seu jeito."
+      },
+      "legenda": "Desde 2018, uma resolução do Conselho Nacional de Educação garante o uso do nome social nos registros escolares da educação básica.\n\nNa dúvida, comece pela secretaria da escola.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #educacao"
+    },
+    {
+      "id": "reserva-003",
+      "tipo": "passos",
+      "kicker": "ENEM",
+      "titulo": [
+        "Nome social",
+        "no ENEM"
+      ],
+      "itens": [
+        {
+          "titulo": "Faça a inscrição normal",
+          "texto": "Com os dados do seu documento"
+        },
+        {
+          "titulo": "Peça o atendimento pelo nome social",
+          "texto": "No período indicado no edital"
+        },
+        {
+          "titulo": "Envie o que pedirem",
+          "texto": "Confira a lista no edital do ano"
+        },
+        {
+          "titulo": "No dia da prova",
+          "texto": "Você é chamado pelo nome social"
+        }
+      ],
+      "destaque": {
+        "forte": "As regras mudam a cada edital.",
+        "texto": "Leia sempre o edital do ano."
+      },
+      "legenda": "O ENEM aceita pedido de atendimento pelo nome social. O prazo e os documentos aparecem no edital de cada ano, então fica de olho quando ele sair.\n\nMarca aqui quem vai fazer a prova 📚\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #enem"
+    },
+    {
+      "id": "reserva-004",
+      "tipo": "lista",
+      "kicker": "Eleições",
+      "titulo": [
+        "Nome social",
+        "no título de eleitor"
+      ],
+      "itens": [
+        {
+          "emoji": "🗳️",
+          "titulo": "Dá pra incluir o nome social",
+          "texto": "O pedido é feito na Justiça Eleitoral"
+        },
+        {
+          "emoji": "🌐",
+          "titulo": "Comece pelo site do TSE",
+          "texto": "Ou vá a um cartório eleitoral"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Ele aparece no título",
+          "texto": "E no caderno de votação"
+        },
+        {
+          "emoji": "⏳",
+          "titulo": "Fique de olho nos prazos",
+          "texto": "Antes de cada eleição o cadastro fecha"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral.",
+        "texto": "Confira os prazos no site do TSE."
+      },
+      "legenda": "Desde 2018 a Justiça Eleitoral permite incluir o nome social no título de eleitor. Assim você é chamado pelo seu nome na hora de votar.\n\nCompartilha com quem ainda não sabe 🗳️\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #cidadania"
+    },
+    {
+      "id": "reserva-005",
+      "tipo": "lista",
+      "kicker": "Trabalho",
+      "titulo": [
+        "Nome social",
+        "no trabalho"
+      ],
+      "subtitulo": "Dicas pra conversar com a empresa",
+      "itens": [
+        {
+          "emoji": "📧",
+          "titulo": "Peça por escrito ao RH",
+          "texto": "Fica registrado o seu pedido"
+        },
+        {
+          "emoji": "💻",
+          "titulo": "E-mail, crachá e sistemas",
+          "texto": "Tudo pode usar o seu nome"
+        },
+        {
+          "emoji": "🤝",
+          "titulo": "Combine como avisar a equipe",
+          "texto": "Você decide o quanto contar"
+        },
+        {
+          "emoji": "📣",
+          "titulo": "Desrespeito constante?",
+          "texto": "Procure o RH, o sindicato ou a Defensoria"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação jurídica.",
+        "texto": "Cada caso tem suas particularidades."
+      },
+      "legenda": "Ser chamado pelo nome certo no trabalho faz muita diferença no dia a dia. Comece pelo RH e peça por escrito.\n\nJá passou por isso? Conta pra gente como foi 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #trabalho"
+    },
+    {
+      "id": "reserva-006",
+      "tipo": "checklist",
+      "kicker": "Depois de retificar",
+      "titulo": [
+        "Documentos pra",
+        "atualizar"
+      ],
+      "itens": [
+        {
+          "titulo": "RG e CPF",
+          "texto": "Comece por eles"
+        },
+        {
+          "titulo": "Título de eleitor",
+          "texto": "Na Justiça Eleitoral"
+        },
+        {
+          "titulo": "CNH e carteira de trabalho",
+          "texto": "Detran e app da Carteira Digital"
+        },
+        {
+          "titulo": "Banco e cartões",
+          "texto": "Leve a certidão nova"
+        },
+        {
+          "titulo": "Passaporte, plano de saúde e escola",
+          "texto": "E o que mais tiver seu nome"
+        }
+      ],
+      "destaque": {
+        "forte": "Leve sempre a certidão nova.",
+        "texto": "Cada órgão tem seu próprio pedido."
+      },
+      "legenda": "Retificou? Parabéns 🎉 Agora vem a parte de atualizar o resto dos documentos. Faz uma lista e vai riscando um por um, sem pressa.\n\nSalva esse post pra não esquecer nenhum.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #retificacao"
+    },
+    {
+      "id": "reserva-007",
+      "tipo": "capa",
+      "kicker": "Seus direitos",
+      "titulo": [
+        "Transfobia",
+        "é crime"
+      ],
+      "subtitulo": "Desde 2019, por decisão do STF",
+      "destaque": {
+        "forte": "Denuncie: Disque 100.",
+        "texto": "Em emergência, ligue 190."
+      },
+      "legenda": "Desde 2019, por decisão do Supremo Tribunal Federal, a LGBTfobia é enquadrada como crime de racismo.\n\nSofreu ou viu violência? Disque 100 recebe denúncias de violação de direitos humanos. Em emergência, ligue 190.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #direitos"
+    },
+    {
+      "id": "reserva-008",
+      "tipo": "passos",
+      "kicker": "Seus direitos",
+      "titulo": [
+        "Sofreu",
+        "transfobia?"
+      ],
+      "itens": [
+        {
+          "titulo": "Se estiver em perigo, ligue 190",
+          "texto": "Sua segurança vem primeiro"
+        },
+        {
+          "titulo": "Guarde provas",
+          "texto": "Prints, áudios, nomes de testemunhas"
+        },
+        {
+          "titulo": "Registre a ocorrência",
+          "texto": "Na delegacia ou pela delegacia online"
+        },
+        {
+          "titulo": "Denuncie também no Disque 100",
+          "texto": "Funciona todos os dias"
+        },
+        {
+          "titulo": "Busque apoio",
+          "texto": "Defensoria Pública e coletivos da sua cidade"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação jurídica.",
+        "texto": "Você não está sozinho."
+      },
+      "legenda": "Ninguém deveria passar por isso. Mas, se acontecer, saber o caminho ajuda: segurança primeiro, depois provas e denúncia.\n\nCompartilha. Pode ajudar alguém hoje 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #direitos"
+    },
+    {
+      "id": "reserva-009",
+      "tipo": "capa",
+      "kicker": "SUS",
+      "titulo": [
+        "O SUS tem processo",
+        "transexualizador"
+      ],
+      "subtitulo": "Acolhimento, acompanhamento e cirurgias",
+      "destaque": {
+        "forte": "Comece pela UBS mais perto de você.",
+        "texto": "Lista de ambulatórios no portal."
+      },
+      "legenda": "O processo transexualizador do SUS existe desde 2008 e foi ampliado em 2013. Ele inclui acompanhamento com equipe e, em alguns serviços, cirurgias.\n\nO primeiro passo costuma ser a UBS. No portal tem uma lista de ambulatórios trans por estado 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #sus"
+    },
+    {
+      "id": "reserva-010",
+      "tipo": "lista",
+      "kicker": "Serviço público",
+      "titulo": [
+        "Nome social",
+        "no serviço público"
+      ],
+      "itens": [
+        {
+          "emoji": "🏛️",
+          "titulo": "Órgãos federais aceitam",
+          "texto": "Decreto federal de 2016"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Peça no cadastro",
+          "texto": "Ele aparece no crachá e nos sistemas"
+        },
+        {
+          "emoji": "🏙️",
+          "titulo": "Estados e cidades",
+          "texto": "Muitos têm leis próprias"
+        },
+        {
+          "emoji": "📣",
+          "titulo": "Recusaram?",
+          "texto": "Procure a ouvidoria do órgão"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral.",
+        "texto": "Regras locais podem variar."
+      },
+      "legenda": "Desde 2016, um decreto federal garante o uso do nome social em órgãos da administração pública federal. Muitos estados e cidades também têm regras próprias.\n\nConhece a regra da sua cidade? Conta aqui 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #nomesocial"
+    },
+    {
+      "id": "reserva-011",
+      "tipo": "checklist",
+      "kicker": "Saúde",
+      "titulo": [
+        "Check-up",
+        "do ano"
+      ],
+      "itens": [
+        {
+          "titulo": "Consulta com clínico geral",
+          "texto": "Um olhar pra saúde como um todo"
+        },
+        {
+          "titulo": "Dentista",
+          "texto": "Pelo menos uma vez por ano"
+        },
+        {
+          "titulo": "Vacinas em dia",
+          "texto": "Confira sua caderneta no posto"
+        },
+        {
+          "titulo": "Exames que a equipe pedir",
+          "texto": "Ela sabe o que faz sentido pra você"
+        },
+        {
+          "titulo": "Saúde mental",
+          "texto": "Também entra no check-up"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Siga sempre a sua equipe de saúde."
+      },
+      "legenda": "Cuidar da transição é importante, mas o resto do corpo também precisa de atenção. Que tal marcar um check-up?\n\nNo SUS, comece pela UBS do seu bairro.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudetrans"
+    },
+    {
+      "id": "reserva-012",
+      "tipo": "lista",
+      "kicker": "Saúde mental",
+      "titulo": [
+        "Dia difícil?",
+        "Busque apoio"
+      ],
+      "itens": [
+        {
+          "emoji": "📞",
+          "titulo": "CVV: ligue 188",
+          "texto": "Gratuito, 24 horas, todos os dias"
+        },
+        {
+          "emoji": "💬",
+          "titulo": "Converse com alguém de confiança",
+          "texto": "Amigos, família escolhida, comunidade"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "CAPS e UBS",
+          "texto": "Atendimento em saúde mental pelo SUS"
+        },
+        {
+          "emoji": "🚨",
+          "titulo": "Em risco agora?",
+          "texto": "Ligue 192 (SAMU) ou vá a um pronto-socorro"
+        }
+      ],
+      "destaque": {
+        "forte": "Pedir ajuda é força, não fraqueza.",
+        "texto": "Você importa."
+      },
+      "legenda": "Tem dias que pesam mais. Você não precisa passar por eles sozinho.\n\nO CVV atende de graça, 24 horas, pelo 188 ou pelo site cvv.org.br. Em risco imediato, ligue 192.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudemental"
+    },
+    {
+      "id": "reserva-013",
+      "tipo": "mito",
+      "kicker": "Mito ou verdade",
+      "titulo": [
+        "Hormônio por",
+        "conta própria"
+      ],
+      "itens": [
+        {
+          "titulo": "Dá pra começar sem médico, é igual",
+          "texto": "Sem acompanhamento você não sabe se está tudo bem"
+        },
+        {
+          "titulo": "Mais dose deixa mais rápido",
+          "texto": "Dose errada traz riscos e não acelera a transição"
+        },
+        {
+          "titulo": "Exame é frescura",
+          "texto": "Os exames mostram como o seu corpo está respondendo"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Procure um ambulatório ou endocrinologista."
+      },
+      "legenda": "A pressa é compreensível, mas hormônio sem acompanhamento pode trazer riscos sérios.\n\nNo portal tem uma lista de ambulatórios trans e profissionais indicados pela comunidade 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #hormonizacao"
+    },
+    {
+      "id": "reserva-014",
+      "tipo": "passos",
+      "kicker": "Hormonização",
+      "titulo": [
+        "Primeira consulta",
+        "de hormonização"
+      ],
+      "itens": [
+        {
+          "titulo": "Leve suas dúvidas anotadas",
+          "texto": "Na hora a gente esquece"
+        },
+        {
+          "titulo": "Conte seu histórico de saúde",
+          "texto": "Remédios, alergias, cirurgias"
+        },
+        {
+          "titulo": "Pergunte sobre exames",
+          "texto": "Quais e de quanto em quanto tempo"
+        },
+        {
+          "titulo": "Combine o retorno",
+          "texto": "O acompanhamento é contínuo"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Siga sempre a sua equipe de saúde."
+      },
+      "legenda": "A primeira consulta pode dar um frio na barriga. Ir com as perguntas anotadas ajuda muito.\n\nSalva esse post e leva no dia 📋\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #hormonizacao"
+    },
+    {
+      "id": "reserva-015",
+      "tipo": "lista",
+      "kicker": "Prevenção",
+      "titulo": [
+        "Prevenção",
+        "combinada"
+      ],
+      "subtitulo": "Cuidar da saúde sexual também é autocuidado",
+      "itens": [
+        {
+          "emoji": "🩺",
+          "titulo": "Testagem no SUS",
+          "texto": "Nos CTAs e em muitas UBS, de graça"
+        },
+        {
+          "emoji": "🛡️",
+          "titulo": "Camisinha",
+          "texto": "Distribuída de graça nos postos"
+        },
+        {
+          "emoji": "💊",
+          "titulo": "PrEP e PEP",
+          "texto": "Pergunte se fazem sentido pra você"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "Fale abertamente com a equipe",
+          "texto": "Sem vergonha, é saúde"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Converse com a sua equipe de saúde."
+      },
+      "legenda": "Prevenção combinada é usar mais de uma forma de se proteger. O SUS oferece testagem, camisinha, PrEP e PEP.\n\nProcure o CTA ou a UBS mais perto de você.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saude"
+    },
+    {
+      "id": "reserva-016",
+      "tipo": "lista",
+      "kicker": "Autocuidado",
+      "titulo": [
+        "Pequenos cuidados,",
+        "grande diferença"
+      ],
+      "itens": [
+        {
+          "emoji": "💧",
+          "titulo": "Beba água",
+          "texto": "O corpo agradece"
+        },
+        {
+          "emoji": "😴",
+          "titulo": "Durma bem",
+          "texto": "Descanso também é saúde"
+        },
+        {
+          "emoji": "🚶",
+          "titulo": "Mexa o corpo",
+          "texto": "Do jeito que fizer bem pra você"
+        },
+        {
+          "emoji": "🍽️",
+          "titulo": "Coma com calma",
+          "texto": "Sem culpa, sem pressa"
+        },
+        {
+          "emoji": "📵",
+          "titulo": "Dê uma pausa nas redes",
+          "texto": "Comparação cansa"
+        }
+      ],
+      "legenda": "Às vezes o autocuidado está nas coisas mais simples do dia a dia.\n\nQual desses você quer praticar essa semana? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #autocuidado"
+    },
+    {
+      "id": "reserva-017",
+      "tipo": "lista",
+      "kicker": "Saúde",
+      "titulo": [
+        "Vacina",
+        "em dia"
+      ],
+      "itens": [
+        {
+          "emoji": "💉",
+          "titulo": "Confira sua caderneta",
+          "texto": "No posto ou no app do SUS"
+        },
+        {
+          "emoji": "📄",
+          "titulo": "Perdeu a caderneta?",
+          "texto": "O posto ajuda a refazer"
+        },
+        {
+          "emoji": "🗓️",
+          "titulo": "Algumas vacinas têm reforço",
+          "texto": "Pergunte quais faltam pra você"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Use seu nome social",
+          "texto": "Inclusive no cadastro de vacinação"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Vacinas são de graça no SUS."
+      },
+      "legenda": "Vacina não é só coisa de criança. Dá uma passada no posto e confere o que está faltando.\n\nE lembra: você pode pedir para usar o nome social no cadastro.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saude"
+    },
+    {
+      "id": "reserva-018",
+      "tipo": "lista",
+      "kicker": "Saúde",
+      "titulo": [
+        "Cuide do",
+        "sorriso"
+      ],
+      "itens": [
+        {
+          "emoji": "🦷",
+          "titulo": "Dentista uma vez por ano",
+          "texto": "Ou quando sentir algo diferente"
+        },
+        {
+          "emoji": "🪥",
+          "titulo": "Escove depois das refeições",
+          "texto": "E use fio dental"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Tem dentista no SUS",
+          "texto": "Pergunte na sua UBS"
+        },
+        {
+          "emoji": "🎓",
+          "titulo": "Faculdades de odontologia",
+          "texto": "Muitas atendem de graça ou barato"
+        }
+      ],
+      "legenda": "Saúde bucal também é saúde. E dá pra cuidar sem gastar muito: muitas UBS têm dentista e várias faculdades atendem a comunidade.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #autocuidado"
+    },
+    {
+      "id": "reserva-019",
+      "tipo": "checklist",
+      "kicker": "Binder",
+      "titulo": [
+        "Não use para",
+        "comprimir"
+      ],
+      "subtitulo": "Esses itens podem machucar",
+      "itens": [
+        {
+          "titulo": "Fita adesiva",
+          "texto": "Pode ferir a pele"
+        },
+        {
+          "titulo": "Faixa elástica",
+          "texto": "Aperta demais e dificulta respirar"
+        },
+        {
+          "titulo": "Binder menor que o seu tamanho",
+          "texto": "Mais apertado não é melhor"
+        },
+        {
+          "titulo": "Dois binders de uma vez",
+          "texto": "Pressão em excesso"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Sentiu dor ou falta de ar? Tire na hora."
+      },
+      "legenda": "Na vontade de ficar com o peito mais reto, muita gente acaba usando coisas que machucam. Seu corpo merece cuidado.\n\nUse um binder do seu tamanho, faça pausas e escute os sinais do corpo.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #binder"
+    },
+    {
+      "id": "reserva-020",
+      "tipo": "lista",
+      "kicker": "Corpo",
+      "titulo": [
+        "Atividade física",
+        "sem estresse"
+      ],
+      "itens": [
+        {
+          "emoji": "🏃",
+          "titulo": "Comece devagar",
+          "texto": "Constância vale mais que intensidade"
+        },
+        {
+          "emoji": "🎧",
+          "titulo": "Escolha algo que você curta",
+          "texto": "Dança, bike, caminhada"
+        },
+        {
+          "emoji": "🩱",
+          "titulo": "Roupas que te deixam à vontade",
+          "texto": "Conforto ajuda a voltar"
+        },
+        {
+          "emoji": "⚠️",
+          "titulo": "Binder e exercício",
+          "texto": "Em geral, o ideal é não treinar com ele"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Siga a orientação da sua equipe."
+      },
+      "legenda": "Movimentar o corpo pode ser um jeito de se reconectar com ele. Vai no seu ritmo e do jeito que for confortável pra você.\n\nQual atividade você mais gosta? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudetrans"
+    },
+    {
+      "id": "reserva-021",
+      "tipo": "lista",
+      "kicker": "Pele",
+      "titulo": [
+        "Pele e",
+        "hormônio"
+      ],
+      "subtitulo": "Mudanças são comuns no começo",
+      "itens": [
+        {
+          "emoji": "🧼",
+          "titulo": "Lave o rosto 2 vezes ao dia",
+          "texto": "Com sabonete suave"
+        },
+        {
+          "emoji": "🧴",
+          "titulo": "Hidratante leve",
+          "texto": "Mesmo pra pele oleosa"
+        },
+        {
+          "emoji": "☀️",
+          "titulo": "Protetor solar",
+          "texto": "Todo dia, até nublado"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Acne forte?",
+          "texto": "Fale com a sua equipe ou um dermatologista"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Cada pele reage de um jeito."
+      },
+      "legenda": "Muita gente percebe a pele mais oleosa e espinhas no começo da hormonização. Uma rotina simples ajuda bastante.\n\nE se incomodar muito, procura ajuda profissional.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #autocuidado"
+    },
+    {
+      "id": "reserva-022",
+      "tipo": "lista",
+      "kicker": "Voz",
+      "titulo": [
+        "Cuidando",
+        "da voz"
+      ],
+      "itens": [
+        {
+          "emoji": "💧",
+          "titulo": "Hidrate-se",
+          "texto": "A voz agradece"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "Não force pra engrossar",
+          "texto": "Forçar pode machucar"
+        },
+        {
+          "emoji": "🎤",
+          "titulo": "Fonoaudiólogo",
+          "texto": "Ajuda a usar a voz com conforto"
+        },
+        {
+          "emoji": "⏳",
+          "titulo": "Cada voz no seu tempo",
+          "texto": "Sem comparação"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Procure um fonoaudiólogo."
+      },
+      "legenda": "A voz pode mudar com o tempo, e cada corpo tem o seu ritmo. Forçar o tom pode machucar as cordas vocais.\n\nUm fonoaudiólogo pode ajudar a encontrar uma voz confortável pra você.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #transicao"
+    },
+    {
+      "id": "reserva-023",
+      "tipo": "capa",
+      "kicker": "Saúde",
+      "titulo": [
+        "Seu corpo,",
+        "seu cuidado"
+      ],
+      "subtitulo": "Exames preventivos dependem do seu corpo, não do seu gênero",
+      "destaque": {
+        "forte": "Converse com a sua equipe de saúde",
+        "texto": "sobre quais exames fazem sentido pra você."
+      },
+      "legenda": "Os exames preventivos levam em conta os órgãos que você tem, não o seu gênero. Converse com a sua equipe, sem vergonha, sobre o que faz sentido pra você.\n\nUm atendimento acolhedor faz toda a diferença. No portal tem profissionais indicados pela comunidade 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudetrans"
+    },
+    {
+      "id": "reserva-024",
+      "tipo": "mito",
+      "kicker": "Mito ou verdade",
+      "titulo": [
+        "Transição",
+        "mitos comuns"
+      ],
+      "itens": [
+        {
+          "titulo": "Transição é só física",
+          "texto": "Também é social, legal e emocional"
+        },
+        {
+          "titulo": "Todo mundo sabe desde criança",
+          "texto": "Cada pessoa descobre no seu tempo"
+        },
+        {
+          "titulo": "Disforia é igual pra todo mundo",
+          "texto": "Cada pessoa sente de um jeito"
+        }
+      ],
+      "legenda": "Não existe um jeito certo de ser trans nem uma única forma de transição.\n\nQual mito você mais escuta por aí? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #transicao"
+    },
+    {
+      "id": "reserva-025",
+      "tipo": "mito",
+      "kicker": "Mito ou verdade",
+      "titulo": [
+        "Hormônio",
+        "muda tudo rápido?"
+      ],
+      "itens": [
+        {
+          "titulo": "Em poucas semanas muda tudo",
+          "texto": "As mudanças levam meses e anos"
+        },
+        {
+          "titulo": "Todo mundo muda igual",
+          "texto": "Genética e idade influenciam muito"
+        },
+        {
+          "titulo": "Se demora, está errado",
+          "texto": "Cada corpo tem o seu ritmo"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Tire as dúvidas com a sua equipe."
+      },
+      "legenda": "Ansiedade com as mudanças é super comum. Mas comparar a sua transição com a de outra pessoa só aumenta a cobrança.\n\nRespira. Seu corpo tem o tempo dele 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #hormonizacao"
+    },
+    {
+      "id": "reserva-026",
+      "tipo": "passos",
+      "kicker": "Família",
+      "titulo": [
+        "Contar pra",
+        "família"
+      ],
+      "itens": [
+        {
+          "titulo": "Escolha um momento tranquilo",
+          "texto": "Sem pressa e sem plateia"
+        },
+        {
+          "titulo": "Comece por quem é mais aberto",
+          "texto": "Ter um aliado ajuda"
+        },
+        {
+          "titulo": "Fale de você, do seu jeito",
+          "texto": "Não precisa explicar tudo"
+        },
+        {
+          "titulo": "Dê tempo pra elas",
+          "texto": "Aceitação pode levar tempo"
+        },
+        {
+          "titulo": "Tenha sua rede por perto",
+          "texto": "Amigos e comunidade"
+        }
+      ],
+      "destaque": {
+        "forte": "Você decide quando e se vai contar.",
+        "texto": "Sua segurança vem primeiro."
+      },
+      "legenda": "Não existe jeito perfeito de contar pra família. Mas pensar antes no momento e em quem pode te apoiar ajuda muito.\n\nE se não for seguro contar agora, tudo bem esperar. Você não deve explicação a ninguém 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #familia"
+    },
+    {
+      "id": "reserva-027",
+      "tipo": "lista",
+      "kicker": "Pra família",
+      "titulo": [
+        "Seu filho",
+        "é trans?"
+      ],
+      "subtitulo": "Algumas coisas que ajudam",
+      "itens": [
+        {
+          "emoji": "💙",
+          "titulo": "Diga que ama",
+          "texto": "Isso não muda"
+        },
+        {
+          "emoji": "👂",
+          "titulo": "Escute mais do que fala",
+          "texto": "Pergunte como pode ajudar"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "Use o nome e os pronomes",
+          "texto": "Errar acontece, corrija e siga"
+        },
+        {
+          "emoji": "📚",
+          "titulo": "Busque informação",
+          "texto": "E apoio pra você também"
+        }
+      ],
+      "destaque": {
+        "forte": "Acolhimento em casa protege.",
+        "texto": "Compartilhe com quem precisa ler isso."
+      },
+      "legenda": "Descobrir que um filho é trans pode trazer muitas dúvidas. O mais importante ele precisa ouvir: que é amado.\n\nMarca aqui uma mãe, pai ou familiar que precisa ver esse post 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #familia"
+    },
+    {
+      "id": "reserva-028",
+      "tipo": "lista",
+      "kicker": "Aliados",
+      "titulo": [
+        "Errou o",
+        "pronome?"
+      ],
+      "subtitulo": "Acontece. O que fazer:",
+      "itens": [
+        {
+          "emoji": "✅",
+          "titulo": "Corrija na hora",
+          "texto": "\"Ele... desculpa, ele\""
+        },
+        {
+          "emoji": "🙅",
+          "titulo": "Não faça um drama",
+          "texto": "Pedir muitas desculpas constrange"
+        },
+        {
+          "emoji": "🧠",
+          "titulo": "Pratique quando estiver sozinho",
+          "texto": "Ajuda a acostumar"
+        },
+        {
+          "emoji": "🔁",
+          "titulo": "Siga em frente",
+          "texto": "O esforço é o que conta"
+        }
+      ],
+      "legenda": "Errar o pronome de alguém pode acontecer, principalmente no começo. O que importa é corrigir rápido e seguir a conversa sem transformar aquilo num grande momento.\n\nCompartilha com quem está aprendendo 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #respeito"
+    },
+    {
+      "id": "reserva-029",
+      "tipo": "lista",
+      "kicker": "Aliados",
+      "titulo": [
+        "Perguntas",
+        "que não se faz"
+      ],
+      "itens": [
+        {
+          "emoji": "🚫",
+          "titulo": "\"Qual seu nome de verdade?\"",
+          "texto": "O nome de verdade é o que ele usa"
+        },
+        {
+          "emoji": "🚫",
+          "titulo": "\"Já fez a cirurgia?\"",
+          "texto": "Corpo é assunto íntimo"
+        },
+        {
+          "emoji": "🚫",
+          "titulo": "\"Mas você era tão bonita\"",
+          "texto": "Não é elogio"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "Na dúvida, pergunte o pronome",
+          "texto": "E use a partir daí"
+        }
+      ],
+      "legenda": "Curiosidade é normal, mas tem pergunta que machuca. Respeito começa por não invadir a intimidade de ninguém.\n\nQual pergunta você mais escuta? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #respeito"
+    },
+    {
+      "id": "reserva-030",
+      "tipo": "lista",
+      "kicker": "Trabalho",
+      "titulo": [
+        "Como apoiar um",
+        "colega trans"
+      ],
+      "itens": [
+        {
+          "emoji": "🪪",
+          "titulo": "Use o nome e os pronomes",
+          "texto": "Em reuniões, e-mails e conversas"
+        },
+        {
+          "emoji": "🔒",
+          "titulo": "Não conte a história dele",
+          "texto": "A história é dele"
+        },
+        {
+          "emoji": "🛑",
+          "titulo": "Não deixe piada passar",
+          "texto": "Silêncio também machuca"
+        },
+        {
+          "emoji": "🤝",
+          "titulo": "Trate com naturalidade",
+          "texto": "Ele é seu colega, não um tema"
+        }
+      ],
+      "legenda": "Um ambiente de trabalho acolhedor faz toda a diferença pra quem é trans. E pequenas atitudes de colegas contam muito.\n\nMarca aqui um colega que é aliado de verdade 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #trabalho"
+    },
+    {
+      "id": "reserva-031",
+      "tipo": "lista",
+      "kicker": "Escola",
+      "titulo": [
+        "Professor,",
+        "você pode ajudar"
+      ],
+      "itens": [
+        {
+          "emoji": "📋",
+          "titulo": "Use o nome social na chamada",
+          "texto": "É direito do estudante"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "Corrija os colegas com calma",
+          "texto": "Você é exemplo"
+        },
+        {
+          "emoji": "🚻",
+          "titulo": "Converse com a direção",
+          "texto": "Sobre banheiro e uniforme"
+        },
+        {
+          "emoji": "💬",
+          "titulo": "Esteja disponível",
+          "texto": "Às vezes ele só precisa de alguém"
+        }
+      ],
+      "legenda": "Um professor que respeita pode mudar a experiência de um estudante trans na escola.\n\nMarca um professor ou professora que faz a diferença 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #educacao"
+    },
+    {
+      "id": "reserva-032",
+      "tipo": "lista",
+      "kicker": "Comunidade",
+      "titulo": [
+        "Rede de apoio",
+        "importa"
+      ],
+      "itens": [
+        {
+          "emoji": "🫂",
+          "titulo": "Amigos que te respeitam",
+          "texto": "São família também"
+        },
+        {
+          "emoji": "🏳️‍⚧️",
+          "titulo": "Coletivos e grupos",
+          "texto": "Procure os da sua cidade"
+        },
+        {
+          "emoji": "💻",
+          "titulo": "Comunidade online",
+          "texto": "Com cuidado e segurança"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Profissionais acolhedores",
+          "texto": "Indicados pela comunidade"
+        }
+      ],
+      "legenda": "Ninguém atravessa a transição sozinho. Ter gente por perto que te entende muda tudo.\n\nQuem faz parte da sua rede de apoio? Marca aqui 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-033",
+      "tipo": "lista",
+      "kicker": "Redes sociais",
+      "titulo": [
+        "Comparação",
+        "cansa"
+      ],
+      "itens": [
+        {
+          "emoji": "📱",
+          "titulo": "Cada um mostra o melhor",
+          "texto": "Ninguém posta os dias difíceis"
+        },
+        {
+          "emoji": "⏳",
+          "titulo": "Cada transição tem seu tempo",
+          "texto": "O seu está certo pra você"
+        },
+        {
+          "emoji": "🔇",
+          "titulo": "Silencie o que te faz mal",
+          "texto": "Sem culpa"
+        },
+        {
+          "emoji": "💙",
+          "titulo": "Celebre o seu caminho",
+          "texto": "Cada passo conta"
+        }
+      ],
+      "legenda": "Rolar o feed e se comparar com a transição dos outros pode doer. Lembra que ninguém posta tudo.\n\nVocê está no seu tempo 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudemental"
+    },
+    {
+      "id": "reserva-034",
+      "tipo": "lista",
+      "kicker": "Conquistas",
+      "titulo": [
+        "Comemore as",
+        "pequenas vitórias"
+      ],
+      "itens": [
+        {
+          "emoji": "🪪",
+          "titulo": "Ser chamado pelo nome",
+          "texto": "Merece comemoração"
+        },
+        {
+          "emoji": "🪞",
+          "titulo": "Gostar de uma foto sua",
+          "texto": "Isso é grande"
+        },
+        {
+          "emoji": "✂️",
+          "titulo": "O corte de cabelo certo",
+          "texto": "Também vale"
+        },
+        {
+          "emoji": "💪",
+          "titulo": "Um dia mais leve",
+          "texto": "Conta, sim"
+        }
+      ],
+      "legenda": "A transição não é só feita de grandes marcos. As pequenas vitórias do dia a dia também merecem ser celebradas.\n\nQual foi a sua última conquista? Conta aqui 🎉\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #orgulhotrans"
+    },
+    {
+      "id": "reserva-035",
+      "tipo": "lista",
+      "kicker": "Relacionamentos",
+      "titulo": [
+        "Amor com",
+        "respeito"
+      ],
+      "itens": [
+        {
+          "emoji": "💬",
+          "titulo": "Diálogo aberto",
+          "texto": "Sobre limites e vontades"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Respeito ao nome e ao corpo",
+          "texto": "Não é negociável"
+        },
+        {
+          "emoji": "🔒",
+          "titulo": "Sua história, suas regras",
+          "texto": "Você conta quando quiser"
+        },
+        {
+          "emoji": "🚩",
+          "titulo": "Fique atento a sinais",
+          "texto": "Ciúme e controle não são amor"
+        }
+      ],
+      "legenda": "Você merece um relacionamento em que se sinta respeitado e seguro. Do jeito que você é.\n\nCompartilha com quem precisa ouvir isso 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #amor"
+    },
+    {
+      "id": "reserva-036",
+      "tipo": "lista",
+      "kicker": "Segurança",
+      "titulo": [
+        "Encontro com",
+        "segurança"
+      ],
+      "itens": [
+        {
+          "emoji": "📍",
+          "titulo": "Marque em lugar público",
+          "texto": "Pelo menos no primeiro"
+        },
+        {
+          "emoji": "📲",
+          "titulo": "Avise alguém de confiança",
+          "texto": "Onde e com quem você vai"
+        },
+        {
+          "emoji": "🔋",
+          "titulo": "Celular carregado",
+          "texto": "E dinheiro pra voltar"
+        },
+        {
+          "emoji": "🚪",
+          "titulo": "Saia se não se sentir bem",
+          "texto": "Você não deve nada a ninguém"
+        }
+      ],
+      "legenda": "Conhecer gente nova é ótimo, e dá pra fazer isso com mais segurança. Cuida de você 💙\n\nSalva e compartilha com os amigos.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #seguranca"
+    },
+    {
+      "id": "reserva-037",
+      "tipo": "lista",
+      "kicker": "Disforia",
+      "titulo": [
+        "Dias de",
+        "disforia"
+      ],
+      "subtitulo": "Coisas que podem ajudar",
+      "itens": [
+        {
+          "emoji": "🧥",
+          "titulo": "Roupas que te deixam bem",
+          "texto": "Conforto primeiro"
+        },
+        {
+          "emoji": "🎧",
+          "titulo": "Algo que te acalme",
+          "texto": "Música, série, um banho"
+        },
+        {
+          "emoji": "📞",
+          "titulo": "Fale com alguém",
+          "texto": "Você não precisa passar por isso só"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Se for frequente",
+          "texto": "Procure apoio psicológico"
+        }
+      ],
+      "destaque": {
+        "forte": "Dia muito difícil? CVV: 188.",
+        "texto": "Gratuito, 24 horas."
+      },
+      "legenda": "Tem dias em que a disforia pesa mais. Não existe receita, mas algumas coisas podem ajudar a atravessar.\n\nO que te ajuda nesses dias? Compartilha aqui, pode ajudar alguém 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudemental"
+    },
+    {
+      "id": "reserva-038",
+      "tipo": "lista",
+      "kicker": "Amizades",
+      "titulo": [
+        "Amigos que",
+        "fazem bem"
+      ],
+      "itens": [
+        {
+          "emoji": "🗣️",
+          "titulo": "Usam seu nome sem esforço",
+          "texto": "Ou se esforçam de verdade"
+        },
+        {
+          "emoji": "🛡️",
+          "titulo": "Te defendem quando você não está",
+          "texto": "Isso é amizade"
+        },
+        {
+          "emoji": "👂",
+          "titulo": "Escutam sem julgar",
+          "texto": "Sem transformar em fofoca"
+        },
+        {
+          "emoji": "🎉",
+          "titulo": "Comemoram com você",
+          "texto": "Cada conquista"
+        }
+      ],
+      "legenda": "Amizade de verdade respeita, acolhe e comemora junto.\n\nMarca aqui aquele amigo que é tudo isso 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-039",
+      "tipo": "passos",
+      "kicker": "Trabalho",
+      "titulo": [
+        "Assumir no",
+        "trabalho"
+      ],
+      "itens": [
+        {
+          "titulo": "Pense no seu momento",
+          "texto": "Você decide se e quando"
+        },
+        {
+          "titulo": "Converse primeiro com o RH ou gestor",
+          "texto": "Combinem os próximos passos"
+        },
+        {
+          "titulo": "Atualize nome em e-mail e crachá",
+          "texto": "Peça por escrito"
+        },
+        {
+          "titulo": "Defina como a equipe vai saber",
+          "texto": "Você ou o RH conta"
+        },
+        {
+          "titulo": "Guarde registros",
+          "texto": "Se houver desrespeito"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação jurídica.",
+        "texto": "Sua segurança vem primeiro."
+      },
+      "legenda": "Assumir no trabalho é uma decisão sua e pode ser feita no seu tempo. Planejar ajuda a deixar tudo mais tranquilo.\n\nJá passou por isso? Conta como foi 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #trabalho"
+    },
+    {
+      "id": "reserva-040",
+      "tipo": "checklist",
+      "kicker": "Emprego",
+      "titulo": [
+        "Entrevista",
+        "de emprego"
+      ],
+      "itens": [
+        {
+          "titulo": "Currículo com seu nome",
+          "texto": "Você pode usar o nome social"
+        },
+        {
+          "titulo": "Pesquise a empresa",
+          "texto": "Veja se ela fala de diversidade"
+        },
+        {
+          "titulo": "Prepare respostas sobre experiência",
+          "texto": "Foque no que você sabe fazer"
+        },
+        {
+          "titulo": "Leve os documentos pedidos",
+          "texto": "Se perguntarem, você escolhe o que contar"
+        }
+      ],
+      "legenda": "Procurando emprego? Algumas coisas ajudam a chegar mais confiante na entrevista.\n\nBoa sorte, galera. Vocês merecem espaço 💼\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #trabalho"
+    },
+    {
+      "id": "reserva-041",
+      "tipo": "lista",
+      "kicker": "Irmãos",
+      "titulo": [
+        "Seu irmão",
+        "é trans?"
+      ],
+      "itens": [
+        {
+          "emoji": "🤝",
+          "titulo": "Esteja do lado dele",
+          "texto": "Em casa e fora"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "Use o nome dele",
+          "texto": "Até nas lembranças de infância"
+        },
+        {
+          "emoji": "🛡️",
+          "titulo": "Ajude com a família",
+          "texto": "Às vezes ele precisa de reforço"
+        },
+        {
+          "emoji": "🎮",
+          "titulo": "Continue sendo você",
+          "texto": "A relação de vocês continua"
+        }
+      ],
+      "legenda": "Irmãos podem ser grandes aliados. Às vezes o apoio de casa começa por eles.\n\nMarca aqui seu irmão ou irmã 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #familia"
+    },
+    {
+      "id": "reserva-042",
+      "tipo": "lista",
+      "kicker": "Viagem",
+      "titulo": [
+        "Viajando com",
+        "documentos"
+      ],
+      "itens": [
+        {
+          "emoji": "🪪",
+          "titulo": "Leve documento com foto",
+          "texto": "O que tiver mais atualizado"
+        },
+        {
+          "emoji": "✈️",
+          "titulo": "Passagem com o nome do documento",
+          "texto": "Evita problema no embarque"
+        },
+        {
+          "emoji": "📄",
+          "titulo": "Ainda não retificou?",
+          "texto": "Leve uma cópia da certidão também"
+        },
+        {
+          "emoji": "🏨",
+          "titulo": "No hotel, peça o nome social",
+          "texto": "No cadastro e no atendimento"
+        }
+      ],
+      "destaque": {
+        "forte": "Viagem internacional?",
+        "texto": "Confira as regras do país de destino."
+      },
+      "legenda": "Viajar com documentos que ainda não batem com quem você é pode dar um frio na barriga. Um pouco de organização ajuda.\n\nSalva pra próxima viagem ✈️\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #viagem"
+    },
+    {
+      "id": "reserva-043",
+      "tipo": "lista",
+      "kicker": "Bancos",
+      "titulo": [
+        "Nome social",
+        "no banco"
+      ],
+      "itens": [
+        {
+          "emoji": "🏦",
+          "titulo": "Muitos bancos aceitam",
+          "texto": "Pergunte no app ou na agência"
+        },
+        {
+          "emoji": "💳",
+          "titulo": "Ele pode ir pro cartão",
+          "texto": "Depende do banco"
+        },
+        {
+          "emoji": "📄",
+          "titulo": "Depois de retificar",
+          "texto": "Leve a certidão nova pra atualizar"
+        },
+        {
+          "emoji": "📣",
+          "titulo": "Recusaram sem motivo?",
+          "texto": "Registre na ouvidoria do banco"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral.",
+        "texto": "As regras variam entre os bancos."
+      },
+      "legenda": "Ver seu nome no cartão faz diferença. Muitos bancos já aceitam o nome social, então vale perguntar.\n\nQual banco te atendeu bem? Conta aqui 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #nomesocial"
+    },
+    {
+      "id": "reserva-044",
+      "tipo": "lista",
+      "kicker": "Acolhimento",
+      "titulo": [
+        "Pra quem está",
+        "se descobrindo"
+      ],
+      "itens": [
+        {
+          "emoji": "⏳",
+          "titulo": "Sem pressa",
+          "texto": "Você não precisa ter todas as respostas"
+        },
+        {
+          "emoji": "🧭",
+          "titulo": "Pode experimentar",
+          "texto": "Nome, roupa, pronome"
+        },
+        {
+          "emoji": "🫂",
+          "titulo": "Procure a comunidade",
+          "texto": "Ouvir histórias ajuda"
+        },
+        {
+          "emoji": "💙",
+          "titulo": "Você é válido",
+          "texto": "Do jeito que você é agora"
+        }
+      ],
+      "legenda": "Se descobrir pode trazer dúvidas, medo e alegria ao mesmo tempo. Tudo isso é normal.\n\nVocê não está sozinho nessa 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-045",
+      "tipo": "lista",
+      "kicker": "Família escolhida",
+      "titulo": [
+        "Família também",
+        "se escolhe"
+      ],
+      "itens": [
+        {
+          "emoji": "🫂",
+          "titulo": "Quem te acolhe",
+          "texto": "Do jeito que você é"
+        },
+        {
+          "emoji": "🍲",
+          "titulo": "Quem divide a mesa",
+          "texto": "E a vida"
+        },
+        {
+          "emoji": "📞",
+          "titulo": "Quem atende de madrugada",
+          "texto": "Quando você precisa"
+        },
+        {
+          "emoji": "🏳️‍⚧️",
+          "titulo": "Quem celebra você",
+          "texto": "Cada conquista"
+        }
+      ],
+      "legenda": "Nem sempre a família de origem acolhe. Mas família também é quem a gente escolhe pelo caminho.\n\nMarca aqui sua família escolhida 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-046",
+      "tipo": "passos",
+      "kicker": "Pra família",
+      "titulo": [
+        "Aprendendo",
+        "o novo nome"
+      ],
+      "itens": [
+        {
+          "titulo": "Pratique em voz alta",
+          "texto": "Quanto mais usa, mais acostuma"
+        },
+        {
+          "titulo": "Troque o nome no celular",
+          "texto": "Contatos e redes sociais"
+        },
+        {
+          "titulo": "Corrija com leveza",
+          "texto": "Errou, corrigiu, seguiu"
+        },
+        {
+          "titulo": "Peça ajuda a quem já acostumou",
+          "texto": "Um lembra o outro"
+        }
+      ],
+      "legenda": "Acostumar com um novo nome leva um tempo, e tudo bem. O que faz diferença é o esforço de verdade.\n\nCompartilha com a família e os amigos 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #familia"
+    },
+    {
+      "id": "reserva-047",
+      "tipo": "lista",
+      "kicker": "Esporte",
+      "titulo": [
+        "Esporte",
+        "é pra todo mundo"
+      ],
+      "itens": [
+        {
+          "emoji": "⚽",
+          "titulo": "Times e grupos LGBT+",
+          "texto": "Muitas cidades têm"
+        },
+        {
+          "emoji": "🏊",
+          "titulo": "Escolha roupas confortáveis",
+          "texto": "Pra você se sentir bem"
+        },
+        {
+          "emoji": "🧑‍🤝‍🧑",
+          "titulo": "Vá com um amigo",
+          "texto": "Fica mais fácil começar"
+        },
+        {
+          "emoji": "💙",
+          "titulo": "O importante é se divertir",
+          "texto": "Sem pressão"
+        }
+      ],
+      "legenda": "Praticar esporte pode ser um jeito incrível de se sentir bem com o corpo e fazer amigos.\n\nVocê pratica algum? Conta aqui 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #esporte"
+    },
+    {
+      "id": "reserva-048",
+      "tipo": "lista",
+      "kicker": "Rolê",
+      "titulo": [
+        "Rolê",
+        "com segurança"
+      ],
+      "itens": [
+        {
+          "emoji": "👥",
+          "titulo": "Saia em grupo",
+          "texto": "E volte em grupo"
+        },
+        {
+          "emoji": "📲",
+          "titulo": "Compartilhe a localização",
+          "texto": "Com alguém de confiança"
+        },
+        {
+          "emoji": "🍹",
+          "titulo": "Fique de olho no seu copo",
+          "texto": "Sempre"
+        },
+        {
+          "emoji": "🚕",
+          "titulo": "Combine a volta antes",
+          "texto": "App ou carona conhecida"
+        }
+      ],
+      "legenda": "Curtir com os amigos é ótimo. E cuidar uns dos outros faz parte do rolê.\n\nSalva e manda pro grupo 🎉\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #seguranca"
+    },
+    {
+      "id": "reserva-049",
+      "tipo": "lista",
+      "kicker": "Online",
+      "titulo": [
+        "Segurança",
+        "na internet"
+      ],
+      "itens": [
+        {
+          "emoji": "🔒",
+          "titulo": "Cuidado com dados pessoais",
+          "texto": "Endereço e documentos, nunca"
+        },
+        {
+          "emoji": "📸",
+          "titulo": "Pense antes de postar fotos",
+          "texto": "Principalmente as antigas"
+        },
+        {
+          "emoji": "🛑",
+          "titulo": "Bloqueie e denuncie",
+          "texto": "Ataques e perfis falsos"
+        },
+        {
+          "emoji": "🔐",
+          "titulo": "Ative a verificação em duas etapas",
+          "texto": "Nas suas contas"
+        }
+      ],
+      "legenda": "A internet pode ser um lugar de acolhimento, mas também de ataques. Alguns cuidados ajudam a se proteger.\n\nCompartilha com a galera 🔐\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #seguranca"
+    },
+    {
+      "id": "reserva-050",
+      "tipo": "lista",
+      "kicker": "Gratidão",
+      "titulo": [
+        "A quem abriu",
+        "caminho"
+      ],
+      "itens": [
+        {
+          "emoji": "🏳️‍⚧️",
+          "titulo": "Ativistas trans",
+          "texto": "Que lutaram por direitos"
+        },
+        {
+          "emoji": "📚",
+          "titulo": "Quem escreveu e pesquisou",
+          "texto": "E deixou informação"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Profissionais que acolhem",
+          "texto": "Desde antes de ser comum"
+        },
+        {
+          "emoji": "🫂",
+          "titulo": "Quem veio antes de nós",
+          "texto": "E segurou a mão de quem veio depois"
+        }
+      ],
+      "legenda": "Muitos direitos que temos hoje vieram da luta de quem veio antes. Lembrar disso também é resistência.\n\nQuem te inspira? Marca aqui 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #orgulhotrans"
+    },
+    {
+      "id": "reserva-051",
+      "tipo": "passos",
+      "kicker": "Barbearia",
+      "titulo": [
+        "Primeira vez",
+        "na barbearia"
+      ],
+      "itens": [
+        {
+          "titulo": "Leve fotos do corte que quer",
+          "texto": "Ajuda muito a explicar"
+        },
+        {
+          "titulo": "Diga como prefere ser chamado",
+          "texto": "Logo na chegada"
+        },
+        {
+          "titulo": "Fale o que você não quer",
+          "texto": "Também é importante"
+        },
+        {
+          "titulo": "Procure lugares indicados",
+          "texto": "Pela comunidade da sua cidade"
+        }
+      ],
+      "legenda": "Ir à barbearia pela primeira vez pode dar um friozinho. Levar referências e falar o que você quer deixa tudo mais fácil.\n\nConhece uma barbearia acolhedora? Indica nos comentários 💈\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #barba"
+    },
+    {
+      "id": "reserva-052",
+      "tipo": "lista",
+      "kicker": "Cabelo",
+      "titulo": [
+        "Cortes curtos",
+        "pra se inspirar"
+      ],
+      "itens": [
+        {
+          "emoji": "✂️",
+          "titulo": "Undercut",
+          "texto": "Laterais curtas, topo maior"
+        },
+        {
+          "emoji": "✂️",
+          "titulo": "Degradê (fade)",
+          "texto": "Vai sumindo nas laterais"
+        },
+        {
+          "emoji": "✂️",
+          "titulo": "Militar",
+          "texto": "Bem curto e fácil de cuidar"
+        },
+        {
+          "emoji": "✂️",
+          "titulo": "Topete",
+          "texto": "Volume na frente"
+        }
+      ],
+      "legenda": "Cortar o cabelo pode ser um passo importante na transição. Leva uma foto de referência e conversa com quem vai cortar.\n\nQual desses é o seu estilo? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #estilo"
+    },
+    {
+      "id": "reserva-053",
+      "tipo": "lista",
+      "kicker": "Estilo",
+      "titulo": [
+        "Truques",
+        "de roupa"
+      ],
+      "itens": [
+        {
+          "emoji": "👔",
+          "titulo": "Camisas com estrutura",
+          "texto": "Ombro marcado ajuda na silhueta"
+        },
+        {
+          "emoji": "🧥",
+          "titulo": "Camadas",
+          "texto": "Jaqueta ou camisa aberta por cima"
+        },
+        {
+          "emoji": "🎨",
+          "titulo": "Estampas e cores escuras",
+          "texto": "Disfarçam o volume do peito"
+        },
+        {
+          "emoji": "👖",
+          "titulo": "Calças retas",
+          "texto": "No seu tamanho, sem apertar"
+        }
+      ],
+      "legenda": "Nem sempre é preciso gastar muito pra se sentir bem com o que veste. Alguns truques ajudam bastante.\n\nQual peça te deixa mais confiante? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #estilo"
+    },
+    {
+      "id": "reserva-054",
+      "tipo": "lista",
+      "kicker": "Estilo",
+      "titulo": [
+        "Comprando roupa",
+        "sem estresse"
+      ],
+      "itens": [
+        {
+          "emoji": "🛒",
+          "titulo": "Compre online, se preferir",
+          "texto": "Evita o provador"
+        },
+        {
+          "emoji": "📏",
+          "titulo": "Anote suas medidas",
+          "texto": "Fica fácil acertar o tamanho"
+        },
+        {
+          "emoji": "♻️",
+          "titulo": "Brechós",
+          "texto": "Peças boas e baratas"
+        },
+        {
+          "emoji": "🔄",
+          "titulo": "Troca com amigos",
+          "texto": "Roupa parada vira de outra pessoa"
+        }
+      ],
+      "legenda": "Montar um guarda-roupa que combine com você não precisa ser caro. Brechó e troca entre amigos ajudam muito.\n\nTem um brechó bom pra indicar? Comenta aqui 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #estilo"
+    },
+    {
+      "id": "reserva-055",
+      "tipo": "lista",
+      "kicker": "Barba",
+      "titulo": [
+        "Barba",
+        "falhada?"
+      ],
+      "subtitulo": "É normal no começo",
+      "itens": [
+        {
+          "emoji": "⏳",
+          "titulo": "Dê tempo ao tempo",
+          "texto": "Ela vai preenchendo aos poucos"
+        },
+        {
+          "emoji": "✂️",
+          "titulo": "Mantenha curta e alinhada",
+          "texto": "Fica mais uniforme"
+        },
+        {
+          "emoji": "🧴",
+          "titulo": "Hidrate a pele",
+          "texto": "Ajuda no crescimento saudável"
+        },
+        {
+          "emoji": "🚫",
+          "titulo": "Cuidado com promessas milagrosas",
+          "texto": "Pergunte à sua equipe antes"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Cada corpo tem seu ritmo."
+      },
+      "legenda": "Barba falhada no começo é muito comum. O tempo, a genética e a idade influenciam bastante.\n\nComo está a sua? Conta aqui 🧔\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #barba"
+    },
+    {
+      "id": "reserva-056",
+      "tipo": "lista",
+      "kicker": "Perfume",
+      "titulo": [
+        "Achando seu",
+        "cheiro"
+      ],
+      "itens": [
+        {
+          "emoji": "🌲",
+          "titulo": "Amadeirados",
+          "texto": "Clássicos e marcantes"
+        },
+        {
+          "emoji": "🍋",
+          "titulo": "Cítricos",
+          "texto": "Leves, ótimos pro calor"
+        },
+        {
+          "emoji": "🌿",
+          "titulo": "Aromáticos",
+          "texto": "Frescos, pro dia a dia"
+        },
+        {
+          "emoji": "🧪",
+          "titulo": "Teste na pele",
+          "texto": "O cheiro muda em cada pessoa"
+        }
+      ],
+      "legenda": "Perfume é um detalhe que pode deixar a gente mais confiante. Experimenta antes de comprar e escolhe o que combina com você.\n\nQual é o seu favorito? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #estilo"
+    },
+    {
+      "id": "reserva-057",
+      "tipo": "lista",
+      "kicker": "Calçados",
+      "titulo": [
+        "Achando seu",
+        "número"
+      ],
+      "itens": [
+        {
+          "emoji": "📏",
+          "titulo": "Meça o pé",
+          "texto": "Em centímetros, no fim do dia"
+        },
+        {
+          "emoji": "🔢",
+          "titulo": "Numeração masculina é diferente",
+          "texto": "Use uma tabela de conversão"
+        },
+        {
+          "emoji": "🧦",
+          "titulo": "Palmilha ajuda",
+          "texto": "Se ficar um pouco grande"
+        },
+        {
+          "emoji": "🛒",
+          "titulo": "Lojas com troca fácil",
+          "texto": "Pra comprar online sem medo"
+        }
+      ],
+      "legenda": "Achar sapato do seu número pode ser um desafio. Medir o pé e usar uma tabela de conversão ajuda muito.\n\nAlguma loja que você recomenda? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #estilo"
+    },
+    {
+      "id": "reserva-058",
+      "tipo": "lista",
+      "kicker": "Fotos",
+      "titulo": [
+        "Fotos em que",
+        "você se reconhece"
+      ],
+      "itens": [
+        {
+          "emoji": "📸",
+          "titulo": "Teste ângulos",
+          "texto": "De cima, de lado, de frente"
+        },
+        {
+          "emoji": "💡",
+          "titulo": "Luz de janela",
+          "texto": "Deixa tudo mais bonito"
+        },
+        {
+          "emoji": "🧥",
+          "titulo": "Roupas que você gosta",
+          "texto": "Confiança aparece na foto"
+        },
+        {
+          "emoji": "🗑️",
+          "titulo": "Apague sem culpa",
+          "texto": "Guarde só as que te fazem bem"
+        }
+      ],
+      "legenda": "Ver uma foto e se reconhecer é um momento especial. Vale testar até achar o seu jeito.\n\nPosta aquela foto que você ama e marca a gente 📸\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #orgulhotrans"
+    },
+    {
+      "id": "reserva-059",
+      "tipo": "passos",
+      "kicker": "Como usar o portal",
+      "titulo": [
+        "Achando ajuda",
+        "no seu estado"
+      ],
+      "itens": [
+        {
+          "titulo": "Abra o portal",
+          "texto": "O link está na bio"
+        },
+        {
+          "titulo": "Escolha a categoria",
+          "texto": "Ambulatórios, cirurgiões e mais"
+        },
+        {
+          "titulo": "Filtre pelo seu estado",
+          "texto": "E pela cidade"
+        },
+        {
+          "titulo": "Confirme o contato antes de ir",
+          "texto": "Informações podem mudar"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme sempre direto com o serviço."
+      },
+      "legenda": "O portal reúne indicações de profissionais e serviços feitas pela própria comunidade, organizadas por estado.\n\nDá uma olhada e salva no seu celular 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-060",
+      "tipo": "lista",
+      "kicker": "Contribua",
+      "titulo": [
+        "Informação",
+        "desatualizada?"
+      ],
+      "itens": [
+        {
+          "emoji": "📞",
+          "titulo": "Telefone mudou?",
+          "texto": "Avise a gente"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Serviço fechou?",
+          "texto": "Avise também"
+        },
+        {
+          "emoji": "➕",
+          "titulo": "Conhece um novo?",
+          "texto": "Indique no portal"
+        },
+        {
+          "emoji": "🤝",
+          "titulo": "Cada aviso ajuda",
+          "texto": "Quem vem depois de você"
+        }
+      ],
+      "legenda": "O portal é feito pela comunidade e só fica atualizado com a ajuda de todo mundo.\n\nViu algo errado ou conhece um serviço novo? Conta pra gente pelo portal 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-061",
+      "tipo": "capa",
+      "kicker": "Compartilhe",
+      "titulo": [
+        "Manda pra",
+        "quem precisa"
+      ],
+      "subtitulo": "Um link pode mudar o dia de alguém",
+      "destaque": {
+        "forte": "Portal Transmasc Brasil",
+        "texto": "Link na bio"
+      },
+      "legenda": "Às vezes alguém perto de você está procurando um ambulatório, um cirurgião ou só um lugar pra se sentir acolhido.\n\nCompartilha o portal no grupo da família, dos amigos ou da escola 💙 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-062",
+      "tipo": "lista",
+      "kicker": "Sobre o portal",
+      "titulo": [
+        "Por que o",
+        "portal existe"
+      ],
+      "itens": [
+        {
+          "emoji": "🗺️",
+          "titulo": "Achar atendimento é difícil",
+          "texto": "A informação é espalhada"
+        },
+        {
+          "emoji": "🫂",
+          "titulo": "A comunidade sabe onde é bom",
+          "texto": "E indica pra quem precisa"
+        },
+        {
+          "emoji": "🆓",
+          "titulo": "É gratuito",
+          "texto": "Pra todo mundo usar"
+        },
+        {
+          "emoji": "💙",
+          "titulo": "Feito por e para homens trans",
+          "texto": "E pessoas transmasculinas"
+        }
+      ],
+      "legenda": "O portal nasceu da vontade de juntar num lugar só informações que estavam espalhadas.\n\nSe ele já te ajudou, compartilha com mais alguém 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-063",
+      "tipo": "citacao",
+      "kicker": "Pra lembrar",
+      "titulo": [
+        "Você não precisa",
+        "caber em nenhuma caixa."
+      ],
+      "legenda": "Não existe um jeito certo de ser homem trans ou pessoa transmasculina. Existe o seu jeito 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #orgulhotrans"
+    },
+    {
+      "id": "reserva-064",
+      "tipo": "citacao",
+      "kicker": "Recado",
+      "titulo": [
+        "Seu nome é seu.",
+        "Use com orgulho."
+      ],
+      "legenda": "Seu nome conta a sua história. E ele merece ser respeitado em todo lugar 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #nomesocial"
+    },
+    {
+      "id": "reserva-065",
+      "tipo": "citacao",
+      "kicker": "Pra lembrar",
+      "titulo": [
+        "Transição não é",
+        "corrida. É caminho."
+      ],
+      "legenda": "Cada passo tem o seu tempo. Respira, você está indo bem 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #transicao"
+    },
+    {
+      "id": "reserva-066",
+      "tipo": "citacao",
+      "kicker": "Recado",
+      "titulo": [
+        "Você merece",
+        "se sentir em casa",
+        "no seu corpo."
+      ],
+      "legenda": "Do jeito que fizer sentido pra você. No seu tempo 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #autocuidado"
+    },
+    {
+      "id": "reserva-067",
+      "tipo": "citacao",
+      "kicker": "Pra lembrar",
+      "titulo": [
+        "Ser quem a gente é",
+        "nunca foi erro."
+      ],
+      "legenda": "Você não precisa pedir desculpa por existir 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #orgulhotrans"
+    },
+    {
+      "id": "reserva-068",
+      "tipo": "citacao",
+      "kicker": "Recado",
+      "titulo": [
+        "Hoje pode ser",
+        "difícil. Amanhã",
+        "pode ser melhor."
+      ],
+      "legenda": "Se precisar conversar, o CVV atende de graça, 24 horas, pelo 188 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudemental"
+    },
+    {
+      "id": "reserva-069",
+      "tipo": "citacao",
+      "kicker": "Pra lembrar",
+      "titulo": [
+        "A sua história",
+        "importa."
+      ],
+      "legenda": "Cada caminho é único. E o seu merece ser contado do seu jeito 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #orgulhotrans"
+    },
+    {
+      "id": "reserva-070",
+      "tipo": "citacao",
+      "kicker": "Recado",
+      "titulo": [
+        "Juntos a gente",
+        "vai mais longe."
+      ],
+      "legenda": "Comunidade é isso: um segurando a mão do outro 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-071",
+      "tipo": "comparativo",
+      "kicker": "Comparativo",
+      "titulo": [
+        "Antes x depois",
+        "de retificar"
+      ],
+      "itens": [
+        {
+          "emoji": "📄",
+          "titulo": "Antes",
+          "texto": "Nome social | Pedido em cada lugar | Documento antigo"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Depois",
+          "texto": "Nome nos documentos | Atualizar um por um | Certidão nova"
+        }
+      ],
+      "destaque": {
+        "forte": "Retificação é direito.",
+        "texto": "Direto no cartório, a partir dos 18."
+      },
+      "legenda": "Retificar muda bastante coisa no dia a dia, mas exige atualizar os documentos um por um. Antes disso, o nome social já é seu direito.\n\nJá retificou? Conta como foi 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #retificacao"
+    },
+    {
+      "id": "reserva-072",
+      "tipo": "comparativo",
+      "kicker": "Comparativo",
+      "titulo": [
+        "Coletivo x",
+        "ambulatório"
+      ],
+      "itens": [
+        {
+          "emoji": "🫂",
+          "titulo": "Coletivo",
+          "texto": "Acolhimento | Troca de experiências | Rede de apoio"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatório",
+          "texto": "Atendimento de saúde | Equipe profissional | Acompanhamento"
+        }
+      ],
+      "legenda": "Coletivos e ambulatórios se completam: um cuida do acolhimento e da comunidade, o outro da saúde.\n\nTem coletivo na sua cidade? Conta aqui 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-073",
+      "tipo": "comparativo",
+      "kicker": "Comparativo",
+      "titulo": [
+        "Aliado x",
+        "só tolerância"
+      ],
+      "itens": [
+        {
+          "emoji": "💙",
+          "titulo": "Aliado",
+          "texto": "Usa seu nome | Te defende | Escuta"
+        },
+        {
+          "emoji": "😐",
+          "titulo": "Tolerância",
+          "texto": "Erra e não corrige | Fica calado | Faz piada"
+        }
+      ],
+      "legenda": "Tolerar é pouco. Respeito de verdade aparece nas atitudes do dia a dia.\n\nMarca aqui um aliado de verdade 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #respeito"
+    },
+    {
+      "id": "reserva-074",
+      "tipo": "mito",
+      "kicker": "Mito ou verdade",
+      "titulo": [
+        "Nome",
+        "social"
+      ],
+      "itens": [
+        {
+          "titulo": "Só vale depois de retificar",
+          "texto": "O nome social já é direito, mesmo sem retificar"
+        },
+        {
+          "titulo": "Precisa de laudo pra usar",
+          "texto": "Não precisa, é só pedir"
+        },
+        {
+          "titulo": "Só vale em órgão público",
+          "texto": "Escolas, bancos e empresas também aceitam"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral.",
+        "texto": "As regras variam em cada lugar."
+      },
+      "legenda": "Muita gente acha que precisa retificar antes de usar o nome social. Não precisa!\n\nCompartilha com quem ainda não sabe 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #nomesocial"
+    },
+    {
+      "id": "reserva-075",
+      "tipo": "mito",
+      "kicker": "Mito ou verdade",
+      "titulo": [
+        "Binder",
+        "mitos"
+      ],
+      "itens": [
+        {
+          "titulo": "Pode dormir de binder",
+          "texto": "O ideal é tirar pra dormir"
+        },
+        {
+          "titulo": "Mais apertado comprime mais",
+          "texto": "Use sempre o seu tamanho"
+        },
+        {
+          "titulo": "Doeu é normal",
+          "texto": "Dor e falta de ar são sinal pra tirar"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Na dúvida, fale com a sua equipe."
+      },
+      "legenda": "O binder ajuda muita gente com a disforia, mas precisa ser usado com cuidado.\n\nCompartilha com quem está começando a usar 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #binder"
+    },
+    {
+      "id": "reserva-076",
+      "tipo": "checklist",
+      "kicker": "Ambulatório",
+      "titulo": [
+        "O que levar",
+        "no ambulatório"
+      ],
+      "itens": [
+        {
+          "titulo": "Documento com foto",
+          "texto": "E o cartão do SUS"
+        },
+        {
+          "titulo": "Comprovante de endereço",
+          "texto": "Alguns serviços pedem"
+        },
+        {
+          "titulo": "Encaminhamento da UBS",
+          "texto": "Se o serviço exigir"
+        },
+        {
+          "titulo": "Exames anteriores",
+          "texto": "Se você tiver"
+        },
+        {
+          "titulo": "Suas dúvidas anotadas",
+          "texto": "Pra não esquecer"
+        }
+      ],
+      "destaque": {
+        "forte": "Ligue antes e confirme.",
+        "texto": "Cada serviço pede uma coisa."
+      },
+      "legenda": "Vai no ambulatório pela primeira vez? Ligar antes e levar os documentos certos evita viagem perdida.\n\nNo portal tem a lista de ambulatórios trans por estado 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans"
+    },
+    {
+      "id": "reserva-077",
+      "tipo": "lista",
+      "kicker": "Fila do SUS",
+      "titulo": [
+        "Esperando",
+        "na fila?"
+      ],
+      "itens": [
+        {
+          "emoji": "📋",
+          "titulo": "Guarde seus protocolos",
+          "texto": "E anote datas e nomes"
+        },
+        {
+          "emoji": "📞",
+          "titulo": "Ligue de tempos em tempos",
+          "texto": "Pra saber como está"
+        },
+        {
+          "emoji": "🫂",
+          "titulo": "Busque apoio enquanto espera",
+          "texto": "Coletivos e acompanhamento psicológico"
+        },
+        {
+          "emoji": "📣",
+          "titulo": "Problema no atendimento?",
+          "texto": "Ouvidoria do SUS: 136"
+        }
+      ],
+      "legenda": "A espera no SUS pode ser longa e cansativa. Se organizar e ter apoio por perto ajuda a atravessar esse tempo.\n\nVocê está esperando por algum atendimento? Conta aqui 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #sus"
+    },
+    {
+      "id": "reserva-078",
+      "tipo": "lista",
+      "kicker": "Planejamento",
+      "titulo": [
+        "Juntando grana",
+        "pra cirurgia"
+      ],
+      "itens": [
+        {
+          "emoji": "🎯",
+          "titulo": "Defina uma meta",
+          "texto": "Pesquise valores antes"
+        },
+        {
+          "emoji": "🐷",
+          "titulo": "Separe um valor todo mês",
+          "texto": "Mesmo que pequeno"
+        },
+        {
+          "emoji": "📊",
+          "titulo": "Anote tudo",
+          "texto": "Planilha ou app ajudam"
+        },
+        {
+          "emoji": "🧾",
+          "titulo": "Inclua os extras",
+          "texto": "Exames, faixa pós-cirúrgica, transporte"
+        }
+      ],
+      "destaque": {
+        "forte": "Cuidado com promessas de preço baixo.",
+        "texto": "Pesquise o profissional antes."
+      },
+      "legenda": "Quem vai fazer a cirurgia pelo particular sabe: planejar a grana ajuda muito. E não esqueça dos gastos extras.\n\nNo portal tem cirurgiões indicados pela comunidade 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #mastectomia"
+    },
+    {
+      "id": "reserva-079",
+      "tipo": "lista",
+      "kicker": "Pós-cirurgia",
+      "titulo": [
+        "Rede de apoio",
+        "no pós-op"
+      ],
+      "itens": [
+        {
+          "emoji": "🧑‍🤝‍🧑",
+          "titulo": "Alguém por perto nos primeiros dias",
+          "texto": "Pra ajudar no dia a dia"
+        },
+        {
+          "emoji": "🍲",
+          "titulo": "Comida pronta",
+          "texto": "Deixe o freezer abastecido"
+        },
+        {
+          "emoji": "🧺",
+          "titulo": "Roupas fáceis de vestir",
+          "texto": "Camisas de botão"
+        },
+        {
+          "emoji": "📞",
+          "titulo": "Contato da equipe à mão",
+          "texto": "Pra qualquer dúvida"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Siga a orientação da sua equipe."
+      },
+      "legenda": "Organizar a casa e a rede de apoio antes da cirurgia deixa a recuperação mais tranquila.\n\nQuem já passou por isso: qual dica você daria? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #mastectomia"
+    },
+    {
+      "id": "reserva-080",
+      "tipo": "lista",
+      "kicker": "Direitos",
+      "titulo": [
+        "Defensoria",
+        "Pública"
+      ],
+      "subtitulo": "Assistência jurídica gratuita",
+      "itens": [
+        {
+          "emoji": "⚖️",
+          "titulo": "Atende quem não pode pagar advogado",
+          "texto": "De graça"
+        },
+        {
+          "emoji": "📄",
+          "titulo": "Ajuda com documentos",
+          "texto": "Inclusive na retificação"
+        },
+        {
+          "emoji": "🛡️",
+          "titulo": "Casos de discriminação",
+          "texto": "Você pode buscar orientação"
+        },
+        {
+          "emoji": "📍",
+          "titulo": "Tem em todos os estados",
+          "texto": "Procure a da sua cidade"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação jurídica.",
+        "texto": "Procure a Defensoria do seu estado."
+      },
+      "legenda": "A Defensoria Pública oferece assistência jurídica gratuita pra quem não pode pagar um advogado. Ela pode ajudar em várias situações, inclusive na retificação.\n\nSalva esse post 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #direitos"
+    },
+    {
+      "id": "reserva-081",
+      "tipo": "lista",
+      "kicker": "Assistência social",
+      "titulo": [
+        "CRAS:",
+        "você conhece?"
+      ],
+      "itens": [
+        {
+          "emoji": "🏠",
+          "titulo": "Centro de assistência social",
+          "texto": "Tem em muitas cidades"
+        },
+        {
+          "emoji": "📋",
+          "titulo": "Ajuda com programas sociais",
+          "texto": "E com o CadÚnico"
+        },
+        {
+          "emoji": "🫂",
+          "titulo": "Acolhimento e orientação",
+          "texto": "Pra você e sua família"
+        },
+        {
+          "emoji": "📍",
+          "titulo": "Procure o mais perto",
+          "texto": "Na prefeitura da sua cidade"
+        }
+      ],
+      "legenda": "O CRAS é a porta de entrada da assistência social. Ele orienta sobre programas sociais e pode ajudar em momentos difíceis.\n\nCompartilha com quem pode precisar 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #direitos"
+    },
+    {
+      "id": "reserva-082",
+      "tipo": "lista",
+      "kicker": "Acolhimento",
+      "titulo": [
+        "Expulso",
+        "de casa?"
+      ],
+      "itens": [
+        {
+          "emoji": "📞",
+          "titulo": "Procure o CRAS ou CREAS",
+          "texto": "Assistência social da cidade"
+        },
+        {
+          "emoji": "🏠",
+          "titulo": "Casas de acolhida LGBT+",
+          "texto": "Existem em várias cidades"
+        },
+        {
+          "emoji": "🫂",
+          "titulo": "Coletivos da sua região",
+          "texto": "Costumam conhecer a rede local"
+        },
+        {
+          "emoji": "⚖️",
+          "titulo": "Menor de idade?",
+          "texto": "O Conselho Tutelar pode ajudar"
+        }
+      ],
+      "destaque": {
+        "forte": "Em risco agora? Ligue 190.",
+        "texto": "Você merece um lugar seguro."
+      },
+      "legenda": "Ninguém deveria perder a casa por ser quem é. Se isso acontecer, existe uma rede que pode ajudar.\n\nConhece uma casa de acolhida na sua cidade? Comenta aqui, pode salvar alguém 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #direitos"
+    },
+    {
+      "id": "reserva-083",
+      "tipo": "lista",
+      "kicker": "Glossário",
+      "titulo": [
+        "Palavras",
+        "que importam"
+      ],
+      "itens": [
+        {
+          "emoji": "🏳️‍⚧️",
+          "titulo": "Homem trans",
+          "texto": "Homem que não foi designado homem ao nascer"
+        },
+        {
+          "emoji": "🔷",
+          "titulo": "Pessoa transmasculina",
+          "texto": "Termo mais amplo, inclui não binários"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Nome social",
+          "texto": "O nome que a pessoa usa"
+        },
+        {
+          "emoji": "📄",
+          "titulo": "Retificação",
+          "texto": "Mudança de nome e gênero no registro"
+        }
+      ],
+      "legenda": "Conhecer as palavras certas ajuda a respeitar e a se entender.\n\nQual termo você gostaria que a gente explicasse? 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-084",
+      "tipo": "lista",
+      "kicker": "Glossário",
+      "titulo": [
+        "Mais palavras",
+        "que importam"
+      ],
+      "itens": [
+        {
+          "emoji": "🧠",
+          "titulo": "Disforia de gênero",
+          "texto": "Desconforto com características do corpo"
+        },
+        {
+          "emoji": "💉",
+          "titulo": "Hormonização",
+          "texto": "Uso de hormônios com acompanhamento"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Mastectomia masculinizadora",
+          "texto": "Cirurgia de retirada das mamas"
+        },
+        {
+          "emoji": "🙅",
+          "titulo": "Nome morto",
+          "texto": "Nome antigo, que não se usa mais"
+        }
+      ],
+      "legenda": "Mais algumas palavras que aparecem muito por aqui.\n\nSalva pra mandar pra quem está aprendendo 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-085",
+      "tipo": "lista",
+      "kicker": "Não binário",
+      "titulo": [
+        "Pessoas",
+        "não binárias"
+      ],
+      "itens": [
+        {
+          "emoji": "🔷",
+          "titulo": "Não se veem só como homem ou mulher",
+          "texto": "Cada pessoa vive isso do seu jeito"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "Pergunte os pronomes",
+          "texto": "Ele, ela, elu ou outros"
+        },
+        {
+          "emoji": "💙",
+          "titulo": "Também fazem parte da comunidade",
+          "texto": "Muitas são transmasculinas"
+        },
+        {
+          "emoji": "🚫",
+          "titulo": "Não é fase",
+          "texto": "É identidade"
+        }
+      ],
+      "legenda": "A comunidade transmasculina também inclui pessoas não binárias. Respeito vale pra todo mundo.\n\nCompartilha 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #naobinario"
+    },
+    {
+      "id": "reserva-086",
+      "tipo": "passos",
+      "kicker": "Pronomes",
+      "titulo": [
+        "Como perguntar",
+        "pronomes"
+      ],
+      "itens": [
+        {
+          "titulo": "Apresente-se com os seus",
+          "texto": "\"Sou o Pedro, uso ele\""
+        },
+        {
+          "titulo": "Pergunte com naturalidade",
+          "texto": "\"E você, como prefere?\""
+        },
+        {
+          "titulo": "Use a partir daí",
+          "texto": "Sem fazer alarde"
+        },
+        {
+          "titulo": "Errou? Corrija e siga",
+          "texto": "Sem drama"
+        }
+      ],
+      "legenda": "Perguntar os pronomes de alguém é simples e mostra respeito. Quanto mais natural, melhor.\n\nCompartilha com quem quer aprender 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #respeito"
+    },
+    {
+      "id": "reserva-087",
+      "tipo": "lista",
+      "kicker": "Mídia",
+      "titulo": [
+        "Representatividade",
+        "importa"
+      ],
+      "itens": [
+        {
+          "emoji": "📺",
+          "titulo": "Ver alguém como você",
+          "texto": "Mostra que dá pra ser feliz"
+        },
+        {
+          "emoji": "📚",
+          "titulo": "Histórias reais",
+          "texto": "Ajudam a família a entender"
+        },
+        {
+          "emoji": "🎤",
+          "titulo": "Artistas trans",
+          "texto": "Merecem ser ouvidos"
+        },
+        {
+          "emoji": "💙",
+          "titulo": "Você também inspira",
+          "texto": "Mesmo sem perceber"
+        }
+      ],
+      "legenda": "Se ver representado faz diferença, principalmente pra quem está começando.\n\nQual artista, livro ou série trans você indica? Comenta aqui 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #orgulhotrans"
+    },
+    {
+      "id": "reserva-088",
+      "tipo": "lista",
+      "kicker": "Estudos",
+      "titulo": [
+        "Nome social",
+        "na faculdade"
+      ],
+      "itens": [
+        {
+          "emoji": "🎓",
+          "titulo": "Muitas universidades aceitam",
+          "texto": "Pergunte na secretaria"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Na carteirinha e na chamada",
+          "texto": "E nos sistemas internos"
+        },
+        {
+          "emoji": "📄",
+          "titulo": "Diploma",
+          "texto": "Pergunte como fica no seu caso"
+        },
+        {
+          "emoji": "🫂",
+          "titulo": "Coletivos estudantis",
+          "texto": "Podem ajudar no pedido"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral.",
+        "texto": "Cada instituição tem sua regra."
+      },
+      "legenda": "Muitas faculdades e universidades já aceitam o nome social. Vale perguntar na secretaria logo no começo.\n\nSua faculdade aceita? Conta aqui 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #educacao"
+    },
+    {
+      "id": "reserva-089",
+      "tipo": "lista",
+      "kicker": "Esperança",
+      "titulo": [
+        "O que melhora",
+        "com o tempo"
+      ],
+      "itens": [
+        {
+          "emoji": "🪞",
+          "titulo": "O espelho",
+          "texto": "Fica mais gentil"
+        },
+        {
+          "emoji": "🗣️",
+          "titulo": "O nome",
+          "texto": "Vira hábito pra quem te ama"
+        },
+        {
+          "emoji": "🫂",
+          "titulo": "A rede",
+          "texto": "Cresce com o tempo"
+        },
+        {
+          "emoji": "💙",
+          "titulo": "Você",
+          "texto": "Fica mais forte a cada passo"
+        }
+      ],
+      "legenda": "Nem tudo melhora de uma vez, mas muita coisa melhora com o tempo. Segura firme.\n\nO que melhorou pra você? Conta aqui 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #orgulhotrans"
+    },
+    {
+      "id": "reserva-090",
+      "tipo": "lista",
+      "kicker": "Trabalho",
+      "titulo": [
+        "Vagas para",
+        "pessoas trans"
+      ],
+      "itens": [
+        {
+          "emoji": "🔎",
+          "titulo": "Procure vagas afirmativas",
+          "texto": "Muitas empresas abrem"
+        },
+        {
+          "emoji": "💻",
+          "titulo": "Plataformas de empregabilidade trans",
+          "texto": "Existem iniciativas no Brasil"
+        },
+        {
+          "emoji": "🤝",
+          "titulo": "Indique e peça indicação",
+          "texto": "Networking ajuda muito"
+        },
+        {
+          "emoji": "📚",
+          "titulo": "Cursos gratuitos",
+          "texto": "Pra fortalecer o currículo"
+        }
+      ],
+      "legenda": "Empregabilidade ainda é um desafio pra muita gente trans. Mas tem vagas afirmativas e iniciativas que ajudam.\n\nConhece alguma? Compartilha nos comentários 👇\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #trabalho"
+    },
+    {
+      "id": "reserva-091",
+      "tipo": "checklist",
+      "kicker": "Mastectomia",
+      "titulo": [
+        "Antes de escolher",
+        "o cirurgião"
+      ],
+      "itens": [
+        {
+          "titulo": "Veja se tem registro no CRM",
+          "texto": "E especialização"
+        },
+        {
+          "titulo": "Peça fotos de resultados",
+          "texto": "De outros pacientes"
+        },
+        {
+          "titulo": "Converse com quem já operou",
+          "texto": "A comunidade ajuda"
+        },
+        {
+          "titulo": "Entenda o que está incluso",
+          "texto": "No valor e no pós-operatório"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação médica.",
+        "texto": "Cirurgiões indicados no portal."
+      },
+      "legenda": "Escolher o cirurgião é uma das decisões mais importantes. Pesquise com calma e converse com quem já operou.\n\nNo portal tem cirurgiões indicados pela comunidade 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #mastectomia"
+    },
+    {
+      "id": "reserva-092",
+      "tipo": "capa",
+      "kicker": "Saúde mental",
+      "titulo": [
+        "Terapia não é",
+        "só pra crise"
+      ],
+      "subtitulo": "É um espaço pra cuidar de você",
+      "destaque": {
+        "forte": "Tem atendimento psicológico pelo SUS",
+        "texto": "e em clínicas-escola de faculdades."
+      },
+      "legenda": "Terapia pode ajudar em vários momentos da vida, não só nos mais difíceis. E dá pra ter acesso de graça ou por pouco.\n\nNo SUS, pergunte na sua UBS. Clínicas-escola de psicologia também atendem a comunidade.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudemental"
+    },
+    {
+      "id": "reserva-093",
+      "tipo": "lista",
+      "kicker": "Saúde mental",
+      "titulo": [
+        "Psicólogo",
+        "acolhedor"
+      ],
+      "itens": [
+        {
+          "emoji": "🗣️",
+          "titulo": "Respeita seu nome e pronome",
+          "texto": "Desde a primeira sessão"
+        },
+        {
+          "emoji": "🚫",
+          "titulo": "Não tenta \"curar\" quem você é",
+          "texto": "Isso é proibido"
+        },
+        {
+          "emoji": "👂",
+          "titulo": "Escuta sem julgar",
+          "texto": "Sua experiência é válida"
+        },
+        {
+          "emoji": "🔎",
+          "titulo": "Pergunte se já atendeu pessoas trans",
+          "texto": "É uma pergunta normal"
+        }
+      ],
+      "destaque": {
+        "forte": "Terapia de \"conversão\" é proibida",
+        "texto": "pelo Conselho Federal de Psicologia."
+      },
+      "legenda": "Um bom psicólogo respeita quem você é. Tentativa de \"cura\" é proibida pelo Conselho Federal de Psicologia.\n\nTem psicólogo acolhedor pra indicar? Indica no portal 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #saudemental"
+    },
+    {
+      "id": "reserva-094",
+      "tipo": "lista",
+      "kicker": "Fim de ano",
+      "titulo": [
+        "Festas com",
+        "a família"
+      ],
+      "itens": [
+        {
+          "emoji": "🧭",
+          "titulo": "Planeje sua saída",
+          "texto": "Se precisar ir embora"
+        },
+        {
+          "emoji": "🫂",
+          "titulo": "Leve alguém de confiança",
+          "texto": "Ou deixe alguém de sobreaviso"
+        },
+        {
+          "emoji": "📱",
+          "titulo": "Combine um código com um amigo",
+          "texto": "Pra pedir ajuda discreto"
+        },
+        {
+          "emoji": "💙",
+          "titulo": "Tudo bem não ir",
+          "texto": "Sua paz importa"
+        }
+      ],
+      "legenda": "Datas de família podem ser difíceis quando nem todo mundo respeita. Se cuida e tenha um plano B.\n\nE se quiser, passa com sua família escolhida 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #familia"
+    },
+    {
+      "id": "reserva-095",
+      "tipo": "capa",
+      "kicker": "Visibilidade",
+      "titulo": [
+        "Estar visível",
+        "é escolha sua"
+      ],
+      "subtitulo": "Ninguém é obrigado a contar que é trans",
+      "legenda": "Visibilidade é importante, mas cada pessoa decide o quanto quer contar e pra quem. Sua segurança e sua paz vêm primeiro.\n\nRespeite quem prefere não falar sobre isso 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #visibilidadetrans"
+    },
+    {
+      "id": "reserva-096",
+      "tipo": "lista",
+      "kicker": "Lojinha",
+      "titulo": [
+        "Pra começar",
+        "a transição"
+      ],
+      "itens": [
+        {
+          "emoji": "👕",
+          "titulo": "Camisetas mais largas",
+          "texto": "Conforto no dia a dia"
+        },
+        {
+          "emoji": "🧢",
+          "titulo": "Bonés e acessórios",
+          "texto": "Ajudam no estilo"
+        },
+        {
+          "emoji": "🧴",
+          "titulo": "Kit de barba",
+          "texto": "Pra quando ela chegar"
+        },
+        {
+          "emoji": "🛒",
+          "titulo": "Tudo isso na lojinha",
+          "texto": "Links de afiliado"
+        }
+      ],
+      "destaque": {
+        "forte": "Links de afiliado do Mercado Livre.",
+        "texto": "Você não paga a mais por isso."
+      },
+      "legenda": "Na lojinha do portal tem achados úteis pra quem está começando. São links de afiliado: você não paga a mais e ajuda a manter o portal.\n\n🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #lojinha"
+    },
+    {
+      "id": "reserva-097",
+      "tipo": "lista",
+      "kicker": "Apoie",
+      "titulo": [
+        "Formas de ajudar",
+        "o portal"
+      ],
+      "itens": [
+        {
+          "emoji": "📲",
+          "titulo": "Compartilhe o perfil",
+          "texto": "Ajuda muito"
+        },
+        {
+          "emoji": "➕",
+          "titulo": "Indique profissionais",
+          "texto": "No próprio portal"
+        },
+        {
+          "emoji": "🛒",
+          "titulo": "Compre pela lojinha",
+          "texto": "Sem pagar a mais"
+        },
+        {
+          "emoji": "💙",
+          "titulo": "Contribua com qualquer valor",
+          "texto": "Se puder"
+        }
+      ],
+      "legenda": "O portal é gratuito e feito pela comunidade. Tem várias formas de ajudar, e nem todas envolvem dinheiro.\n\nObrigado por fazer parte 💙 🔗 Link na bio.\n\nMe segue aí, galera 💙\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    },
+    {
+      "id": "reserva-098",
+      "tipo": "citacao",
+      "kicker": "Pra lembrar",
+      "titulo": [
+        "Pequenos passos",
+        "também são",
+        "transição."
+      ],
+      "legenda": "Cada pequena mudança conta. Comemora as suas 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #transicao"
+    },
+    {
+      "id": "reserva-099",
+      "tipo": "citacao",
+      "kicker": "Recado",
+      "titulo": [
+        "Você não está",
+        "atrasado. Você",
+        "está no seu tempo."
+      ],
+      "legenda": "Não existe idade certa pra ser quem você é 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #transicao"
+    },
+    {
+      "id": "reserva-100",
+      "tipo": "citacao",
+      "kicker": "Pra lembrar",
+      "titulo": [
+        "Respeito não é",
+        "favor. É direito."
+      ],
+      "legenda": "Seu nome, seus pronomes e sua história merecem respeito em todo lugar 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #direitos"
+    },
+    {
+      "id": "reserva-101",
+      "tipo": "citacao",
+      "kicker": "Recado",
+      "titulo": [
+        "Tem lugar pra você",
+        "aqui."
+      ],
+      "legenda": "Bem-vindo à comunidade. Você não está sozinho 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #comunidadetrans"
+    }
+  ]
+}

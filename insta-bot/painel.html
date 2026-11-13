@@ -501,7 +501,7 @@ function falhaFatal(msg) {
 }
 let SYSTEM_IA, extrairJson, NOME_PROV, temChaveDe, chamarIADe, normalizarPost, postCompleto, pedirJsonDe, postHtml, esc, TIPOS, TEMAS, TIPOS_SEM_ITENS, TIPOS_COM_EMOJI, temasDe, coresDe, CORES_PADRAO, FAIXA_PADRAO, fonteCssGoogle, criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO, raizDe, proximoIdBase, copiaParaRepost, jaNaFila, publicacoesDe, escolherRepeticao, partesBRT, agendaDe, descreverAgenda, rascunhosAutoDe, proximaCriacao, NOMES_DIAS, JANELA_HORAS, ideiasAutoDe, MODELO_PADRAO, SECRET_DA_IA;
 try {
-  const VER = '?v=20261113a'; // evita usar uma cópia antiga em cache
+  const VER = '?v=20261113b'; // evita usar uma cópia antiga em cache
   const [T, Fm, IA, B] = await Promise.all([import('./template.js' + VER), import('./fila.js' + VER), import('./ia.js' + VER), import('./banco.js' + VER)]);
   ({ criarDoBanco, disponiveisNoBanco, totalDisponivel, regrasDe, REGRAS_PADRAO } = B);
   ({ SYSTEM_IA, extrairJson, NOME_PROV, temChave: temChaveDe, chamarIA: chamarIADe, normalizarPost, postCompleto, pedirJson: pedirJsonDe } = IA);
@@ -1331,8 +1331,26 @@ function renderBanco(c, grid, disp) {
   r3.innerHTML = 'Reaproveitar posts publicados há mais de <input type="number" min="7" max="365" class="dr"> dias';
   const dr = r3.querySelector('.dr'); dr.value = regras.diasReciclar;
   dr.onchange = () => { banco.regras = { ...regras, ...(banco.regras || {}), diasReciclar: Math.max(7, Math.min(365, parseInt(dr.value, 10) || 60)) }; marcar(); };
+  // abastecimento automático do banco (abastecer-banco.mjs, nas rodadas do robô)
+  const ab = banco.abastecer = banco.abastecer || {};
+  ab.reserva = { ativa: true, aCadaDias: 2, quantidade: 1, ...(ab.reserva || {}) };
+  ab.portal = { ativa: true, ...(ab.portal || {}) };
+  const sA = secao('🔄 O banco se abastece sozinho', 'O robô coloca ideias novas no banco mesmo que você não use. Sem IA e sem chave.');
+  const a1 = document.createElement('label'); a1.className = 'chk';
+  a1.innerHTML = `<input type="checkbox" ${ab.reserva.ativa ? 'checked' : ''}><span>📦 Liberar pautas prontas da reserva</span>`;
+  a1.querySelector('input').onchange = ev => { ab.reserva.ativa = ev.target.checked; marcar(); };
+  const a2 = document.createElement('div'); a2.className = 'linha';
+  a2.innerHTML = 'A cada <input type="number" min="1" max="30" class="rd"> dia(s), liberar <input type="number" min="1" max="10" class="rq"> pauta(s)';
+  const rd = a2.querySelector('.rd'), rq = a2.querySelector('.rq'); rd.value = ab.reserva.aCadaDias; rq.value = ab.reserva.quantidade;
+  rd.onchange = () => { ab.reserva.aCadaDias = Math.max(1, Math.min(30, parseInt(rd.value, 10) || 2)); marcar(); };
+  rq.onchange = () => { ab.reserva.quantidade = Math.max(1, Math.min(10, parseInt(rq.value, 10) || 1)); marcar(); };
+  const a3 = document.createElement('label'); a3.className = 'chk'; a3.style.marginTop = '12px';
+  a3.innerHTML = `<input type="checkbox" ${ab.portal.ativa ? 'checked' : ''}><span>📍 Criar ideias com os dados do portal (indicações por estado, por categoria e novidades, sem citar nomes)</span>`;
+  a3.querySelector('input').onchange = ev => { ab.portal.ativa = ev.target.checked; marcar(); };
+  sA.append(a1, a2, a3);
+  sA.insertAdjacentHTML('beforeend', `<p class="dica">${ab.reserva.ultimaVez ? 'Última pauta liberada: ' + esc(fmtDia(ab.reserva.ultimaVez)) + '. ' : ''}${ab.portal.ultimaVez ? 'Dados do portal lidos em ' + esc(fmtDia(ab.portal.ultimaVez)) + ': ' + esc(ab.portal.ultimoResultado || '') : 'Os dados do portal são lidos uma vez por dia, na rodada do robô.'}</p>`);
   sR.append(r1, r2, chk('🧩 Quando o banco acabar, transformar cada item das ideias (lista, checklist, mito) em dica avulsa', 'desdobrar'), chk('♻️ Depois disso, reaproveitar posts já publicados (como rascunho, com outro tema)', 'reciclar'), r3);
-  const colL = document.createElement('div'); colL.append(sL, sR);
+  const colL = document.createElement('div'); colL.append(sL, sR, sA);
   duas.appendChild(colL);
   c.appendChild(duas);
 

@@ -182,7 +182,10 @@ export function criarDoBanco(config, banco, quantidade, { agora = new Date(), ho
       };
       post.legenda = f.legenda || montarLegenda(post, banco, marca, f.fonte);
     } else if (disp.ideias.length) {
-      const i = disp.ideias.shift();
+      // não deixa duas ideias com dados do portal seguidas, se houver outra ideia esperando
+      const ultimo = novos.length ? novos[novos.length - 1] : (config.posts || [])[(config.posts || []).length - 1];
+      const k = ultimo && ultimo.portalChave ? Math.max(0, disp.ideias.findIndex((x) => !x.portalChave)) : 0;
+      const i = disp.ideias.splice(k, 1)[0];
       post = JSON.parse(JSON.stringify(i));
       delete post.avisos;
       if (!post.legenda) post.legenda = montarLegenda(post, banco, marca, post.id);
