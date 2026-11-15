@@ -1547,6 +1547,46 @@
       "aprovado": false,
       "postado": false,
       "abastecidoEm": "2026-11-13T19:36:15.529Z"
+    },
+    {
+      "id": "reserva-002",
+      "tipo": "lista",
+      "kicker": "Escola",
+      "titulo": [
+        "Nome social",
+        "na escola"
+      ],
+      "subtitulo": "Estudantes trans podem usar o nome social",
+      "itens": [
+        {
+          "emoji": "🏫",
+          "titulo": "Peça na secretaria",
+          "texto": "Ele vai para a chamada e os registros internos"
+        },
+        {
+          "emoji": "👨‍👩‍👦",
+          "titulo": "Menor de 18 anos?",
+          "texto": "O pedido costuma ser feito pelos responsáveis"
+        },
+        {
+          "emoji": "📄",
+          "titulo": "Tem norma nacional",
+          "texto": "Resolução do CNE de 2018"
+        },
+        {
+          "emoji": "💬",
+          "titulo": "Converse com a coordenação",
+          "texto": "Combinem como vai ser na prática"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral.",
+        "texto": "Cada rede de ensino organiza o pedido do seu jeito."
+      },
+      "legenda": "Desde 2018, uma resolução do Conselho Nacional de Educação garante o uso do nome social nos registros escolares da educação básica.\n\nNa dúvida, comece pela secretaria da escola.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #educacao",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-15T21:25:22.218Z"
     }
   ],
   "abastecer": {
@@ -1554,7 +1594,7 @@
       "ativa": true,
       "aCadaDias": 2,
       "quantidade": 1,
-      "ultimaVez": "2026-11-13T19:36:15.529Z"
+      "ultimaVez": "2026-11-15T21:25:22.218Z"
     },
     "portal": {
       "ativa": true,
