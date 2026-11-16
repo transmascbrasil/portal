@@ -1042,6 +1042,48 @@
       "postado": false,
       "abastecidoEm": "2026-11-13T19:36:15.529Z",
       "criadoEm": "2026-11-13T22:45:12.398Z"
+    },
+    {
+      "id": "post120",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "em São Paulo"
+      ],
+      "subtitulo": "88 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 55",
+          "texto": "São Paulo, Campinas e Itapetininga"
+        },
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 32",
+          "texto": "São Paulo, Santos e Presidente Prudente"
+        },
+        {
+          "emoji": "💉",
+          "titulo": "Endocrinologistas: 1",
+          "texto": "São José do Rio Preto"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "58 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans em São Paulo? 📍\n\nO portal reúne 88 indicações no estado, feitas pela própria comunidade:\n🏥 Ambulatórios trans: 55\n🩺 Cirurgiões (mastectomia): 32\n💉 Endocrinologistas: 1\n✅ 58 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-SP",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z",
+      "criadoEm": "2026-11-16T01:14:28.799Z"
     }
   ],
   "rascunhosAuto": {
@@ -1049,7 +1091,7 @@
     "aCadaDias": 2,
     "quantidade": 1,
     "aprovar": false,
-    "ultimaVez": "2026-11-13T22:45:12.398Z"
+    "ultimaVez": "2026-11-16T01:14:28.799Z"
   },
   "agenda": {
     "dias": [
