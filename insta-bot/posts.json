@@ -318,7 +318,7 @@
     {
       "id": "post20",
       "aprovado": true,
-      "postado": false,
+      "postado": true,
       "tipo": "lista",
       "kicker": "Apoie",
       "titulo": [
@@ -348,7 +348,9 @@
         "forte": "Não pode contribuir? Compartilhar também ajuda.",
         "texto": "Indique o portal pra quem precisa."
       },
-      "legenda": "Quer ajudar o portal a continuar no ar? 💙\n\nO Portal Transmasc Brasil é gratuito, comunitário e sem fins lucrativos, mantido por uma pessoa só. Se puder, contribua com qualquer valor pela campanha no Apoia.se (o link está no portal).\n\nNão pode contribuir? Compartilhar, seguir e indicar profissionais também ajuda muito 🤝\n\nMe segue aí, galera!\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil"
+      "legenda": "Quer ajudar o portal a continuar no ar? 💙\n\nO Portal Transmasc Brasil é gratuito, comunitário e sem fins lucrativos, mantido por uma pessoa só. Se puder, contribua com qualquer valor pela campanha no Apoia.se (o link está no portal).\n\nNão pode contribuir? Compartilhar, seguir e indicar profissionais também ajuda muito 🤝\n\nMe segue aí, galera!\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil",
+      "publicadoEm": "2026-11-16T19:58:01.011Z",
+      "instagramMediaId": "18106385678159817"
     },
     {
       "id": "post105",
