@@ -1587,6 +1587,41 @@
       "aprovado": false,
       "postado": false,
       "abastecidoEm": "2026-11-15T21:25:22.218Z"
+    },
+    {
+      "id": "reserva-003",
+      "tipo": "passos",
+      "kicker": "ENEM",
+      "titulo": [
+        "Nome social",
+        "no ENEM"
+      ],
+      "itens": [
+        {
+          "titulo": "Faça a inscrição normal",
+          "texto": "Com os dados do seu documento"
+        },
+        {
+          "titulo": "Peça o atendimento pelo nome social",
+          "texto": "No período indicado no edital"
+        },
+        {
+          "titulo": "Envie o que pedirem",
+          "texto": "Confira a lista no edital do ano"
+        },
+        {
+          "titulo": "No dia da prova",
+          "texto": "Você é chamado pelo nome social"
+        }
+      ],
+      "destaque": {
+        "forte": "As regras mudam a cada edital.",
+        "texto": "Leia sempre o edital do ano."
+      },
+      "legenda": "O ENEM aceita pedido de atendimento pelo nome social. O prazo e os documentos aparecem no edital de cada ano, então fica de olho quando ele sair.\n\nMarca aqui quem vai fazer a prova 📚\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #enem",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-18T01:27:01.415Z"
     }
   ],
   "abastecer": {
@@ -1594,7 +1629,7 @@
       "ativa": true,
       "aCadaDias": 2,
       "quantidade": 1,
-      "ultimaVez": "2026-11-15T21:25:22.218Z"
+      "ultimaVez": "2026-11-18T01:27:01.415Z"
     },
     "portal": {
       "ativa": true,
