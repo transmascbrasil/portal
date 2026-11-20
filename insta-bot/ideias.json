@@ -1622,6 +1622,45 @@
       "aprovado": false,
       "postado": false,
       "abastecidoEm": "2026-11-18T01:27:01.415Z"
+    },
+    {
+      "id": "reserva-004",
+      "tipo": "lista",
+      "kicker": "Eleições",
+      "titulo": [
+        "Nome social",
+        "no título de eleitor"
+      ],
+      "itens": [
+        {
+          "emoji": "🗳️",
+          "titulo": "Dá pra incluir o nome social",
+          "texto": "O pedido é feito na Justiça Eleitoral"
+        },
+        {
+          "emoji": "🌐",
+          "titulo": "Comece pelo site do TSE",
+          "texto": "Ou vá a um cartório eleitoral"
+        },
+        {
+          "emoji": "🪪",
+          "titulo": "Ele aparece no título",
+          "texto": "E no caderno de votação"
+        },
+        {
+          "emoji": "⏳",
+          "titulo": "Fique de olho nos prazos",
+          "texto": "Antes de cada eleição o cadastro fecha"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral.",
+        "texto": "Confira os prazos no site do TSE."
+      },
+      "legenda": "Desde 2018 a Justiça Eleitoral permite incluir o nome social no título de eleitor. Assim você é chamado pelo seu nome na hora de votar.\n\nCompartilha com quem ainda não sabe 🗳️\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #cidadania",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-20T08:08:52.831Z"
     }
   ],
   "abastecer": {
@@ -1629,7 +1668,7 @@
       "ativa": true,
       "aCadaDias": 2,
       "quantidade": 1,
-      "ultimaVez": "2026-11-18T01:27:01.415Z"
+      "ultimaVez": "2026-11-20T08:08:52.831Z"
     },
     "portal": {
       "ativa": true,
