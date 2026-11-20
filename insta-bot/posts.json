@@ -1129,6 +1129,43 @@
       "postado": false,
       "abastecidoEm": "2026-11-15T21:25:22.218Z",
       "criadoEm": "2026-11-18T01:27:03.454Z"
+    },
+    {
+      "id": "post121",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "em Minas Gerais"
+      ],
+      "subtitulo": "15 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 8",
+          "texto": "Belo Horizonte, Juiz de Fora e Uberlândia"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 7",
+          "texto": "Belo Horizonte, Uberaba e Uberlândia"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "7 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans em Minas Gerais? 📍\n\nO portal reúne 15 indicações no estado, feitas pela própria comunidade:\n🩺 Cirurgiões (mastectomia): 8\n🏥 Ambulatórios trans: 7\n✅ 7 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-MG",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z",
+      "criadoEm": "2026-11-20T08:08:54.727Z"
     }
   ],
   "rascunhosAuto": {
@@ -1136,7 +1173,7 @@
     "aCadaDias": 2,
     "quantidade": 1,
     "aprovar": false,
-    "ultimaVez": "2026-11-18T01:27:03.454Z"
+    "ultimaVez": "2026-11-20T08:08:54.727Z"
   },
   "agenda": {
     "dias": [
