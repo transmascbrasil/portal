@@ -1661,6 +1661,46 @@
       "aprovado": false,
       "postado": false,
       "abastecidoEm": "2026-11-20T08:08:52.831Z"
+    },
+    {
+      "id": "reserva-005",
+      "tipo": "lista",
+      "kicker": "Trabalho",
+      "titulo": [
+        "Nome social",
+        "no trabalho"
+      ],
+      "subtitulo": "Dicas pra conversar com a empresa",
+      "itens": [
+        {
+          "emoji": "📧",
+          "titulo": "Peça por escrito ao RH",
+          "texto": "Fica registrado o seu pedido"
+        },
+        {
+          "emoji": "💻",
+          "titulo": "E-mail, crachá e sistemas",
+          "texto": "Tudo pode usar o seu nome"
+        },
+        {
+          "emoji": "🤝",
+          "titulo": "Combine como avisar a equipe",
+          "texto": "Você decide o quanto contar"
+        },
+        {
+          "emoji": "📣",
+          "titulo": "Desrespeito constante?",
+          "texto": "Procure o RH, o sindicato ou a Defensoria"
+        }
+      ],
+      "destaque": {
+        "forte": "Informação geral, não é orientação jurídica.",
+        "texto": "Cada caso tem suas particularidades."
+      },
+      "legenda": "Ser chamado pelo nome certo no trabalho faz muita diferença no dia a dia. Comece pelo RH e peça por escrito.\n\nJá passou por isso? Conta pra gente como foi 💙\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #trabalho",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-22T10:01:46.896Z"
     }
   ],
   "abastecer": {
@@ -1668,7 +1708,7 @@
       "ativa": true,
       "aCadaDias": 2,
       "quantidade": 1,
-      "ultimaVez": "2026-11-20T08:08:52.831Z"
+      "ultimaVez": "2026-11-22T10:01:46.896Z"
     },
     "portal": {
       "ativa": true,
