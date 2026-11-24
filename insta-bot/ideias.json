@@ -1701,6 +1701,45 @@
       "aprovado": false,
       "postado": false,
       "abastecidoEm": "2026-11-22T10:01:46.896Z"
+    },
+    {
+      "id": "reserva-006",
+      "tipo": "checklist",
+      "kicker": "Depois de retificar",
+      "titulo": [
+        "Documentos pra",
+        "atualizar"
+      ],
+      "itens": [
+        {
+          "titulo": "RG e CPF",
+          "texto": "Comece por eles"
+        },
+        {
+          "titulo": "Título de eleitor",
+          "texto": "Na Justiça Eleitoral"
+        },
+        {
+          "titulo": "CNH e carteira de trabalho",
+          "texto": "Detran e app da Carteira Digital"
+        },
+        {
+          "titulo": "Banco e cartões",
+          "texto": "Leve a certidão nova"
+        },
+        {
+          "titulo": "Passaporte, plano de saúde e escola",
+          "texto": "E o que mais tiver seu nome"
+        }
+      ],
+      "destaque": {
+        "forte": "Leve sempre a certidão nova.",
+        "texto": "Cada órgão tem seu próprio pedido."
+      },
+      "legenda": "Retificou? Parabéns 🎉 Agora vem a parte de atualizar o resto dos documentos. Faz uma lista e vai riscando um por um, sem pressa.\n\nSalva esse post pra não esquecer nenhum.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #retificacao",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-24T20:26:19.128Z"
     }
   ],
   "abastecer": {
@@ -1708,7 +1747,7 @@
       "ativa": true,
       "aCadaDias": 2,
       "quantidade": 1,
-      "ultimaVez": "2026-11-22T10:01:46.896Z"
+      "ultimaVez": "2026-11-24T20:26:19.128Z"
     },
     "portal": {
       "ativa": true,
@@ -1816,7 +1855,7 @@
         }
       },
       "novidadesDesde": "2026-10-20T19:47:55.233Z",
-      "ultimaVez": "2026-11-23T21:49:45.936Z",
+      "ultimaVez": "2026-11-24T20:26:19.128Z",
       "ultimoResultado": "171 indicações lidas; 0 ideia(s) nova(s)."
     }
   }
