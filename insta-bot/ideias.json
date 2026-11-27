@@ -1740,6 +1740,24 @@
       "aprovado": false,
       "postado": false,
       "abastecidoEm": "2026-11-24T20:26:19.128Z"
+    },
+    {
+      "id": "reserva-007",
+      "tipo": "capa",
+      "kicker": "Seus direitos",
+      "titulo": [
+        "Transfobia",
+        "é crime"
+      ],
+      "subtitulo": "Desde 2019, por decisão do STF",
+      "destaque": {
+        "forte": "Denuncie: Disque 100.",
+        "texto": "Em emergência, ligue 190."
+      },
+      "legenda": "Desde 2019, por decisão do Supremo Tribunal Federal, a LGBTfobia é enquadrada como crime de racismo.\n\nSofreu ou viu violência? Disque 100 recebe denúncias de violação de direitos humanos. Em emergência, ligue 190.\n\nMe segue aí, galera 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #direitos",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-27T02:19:53.433Z"
     }
   ],
   "abastecer": {
@@ -1747,7 +1765,7 @@
       "ativa": true,
       "aCadaDias": 2,
       "quantidade": 1,
-      "ultimaVez": "2026-11-24T20:26:19.128Z"
+      "ultimaVez": "2026-11-27T02:19:53.433Z"
     },
     "portal": {
       "ativa": true,
