@@ -1214,6 +1214,43 @@
       "postado": false,
       "abastecidoEm": "2026-11-18T01:27:01.415Z",
       "criadoEm": "2026-11-24T20:26:22.418Z"
+    },
+    {
+      "id": "post122",
+      "tipo": "lista",
+      "kicker": "No portal",
+      "titulo": [
+        "Atendimento trans",
+        "no Rio de Janeiro"
+      ],
+      "subtitulo": "14 indicações da comunidade no estado",
+      "itens": [
+        {
+          "emoji": "🩺",
+          "titulo": "Cirurgiões (mastectomia): 9",
+          "texto": "Rio de Janeiro e Niterói"
+        },
+        {
+          "emoji": "🏥",
+          "titulo": "Ambulatórios trans: 5",
+          "texto": "Rio de Janeiro e Niterói"
+        },
+        {
+          "emoji": "✅",
+          "titulo": "7 atendem pelo SUS",
+          "texto": "Entre as indicações do estado"
+        }
+      ],
+      "destaque": {
+        "forte": "Indicações feitas pela comunidade.",
+        "texto": "Confirme o contato antes de ir."
+      },
+      "legenda": "Procurando atendimento trans no Rio de Janeiro? 📍\n\nO portal reúne 14 indicações no estado, feitas pela própria comunidade:\n🩺 Cirurgiões (mastectomia): 9\n🏥 Ambulatórios trans: 5\n✅ 7 atendem pelo SUS\n\nContatos e convênios podem mudar: confirme direto com o serviço antes de ir.\n\nConhece um serviço que não está no portal? Indica lá 💙\n\n🔗 Link na bio\n\n#transmasc #homemtrans #transmasculino #transbrasil #ambulatoriotrans",
+      "portalChave": "portal-uf-RJ",
+      "aprovado": false,
+      "postado": false,
+      "abastecidoEm": "2026-11-13T19:36:15.529Z",
+      "criadoEm": "2026-11-27T02:19:55.246Z"
     }
   ],
   "rascunhosAuto": {
@@ -1221,7 +1258,7 @@
     "aCadaDias": 2,
     "quantidade": 1,
     "aprovar": false,
-    "ultimaVez": "2026-11-24T20:26:22.418Z"
+    "ultimaVez": "2026-11-27T02:19:55.246Z"
   },
   "agenda": {
     "dias": [
